@@ -1,17 +1,24 @@
 const db = require('../models');
+const uploadimage = require('../middlewares/imageupload');
 const TblUser =  db.userModel;
 const bcrypt = require('bcryptjs');
 
 
 
 class UserCollaction {
-  createuser = async (body) => {
-   const  {F_NAME,L_NAME,PHONENO, EMAIL, PASSWORD } = body;
+  createuser = async (body,file) => {
+   const  {username,mobileNo,name, email,address,gender,roles } = body;
+   console.log(file)
+   const { profile_image } = file;
+   const imagePath = uploadimage(profile_image);
+
+   let password = '123456';
    const salt = bcrypt.genSaltSync(12);
-    const hashencrypt = bcrypt.hashSync(PASSWORD, salt);
+   const hashencrypt = bcrypt.hashSync(password, salt);
+
    const createdAt = Date.now()
    let result = "";
-    const query = await TblUser.create({F_NAME,L_NAME,PHONENO,EMAIL,PASSWORD:hashencrypt,ISDELETED:false}).then((res)=>{
+    const query = await TblUser.create({username,mobileNo,name, email,address,gender,roles,profile_image:imagePath,password:hashencrypt}).then((res)=>{
       result =  {
         status:1,
         message:"Created Successfully",
@@ -20,7 +27,7 @@ class UserCollaction {
     }).catch(err=>{
       result =  {
         status:0,
-        message:"Somthing Went Wrong",
+        message:"something Went Wrong",
         data:err
       }
     });

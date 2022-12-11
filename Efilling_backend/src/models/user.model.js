@@ -2,75 +2,60 @@ const tbl = require('./TableName')
 const  Sequelize = require('sequelize');
 const sequelize = require('../db/db-connection')
 
-
     const Users = sequelize.define(tbl.TBL_USER, {
-        USER_ID: {
+        id: {
             type: Sequelize.INTEGER(50),
             primaryKey: true,
             autoIncrement:true,
             allowNull:false,
         }, 
-        F_NAME: {
+        username: {
             type: Sequelize.STRING(100),     
             trim: true,
         },
-        L_NAME: {
-            type: Sequelize.STRING(100),     
-            trim: true, 
-        },
-        EMAIL: {
-            type: Sequelize.STRING(100),         
+        mobileNo: {
+            type: Sequelize.STRING(15),     
             trim: true,
         },
-        
-        PASSWORD: {
-            type: Sequelize.STRING(100),         
+        otp: {
+            type: Sequelize.STRING(6),     
             trim: true,
         },
-        PHONENO: {
-            type: Sequelize.STRING(100),         
+        mobileVerifyAt: {
+            type: Sequelize.DATE,     
             trim: true,
         },
-        ADDRESS: {
-            type: Sequelize.STRING(100),         
+        password: {
+            type: Sequelize.STRING(255),     
             trim: true,
         },
-        PANNUMBER: {
-            type: Sequelize.STRING(100),         
+        roles:{
+            type:Sequelize.STRING(50),
+            trim: true,
+            defaultValue:'user',
+            allowNull:false,
+        },
+        name:{
+            type:Sequelize.STRING(150),
+        },
+        email:{
+            type:Sequelize.STRING(150),
             trim: true,
         },
-        PANIMG: {
-            type: Sequelize.TEXT(),         
+        address:{
+            type:Sequelize.STRING(255),
+        },
+        gender:{
+            type:Sequelize.STRING(100),
             trim: true,
         },
-        ADHARNUM: {
-            type: Sequelize.STRING(100),         
-            trim: true,
+        profile_image:{
+            type:Sequelize.STRING(150),
         },
-        ADHARIMG: {
-            type: Sequelize.TEXT(),         
-            trim: true,
-        }, 
-        FRM16: {
-            type: Sequelize.TEXT(),         
-            trim: true,
-        },        
-        BANKSTATEMENT: {
-            type: Sequelize.TEXT(),         
-            trim: true,
-        },        
-        DETAILSOFINV: {
-            type: Sequelize.TEXT(),         
-            trim: true,
-        },        
-        DETAILSOFLONE: {
-            type: Sequelize.TEXT(),         
-            trim: true,
-        },
-        ISDELETED: {
-            type: Sequelize.BOOLEAN(),         
-            trim: true,
-        },        
+        active: {
+            type: Sequelize.BOOLEAN,
+            defaultValue:0
+        }
     })
 
     module.exports = Users;

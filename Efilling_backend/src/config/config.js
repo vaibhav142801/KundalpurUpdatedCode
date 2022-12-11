@@ -11,7 +11,7 @@ const envVarsSchema = Joi.object()
     ORACLE_URL: Joi.string().required().description('SQL host'),
     ORACLE_DATABASE: Joi.string().required().description('SQL DATABASE'),
     ORACLE_USER: Joi.string().required().description('SQL Username'),
-    ORACLE_PASSWORD: Joi.string().required().description('SQL Password'),
+    //ORACLE_PASSWORD: Joi.string().required().description('SQL Password'),
     ORACLE_URL_PROD: Joi.string().required().description('SQL Production host'),
     ORACLE_USER_PROD: Joi.string().required().description('SQL Production Username'),
     ORACLE_PASSWORD_PROD: Joi.string().required().description('SQL Production Password'),

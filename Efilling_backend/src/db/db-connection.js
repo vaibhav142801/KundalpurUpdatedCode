@@ -5,7 +5,7 @@ const logger = require('../config/logger');
 const sequelize = new Sequelize(config.oracle.database, config.oracle.user, config.oracle.password, {
   host: config.oracle.host,
   dialect: 'mysql',
-  // logging:false,
+  logging:false,
   pool: { max: 5, min: 0, idle: 10000 }
 })
 
