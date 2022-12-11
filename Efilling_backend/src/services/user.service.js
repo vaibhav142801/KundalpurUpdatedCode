@@ -25,10 +25,10 @@ const ApiError = require('../utils/ApiError');
  * @param {string} password
  * @returns {Promise<User>}
  */
-const loginuser = async (username) => {
-  const user = await AuthCollaction.getUserName(username);
-  if(!user){
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found.');
+const loginuser = async (email,password) => {
+  const user = await AuthCollaction.getUserName(email);
+  if (!user || !(await AuthCollaction.isPasswordMatch(password, user.password))) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email or password');
   }
   return user;
 };

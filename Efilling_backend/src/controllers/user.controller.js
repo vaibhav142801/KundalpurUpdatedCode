@@ -10,39 +10,36 @@ const createUser = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(userdata);
 });
 
-const loginuser = catchAsync(async (req, res) => {
-  const { username, login_type } = req.body;
-  if (login_type == "email") {
-    const checkEmail = isEmailValid(username);
-    if (checkEmail) {
-      let data = await userService.loginuser(username);
-      if (!data) {
-        throw new ApiError(httpStatus.NOT_FOUND, "!somthing Went Wrong");
-      }
-      const tokens = await generateAuthTokens(data);
-      res.send({
-        user: {
-          id: data.id,
-          username: data.username,
-          name: data.name,
-          email: data.email,
-          gender: data.gender,
-        },
-        tokens,
-      });
-    } else {
-      throw new ApiError(httpStatus.NOT_FOUND, "Please enter valid email.");
-    }
-  } else {
-    let data = await userService.generateOTP(username);
-    if (!data) {
-      throw new ApiError(httpStatus.NOT_FOUND, "!somthing Went Wrong");
-    }
-    res.send({
-      username: data.username,
-      otp: data.otp,
-    });
+
+const loginWithMobile = catchAsync(async (req,res) => {
+  const { mobile_no } = req.body;
+  let data = await userService.generateOTP(mobile_no);
+  if (!data) {
+    throw new ApiError(httpStatus.NOT_FOUND, "!somthing Went Wrong");
   }
+  res.send({
+    username: data.username,
+    otp: data.otp,
+  });
+});
+
+const loginWithEmail = catchAsync(async (req,res) => {
+  const {email,password} = req.body;
+  let data = await userService.loginuser(email,password);
+  if (!data) {
+    throw new ApiError(httpStatus.NOT_FOUND, "!somthing Went Wrong");
+  }
+  const tokens = await generateAuthTokens(data);
+  res.send({
+    user: {
+      id: data.id,
+      username: data.username,
+      name: data.name,
+      email: data.email,
+      gender: data.gender,
+    },
+    tokens,
+  });
 });
 
 const verifyOTP = catchAsync(async (req, res) => {
@@ -66,6 +63,7 @@ const verifyOTP = catchAsync(async (req, res) => {
 
 module.exports = {
   createUser,
-  loginuser,
+  loginWithMobile,
+  loginWithEmail,
   verifyOTP,
 };

@@ -14,15 +14,22 @@ const register = {
   }),
 };
 
-const login = {
+const loginMobile = {
   body: Joi.object().keys({
-    username: Joi.string().required(),
-    login_type: Joi.string().required(),
+    mobile_no: Joi.string().required()
+  }),
+};
+
+const loginEmail = {
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
   }),
 };
 
 
 module.exports = {
   register,
-  login
+  loginMobile,
+  loginEmail
 };
