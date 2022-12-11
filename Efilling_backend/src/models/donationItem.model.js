@@ -8,10 +8,22 @@ const sequelize = require('../db/db-connection')
             primaryKey: true,
             autoIncrement:true,
             allowNull:false,
-        }, 
-        itemName: {
-            type: Sequelize.STRING(100),     
-            trim: true,
+        },
+        donationId:{
+            type: Sequelize.INTEGER(50),
+            allowNull:false,
+        },
+        itemId: {
+            type: Sequelize.INTEGER(11),
+            allowNull:false,
+        },
+        amount: {
+            type: Sequelize.FLOAT(10,2),
+            allowNull:false,
+        },
+        remark: {
+            type: Sequelize.STRING(255),
+            allowNull:false,
         },
         active: {
             type: Sequelize.BOOLEAN,

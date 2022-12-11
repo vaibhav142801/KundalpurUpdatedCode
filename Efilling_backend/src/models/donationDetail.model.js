@@ -9,6 +9,11 @@ const sequelize = require('../db/db-connection')
             autoIncrement:true,
             allowNull:false,
         }, 
+        receiptNo: {
+            type: Sequelize.STRING(100),     
+            trim: true,
+            allowNull:false,
+        },
         name: {
             type: Sequelize.STRING(150),     
             trim: true,
