@@ -7,12 +7,10 @@ const bcrypt = require('bcryptjs');
 
 class UserCollaction {
   createuser = async (body,file) => {
-   const  {username,mobileNo,name, email,address,gender,roles } = body;
-   console.log(file)
+   const  {username,mobileNo,name, email,address,gender,roles,password } = body;
    const { profile_image } = file;
    const imagePath = uploadimage(profile_image);
 
-   let password = '123456';
    const salt = bcrypt.genSaltSync(12);
    const hashencrypt = bcrypt.hashSync(password, salt);
 
@@ -34,10 +32,6 @@ class UserCollaction {
 
     return result;
   };
-
-
-
-
 }
 
 module.exports = new UserCollaction(); 

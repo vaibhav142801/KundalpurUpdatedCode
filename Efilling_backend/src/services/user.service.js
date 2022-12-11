@@ -3,7 +3,6 @@ const { UserCollection } = require('../collections');
 const AuthCollaction = require('../collections/Auth.Collaction');
 const ApiError = require('../utils/ApiError');
 
-
   /**
  * Create a user
  * @param {Object} userBody
@@ -62,7 +61,6 @@ const verifyOTP = async(username,otp) => {
     return user;
   }
 }
-
   module.exports = {
     createuser,
     loginuser,
