@@ -23,7 +23,14 @@ const loginMobile = {
 const loginEmail = {
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required(),
+    password: Joi.string().required()
+  }),
+};
+
+const forgotPass = {
+  body: Joi.object().keys({
+    identity: Joi.string().required(),
+    new_password: Joi.string().required().custom(password),
   }),
 };
 
@@ -31,5 +38,6 @@ const loginEmail = {
 module.exports = {
   register,
   loginMobile,
-  loginEmail
+  loginEmail,
+  forgotPass
 };

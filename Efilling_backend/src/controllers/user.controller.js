@@ -10,8 +10,7 @@ const createUser = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(userdata);
 });
 
-
-const loginWithMobile = catchAsync(async (req,res) => {
+const loginWithMobile = catchAsync(async (req, res) => {
   const { mobile_no } = req.body;
   let data = await userService.generateOTP(mobile_no);
   if (!data) {
@@ -23,9 +22,9 @@ const loginWithMobile = catchAsync(async (req,res) => {
   });
 });
 
-const loginWithEmail = catchAsync(async (req,res) => {
-  const {email,password} = req.body;
-  let data = await userService.loginuser(email,password);
+const loginWithEmail = catchAsync(async (req, res) => {
+  const { email, password } = req.body;
+  let data = await userService.loginuser(email, password);
   if (!data) {
     throw new ApiError(httpStatus.NOT_FOUND, "!somthing Went Wrong");
   }
@@ -61,9 +60,18 @@ const verifyOTP = catchAsync(async (req, res) => {
   });
 });
 
+const forgotPassword = catchAsync(async (req, res) => {
+  const result = await userService.forgotPass(req.body);
+  res.status(httpStatus.CREATED).send({
+    status: 1,
+    msg: "Password updated successfully",
+  });
+});
+
 module.exports = {
   createUser,
   loginWithMobile,
   loginWithEmail,
   verifyOTP,
+  forgotPassword,
 };

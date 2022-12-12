@@ -61,12 +61,25 @@ const verifyOTP = async(username,otp) => {
     return user;
   }
 }
+
+const forgotPass = async(body) => {
+  const user = await AuthCollaction.getUserName(body.identity);
+  if(!user){
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect username');
+  }else{
+    const update = await UserCollection.updatePassword(body);
+    return update;
+  }
+  
+}
+
   module.exports = {
     createuser,
     loginuser,
     generateOTP,
     verifyOTP,
-    loginAdmin
+    loginAdmin,
+    forgotPass
   }
 
 
