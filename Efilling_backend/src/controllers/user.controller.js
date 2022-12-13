@@ -11,15 +11,15 @@ const createUser = catchAsync(async (req, res) => {
 });
 
 const loginWithMobile = catchAsync(async (req, res) => {
-  const { mobile_no } = req.body;
-  let data = await userService.generateOTP(mobile_no);
-  if (!data) {
+  const login = await userService.mobileLogin(req.body);
+  if (!login) {
     throw new ApiError(httpStatus.NOT_FOUND, "!somthing Went Wrong");
   }
   res.send({
-    username: data.username,
-    otp: data.otp,
-  });
+    status:1,
+    msg:'OTP generated successfully.'
+  })
+
 });
 
 const loginWithEmail = catchAsync(async (req, res) => {

@@ -17,30 +17,22 @@ const sequelize = require('../db/db-connection')
             type: Sequelize.STRING(15),     
             trim: true,
         },
-        otp: {
-            type: Sequelize.STRING(6),     
-            trim: true,
-        },
-        mobileVerifyAt: {
-            type: Sequelize.DATE,     
+        email:{
+            type:Sequelize.STRING(150),
             trim: true,
         },
         password: {
             type: Sequelize.STRING(255),     
             trim: true,
         },
-        roles:{
-            type:Sequelize.STRING(50),
-            trim: true,
-            defaultValue:'user',
-            allowNull:false,
+        verified_by:{
+            type: Sequelize.ENUM('Mobile','Email'),     
+        },
+        veification_status:{
+            type: Sequelize.BOOLEAN,
         },
         name:{
             type:Sequelize.STRING(150),
-        },
-        email:{
-            type:Sequelize.STRING(150),
-            trim: true,
         },
         address:{
             type:Sequelize.STRING(255),
@@ -52,7 +44,7 @@ const sequelize = require('../db/db-connection')
         profile_image:{
             type:Sequelize.STRING(150),
         },
-        active: {
+        is_deleted: {
             type: Sequelize.BOOLEAN,
             defaultValue:0
         }

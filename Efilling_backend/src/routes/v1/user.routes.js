@@ -8,7 +8,7 @@ const auth = require('../../middlewares/auth');
 
 router.route('/login-with-mobile').post(validate(userValidation.loginMobile),userController.loginWithMobile);
 router.route('/login-with-email').post(validate(userValidation.loginEmail),userController.loginWithEmail);
-router.route('/verify-opt').post(userController.verifyOTP);
+router.route('/verify-opt').post(userController.verifyOTP); 
 router.route('/forgot-password').post(validate(userValidation.forgotPass),userController.forgotPassword);
 router.route('/add-cash-donation').post(auth(),donationController.addCashDonation);
 // router.route('/add-cash-donation').post(donationController.addCashDonation);
