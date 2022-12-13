@@ -1,12 +1,11 @@
 const { Op } = require("sequelize");
 const db = require("../models");
+const bcrypt = require("bcryptjs");
 const uploadimage = require("../middlewares/imageupload");
 const TblUser = db.userModel;
-const TblRoles = db.roleModel;
 const TblOTP = db.otpModel;
 const TblUsersRoles = db.usersRolesModel;
 
-const bcrypt = require("bcryptjs");
 class UserCollaction {
   updatePassword = async (body) => {
     const { identity, new_password } = body;
@@ -24,9 +23,7 @@ class UserCollaction {
             { mobileNo: identity },
           ],
         },
-      }
-    )
-      .then((res) => {
+      }).then((res) => {
         return res;
       })
       .catch((err) => {
@@ -60,49 +57,25 @@ class UserCollaction {
   };
 
   createuser = async (body, file) => {
-    const {
-      username,
-      mobileNo,
-      name,
-      email,
-      address,
-      gender,
-      roles,
-      password,
-    } = body;
+    const {username,mobileNo,name,email,address,gender,roles,password} = body;
     const { profile_image } = file;
     const imagePath = uploadimage(profile_image);
 
     const salt = bcrypt.genSaltSync(12);
     const hashencrypt = bcrypt.hashSync(password, salt);
 
-    let result = "";
     const query = await TblUser.create({
-      username,
-      mobileNo,
-      name,
-      email,
-      address,
-      gender,
-      roles,
-      profile_image: imagePath,
-      password: hashencrypt,
-    })
-      .then((res) => {
-        result = {
-          status: 1,
-          message: "Created Successfully",
-          data: res.dataValues,
-        };
-      })
-      .catch((err) => {
-        result = {
-          status: 0,
-          message: "something Went Wrong",
-          data: err,
-        };
+      username,mobileNo,name,email,address,gender,roles,profile_image: imagePath,password: hashencrypt,
+    });
+    if(query){
+      const addRole = await TblUsersRoles.create({
+        user_id: query.id,
+        role_id: 2,
       });
-    return result;
+      return query;
+    }
+    return null;
+    
   };
 
   updateOTP = async (id, otp) => {

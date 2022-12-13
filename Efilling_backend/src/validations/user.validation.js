@@ -9,8 +9,7 @@ const register = {
     mobileNo: Joi.string().required(),
     name: Joi.string().required(),
     gender: Joi.string().required(),
-    address: Joi.string().required(),
-    roles: Joi.string().required()
+    address: Joi.string().required()
   }),
 };
 

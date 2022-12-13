@@ -60,10 +60,7 @@ const mobileLogin = async (body) => {
  */
 const loginuser = async (email, password) => {
   const user = await AuthCollaction.getUserName(email);
-  if (
-    !user ||
-    !(await AuthCollaction.isPasswordMatch(password, user.password))
-  ) {
+  if (!user || !(await AuthCollaction.isPasswordMatch(password, user.password))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email or password");
   }
   return user;

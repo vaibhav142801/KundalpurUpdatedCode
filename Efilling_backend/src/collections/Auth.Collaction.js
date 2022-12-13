@@ -3,8 +3,16 @@ const { Op, where } = require("sequelize");
 const TblUser = db.userModel;
 const TblUsersRoles = db.usersRolesModel;
 const TblOTP = db.otpModel;
-db.userModel.hasMany(db.otpModel,{foreignKey:'user_id',as:'otpDetails'})
-db.userModel.hasOne(db.usersRolesModel,{foreignKey:'user_id',as:'usersRoles'})
+const TblRole = db.roleModel;
+
+db.userModel.hasOne(db.otpModel,{foreignKey:'user_id',as:'otpDetails'})
+db.otpModel.belongsTo(db.userModel,{foreignKey:'user_id',as:'userOTP'})
+
+db.userModel.hasOne(db.usersRolesModel,{foreignKey:'user_id',as:'roleDetails'})
+db.usersRolesModel.belongsTo(db.userModel,{foreignKey:'user_id',as:'userRole'})
+
+db.roleModel.hasMany(db.usersRolesModel,{foreignKey:'role_id',as:'usersRoles'})
+db.usersRolesModel.belongsTo(db.roleModel,{foreignKey:'role_id',as:'roles'})
 
 const bcrypt = require("bcryptjs");
 
@@ -22,7 +30,6 @@ class UserCollaction {
   };
 
   getUserName = async (username) => {
-    let result = "";
     const query = await TblUser.findOne({
       where: {
         [Op.or]: [
@@ -31,10 +38,8 @@ class UserCollaction {
           { mobileNo: username }
         ]
       },
-    }).then((res) => {
-      result = res;
     });
-    return result;
+    return query;
   };
 
   getAdminName = async (username) => {
@@ -44,7 +49,7 @@ class UserCollaction {
         username: username
       },
       include:[{
-        model:TblUsersRoles, as: "usersRoles",
+        model:TblUsersRoles, as: "roleDetails",
         where: { role_id: 1},
       }],
     }).then((res) => {
@@ -59,19 +64,23 @@ class UserCollaction {
     return bcrypt.compare(password, userPassword);
   };
 
-  isOTPMatch = async (username, otp) => {
+  isOTPMatch = async (username, otp) => {    
     const data = await TblUser.findOne({
+      where: {
+        [Op.or]: [
+          { username: username },
+          { email: username },
+          { mobileNo: username }
+        ]
+      },
       include:[{
         model:TblOTP,
         as:'otpDetails',
-        attributes:['OTP']
-      }],
-      where: {
-        username: username,
-      },
+        attributes:['otp']
+      }]
     });
-
-    if (data.otp != "" && data.otpDetails[0].dataValues.OTP == otp) {
+    console.log(data)
+    if (data.otp != "" && data.otpDetails.dataValues.otp == otp) {
       await TblOTP.update({ otp: null},{where: {user_id: data.id}});
       await TblUser.update({veification_status:1,verified_by:'Mobile'},{where: {id: data.id}});
       return 1;
@@ -80,7 +89,6 @@ class UserCollaction {
   };
 
   checkOtpLastSend = async (id) => {
-    
     const result =  await TblOTP.findOne({
       // logging: (sql, queryObject) => {
       //   sendToElasticAndLogToConsole(sql, queryObject)
