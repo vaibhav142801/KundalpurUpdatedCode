@@ -1,9 +1,9 @@
 const db = require("../models");
-const { Op, where } = require("sequelize");
+const { Op } = require("sequelize");
 const TblUser = db.userModel;
 const TblUsersRoles = db.usersRolesModel;
 const TblOTP = db.otpModel;
-const TblRole = db.roleModel;
+const TblPasswordReset = db.passwordReset;
 
 db.userModel.hasOne(db.otpModel,{foreignKey:'user_id',as:'otpDetails'})
 db.otpModel.belongsTo(db.userModel,{foreignKey:'user_id',as:'userOTP'})
@@ -98,6 +98,20 @@ class UserCollaction {
       }}
     })
     return result;
+  }
+
+  updateForgotPassToken = async(id,token,expire)=>{
+     const record =  await TblPasswordReset.findOne({where:{user_id:id}});
+     if(record){
+      const data =  await TblPasswordReset.update({resetPasswordToken: token,resetPasswordExpires:expire},{where: {user_id:id}});
+      return await TblPasswordReset.findOne({where:{user_id:id}});
+     }else{
+      return TblPasswordReset.create({
+        user_id:id,
+        resetPasswordToken: token,
+        resetPasswordExpires:expire
+      });
+     }
   }
 } //end of class
 

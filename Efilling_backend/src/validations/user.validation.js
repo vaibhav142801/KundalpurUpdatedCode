@@ -28,8 +28,7 @@ const loginEmail = {
 
 const forgotPass = {
   body: Joi.object().keys({
-    identity: Joi.string().required(),
-    new_password: Joi.string().required().custom(password),
+    identity: Joi.string().required()
   }),
 };
 

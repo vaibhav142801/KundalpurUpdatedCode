@@ -15,11 +15,10 @@ const loginWithMobile = catchAsync(async (req, res) => {
   if (!login) {
     throw new ApiError(httpStatus.NOT_FOUND, "!somthing Went Wrong");
   }
-  res.send({
+  res.status(200).send({
     status:1,
-    msg:'OTP generated successfully.'
+    msg:'OTP successfully send to your mobile number.'
   })
-
 });
 
 const loginWithEmail = catchAsync(async (req, res) => {
@@ -29,7 +28,7 @@ const loginWithEmail = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.NOT_FOUND, "!somthing Went Wrong");
   }
   const tokens = await generateAuthTokens(data);
-  res.send({
+  res.status(200).send({
     user: {
       id: data.id,
       username: data.username,
@@ -48,7 +47,7 @@ const verifyOTP = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.NOT_FOUND, "!somthing Went Wrong");
   }
   const tokens = await generateAuthTokens(data);
-  res.send({
+  res.status(200).send({
     user: {
       id: data.id,
       username: data.username,
@@ -62,10 +61,14 @@ const verifyOTP = catchAsync(async (req, res) => {
 
 const forgotPassword = catchAsync(async (req, res) => {
   const result = await userService.forgotPass(req.body);
-  res.status(httpStatus.CREATED).send({
+  res.status(200).send({
     status: 1,
-    msg: "Password updated successfully",
+    data:result
   });
+});
+
+const forgotPasswordSecond = catchAsync(async()=>{
+
 });
 
 module.exports = {
@@ -74,4 +77,5 @@ module.exports = {
   loginWithEmail,
   verifyOTP,
   forgotPassword,
+  forgotPasswordSecond
 };

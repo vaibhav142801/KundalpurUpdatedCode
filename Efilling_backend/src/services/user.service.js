@@ -1,6 +1,7 @@
 const httpStatus = require("http-status");
 const { UserCollection } = require("../collections");
 const AuthCollaction = require("../collections/Auth.Collaction");
+const crypto = require('crypto');
 const ApiError = require("../utils/ApiError");
 
 /**
@@ -88,10 +89,12 @@ const forgotPass = async (body) => {
   const user = await AuthCollaction.getUserName(body.identity);
   if (!user) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect username");
-  } else {
-    const update = await UserCollection.updatePassword(body);
-    return update;
   }
+  let resetPasswordToken = crypto.randomBytes(20).toString('hex');
+  let resetPasswordExpires = Date.now() + 3600000; //expires in an hour
+  const updateForgotPassToken = await AuthCollaction.updateForgotPassToken(user.id,resetPasswordToken,resetPasswordExpires);
+  console.log(updateForgotPassToken);
+  return updateForgotPassToken;
 };
 
 module.exports = {
