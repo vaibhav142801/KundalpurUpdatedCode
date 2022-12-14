@@ -3,8 +3,9 @@ const { DonationCollection } = require("../collections");
 const ApiError = require("../utils/ApiError");
 
 const generateReceiptNo = (lastID) => {
-  let prefix = 'ABC00'
-  return prefix+parseInt(lastID+1)
+  const currentYear = new Date().getFullYear()
+  let receiptNo = `CASH${currentYear}-0000${lastID+1}`
+  return receiptNo;
 }
 
 const cashDonation = async (body) => {
