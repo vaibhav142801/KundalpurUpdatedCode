@@ -35,7 +35,7 @@ const forgotPass = {
 const forgotPassSecond = {
   body: Joi.object().keys({
     identity: Joi.string().required(),
-    new_password: Joi.string().required(),
+    new_password: Joi.string().required().custom(password),
     token:Joi.string().required(),
   }),
 }
