@@ -32,10 +32,19 @@ const forgotPass = {
   }),
 };
 
+const forgotPassSecond = {
+  body: Joi.object().keys({
+    identity: Joi.string().required(),
+    new_password: Joi.string().required(),
+    token:Joi.string().required(),
+  }),
+}
+
 
 module.exports = {
   register,
   loginMobile,
   loginEmail,
-  forgotPass
+  forgotPass,
+  forgotPassSecond
 };

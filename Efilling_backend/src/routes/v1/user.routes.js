@@ -10,7 +10,7 @@ router.route('/login-with-mobile').post(validate(userValidation.loginMobile),use
 router.route('/login-with-email').post(validate(userValidation.loginEmail),userController.loginWithEmail);
 router.route('/verify-opt').post(userController.verifyOTP); 
 router.route('/forgot-password-first').post(validate(userValidation.forgotPass),userController.forgotPassword);
-router.route('/forgot-password-second').post(validate(userValidation.forgotPass),userController.forgotPasswordSecond);
+router.route('/forgot-password-second').post(validate(userValidation.forgotPassSecond),userController.forgotPasswordSecond);
 router.route('/add-cash-donation').post(auth(),donationController.addCashDonation);
 // router.route('/add-cash-donation').post(donationController.addCashDonation);
 router.route('/donation-list').get(donationController.donationList);

@@ -79,7 +79,7 @@ class UserCollaction {
         attributes:['otp']
       }]
     });
-    console.log(data)
+    
     if (data.otp != "" && data.otpDetails.dataValues.otp == otp) {
       await TblOTP.update({ otp: null},{where: {user_id: data.id}});
       await TblUser.update({veification_status:1,verified_by:'Mobile'},{where: {id: data.id}});
@@ -113,6 +113,22 @@ class UserCollaction {
       });
      }
   }
+
+  isTokenMatch = async(body)=>{
+    const {identity} = body;
+    const user = await this.getUserName(identity);
+    const forgot =  await TblPasswordReset.findOne({where:{user_id:user.id}});
+    
+    if(forgot.resetPasswordToken == body.token){
+      return {
+        resetPasswordToken:forgot.resetPasswordToken,
+        resetPasswordExpires:forgot.resetPasswordExpires,
+        user_id:user.id
+      }
+    }
+    return null;
+  }
+
 } //end of class
 
 

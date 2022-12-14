@@ -93,9 +93,25 @@ const forgotPass = async (body) => {
   let resetPasswordToken = crypto.randomBytes(20).toString('hex');
   let resetPasswordExpires = Date.now() + 3600000; //expires in an hour
   const updateForgotPassToken = await AuthCollaction.updateForgotPassToken(user.id,resetPasswordToken,resetPasswordExpires);
-  console.log(updateForgotPassToken);
   return updateForgotPassToken;
 };
+
+const forgotPassSecond = async(body) => {
+  const data = await AuthCollaction.isTokenMatch(body);
+  if(!data){
+    return null;
+  }
+  let currentDate = Date.now();
+  let tokenTime = new Date(data.resetPasswordExpires);
+  let t = tokenTime.getTime();
+  
+  if(data.resetPasswordExpires < currentDate){
+    throw new ApiError(httpStatus.UNAUTHORIZED, "Token expire.");
+  }
+  const update = await UserCollection.resetPassword(body,data.user_id);
+  return update;
+  
+}
 
 module.exports = {
   createuser,
@@ -103,5 +119,6 @@ module.exports = {
   verifyOTP,
   loginAdmin,
   forgotPass,
-  mobileLogin
+  mobileLogin,
+  forgotPassSecond
 };

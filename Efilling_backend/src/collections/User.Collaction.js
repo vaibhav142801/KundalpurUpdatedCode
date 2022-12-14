@@ -1,10 +1,11 @@
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 const db = require("../models");
 const bcrypt = require("bcryptjs");
 const uploadimage = require("../middlewares/imageupload");
 const TblUser = db.userModel;
 const TblOTP = db.otpModel;
 const TblUsersRoles = db.usersRolesModel;
+const TblPasswordReset = db.passwordReset;
 
 class UserCollaction {
   updatePassword = async (body) => {
@@ -90,6 +91,15 @@ class UserCollaction {
       return result;
     }
   };
+
+  resetPassword = async(body,id)=>{
+    const {identity,new_password,token} = body;
+    const salt = bcrypt.genSaltSync(12);
+    const hashencrypt = bcrypt.hashSync(new_password, salt);
+    await TblUser.update({password:hashencrypt},{where:{id: id}});
+    await TblPasswordReset.update({resetPasswordToken:null,resetPasswordExpires:null},{where:{user_id: id}});
+    return true;
+  }
 }
 
 module.exports = new UserCollaction();

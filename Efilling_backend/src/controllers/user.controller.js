@@ -67,8 +67,15 @@ const forgotPassword = catchAsync(async (req, res) => {
   });
 });
 
-const forgotPasswordSecond = catchAsync(async()=>{
-
+const forgotPasswordSecond = catchAsync(async(req,res)=>{
+  const result = await userService.forgotPassSecond(req.body);
+  if(!result){
+    throw new ApiError(httpStatus.NOT_FOUND, "Token missmatch.");
+  }
+  res.status(200).send({
+    status:1,
+    msg:'Password reset successfully.'
+  })
 });
 
 module.exports = {
