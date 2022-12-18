@@ -23,14 +23,20 @@ const adminLogin = catchAsync(async (req, res) => {
 });
 
 const userRegister = async (req, res) => {
-  const userdata = await userService.createuser(req.body, req.files);
-  if (!userdata) {
+  if (req.user.roleDetails.roles.role_name != "Admin") {
     res.status(httpStatus.CONFLICT).send({
       status: false,
-      msg: "Username already exist.",
+      msg: "Only admin access.",
     });
   }
-  res.status(httpStatus.CREATED).send(userdata);
+  const userdata = await userService.createuser(req.body, req.files);
+    if (!userdata) {
+      res.status(httpStatus.CONFLICT).send({
+        status: false,
+        msg: "Username already exist.",
+      });
+    }
+    res.status(httpStatus.CREATED).send(userdata);
 };
 
 module.exports = {

@@ -1,6 +1,6 @@
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 const config = require('./config');
-const { userModel } = require('../models');
+const { userModel,usersRolesModel,roleModel } = require('../models');
 
 const jwtOptions = {
   secretOrKey: config.jwt.secret,
@@ -8,14 +8,31 @@ const jwtOptions = {
 };
 
 const jwtVerify = async (payload, done) => {
-  try {
-    const user = await userModel.findOne({id: payload.sub});
-    if (user.length === 0) {
+ try {
+    const user = await userModel.findOne({
+      where:{id:payload.sub},
+      attributes:['id','username','mobileNo','email'],
+      include:[
+        {
+          model:usersRolesModel,
+          as:'roleDetails',
+          attributes:['user_id','role_id'],
+          include:[
+            {
+              model:roleModel,
+              as:'roles',
+              attributes:['role_name']
+            }
+          ]
+        }
+      ],
+    });
+
+    if (!user) {
       return done(null, false);
     }
     // eslint-disable-next-line prefer-destructuring
-    user[0].role = payload.roles[0];
-    done(null, user[0]);
+    done(null, user);
   } catch (error) {
     done(error, false);
   }

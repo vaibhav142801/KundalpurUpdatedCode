@@ -13,6 +13,8 @@ db.usersRolesModel.belongsTo(db.userModel,{foreignKey:'user_id',as:'userRole'})
 
 db.roleModel.hasMany(db.usersRolesModel,{foreignKey:'role_id',as:'usersRoles'})
 db.usersRolesModel.belongsTo(db.roleModel,{foreignKey:'role_id',as:'roles'})
+// db.roleModel.belongsToMany(db.roleModel, { through: db.usersRolesModel,as:'myRoles' })
+
 
 const bcrypt = require("bcryptjs");
 
@@ -53,7 +55,6 @@ class UserCollaction {
         where: { role_id: 1},
       }],
     }).then((res) => {
-      console.log(res)
       result = res;
     });
     
