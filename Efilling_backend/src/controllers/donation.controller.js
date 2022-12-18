@@ -20,7 +20,13 @@ const donationList = catchAsync( async(req,res)=>{
   }
 })
 
+const itemList = catchAsync(async(req,res)=>{
+  const data = await donationService.getItemList();
+  res.status(200).send(data);
+})
+
 module.exports = {
   addCashDonation,
-  donationList
+  donationList,
+  itemList
 };

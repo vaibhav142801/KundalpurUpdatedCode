@@ -3,6 +3,7 @@ db.donationModel.hasMany(db.donationItem,{foreignKey:'donationId',as:'itemDetail
 db.donationItem.belongsTo(db.donationModel,{foreignKey:'donationId',as:'donationDetail'})
 const TblDonation = db.donationModel;
 const TblDonationItem = db.donationItem;
+const itemList = db.itemList;
 
 class DonationCollaction {
     adddonation = async (body, receiptNo) => {
@@ -58,6 +59,14 @@ class DonationCollaction {
       }]
     });
     return record;
+  }
+
+
+  getItemList = async()=>{
+    const list = await itemList.findAll({
+      attributes:['id','item_name'],
+      where:{is_deleted:null}});
+    return list;
   }
 }
 

@@ -6,6 +6,7 @@ module.exports.usersRolesModel = require('./users_roles.model');
 module.exports.passwordReset = require('./password_reset.model');
 module.exports.donationModel = require('./donationDetail.model');
 module.exports.donationItem = require('./donationItem.model');
+module.exports.itemList = require('./item.model');
 
 sequelize.sync().then((result)=>{
     console.log('data synced')

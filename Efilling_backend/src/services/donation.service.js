@@ -20,8 +20,13 @@ const list = async(params) => {
   return record;
 }
 
+const getItemList = async()=>{
+  const list = await DonationCollection.getItemList();
+  return list;
+}
 
 module.exports = {
   cashDonation,
-  list
+  list,
+  getItemList
 };
