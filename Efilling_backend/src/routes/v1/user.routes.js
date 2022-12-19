@@ -10,6 +10,7 @@ router.route('/login-with-email').post(validate(userValidation.loginEmail),userC
 router.route('/verify-opt').post(userController.verifyOTP); 
 router.route('/forgot-password-first').post(validate(userValidation.forgotPass),userController.forgotPassword);
 router.route('/forgot-password-second').post(validate(userValidation.forgotPassSecond),userController.forgotPasswordSecond);
+router.route('/update-profile').post(auth(),userController.updateProfile);
 router.route('/item-list').get(auth(),donationController.itemList);
 router.route('/add-cash-donation').post(auth(),donationController.addCashDonation);
 router.route('/donation-list').get(auth(),donationController.donationList);

@@ -2,6 +2,7 @@ const { Op, where } = require("sequelize");
 const db = require("../models");
 const bcrypt = require("bcryptjs");
 const uploadimage = require("../middlewares/imageupload");
+const removefile = require("../middlewares/removefile");
 const TblUser = db.userModel;
 const TblOTP = db.otpModel;
 const TblUsersRoles = db.usersRolesModel;
@@ -99,6 +100,32 @@ class UserCollaction {
     await TblUser.update({password:hashencrypt},{where:{id: id}});
     await TblPasswordReset.update({resetPasswordToken:null,resetPasswordExpires:null},{where:{user_id: id}});
     return true;
+  }
+
+  updateProfile = async(req)=>{
+    const {name,email,password,dob,anniversary_date,address} = req.body;
+    
+    const salt = bcrypt.genSaltSync(12);
+    const hashencrypt = bcrypt.hashSync(password, salt);
+
+    const userId = req.user.id;
+    const user = await TblUser.findByPk(userId);
+
+    //------check old pick and remove----
+    removefile(user.profile_image);
+    // ----********--------------------
+    
+    const { profile_image } = req.files;
+    const imagePath = uploadimage(profile_image);
+
+    user.name = name;
+    user.email = email;
+    user.password = hashencrypt;
+    user.dob = dob;
+    user.anniversary_date = anniversary_date;
+    user.address = address;
+    user.profile_image = imagePath;
+    return user.save();
   }
 }
 

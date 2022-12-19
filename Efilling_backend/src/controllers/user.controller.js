@@ -78,11 +78,23 @@ const forgotPasswordSecond = catchAsync(async(req,res)=>{
   })
 });
 
+const updateProfile = catchAsync(async(req,res)=>{
+  const update = await userService.profileUpdate(req);
+  if(!update){
+    throw new ApiError(httpStatus.NOT_FOUND, "Something wrong!");
+  }
+  res.status(200).send({
+    status:true,
+    msg:'Profile Update Successfully.'
+  })
+})
+
 module.exports = {
   createUser,
   loginWithMobile,
   loginWithEmail,
   verifyOTP,
   forgotPassword,
-  forgotPasswordSecond
+  forgotPasswordSecond,
+  updateProfile
 };

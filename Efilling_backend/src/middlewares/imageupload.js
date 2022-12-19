@@ -20,11 +20,8 @@ const uploadimage = (file) => {
         if (err) console.log(err);
         else console.log('uploaddd');
     })
-
+    
     return filepath;
-
-
-
 }
 
 

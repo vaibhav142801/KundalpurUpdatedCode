@@ -34,6 +34,14 @@ const sequelize = require('../db/db-connection')
         name:{
             type:Sequelize.STRING(150),
         },
+        dob:{
+            type:Sequelize.DATE,
+            allowNull:true,
+        },
+        anniversary_date:{
+            type:Sequelize.DATE,
+            allowNull:true,
+        },
         address:{
             type:Sequelize.STRING(255),
         },

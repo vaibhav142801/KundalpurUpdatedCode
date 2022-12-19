@@ -110,7 +110,11 @@ const forgotPassSecond = async(body) => {
   }
   const update = await UserCollection.resetPassword(body,data.user_id);
   return update;
-  
+}
+
+const profileUpdate = async(req)=>{
+  const update = await UserCollection.updateProfile(req);
+  return update;
 }
 
 module.exports = {
@@ -120,5 +124,6 @@ module.exports = {
   loginAdmin,
   forgotPass,
   mobileLogin,
-  forgotPassSecond
+  forgotPassSecond,
+  profileUpdate
 };
