@@ -1,5 +1,5 @@
 const httpStatus = require("http-status");
-const { userService } = require("../services");
+const { userService, donationService } = require("../services");
 const catchAsync = require("../utils/catchAsync");
 const { generateAuthTokens } = require("../utils/tokens");
 
@@ -39,7 +39,23 @@ const userRegister = async (req, res) => {
     res.status(httpStatus.CREATED).send(userdata);
 };
 
+const allList = catchAsync(async(req,res)=>{
+  if (req.user.roleDetails.roles.role_name != "Admin") {
+    res.status(httpStatus.CONFLICT).send({
+      status: false,
+      msg: "Only admin access.",
+    });
+  }
+  const list = await donationService.allList(req);
+  res.status(200).send({
+    status:true,
+    msg:'All List',
+    data:list,
+  })
+})
+
 module.exports = {
   adminLogin,
   userRegister,
+  allList
 };

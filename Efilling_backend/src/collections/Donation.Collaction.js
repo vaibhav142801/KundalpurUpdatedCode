@@ -56,6 +56,23 @@ class DonationCollaction {
     return record;
   }
 
+  allDonationRecord = async(req)=>{
+    const id = req.params.id;
+    var whereClause;
+    if(id){
+      whereClause = {id:id};
+    }
+    const record = await TblDonation.findAll({
+      where:whereClause,
+      attributes:['id','receiptNo','name','phoneNo','address','new_member','donation_date','donation_time'],
+      include:[{
+        model:TblDonationItem,
+        as:'itemDetails',
+        attributes:['itemId','amount','remark']
+      }]
+    });
+    return record;
+  }
 
   getItemList = async()=>{
     const list = await itemList.findAll({

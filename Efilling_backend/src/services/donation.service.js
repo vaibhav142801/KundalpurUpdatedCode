@@ -25,8 +25,14 @@ const getItemList = async()=>{
   return list;
 }
 
+const allList = async(req)=>{
+  const record = await DonationCollection.allDonationRecord(req);
+  return record;
+}
+
 module.exports = {
   cashDonation,
   list,
-  getItemList
+  getItemList,
+  allList
 };
