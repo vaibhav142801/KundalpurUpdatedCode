@@ -5,11 +5,14 @@ const { userValidation } = require('../../validations');
 const router = express.Router();
 const auth = require('../../middlewares/auth');
 
+router.route('/login').post(validate(userValidation.login),userController.login);
 router.route('/login-with-mobile').post(validate(userValidation.loginMobile),userController.loginWithMobile);
 router.route('/login-with-email').post(validate(userValidation.loginEmail),userController.loginWithEmail);
 router.route('/verify-opt').post(userController.verifyOTP); 
 router.route('/forgot-password-first').post(validate(userValidation.forgotPass),userController.forgotPassword);
 router.route('/forgot-password-second').post(validate(userValidation.forgotPassSecond),userController.forgotPasswordSecond);
+router.route('/forgot-password-third').post(validate(userValidation.forgotPassThird),userController.forgotPasswordThird);
+router.route('/profile-list').get(auth(),userController.profileList);
 router.route('/update-profile').post(auth(),userController.updateProfile);
 router.route('/item-list').get(auth(),donationController.itemList);
 router.route('/add-cash-donation').post(auth(),donationController.addCashDonation);

@@ -101,29 +101,44 @@ class UserCollaction {
     return result;
   }
 
-  updateForgotPassToken = async(id,token,expire)=>{
+  updateForgotPassToken = async(id,otp,expire)=>{
      const record =  await TblPasswordReset.findOne({where:{user_id:id}});
      if(record){
-      const data =  await TblPasswordReset.update({resetPasswordToken: token,resetPasswordExpires:expire},{where: {user_id:id}});
+      const data =  await TblPasswordReset.update({resetPasswordOtp: otp,resetPasswordExpires:expire},{where: {user_id:id}});
       return await TblPasswordReset.findOne({where:{user_id:id}});
      }else{
       return TblPasswordReset.create({
         user_id:id,
-        resetPasswordToken: token,
+        resetPasswordOtp: otp,
         resetPasswordExpires:expire
       });
      }
   }
 
-  isTokenMatch = async(body)=>{
+  forgotOTPMatch = async(body)=>{
     const {identity} = body;
     const user = await this.getUserName(identity);
-    const forgot =  await TblPasswordReset.findOne({where:{user_id:user.id}});
+    const data =  await TblPasswordReset.findOne({where:{user_id:user.id}});
     
-    if(forgot.resetPasswordToken == body.token){
+    if(data.resetPasswordOtp == body.otp){
       return {
-        resetPasswordToken:forgot.resetPasswordToken,
-        resetPasswordExpires:forgot.resetPasswordExpires,
+        resetPasswordToken:data.resetPasswordToken,
+        resetPasswordExpires:data.resetPasswordExpires,
+        user_id:user.id
+      }
+    }
+    return null;
+  }
+
+  forgotTokenMatch = async(body)=>{
+    const {identity,token} = body;
+    const user = await this.getUserName(identity);
+    const data =  await TblPasswordReset.findOne({where:{user_id:user.id}});
+    
+    if(data.resetPasswordToken == body.token){
+      return {
+        resetPasswordToken:data.resetPasswordToken,
+        resetPasswordExpires:data.resetPasswordExpires,
         user_id:user.id
       }
     }

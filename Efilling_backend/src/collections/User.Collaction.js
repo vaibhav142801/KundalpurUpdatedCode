@@ -93,6 +93,12 @@ class UserCollaction {
     }
   };
 
+  generateResetToken = async(token,id)=>{
+    let resetPasswordExpires = Date.now() + 3600000; //expires in an hour
+    await TblPasswordReset.update({resetPasswordOtp:null,resetPasswordToken:token,resetPasswordExpires:resetPasswordExpires},{where:{user_id: id}});
+    return token;
+  }
+
   resetPassword = async(body,id)=>{
     const {identity,new_password,token} = body;
     const salt = bcrypt.genSaltSync(12);
@@ -126,6 +132,15 @@ class UserCollaction {
     user.address = address;
     user.profile_image = imagePath;
     return user.save();
+  }
+
+  profileList = async(req)=>{
+    const userId = req.user.id;
+    const user = await TblUser.findOne({
+      where:{id:userId,is_deleted:false},
+      attributes:['id','username','mobileNo','email','name','dob','anniversary_date','address','gender','profile_image']
+    });
+    return user;
   }
 }
 

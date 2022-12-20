@@ -4,12 +4,12 @@ const catchAsync = require('../utils/catchAsync');
 const ApiError = require('../utils/ApiError');
 
 const addCashDonation = catchAsync(async(req,res)=>{
-  const data = await donationService.cashDonation(req.body);
+  const data = await donationService.cashDonation(req);
   res.status(httpStatus.CREATED).send(data);
 })
 
 const donationList = catchAsync( async(req,res)=>{
-  const data = await donationService.list(req.params);
+  const data = await donationService.list(req);
   if(!data){
     throw new ApiError(httpStatus.NOT_FOUND, "!somthing Went Wrong");
   }else{

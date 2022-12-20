@@ -13,6 +13,12 @@ const register = {
   }),
 };
 
+const login = {
+  body: Joi.object().keys({
+    identity: Joi.string().required(),
+    password: Joi.string().required(),
+  })
+}
 const loginMobile = {
   body: Joi.object().keys({
     mobile_no: Joi.string().required()
@@ -28,23 +34,35 @@ const loginEmail = {
 
 const forgotPass = {
   body: Joi.object().keys({
-    identity: Joi.string().required()
+    identity: Joi.string().required(),
+    reset_mode: Joi.string().required(),
   }),
 };
 
 const forgotPassSecond = {
   body: Joi.object().keys({
     identity: Joi.string().required(),
-    new_password: Joi.string().required().custom(password),
-    token:Joi.string().required(),
-  }),
+    reset_mode: Joi.string().required(),
+    otp:Joi.string().required(),
+  })
 }
 
+const forgotPassThird = {
+  body: Joi.object().keys({
+    identity: Joi.string().required(),
+    reset_mode: Joi.string().required(),
+    token:Joi.string().required(),
+    new_password:Joi.string().required().custom(password),
+    confirmPassword:Joi.string().required().custom(password)
+  })
+}
 
 module.exports = {
+  login,
   register,
   loginMobile,
   loginEmail,
   forgotPass,
-  forgotPassSecond
+  forgotPassSecond,
+  forgotPassThird
 };

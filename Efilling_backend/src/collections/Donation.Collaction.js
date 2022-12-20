@@ -6,18 +6,11 @@ const TblDonationItem = db.donationItem;
 const itemList = db.itemList;
 
 class DonationCollaction {
-    adddonation = async (body, receiptNo) => {
-    const { name, phoneNo, address, new_member, donation_date, donation_time,donation_item } = body;
-
-    const result = await TblDonation.create({
-      name,
-      phoneNo,
-      receiptNo,
-      address,
-      new_member,
-      donation_date,
-      donation_time
-    }).then( async (res) => {
+    adddonation = async (req, receiptNo) => {
+    const { name, phoneNo, address, new_member, donation_date, donation_time,donation_item } = req.body;
+    const userId = req.user.id;
+    const result = await TblDonation.create({name,phoneNo,receiptNo,address,new_member,donation_date,donation_time,created_by:userId})
+    .then( async (res) => {
       let final = []
       donation_item.forEach(e => {
         final.push({donationId:res.id,itemId:e.item,amount:e.amount,remark:e.remark})
@@ -49,8 +42,10 @@ class DonationCollaction {
     return lastID ? lastID.id : 1;
   };
 
-  donationRecord = async (params) => {
+  donationRecord = async (req) => {
+    const userId = req.user.id;
     const record = await TblDonation.findAll({
+      where:{created_by:userId},
       attributes:['id','receiptNo','name','phoneNo','address','new_member','donation_date','donation_time'],
       include:[{
         model:TblDonationItem,

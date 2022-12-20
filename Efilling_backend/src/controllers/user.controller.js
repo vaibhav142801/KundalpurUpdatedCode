@@ -10,6 +10,25 @@ const createUser = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(userdata);
 });
 
+const login = catchAsync(async (req,res)=>{
+  const { identity, password } = req.body;
+  const data = await userService.loginuser(identity, password);
+  if (!data) {
+    throw new ApiError(httpStatus.NOT_FOUND, "!somthing Went Wrong");
+  }
+  const tokens = await generateAuthTokens(data);
+  res.send({
+    user: {
+      id: data.id,
+      username: data.username,
+      name: data.name,
+      roles: data.roles,
+      profile_image: data.profile_image,
+    },
+    tokens,
+  })
+})
+
 const loginWithMobile = catchAsync(async (req, res) => {
   const login = await userService.mobileLogin(req.body);
   if (!login) {
@@ -62,7 +81,7 @@ const verifyOTP = catchAsync(async (req, res) => {
 const forgotPassword = catchAsync(async (req, res) => {
   const result = await userService.forgotPass(req.body);
   res.status(200).send({
-    status: 1,
+    status:true,
     data:result
   });
 });
@@ -70,13 +89,25 @@ const forgotPassword = catchAsync(async (req, res) => {
 const forgotPasswordSecond = catchAsync(async(req,res)=>{
   const result = await userService.forgotPassSecond(req.body);
   if(!result){
-    throw new ApiError(httpStatus.NOT_FOUND, "Token missmatch.");
+    throw new ApiError(httpStatus.NOT_FOUND, "Otp mismatch.");
   }
   res.status(200).send({
-    status:1,
-    msg:'Password reset successfully.'
+    status:true,
+    msg:'OTP matched.',
+    token:result
   })
 });
+
+const forgotPasswordThird = catchAsync(async(req,res)=>{
+  const result = await userService.forgotPasswordThird(req.body);
+  if(!result){
+    throw new ApiError(httpStatus.NOT_FOUND, "Something went wrong!");
+  }
+  res.status(200).send({
+    status:true,
+    msg:'Password reset successfully.',
+  })
+})
 
 const updateProfile = catchAsync(async(req,res)=>{
   const update = await userService.profileUpdate(req);
@@ -89,12 +120,27 @@ const updateProfile = catchAsync(async(req,res)=>{
   })
 })
 
+const profileList = catchAsync(async(req,res)=>{
+  const list = await userService.profileList(req);
+  if(!list){
+    throw new ApiError(httpStatus.NOT_FOUND, "Something wrong!");
+  }
+  res.status(200).send({
+    status:true,
+    msg:'Profile List.',
+    profile:list
+  })
+})
+
 module.exports = {
   createUser,
+  login,
   loginWithMobile,
   loginWithEmail,
   verifyOTP,
   forgotPassword,
   forgotPasswordSecond,
-  updateProfile
+  forgotPasswordThird,
+  updateProfile,
+  profileList
 };

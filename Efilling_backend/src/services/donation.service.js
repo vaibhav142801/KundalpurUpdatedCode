@@ -8,15 +8,15 @@ const generateReceiptNo = (lastID) => {
   return receiptNo;
 }
 
-const cashDonation = async (body) => {
+const cashDonation = async (req) => {
   const lastID = await DonationCollection.getLastID();
   const receiptNo = generateReceiptNo(lastID);
-  const donation = await DonationCollection.adddonation(body,receiptNo);
+  const donation = await DonationCollection.adddonation(req,receiptNo);
   return donation;
 };
 
-const list = async(params) => {
-  const record = await DonationCollection.donationRecord(params);
+const list = async(req) => {
+  const record = await DonationCollection.donationRecord(req);
   return record;
 }
 

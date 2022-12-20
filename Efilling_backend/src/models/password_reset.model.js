@@ -12,8 +12,12 @@ const PasswordResets = sequelize.define(tbl.TBL_PASSWORD_RESET, {
   user_id: {
     type: Sequelize.INTEGER(11),
   },
-  resetPasswordToken: {
-    type: Sequelize.STRING(150),
+  resetPasswordOtp: {
+    type: Sequelize.STRING(6),
+    trim: true,
+  },
+  resetPasswordToken:{
+    type: Sequelize.STRING(100),
     trim: true,
   },
   resetPasswordExpires:{
