@@ -14,8 +14,7 @@ const sequelize = require('../db/db-connection')
             trim: true,
         },
         role_id: {
-            type: Sequelize.STRING(15),     
-            trim: true,
+            type: Sequelize.INTEGER(50),   
         }
     })
 

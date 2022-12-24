@@ -10,7 +10,7 @@ const Roles = sequelize.define(tbl.TBL_ROLE, {
     allowNull: false,
   },
   role_name: {
-    type: Sequelize.STRING(100),
+    type: Sequelize.INTEGER(50),
     trim: true,
   },
   role_desc: {
