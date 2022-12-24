@@ -1,0 +1,38 @@
+.DonationHistory-main-div {
+  padding-top: 8rem;
+  position: relative;
+  background: #e8e8e8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 4rem;
+}
+.table-div-maain-donation-table-main {
+  width: 1269px;
+  height: 537px;
+
+  background: #ffffff;
+  border-radius: 5px;
+}
+.donation-history-text {
+  padding-top: 1rem;
+  padding-left: 1rem;
+}
+.donation-history-text h2 {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 30px;
+  margin-bottom: 6px;
+  color: #ae2f07;
+}
+.donation-history-text p {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 1rem;
+  color: #aeabab;
+}

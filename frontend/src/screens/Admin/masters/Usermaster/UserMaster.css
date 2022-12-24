@@ -1,0 +1,137 @@
+.search-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.search-header input:focus{
+    outline: none;
+}
+.search-header input {
+    width: 287px;
+    height: 39px;
+    border: 2px solid #e96d00;
+    border-radius: 5px;
+    font-size: 14px;
+    padding-left: 1rem;
+}
+.search-header button {
+    background-color: #e96d00;
+    border: none;
+    height: 39px;
+    border-radius: 5px;
+    width: 127px;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.search-inner-div{
+    display: contents;
+}
+.add-btn-user {
+
+    margin-top: 1rem;
+    border-bottom: 1px solid gray;
+    width: 100%;
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: row-reverse;
+}
+.add-btn-user button {
+    border: none;
+    background: #e96d00;
+    width: 113px;
+    height: 29px;
+    color: white;
+    border-radius: 5px;
+    font-size: 18px;
+  
+}
+
+.add-div-close-div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+}
+.add-div-close-div h2{
+    color: #e96d00;
+}
+    
+    
+.main-input-div1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .inner-input-div1 {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .inner-input-div1 input {
+      width: 464px;
+      height: 55px;
+      border: 3px solid #e96d00;
+      border-radius: 5px;
+      font-size: 20px;
+      padding-left: 1rem;
+  }
+  
+  .inner-input-div1 input:focus{
+      outline: none;
+  }
+  .inner-input-div1 label {
+      font-family: "Imprima";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 25px;
+      line-height: 29px;
+      color: #827b7b;
+      margin-bottom: 1rem;
+  }
+  
+.save-btn1{
+    border: none;
+    background: #e96d00;
+    color: white;
+    width: 100px;
+    height: 29px;
+    border-radius: 5px;
+    margin-right: 16px;
+    font-size: 16px;
+  }
+
+  .table-div-maain{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dashborad-table{
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  .dashborad-table  th{
+  
+    text-align: left;
+    padding: 8px;
+    color: #e96d00;
+  }
+  .dashborad-table td, th {
+  
+    text-align: left;
+    padding: 8px;
+  
+  }
+  
+  .dashborad-table tr:nth-child(even) {
+    background-color: #e96d00;
+    color: white;
+  }
