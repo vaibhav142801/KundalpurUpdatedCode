@@ -5,6 +5,7 @@ module.exports.roleModel = require('./role.model');
 module.exports.usersRolesModel = require('./users_roles.model');
 module.exports.passwordReset = require('./password_reset.model');
 module.exports.donationModel = require('./donationDetail.model');
+module.exports.newDonationModel = require('./donation.model');
 module.exports.donationItem = require('./donationItem.model');
 module.exports.itemList = require('./item.model');
 

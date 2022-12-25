@@ -8,6 +8,12 @@ const generateReceiptNo = (lastID) => {
   return receiptNo;
 }
 
+
+const addNewDonation = async(req)=>{
+  const donation = await DonationCollection.addNewDonation(req);
+  return donation;
+}
+
 const cashDonation = async (req) => {
   const lastID = await DonationCollection.getLastID();
   const receiptNo = generateReceiptNo(lastID);
@@ -16,7 +22,7 @@ const cashDonation = async (req) => {
 };
 
 const list = async(req) => {
-  const record = await DonationCollection.donationRecord(req);
+  const record = await DonationCollection.newDonationRecord(req);
   return record;
 }
 
@@ -34,5 +40,6 @@ module.exports = {
   cashDonation,
   list,
   getItemList,
-  allList
+  allList,
+  addNewDonation
 };

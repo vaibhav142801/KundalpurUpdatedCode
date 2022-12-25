@@ -3,6 +3,18 @@ const { donationService } = require('../services');
 const catchAsync = require('../utils/catchAsync');
 const ApiError = require('../utils/ApiError');
 
+
+const addNewDonation = catchAsync(async(req,res)=>{
+  const data = await donationService.addNewDonation(req);
+  if(!data){
+    throw new ApiError(httpStatus.NOT_FOUND, "!somthing Went Wrong");
+  }
+  res.status(httpStatus.CREATED).send({
+    status:true,
+    msg:'Donation addedd successfully.'
+  });
+})
+
 const addCashDonation = catchAsync(async(req,res)=>{
   const data = await donationService.cashDonation(req);
   res.status(httpStatus.CREATED).send(data);
@@ -28,5 +40,6 @@ const itemList = catchAsync(async(req,res)=>{
 module.exports = {
   addCashDonation,
   donationList,
-  itemList
+  itemList,
+  addNewDonation
 };

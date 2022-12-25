@@ -16,5 +16,6 @@ router.route('/profile-list').get(auth(),userController.profileList);
 router.route('/update-profile').post(auth(),userController.updateProfile);
 router.route('/item-list').get(auth(),donationController.itemList);
 router.route('/add-cash-donation').post(auth(),donationController.addCashDonation);
+router.route('/add-donation').post(auth(),donationController.addNewDonation);
 router.route('/donation-list').get(auth(),donationController.donationList);
 module.exports = router;

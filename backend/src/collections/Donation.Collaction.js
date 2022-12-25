@@ -1,11 +1,35 @@
+const {sequelize,QueryTypes,query} = require("sequelize");
 const db = require("../models");
 db.donationModel.hasMany(db.donationItem,{foreignKey:'donationId',as:'itemDetails'})
 db.donationItem.belongsTo(db.donationModel,{foreignKey:'donationId',as:'donationDetail'})
 const TblDonation = db.donationModel;
 const TblDonationItem = db.donationItem;
 const itemList = db.itemList;
+const TblNewDonation = db.newDonationModel;
 
 class DonationCollaction {
+
+  addNewDonation = async(req)=>{
+    const {NAME,MODE_OF_DONATION,AMOUNT,CHEQUE_NO,DATE_OF_CHEQUE,NAME_OF_BANK,PAYMENT_ID,DATE_OF_DAAN}= req.body;
+
+    const count = await TblNewDonation.count();
+    const currentYear = new Date().getFullYear()
+    let donationType = 'ONLINE';
+    if(MODE_OF_DONATION == 2){
+      donationType = 'CHEQUE';
+    }
+    const receiptId = count+1;
+    let RECEIPT_NO = `${donationType}-${currentYear}-000${receiptId}`;
+    const userId = req.user.id;
+    const result =  await TblNewDonation.create({
+      NAME,RECEIPT_NO,MODE_OF_DONATION:donationType,AMOUNT,CHEQUE_NO,DATE_OF_CHEQUE,NAME_OF_BANK,PAYMENT_ID,DATE_OF_DAAN,ADDED_BY:userId
+    });
+    if(!result){
+      return null;
+    }
+    return true;
+  }
+
     adddonation = async (req, receiptNo) => {
     const { name, phoneNo, address, new_member, donation_date, donation_time,donation_item } = req.body;
     const userId = req.user.id;
@@ -55,6 +79,16 @@ class DonationCollaction {
     });
     return record;
   }
+
+  newDonationRecord = async (req) => {
+    const userId = req.user.id;
+    const record = await TblNewDonation.findAll({
+      where:{ADDED_BY:userId},
+      // attributes:['id','receiptNo','name','phoneNo','address','new_member','donation_date','donation_time'],
+    });
+    return record;
+  }
+
 
   allDonationRecord = async(req)=>{
     const id = req.params.id;
