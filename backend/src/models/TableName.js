@@ -7,4 +7,5 @@ module.exports = Object.freeze({
     TBL_USERS_ROLES:'tbl_users_roles',
     TBL_PASSWORD_RESET:'tbl_password_resets',
     TBL_ITEM:'tbl_items',
-});
+    TBL_NEW_DONATION:'tbl_donation'
+}); 

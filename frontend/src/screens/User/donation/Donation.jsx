@@ -3,6 +3,8 @@ import { serverInstance } from "../../../API/ServerInstance";
 import badebaba from "../../../assets/badebaba.jpg";
 import { displayRazorpay } from "../../../RazorPay/RazorPay";
 import "./Donation.css";
+import Swal from "sweetalert2";
+
 function Donation() {
   const initialstate = {
     name: "",
@@ -24,6 +26,11 @@ function Donation() {
 
   const handlesubmit = () => {
     setisError(null);
+
+    if (!sessionStorage.getItem("token")) {
+      Swal.fire("Error!", "please authenticate ", "error");
+      return false;
+    }
 
     if (!isFrom.name) {
       setisError({ ...isError, name: "please enter your name" });
@@ -71,7 +78,13 @@ function Donation() {
           DATE_OF_DAAN: new Date(),
           PAYMENT_ID: data.razorpay_order_id,
         }).then((res) => {
-          console.log(res);
+          if (res.status) {
+            Swal.fire("Great!", res.msg, "success").then(() => {
+              window.location.reload();
+            });
+          } else {
+            Swal.fire("Error!", "Somthing went wrong!!", "error");
+          }
         });
       }
     );

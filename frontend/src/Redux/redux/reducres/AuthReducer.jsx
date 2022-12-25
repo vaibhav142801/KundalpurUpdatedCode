@@ -1,9 +1,15 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { AUTH_LOGIN, AUTH_SIGNUP, LOADING } from "../constants/action";
+import {
+  AUTH_LOGIN,
+  AUTH_SIGNUP,
+  LOADING,
+  USER_ALLDONATION,
+} from "../constants/action";
 
 const initialState = {
   user: [],
   loading: false,
+  alldonation: "",
 };
 
 export default function (state = initialState, action) {
@@ -21,6 +27,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         user: action.payload,
+      };
+    case USER_ALLDONATION:
+      return {
+        ...state,
+        alldonation: action.payload,
       };
     default:
       return state;

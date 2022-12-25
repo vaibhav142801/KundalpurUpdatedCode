@@ -1,2 +1,3 @@
-Efilling_backend/node_modules
-Efilling_backend/public
+backend/node_modules
+frontend/node_modules
+backend/public

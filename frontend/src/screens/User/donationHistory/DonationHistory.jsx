@@ -6,6 +6,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
+import moment from "moment";
 
 function createData(name, calories, fat, carbs, protein, down) {
   return { name, calories, fat, carbs, protein, down };
@@ -70,7 +73,28 @@ const rows = [
   ),
 ];
 import "./DonationHistory.css";
+import { useNavigate } from "react-router-dom";
+import { User_AllDonation } from "../../../Redux/redux/action/AuthAction";
+import { serverInstance } from "../../../API/ServerInstance";
 function DonationHistory() {
+  const [isrow, setisrow] = useState([]);
+  const dispatch = useDispatch();
+  const navigation = useNavigate();
+
+  React.useEffect(() => {
+    gettable();
+  }, []);
+
+  const gettable = () => {
+    serverInstance("user/donation-list", "get").then((res) => {
+      try {
+        setisrow(res.donation);
+      } catch (error) {
+        Swal.fire("Error!", "please authenticate", "error");
+      }
+    });
+  };
+
   return (
     <>
       <div className="DonationHistory-main-div">
@@ -86,26 +110,45 @@ function DonationHistory() {
                   <TableRow>
                     <TableCell align="left">DATE</TableCell>
                     <TableCell align="left">NAME</TableCell>
-                    <TableCell align="left">EMAIL</TableCell>
-                    <TableCell align="left">MESSAGE</TableCell>
-                    <TableCell align="left">AMOUNT</TableCell>
-                    <TableCell align="left">CERTIFICATE</TableCell>
+                    <TableCell align="left">Donation Type</TableCell>
+                    <TableCell align="left">Amount</TableCell>
+                    <TableCell align="left">Cheque No.</TableCell>
+                    <TableCell align="left">Date Of submission</TableCell>
+                    <TableCell align="left">Name of Bank</TableCell>
+                    <TableCell align="left">Payment id</TableCell>
+                    <TableCell align="left">certificate</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row) => (
-                    <TableRow
-                      key={row.name}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell align="left">{row.name}</TableCell>
-                      <TableCell align="left">{row.calories}</TableCell>
-                      <TableCell align="left">{row.fat}</TableCell>
-                      <TableCell align="left">{row.carbs}</TableCell>
-                      <TableCell align="left">{row.protein}</TableCell>
-                      <TableCell align="left">{row.down}</TableCell>
-                    </TableRow>
-                  ))}
+                  {isrow.length !== 0 &&
+                    isrow.map((row, index) => (
+                      <TableRow
+                        key={index}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell align="left">
+                          {moment(row?.DATE_OF_DAAN).format("DD/MM/YYYY")}
+                        </TableCell>
+                        <TableCell align="left">{row.NAME}</TableCell>
+                        <TableCell align="left">
+                          {row.MODE_OF_DONATION}
+                        </TableCell>
+                        <TableCell align="left">{row.AMOUNT}</TableCell>
+                        <TableCell align="left">
+                          {row.CHEQUE_NO ? row.CHEQUE_NO : "-"}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.DATE_OF_CHEQUE ? row.DATE_OF_CHEQUE : "-"}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.NAME_OF_BANK ? row.NAME_OF_BANK : "-"}
+                        </TableCell>
+                        <TableCell align="left">{row.PAYMENT_ID}</TableCell>
+                        <TableCell align="left">downolod</TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>

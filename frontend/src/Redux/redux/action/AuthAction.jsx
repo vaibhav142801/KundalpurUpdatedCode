@@ -6,7 +6,7 @@ export const LoginwithOtp = (data, response) => {
     try {
       response(res);
     } catch (error) {
-      toast.error(res.message);
+      alert(res.message);
     }
   });
 };
@@ -16,7 +16,17 @@ export const VerifyOtp = (data, response) => {
     try {
       response(res);
     } catch (error) {
-      toast.error(res.message);
+      alert(res.message);
+    }
+  });
+};
+
+export const User_AllDonation = (data, response) => {
+  serverInstance("user/donation-list", "GET", {}).then((res) => {
+    try {
+      response(res);
+    } catch (error) {
+      alert(res.message);
     }
   });
 };
