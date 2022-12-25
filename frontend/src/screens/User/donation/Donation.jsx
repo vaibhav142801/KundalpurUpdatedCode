@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { serverInstance } from "../../../API/ServerInstance";
 import badebaba from "../../../assets/badebaba.jpg";
 import { displayRazorpay } from "../../../RazorPay/RazorPay";
 import "./Donation.css";
@@ -60,7 +61,18 @@ function Donation() {
         userid: 1,
       },
       (data) => {
-        // data.razorpay_order_id,
+        serverInstance("user/add-donation", "POST", {
+          NAME: isFrom.name,
+          MODE_OF_DONATION: mode === "Online" ? 1 : 2,
+          AMOUNT: amount,
+          CHEQUE_NO: isFrom?.chequeno,
+          DATE_OF_CHEQUE: isFrom?.date_of_sub,
+          NAME_OF_BANK: isFrom?.name_of_bank,
+          DATE_OF_DAAN: new Date(),
+          PAYMENT_ID: data.razorpay_order_id,
+        }).then((res) => {
+          console.log(res);
+        });
       }
     );
   };
