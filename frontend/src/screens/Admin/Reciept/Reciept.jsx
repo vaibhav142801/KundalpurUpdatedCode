@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import CallIcon from "@mui/icons-material/Call";
 import "./Reciept.css";
+import { useLocation, useNavigate } from "react-router-dom";
 const Reciept = ({ setopendashboard }) => {
+  const location = useLocation();
+  const [isData, setisData] = React.useState(null);
+  const navigation = useNavigate();
+
   const down = () => {
     const re = document.getElementById("receipt");
     var opt = {
@@ -21,6 +26,15 @@ const Reciept = ({ setopendashboard }) => {
 
     a.print();
   }
+
+  React.useEffect(() => {
+    if (location.state) {
+      setisData(location.state?.userdata);
+    } else {
+      navigation("/");
+    }
+  }, []);
+
   return (
     <>
       <div className="receipt-main-div">
@@ -59,11 +73,12 @@ const Reciept = ({ setopendashboard }) => {
             <div className="overlay-div-receipt">
               <div className="recipt-info-div">
                 <h2>दान रसीद नं :</h2>
-                <p>CASH2022-202310543</p>
+                <p>{isData?.RECEIPT_NO}</p>
               </div>
               <div className="recipt-info-div">
                 <h2>दान दातार श्री :</h2>
-                <p>श्री दिगम्बर जैन सर्वोदय तीर्थक्षेत्र अमरकंटक</p>
+                <p>श्री {isData?.NAME}</p>
+                {/* <p>श्री दिगम्बर जैन सर्वोदय तीर्थक्षेत्र अमरकंटक</p> */}
               </div>
               <div className="recipt-info-div">
                 <h2>स्थान :</h2>
@@ -82,7 +97,7 @@ const Reciept = ({ setopendashboard }) => {
               </div>
               <div className="recipt-info-div">
                 <h2>राशि अंको में :</h2>
-                <p>R3000/-</p>
+                <p>R{" " +isData?.AMOUNT}/-</p>
               </div>
             </div>
           </div>
@@ -103,7 +118,7 @@ const Reciept = ({ setopendashboard }) => {
                 </td>
               </tr>
               <tr>
-                <td className="td-reciept">2PAN No. AAHTS0546A</td>
+                <td className="td-reciept">PAN No. AAHTS0546A</td>
               </tr>
             </table>
           </div>

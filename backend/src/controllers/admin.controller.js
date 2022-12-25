@@ -23,12 +23,12 @@ const adminLogin = catchAsync(async (req, res) => {
 });
 
 const userRegister = async (req, res) => {
-  if (req.user.roleDetails.roles.role_name != "Admin") {
-    res.status(httpStatus.CONFLICT).send({
-      status: false,
-      msg: "Only admin access.",
-    });
-  }
+  // if (req.user.roleDetails.roles.role_name != "Admin") {
+  //   res.status(httpStatus.CONFLICT).send({
+  //     status: false,
+  //     msg: "Only admin access.",
+  //   });
+  // }
   const userdata = await userService.createuser(req.body, req.files);
     if (!userdata) {
       res.status(httpStatus.CONFLICT).send({
@@ -40,12 +40,12 @@ const userRegister = async (req, res) => {
 };
 
 const allList = catchAsync(async(req,res)=>{
-  if (req.user.roleDetails.roles.role_name != "Admin") {
-    res.status(httpStatus.CONFLICT).send({
-      status: false,
-      msg: "Only admin access.",
-    });
-  }
+  // if (req.user.roleDetails.roles.role_name != "Admin") {
+  //   res.status(httpStatus.CONFLICT).send({
+  //     status: false,
+  //     msg: "Only admin access.",
+  //   });
+  // }
   const list = await donationService.allList(req);
   res.status(200).send({
     status:true,

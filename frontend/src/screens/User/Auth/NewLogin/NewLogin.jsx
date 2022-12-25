@@ -56,6 +56,7 @@ const VivekPLogin = () => {
           navigation("/");
           Swal.fire("Great!", res.msg, "success");
           setMobileNo("");
+          window.location.reload();
         } else {
           Swal.fire("Error!", res.message, "error");
         }

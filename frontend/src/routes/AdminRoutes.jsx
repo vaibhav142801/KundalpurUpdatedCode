@@ -13,23 +13,23 @@ function AdminRoutes({ setopendashboard }) {
     <>
       <Routes>
         <Route
-          path="/dashboard"
+          path="/admin-panel/dashboard"
           element={<Dashboard setopendashboard={setopendashboard} />}
         />
         <Route
-          path="/master"
+          path="/admin-panel/master"
           element={<MasterTap setopendashboard={setopendashboard} />}
         />
         <Route
-          path="/donatedusers"
+          path="/admin-panel/donatedusers"
           element={<DonatedUsers setopendashboard={setopendashboard} />}
         />
         <Route
-          path="/roombooking"
+          path="/admin-panel/roombooking"
           element={<RoomBooking setopendashboard={setopendashboard} />}
         />
         <Route
-          path="/cashdonation"
+          path="/admin-panel/cashdonation"
           element={<CashDonation setopendashboard={setopendashboard} />}
         />
       </Routes>

@@ -22,7 +22,7 @@ const Sidebar = ({ setshowsidebar }) => {
                 className={({ isActive }) =>
                   isActive ? "active-nav-link" : "nav-link-no-dropdown"
                 }
-                to="/dashboard"
+                to="/admin-panel/dashboard"
               >
                 <DashboardIcon style={{ marginRight: "1rem" }} />
                 <span className="linkspan"> Dashboard</span>
@@ -33,7 +33,7 @@ const Sidebar = ({ setshowsidebar }) => {
                 className={({ isActive }) =>
                   isActive ? "active-nav-link" : "nav-link-no-dropdown"
                 }
-                to="/donatedusers"
+                to="/admin-panel/donatedusers"
               >
                 <span className="linkspan">Donated users</span>
               </NavLink>
@@ -44,7 +44,7 @@ const Sidebar = ({ setshowsidebar }) => {
                 className={({ isActive }) =>
                   isActive ? "active-nav-link" : "nav-link-no-dropdown"
                 }
-                to="/master"
+                to="/admin-panel/master"
               >
                 <span className="linkspan"> Masters</span>
               </NavLink>
@@ -55,12 +55,12 @@ const Sidebar = ({ setshowsidebar }) => {
                 className={({ isActive }) =>
                   isActive ? "active-nav-link" : "nav-link-no-dropdown"
                 }
-                to="/roombooking"
+                to="/admin-panel/roombooking"
               >
                 <span className="linkspan"> Room Booking</span>
               </NavLink>
             </li>
-
+            
             {/* <li className="nav-item">
               <div
                 className="nav-link"

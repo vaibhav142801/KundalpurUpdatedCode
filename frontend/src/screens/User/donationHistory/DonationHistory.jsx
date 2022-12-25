@@ -87,11 +87,23 @@ function DonationHistory() {
 
   const gettable = () => {
     serverInstance("user/donation-list", "get").then((res) => {
+      if (res.status === 404) {
+        Swal.fire("Error!", "please authenticate", "error");
+        return false;
+      }
       try {
         setisrow(res.donation);
       } catch (error) {
         Swal.fire("Error!", "please authenticate", "error");
       }
+    });
+  };
+
+  const downloadrecept = (row) => {
+    navigation("/reciept", {
+      state: {
+        userdata: row,
+      },
     });
   };
 
@@ -146,7 +158,15 @@ function DonationHistory() {
                           {row.NAME_OF_BANK ? row.NAME_OF_BANK : "-"}
                         </TableCell>
                         <TableCell align="left">{row.PAYMENT_ID}</TableCell>
-                        <TableCell align="left">downolod</TableCell>
+                        <TableCell
+                          align="left"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => {
+                            downloadrecept(row);
+                          }}
+                        >
+                          downolod
+                        </TableCell>
                       </TableRow>
                     ))}
                 </TableBody>
