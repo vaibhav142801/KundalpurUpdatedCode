@@ -16,20 +16,8 @@ function App() {
         {opendashboard && <MainAdmin />}
         <MainRoutes />
         <AdminRoutes setopendashboard={setopendashboard} />
-        {!opendashboard && <Footer />}
-      </Router>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+        {!opendashboard && <Footer />}        
+      </Router>      
     </>
   );
 }

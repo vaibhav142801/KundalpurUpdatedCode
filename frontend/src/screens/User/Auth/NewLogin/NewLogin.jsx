@@ -1,12 +1,21 @@
 import { useState } from "react";
 import "./NewLogin.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../../assets/sideimg.jpeg";
 import OtpVerify from "./OtpVerify";
+import { useDispatch } from "react-redux";
+import {
+  LoginwithOtp,
+  VerifyOtp,
+} from "../../../../Redux/redux/action/AuthAction";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const VivekPLogin = () => {
   const [verify, setVerify] = useState(false);
   const [mobileNo, setMobileNo] = useState("");
+  const dispatch = useDispatch();
+  const navigation = useNavigate();
 
   const handleInputChange = (e) => {
     setMobileNo(e.target.value);
@@ -14,16 +23,46 @@ const VivekPLogin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(mobileNo);
-    // const { mobileNumber } = Object.fromEntries(new FormData(e.currentTarget));
 
-    // setVerify(true);
-    // setMobileNo(mobileNo);
+    if (!mobileNo) {
+      Swal.fire("Error!", "please enter mobile no.", "error");
+      return false;
+    }
+    if (mobileNo.length !== 10) {
+      Swal.fire("Error!", "please enter valid mobile no.", "error");
+      return false;
+    }
+    setVerify(true);
+    setMobileNo(mobileNo);
+    dispatch(
+      LoginwithOtp({ mobile_no: mobileNo }, (res) => {
+        if (res.status === 1) {
+          Swal.fire("Great!", res.msg, "success");
+          setVerify(true);
+          setMobileNo(mobileNo);
+        } else {
+          Swal.fire("Error!", res.message, "error");
+        }
+      })
+    );
   };
 
   const handleVerify = (otp) => {
-    setVerify(false);
-    setMobileNo(mobileNo);
+    dispatch(
+      VerifyOtp({ username: mobileNo, otp: otp }, (res) => {
+        console.log(res);
+        if (res) {
+          sessionStorage.setItem("token", res.tokens.access.token);
+          navigation("/");
+          Swal.fire("Great!", res.msg, "success");
+          setMobileNo("");
+        } else {
+          Swal.fire("Error!", res.message, "error");
+        }
+      })
+    );
+    // setVerify(false);
+    // setMobileNo(mobileNo);
   };
 
   const MoNumberInput = () => {

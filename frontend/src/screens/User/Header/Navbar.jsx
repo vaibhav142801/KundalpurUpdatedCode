@@ -31,13 +31,15 @@ const Navbar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   useEffect(() => {}, [isMobile, token]);
 
   const logout = () => {
     handleClose();
-    localStorage.removeItem("nowtoken");
+    sessionStorage.removeItem("token");
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
   return (
     <>
@@ -91,9 +93,7 @@ const Navbar = () => {
           </ListItemIcon>
           Room Booking History
         </MenuItem>
-
         <Divider />
-
         <MenuItem onClick={() => logout()}>
           <ListItemIcon>
             <Logout fontSize="small" />
@@ -143,7 +143,7 @@ const Navbar = () => {
             </NavLink>
           </li>
 
-          {localStorage.getItem("nowtoken") ? (
+          {sessionStorage.getItem("token") ? (
             <li>
               <div className={style.profilemaindivheader}>
                 <Box

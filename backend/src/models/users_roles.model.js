@@ -10,7 +10,7 @@ const sequelize = require('../db/db-connection')
             allowNull:false,
         }, 
         user_id: {
-            type: Sequelize.STRING(100),     
+            type: Sequelize.INTEGER(100),     
             trim: true,
         },
         role_id: {

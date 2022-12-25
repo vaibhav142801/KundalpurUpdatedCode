@@ -2,7 +2,7 @@ import { backendApiUrl } from "../config/config";
 
 let token = "";
 if (sessionStorage.getItem("token")) {
-  token = JSON.parse(sessionStorage.getItem("token")).access.token;
+  token = sessionStorage.getItem("token");
 }
 let headers = {
   "Content-Type": "application/json",

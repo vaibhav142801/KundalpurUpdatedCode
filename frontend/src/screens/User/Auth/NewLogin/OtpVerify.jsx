@@ -37,9 +37,9 @@ const OtpVerify = ({ title, description, mobileNo, handleVerify }) => {
           </div>
 
           <div className="verify-btn-container">
-            <Link to="/" type="submit" className="verify-btn">
+            <button type="submit" className="verify-btn">
               Verify
-            </Link>
+            </button>
           </div>
         </form>
       </div>

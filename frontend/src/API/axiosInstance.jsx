@@ -6,7 +6,7 @@ var token = "";
 
 const gettoken = () => {
   if (sessionStorage.getItem("token")) {
-    token = JSON.parse(sessionStorage.getItem("token")).access.token;
+    token = sessionStorage.getItem("token");
   }
   return;
 };
