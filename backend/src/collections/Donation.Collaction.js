@@ -25,6 +25,7 @@ class DonationCollaction {
       NAME,RECEIPT_NO,MODE_OF_DONATION:donationType,AMOUNT,CHEQUE_NO,DATE_OF_CHEQUE,NAME_OF_BANK,PAYMENT_ID,DATE_OF_DAAN,ADDED_BY:userId
     });
     if(!result){
+      
       return null;
     }
     return true;
