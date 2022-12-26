@@ -150,25 +150,25 @@ function Donation() {
                         style={{ marginTop: "10px" }}
                       >
                         <div className="btn-recharge-div">
-                          <button onClick={() => setamount("1100")}>
-                            ₹1100
+                          <button onClick={() => setamount("1111")}>
+                            ₹1111
                           </button>
-                          <button onClick={() => setamount("2100")}>
-                            ₹2100
+                          <button onClick={() => setamount("2121")}>
+                            ₹2121
                           </button>
-                          <button onClick={() => setamount("5100")}>
-                            ₹5100
+                          <button onClick={() => setamount("5151")}>
+                            ₹5151
                           </button>
                         </div>
                         <div className="btn-recharge-div">
-                          <button onClick={() => setamount("11000")}>
-                            ₹11,000
+                          <button onClick={() => setamount("11111")}>
+                            ₹11,111
                           </button>
-                          <button onClick={() => setamount("21000")}>
-                            ₹21,000
+                          <button onClick={() => setamount("21211")}>
+                            ₹21,211
                           </button>
-                          <button onClick={() => setamount("51000")}>
-                            ₹51,000
+                          <button onClick={() => setamount("51511")}>
+                            ₹51,511
                           </button>
                         </div>
                       </div>
@@ -243,23 +243,25 @@ function Donation() {
                         style={{ marginTop: "10px" }}
                       >
                         <div className="btn-recharge-div">
-                          <button onClick={() => setamount("65")}>₹1100</button>
-                          <button onClick={() => setamount("300")}>
-                            ₹2100
+                          <button onClick={() => setamount("1111")}>
+                            ₹1111
                           </button>
-                          <button onClick={() => setamount("500")}>
-                            ₹5100
+                          <button onClick={() => setamount("2121")}>
+                            ₹2121
+                          </button>
+                          <button onClick={() => setamount("5151")}>
+                            ₹5151
                           </button>
                         </div>
                         <div className="btn-recharge-div">
-                          <button onClick={() => setamount("3500")}>
-                            ₹11,000
+                          <button onClick={() => setamount("11111")}>
+                            ₹11,111
                           </button>
-                          <button onClick={() => setamount("10000")}>
-                            ₹21,000
+                          <button onClick={() => setamount("21211")}>
+                            ₹21,211
                           </button>
-                          <button onClick={() => setamount("50000")}>
-                            ₹51,000
+                          <button onClick={() => setamount("51511")}>
+                            ₹51,511
                           </button>
                         </div>
                       </div>

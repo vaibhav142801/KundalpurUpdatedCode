@@ -6,78 +6,20 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import TableFooter from "@mui/material/TableFooter";
+import TablePagination from "@mui/material/TablePagination";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import moment from "moment";
 
-function createData(name, calories, fat, carbs, protein, down) {
-  return { name, calories, fat, carbs, protein, down };
-}
-
-const rows = [
-  createData(
-    "20-12-2022",
-    "Pranay Shukla",
-    "pranayshukla@gmail.com",
-    "abcd efgh ijkl mnop qrst uvwxyz",
-    "₹5100",
-    "Download"
-  ),
-  createData(
-    "20-12-2022",
-    "Pranay Shukla",
-    "pranayshukla@gmail.com",
-    "abcd efgh ijkl mnop qrst uvwxyz",
-    "₹5100",
-    "Download"
-  ),
-  createData(
-    "20-12-2022",
-    "Pranay Shukla",
-    "pranayshukla@gmail.com",
-    "abcd efgh ijkl mnop qrst uvwxyz",
-    "₹5100",
-    "Download"
-  ),
-  createData(
-    "20-12-2022",
-    "Pranay Shukla",
-    "pranayshukla@gmail.com",
-    "abcd efgh ijkl mnop qrst uvwxyz",
-    "₹5100",
-    "Download"
-  ),
-  createData(
-    "20-12-2022",
-    "Pranay Shukla",
-    "pranayshukla@gmail.com",
-    "abcd efgh ijkl mnop qrst uvwxyz",
-    "₹5100",
-    "Download"
-  ),
-  createData(
-    "20-12-2022",
-    "Pranay Shukla",
-    "pranayshukla@gmail.com",
-    "abcd efgh ijkl mnop qrst uvwxyz",
-    "₹5100",
-    "Download"
-  ),
-  createData(
-    "20-12-2022",
-    "Pranay Shukla",
-    "pranayshukla@gmail.com",
-    "abcd efgh ijkl mnop qrst uvwxyz",
-    "₹5100",
-    "Download"
-  ),
-];
 import "./DonationHistory.css";
 import { useNavigate } from "react-router-dom";
 import { User_AllDonation } from "../../../Redux/redux/action/AuthAction";
 import { serverInstance } from "../../../API/ServerInstance";
 function DonationHistory() {
   const [isrow, setisrow] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const dispatch = useDispatch();
   const navigation = useNavigate();
 
@@ -107,6 +49,15 @@ function DonationHistory() {
     });
   };
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
     <>
       <div className="DonationHistory-main-div">
@@ -116,6 +67,7 @@ function DonationHistory() {
               <h2>DONATIONS</h2>
               <p>All Donations History</p>
             </div>
+
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead style={{ background: "#FFEEE0" }}>
@@ -132,44 +84,77 @@ function DonationHistory() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {isrow.length !== 0 &&
-                    isrow.map((row, index) => (
-                      <TableRow
-                        key={index}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
+                  {(rowsPerPage > 0
+                    ? isrow.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                    : isrow
+                  ).map((row, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell align="left">
+                        {moment(row?.DATE_OF_DAAN).format("DD/MM/YYYY")}
+                      </TableCell>
+                      <TableCell align="left">{row.NAME}</TableCell>
+                      <TableCell align="left">{row.MODE_OF_DONATION}</TableCell>
+                      <TableCell align="left">{row.AMOUNT}</TableCell>
+                      <TableCell align="left">
+                        {row.CHEQUE_NO ? row.CHEQUE_NO : "-"}
+                      </TableCell>
+                      <TableCell align="left">
+                        {row.DATE_OF_CHEQUE ? row.DATE_OF_CHEQUE : "-"}
+                      </TableCell>
+                      <TableCell align="left">
+                        {row.NAME_OF_BANK ? row.NAME_OF_BANK : "-"}
+                      </TableCell>
+                      <TableCell align="left">{row.PAYMENT_ID}</TableCell>
+                      <TableCell
+                        align="left"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          downloadrecept(row);
                         }}
                       >
-                        <TableCell align="left">
-                          {moment(row?.DATE_OF_DAAN).format("DD/MM/YYYY")}
-                        </TableCell>
-                        <TableCell align="left">{row.NAME}</TableCell>
-                        <TableCell align="left">
-                          {row.MODE_OF_DONATION}
-                        </TableCell>
-                        <TableCell align="left">{row.AMOUNT}</TableCell>
-                        <TableCell align="left">
-                          {row.CHEQUE_NO ? row.CHEQUE_NO : "-"}
-                        </TableCell>
-                        <TableCell align="left">
-                          {row.DATE_OF_CHEQUE ? row.DATE_OF_CHEQUE : "-"}
-                        </TableCell>
-                        <TableCell align="left">
-                          {row.NAME_OF_BANK ? row.NAME_OF_BANK : "-"}
-                        </TableCell>
-                        <TableCell align="left">{row.PAYMENT_ID}</TableCell>
-                        <TableCell
-                          align="left"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => {
-                            downloadrecept(row);
-                          }}
-                        >
-                          downolod
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                        downolod
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TablePagination
+                      count={isrow.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                      rowsPerPageOptions={[5, 10, 25]}
+                      labelRowsPerPage={<span>Rows:</span>}
+                      labelDisplayedRows={({ page }) => {
+                        return `Page: ${page}`;
+                      }}
+                      backIconButtonProps={{
+                        color: "secondary",
+                      }}
+                      nextIconButtonProps={{ color: "secondary" }}
+                      SelectProps={{
+                        inputProps: {
+                          "aria-label": "page number",
+                        },
+                      }}
+                      // showFirstButton={true}
+                      // showLastButton={true}
+                      //ActionsComponent={TablePaginationActions}
+                      //component={Box}
+                      //sx and classes prop discussed in styling section
+                    />
+                  </TableRow>
+                </TableFooter>
               </Table>
             </TableContainer>
           </div>
