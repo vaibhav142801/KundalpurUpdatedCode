@@ -60,7 +60,7 @@ const mobileLogin = async (body) => {
  * @returns {Promise<User>}
  */
 const loginuser = async (identity, password) => {
-  const user = await AuthCollaction.getUserName(identity);
+  const user = await AuthCollaction.getUserDetails(identity);
   if (!user || !(await AuthCollaction.isPasswordMatch(password, user.password))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect username or password");
   }
@@ -79,10 +79,9 @@ const verifyOTP = async (username, otp) => {
   const isOTPMatch = await AuthCollaction.isOTPMatch(username, otp);
   if (!isOTPMatch) {
     throw new ApiError(httpStatus.NOT_ACCEPTABLE, "OTP mismatch.");
-  } else {
-    const user = await AuthCollaction.getUserName(username);
-    return user;
   }
+  const user = await AuthCollaction.getUserDetails(username);
+  return user;
 };
 
 const forgotPass = async (body) => {

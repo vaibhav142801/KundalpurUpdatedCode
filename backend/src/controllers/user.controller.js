@@ -54,6 +54,8 @@ const loginWithEmail = catchAsync(async (req, res) => {
       name: data.name,
       email: data.email,
       gender: data.gender,
+      role:data.role_name,
+      role_id:data.role_id
     },
     tokens,
   });
@@ -65,6 +67,7 @@ const verifyOTP = catchAsync(async (req, res) => {
   if (!data) {
     throw new ApiError(httpStatus.NOT_FOUND, "!somthing Went Wrong");
   }
+  console.log(data);
   const tokens = await generateAuthTokens(data);
   res.status(200).send({
     user: {
@@ -73,6 +76,8 @@ const verifyOTP = catchAsync(async (req, res) => {
       name: data.name,
       email: data.email,
       gender: data.gender,
+      role:data.role_name,
+      role_id:data.role_id
     },
     tokens,
   });

@@ -1,5 +1,6 @@
 const db = require("../models");
-const { Op } = require("sequelize");
+const { Op,QueryTypes } = require("sequelize");
+const sequelize = require('../db/db-connection');
 const TblUser = db.userModel;
 const TblUsersRoles = db.usersRolesModel;
 const TblOTP = db.otpModel;
@@ -30,6 +31,21 @@ class UserCollaction {
     return result;
   };
 
+  getUserDetails = async(identity) => {
+    const query = await sequelize.query(`SELECT u.id,u.username,u.name,u.email,u.password,u.gender,r.role_name,r.id role_id FROM tbl_users u 
+    JOIN tbl_users_roles ur ON u.id = ur.user_id
+    JOIN tbl_roles r ON r.id = ur.role_id
+    where (u.username = '${identity}' OR mobileNo = '${identity}' OR email = '${identity}') `,
+    {
+      nest: true,
+      type: QueryTypes.SELECT,
+    }
+    );
+    console.log(query);
+    return query[0]
+   
+  }
+   
   getUserName = async (username) => {
     const query = await TblUser.findOne({
       where: {

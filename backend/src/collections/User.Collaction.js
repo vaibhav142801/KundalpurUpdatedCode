@@ -38,6 +38,7 @@ class UserCollaction {
     let password = 'abcd@1029';
     const salt = bcrypt.genSaltSync(12);
     const hashencrypt = bcrypt.hashSync(password, salt);
+    
     const addNew = await TblUser.create({
       username: body.mobile_no,
       mobileNo: body.mobile_no,
@@ -53,8 +54,9 @@ class UserCollaction {
         return res.id;
       })
       .catch((err) => {
-        return 0;
+        return null;
       });
+
     return addNew;
   };
 
