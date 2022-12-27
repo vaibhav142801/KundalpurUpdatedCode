@@ -40,33 +40,11 @@ const Sidebar = ({ setshowsidebar }) => {
             </li>
 
             <li className="nav-item">
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? "active-nav-link" : "nav-link-no-dropdown"
-                }
-                to="/admin-panel/master"
-              >
-                <span className="linkspan"> Masters</span>
-              </NavLink>
-            </li>
-
-            <li className="nav-item">
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? "active-nav-link" : "nav-link-no-dropdown"
-                }
-                to="/admin-panel/roombooking"
-              >
-                <span className="linkspan"> Room Booking</span>
-              </NavLink>
-            </li>
-            
-            {/* <li className="nav-item">
               <div
                 className="nav-link"
                 onClick={() => setshowdropdownmenu3(!showdropdownmenu3)}
               >
-                Manual Donation
+                Masters
                 {showdropdownmenu3 ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </div>
             </li>
@@ -77,12 +55,32 @@ const Sidebar = ({ setshowsidebar }) => {
                   className={({ isActive }) =>
                     isActive ? "active-nav-link" : "nav-link"
                   }
-                  to="/ALLDonations"
+                  to="/admin-panel/master"
                 >
-                  ALL Donations
+                  Master
                 </NavLink>
               </li>
-            </div> */}
+              <li className="nav-item">
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "active-nav-link" : "nav-link"
+                  }
+                  to="/ALLDonations"
+                >
+                  Others Master
+                </NavLink>
+              </li>
+            </div>
+            <li className="nav-item">
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? "active-nav-link" : "nav-link-no-dropdown"
+                }
+                to="/admin-panel/roombooking"
+              >
+                <span className="linkspan">Room Booking</span>
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </div>

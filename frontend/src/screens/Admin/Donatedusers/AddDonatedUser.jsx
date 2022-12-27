@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { serverInstance } from "../../../API/ServerInstance";
 import badebaba from "../../../assets/badebaba.jpg";
 import { displayRazorpay } from "../../../RazorPay/RazorPay";
-import "./Donation.css";
 
-function Donation() {
+function AddDonatedUser() {
   const initialstate = {
     name: "",
     chequeno: "",
@@ -93,13 +92,13 @@ function Donation() {
   return (
     <>
       <div className="supper-main-div">
-        <div className="donation-top-img">
+        {/* <div className="donation-top-img">
           <img src={badebaba} alt="badebaba" />
           <div className="donation-top-img-overlay">Donation</div>
-        </div>
+        </div> */}
 
         <div className="supper-inear-main-div">
-          <div className="main-form-div">
+          <div className="main-form-div" style={{ width: "67%" }}>
             <h2>Add Donation</h2>
 
             <div className="main-input-div">
@@ -185,10 +184,7 @@ function Donation() {
                           }
                         />
                       </div>
-                      <div
-                        className="inner-input-div"
-                        style={{ marginTop: "1rem" }}
-                      >
+                      <div className="inner-input-div">
                         <label>Type of donation </label>
                         <select
                           id="type"
@@ -307,9 +303,7 @@ function Donation() {
                             onChangeText("remark", e.target.value)
                           }
                         />
-                        <label style={{ marginTop: "1rem" }}>
-                          Type of donation 
-                        </label>
+                        <label>Type of donation </label>
                         <select
                           id="type"
                           name="mode"
@@ -349,4 +343,4 @@ function Donation() {
   );
 }
 
-export default Donation;
+export default AddDonatedUser;
