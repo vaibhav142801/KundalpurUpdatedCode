@@ -1,4 +1,5 @@
-const { Op, where } = require("sequelize");
+const { Op,QueryTypes } = require("sequelize");
+const sequelize = require('../db/db-connection');
 const db = require("../models");
 const bcrypt = require("bcryptjs");
 const uploadimage = require("../middlewares/imageupload");
@@ -143,6 +144,46 @@ class UserCollaction {
       attributes:['id','username','mobileNo','email','name','dob','anniversary_date','address','gender','profile_image']
     });
     return user;
+  }
+
+  checkMobile = async (mobile)=>{
+    const query = await sequelize.query(`SELECT * FROM tbl_users WHERE mobileNo = '${mobile}' `,
+    {
+      nest: true,
+      type: QueryTypes.SELECT,
+    }
+    );
+    return query
+  }
+  
+  checkEmail = async (email)=>{
+    console.log(email);
+    const query = await sequelize.query(`SELECT * FROM tbl_users WHERE email = '${email}' `,
+    {
+      nest: true,
+      type: QueryTypes.SELECT,
+    }
+    );
+    return query
+  }
+  
+  createAccount = async (req)=>{
+    const {fullname,mobileno,email,password} = req.body;
+
+    const salt = bcrypt.genSaltSync(12);
+    const hashencrypt = bcrypt.hashSync(password, salt);
+   
+    const query = await TblUser.create({
+      username:mobileno,mobileNo:mobileno,name:fullname,email,password: hashencrypt
+    });
+    if(query){
+      const addRole = await TblUsersRoles.create({
+        user_id: query.id,
+        role_id: 2,
+      });
+      return query;
+    }
+    return null;
   }
 }
 

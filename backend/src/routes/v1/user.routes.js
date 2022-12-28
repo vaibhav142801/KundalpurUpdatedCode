@@ -12,8 +12,12 @@ router.route('/verify-opt').post(userController.verifyOTP);
 router.route('/forgot-password-first').post(validate(userValidation.forgotPass),userController.forgotPassword);
 router.route('/forgot-password-second').post(validate(userValidation.forgotPassSecond),userController.forgotPasswordSecond);
 router.route('/forgot-password-third').post(validate(userValidation.forgotPassThird),userController.forgotPasswordThird);
+
+router.route('/create-account').get(userController.createAccount);
+
 router.route('/profile-list').get(auth(),userController.profileList);
 router.route('/update-profile').post(auth(),userController.updateProfile);
+
 router.route('/item-list').get(auth(),donationController.itemList);
 router.route('/add-cash-donation').post(auth(),donationController.addCashDonation);
 router.route('/add-donation').post(auth(),donationController.addNewDonation);

@@ -142,6 +142,22 @@ const profileList = async(req)=>{
   return list;
 }
 
+const createAccount = async(req)=>{
+  //-----check mobile exist or not ------
+  const mobile = await UserCollection.checkMobile(req.body.mobileno);
+  console.log(mobile);
+  if(mobile.length > 0){
+    throw new ApiError(httpStatus.UNAUTHORIZED, "Mobile number already exist.");
+  }
+  const email = await UserCollection.checkEmail(req.body.email);
+  if(email.length > 0){
+    throw new ApiError(httpStatus.UNAUTHORIZED, "Email already exist.");
+  }
+  //-----check email exist or not ------
+  const create = await  UserCollection.createAccount(req);
+  return create;
+}
+
 module.exports = {
   createuser,
   loginuser,
@@ -152,5 +168,6 @@ module.exports = {
   forgotPassSecond,
   forgotPasswordThird,
   profileUpdate,
-  profileList
+  profileList,
+  createAccount
 };

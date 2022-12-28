@@ -137,6 +137,17 @@ const profileList = catchAsync(async(req,res)=>{
   })
 })
 
+const createAccount = catchAsync(async(req,res)=>{
+  const create = await userService.createAccount(req);
+  if(!create){
+    throw new ApiError(httpStatus.NOT_FOUND, "Something wrong!");
+  }
+  res.status(200).send({
+    status:true,
+    msg:'Account created successfully.' 
+  })
+})
+
 module.exports = {
   createUser,
   login,
@@ -147,5 +158,6 @@ module.exports = {
   forgotPasswordSecond,
   forgotPasswordThird,
   updateProfile,
-  profileList
+  profileList,
+  createAccount
 };
