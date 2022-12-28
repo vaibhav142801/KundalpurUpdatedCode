@@ -50,7 +50,7 @@ const VivekPLogin = () => {
         console.log(res);
         if (res) {
           sessionStorage.setItem("token", res.tokens.access.token);
-          navigation("/");
+          navigation("/donation");
           Swal.fire("Great!", res.msg, "success");
           setMobileNo("");
           window.location.reload();
@@ -59,8 +59,6 @@ const VivekPLogin = () => {
         }
       })
     );
-    // setVerify(false);
-    // setMobileNo(mobileNo);
   };
 
   const MoNumberInput = () => {
@@ -82,7 +80,7 @@ const VivekPLogin = () => {
           </div>
 
           <div className="input-group">
-            <label htmlFor="mobileNo">Email</label>
+            <label htmlFor="mobileNo">Phone</label>
             <input
               required
               type="text"
