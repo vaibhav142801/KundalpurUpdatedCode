@@ -1,13 +1,11 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import CashDonation from "../screens/Admin/cashDonation/AddCashDonation";
-
 import Dashboard from "../screens/Admin/Dashboard/Dashboard";
-
 import MasterTap from "../screens/Admin/masters/MasterTap";
 import DonatedUsers from "../screens/Admin/Donatedusers/DonatedUsers";
 import RoomBooking from "../screens/Admin/RoomBooking/RoomBooking";
-
+import Donation from "../screens/Admin/Donation/Donation/Donation";
+import AllDonationTap from "../screens/Admin/Donation/Alldonations/AllDonationTap";
 function AdminRoutes({ setopendashboard }) {
   return (
     <>
@@ -28,9 +26,14 @@ function AdminRoutes({ setopendashboard }) {
           path="/admin-panel/roombooking"
           element={<RoomBooking setopendashboard={setopendashboard} />}
         />
+
         <Route
-          path="/admin-panel/cashdonation"
-          element={<CashDonation setopendashboard={setopendashboard} />}
+          path="/admin-panel/alldonation"
+          element={<AllDonationTap setopendashboard={setopendashboard} />}
+        />
+        <Route
+          path="/admin-panel/donation"
+          element={<Donation setopendashboard={setopendashboard} />}
         />
       </Routes>
     </>

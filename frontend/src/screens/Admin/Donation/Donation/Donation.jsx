@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import "./DonatedUsers.css";
-import { serverInstance } from "../../../API/ServerInstance";
+import { serverInstance } from "../../../../API/ServerInstance";
 import Swal from "sweetalert2";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +18,8 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import CloseIcon from "@mui/icons-material/Close";
-import AddDonatedUser from "./AddDonatedUser";
+import AddDonatedUser from "../../Donatedusers/AddDonatedUser";
+import CashDonation from "./ElectronicDonation/ElectronicDonation";
 const style = {
   position: "absolute",
   top: "45%",
@@ -30,7 +30,7 @@ const style = {
   p: 2,
   boxShadow: 24,
 };
-const DonatedUsers = ({ setopendashboard }) => {
+const Donation = ({ setopendashboard }) => {
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -84,19 +84,11 @@ const DonatedUsers = ({ setopendashboard }) => {
           <Box sx={style}>
             <div>
               <div className="add-div-close-div">
-                <h2>Add Donated User</h2>
+                <h2> Add Electronic Donation</h2>
                 <CloseIcon onClick={() => handleClose()} />
               </div>
-              <div className="scrollbarrrr">
-                <AddDonatedUser />
-              </div>
 
-              <div className="save-div-btn">
-                <button className="save-btn1">Add Donation</button>
-                <button onClick={() => handleClose()} className="calcel-btn">
-                  Cancel
-                </button>
-              </div>
+              <CashDonation setOpen={setOpen} />
             </div>
           </Box>
         </Fade>
@@ -230,4 +222,4 @@ const DonatedUsers = ({ setopendashboard }) => {
   );
 };
 
-export default DonatedUsers;
+export default Donation;

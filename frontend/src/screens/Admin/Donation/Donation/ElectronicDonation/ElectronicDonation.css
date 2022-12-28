@@ -1,0 +1,157 @@
+.cash-donation-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cash-donation-container {
+  width: 97%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  place-items: center;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  /* padding-left: 1rem; */
+  /* padding-right: 1rem; */
+
+  line-height: 21px;
+}
+.cash-donation-container h2 {
+  margin-top: 12px;
+  margin-bottom: 14px;
+  color: black;
+  font-weight: 500;
+  margin-left: 2px;
+}
+.cash-donation-container-innser {
+  width: 100%;
+
+  flex-wrap: wrap;
+  place-items: center;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  line-height: 21px;
+}
+
+.cash-donation-container-innser h2 {
+  text-align: center;
+  color: #e96d00;
+}
+
+.form-input-div {
+  display: flex;
+
+  align-items: center;
+}
+
+.forminput {
+  height: 29px;
+  width: 214px;
+  padding-left: 6px;
+  border-radius: 5px;
+  border: 1px solid black;
+  margin-top: 11px;
+  margin-bottom: 12px;
+}
+
+.forminput:focus {
+  outline: none;
+}
+.table-cash-donation {
+  width: 100%;
+}
+.table-cash-donation,
+th,
+td {
+  border-collapse: collapse;
+  text-align: center;
+
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.forminput1 {
+  height: 42px;
+  width: 333px;
+  padding-left: 6px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.forminput1:focus {
+  outline: none;
+}
+.phone-div-input {
+  padding-bottom: 51px;
+}
+
+.receipt-div-input {
+  padding-bottom: 74px;
+}
+
+.add-btn-cash {
+  background: #22c322;
+  border: none;
+  color: white;
+  height: 31px;
+  width: 151px;
+  border-radius: 5px;
+  font-weight: 600;
+  margin-top: 20px;
+}
+.inner-input-div2 {
+  display: flex;
+  flex-direction: column;
+  margin-right: 2rem;
+}
+
+.inner-input-div1 input {
+  height: 42px;
+  width: 333px;
+  padding-left: 6px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.inner-input-div1 select {
+  height: 42px;
+  width: 333px;
+  padding-left: 6px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+.inner-input-div1 select:focus {
+  outline: none;
+}
+.inner-input-div1 input:focus {
+  outline: none;
+}
+.inner-input-div1 label {
+  font-family: "Imprima";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 29px;
+  color: #827b7b;
+  margin-bottom: 1rem;
+}
+.bottom_input_div {
+  display: flex;
+  justify-content: space-between;
+}
+.save-btn1 {
+  border: none;
+  background: #e96d00;
+  color: white;
+  height: 29px;
+  border-radius: 5px;
+  margin-right: 16px;
+  font-size: 16px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}

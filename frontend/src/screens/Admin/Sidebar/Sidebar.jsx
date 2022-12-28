@@ -29,6 +29,38 @@ const Sidebar = ({ setshowsidebar }) => {
               </NavLink>
             </li>
             <li className="nav-item">
+              <div
+                className="nav-link"
+                onClick={() => setshowdropdownmenu3(!showdropdownmenu3)}
+              >
+                Donation
+                {showdropdownmenu3 ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              </div>
+            </li>
+
+            <div className={showdropdownmenu3 ? "showmenu" : "hidemenu"}>
+              <li className="nav-item">
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "active-nav-link" : "nav-link"
+                  }
+                  to="/admin-panel/alldonation"
+                >
+                  Reports
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "active-nav-link" : "nav-link"
+                  }
+                  to="/admin-panel/donation"
+                >
+                  Electronic Donation
+                </NavLink>
+              </li>
+            </div>
+            <li className="nav-item">
               <NavLink
                 className={({ isActive }) =>
                   isActive ? "active-nav-link" : "nav-link-no-dropdown"
