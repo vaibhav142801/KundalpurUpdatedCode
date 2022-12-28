@@ -1,5 +1,15 @@
 import { toast } from "react-toastify";
 import { serverInstance } from "../../../API/ServerInstance";
+import axios from "axios";
+import {
+  AUTH_LOGIN,
+  AUTH_SIGNUP,
+  LOADING,
+  USER_ALLDONATION,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAIL,
+  UPDATE_PROFILE_REQUEST,
+} from "../constants/action";
 
 export const LoginwithOtp = (data, response) => {
   serverInstance("user/login-with-mobile", "POST", data).then((res) => {
@@ -29,4 +39,36 @@ export const User_AllDonation = (data, response) => {
       alert(res.message);
     }
   });
+};
+
+// Update profile
+export const updateProfile = (userData) => async (dispatch) => {
+  try {
+    axios.defaults.headers.post[
+      "Authorization"
+    ] = `Bearer ${sessionStorage.getItem("token")}`;
+    dispatch({ type: UPDATE_PROFILE_REQUEST });
+
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+
+    const { data } = await axios.post(
+      `http://localhost:4543/api/user/update-profile`,
+      userData,
+      config
+    );
+
+    dispatch({
+      type: UPDATE_PROFILE_SUCCESS,
+      payload: data.status,
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PROFILE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
 };

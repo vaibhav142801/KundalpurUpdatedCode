@@ -19,6 +19,7 @@ export default function (state = initialState, action) {
         ...state,
         loading: action.payload,
       };
+
     case AUTH_LOGIN:
       return {
         ...state,

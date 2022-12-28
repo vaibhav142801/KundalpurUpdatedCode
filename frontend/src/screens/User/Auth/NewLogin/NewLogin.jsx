@@ -14,12 +14,9 @@ import Swal from "sweetalert2";
 const VivekPLogin = () => {
   const [verify, setVerify] = useState(false);
   const [mobileNo, setMobileNo] = useState("");
+
   const dispatch = useDispatch();
   const navigation = useNavigate();
-
-  const handleInputChange = (e) => {
-    setMobileNo(e.target.value);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -85,15 +82,15 @@ const VivekPLogin = () => {
           </div>
 
           <div className="input-group">
-            <label htmlFor="tel">Phone Number</label>
+            <label htmlFor="mobileNo">Email</label>
             <input
               required
-              name="mobileNumber"
-              type="tel"
-              id="mobileNumber"
+              type="text"
+              id="mobileNo"
+              name="mobileNo"
+              placeholder="enter mobileNo"
               value={mobileNo}
-              onChange={handleInputChange}
-              placeholder="enter phone number"
+              onChange={(e) => setMobileNo(e.target.value)}
             />
           </div>
 
@@ -103,7 +100,7 @@ const VivekPLogin = () => {
             </button>
           </div>
 
-          <span className="newusertag">New to Quality Cricket</span>
+          <span className="newusertag">New to kundalpur</span>
           <Link to="/register" className="creatbtn">
             Create Account
           </Link>
