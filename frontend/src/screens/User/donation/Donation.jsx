@@ -3,9 +3,22 @@ import { serverInstance } from "../../../API/ServerInstance";
 import badebaba from "../../../assets/badebaba.jpg";
 import { displayRazorpay } from "../../../RazorPay/RazorPay";
 import PaymentSuccessfull from "../PaymentSuccessfull/PaymentSuccessfull";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
 import Swal from "sweetalert2";
 import "./Donation.css";
+const style = {
+  position: "absolute",
+  top: "40%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  borderRadius: "12px",
+  bgcolor: "background.paper",
 
+  boxShadow: 24,
+  p: 2,
+};
 function Donation() {
   const initialstate = {
     name: "",
@@ -21,7 +34,10 @@ function Donation() {
   const [amount, setamount] = useState("");
   const [donationtype, setdonationtype] = useState("");
   const [donationf, setdonationf] = useState("");
-  const modes = ["Please Select donation Mode", "Online", "cheque"];
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const typesOfDonation = [
     "Please Select ",
     "बड़े बाबा मंदिर निर्माण दान (विशेष दान)",
@@ -56,6 +72,7 @@ function Donation() {
     "अग्रिम जमा",
     "अमानत जमा",
   ];
+
   const DonationFor = ["Please Select", "Self", "Someone"];
   const onChangeText = (name, value) => {
     setisFrom({ ...isFrom, [name]: value });
@@ -116,8 +133,7 @@ function Donation() {
           PAYMENT_ID: data.razorpay_order_id,
         }).then((res) => {
           if (res.status === true) {
-            Swal.fire("Great!", res.msg, "success");
-            setshowPaymentSuccess(true);
+            handleOpen();
           } else {
             Swal.fire("Error!", "Somthing went wrong!!", "error");
           }
@@ -130,6 +146,24 @@ function Donation() {
 
   return (
     <>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <PaymentSuccessfull
+              handleClose={handleClose}
+              name={isFrom.name}
+              amount={amount}
+              recieptno={"1"}
+            />
+          </Box>
+        </Fade>
+      </Modal>
       {showPaymentSuccess ? (
         <>
           <PaymentSuccessfull />
@@ -144,42 +178,52 @@ function Donation() {
 
             <div className="supper-inear-main-div">
               <div className="main-form-div">
-                <h2>Add Donation</h2>
-
+                <h2>Donate</h2>
+                <div className="main-input-div">
+                  <div className="inner-checkbox-div">
+                    Donation For : <input type="radio" /> Self{" "}
+                    <input type="radio" /> Someone
+                  </div>
+                  <div className="inner-checkbox-div">
+                    Mode :{" "}
+                    <input
+                      type="radio"
+                      value="Onilne"
+                      name="mode"
+                      onChange={(e) => setmode(e.target.value)}
+                    />{" "}
+                    Onilne{" "}
+                    <input
+                      type="radio"
+                      value="Cheque"
+                      name="mode"
+                      onChange={(e) => setmode(e.target.value)}
+                    />{" "}
+                    Cheque
+                  </div>
+                </div>
                 <div className="main-input-div">
                   <div className="inner-input-div">
                     <label>Name</label>
                     <input
                       type="text"
                       name="name"
+                      placeholder="Enter Name"
                       onChange={(e) => onChangeText("name", e.target.value)}
                     />
                     <p style={{ color: "red", marginTop: "5px" }}>
                       {isError?.name}
                     </p>
-                    <label htmlFor="donationtype">Donation For</label>
-                    <select
-                      id="donationtype"
-                      name="donationtype"
-                      value={donationtype}
-                      onChange={(e) => setdonationtype(e.target.value)}
-                    >
-                      {DonationFor.map((mode) => (
-                        <option key={mode} value={mode}>
-                          {mode}
-                        </option>
-                      ))}
-                    </select>
                   </div>
                   <div className="inner-input-div">
-                    <label for="type">Donation Mode</label>
+                    <label>Type of donation </label>
                     <select
                       id="type"
                       name="mode"
-                      value={mode}
-                      onChange={(e) => setmode(e.target.value)}
+                      value={donationtype}
+                      onChange={(e) => setdonationtype(e.target.value)}
                     >
-                      {modes.map((mode) => (
+                      {typesOfDonation.map((mode) => (
                         <option key={mode} value={mode}>
                           {mode}
                         </option>
@@ -187,7 +231,7 @@ function Donation() {
                     </select>
                   </div>
                 </div>
-                {mode === "Online" && (
+                {mode === "Onilne" && (
                   <>
                     <div>
                       <div className="main-input-div">
@@ -196,6 +240,7 @@ function Donation() {
                           <input
                             type="text"
                             value={amount}
+                            placeholder="Enter Amount"
                             onChange={(e) => setamount(e.target.value)}
                           />
 
@@ -237,28 +282,11 @@ function Donation() {
                             <input
                               type="text"
                               name="remark"
+                              placeholder="Enter Remark"
                               onChange={(e) =>
                                 onChangeText("remark", e.target.value)
                               }
                             />
-                          </div>
-                          <div
-                            className="inner-input-div"
-                            style={{ marginTop: "1rem" }}
-                          >
-                            <label>Type of donation </label>
-                            <select
-                              id="type"
-                              name="mode"
-                              value={donationtype}
-                              onChange={(e) => setdonationtype(e.target.value)}
-                            >
-                              {typesOfDonation.map((mode) => (
-                                <option key={mode} value={mode}>
-                                  {mode}
-                                </option>
-                              ))}
-                            </select>
                           </div>
                         </div>
                       </div>
@@ -271,7 +299,7 @@ function Donation() {
                     </div>
                   </>
                 )}
-                {mode === "cheque" && (
+                {mode === "Cheque" && (
                   <>
                     <div>
                       <div className="main-input-div">
@@ -280,6 +308,7 @@ function Donation() {
                           <input
                             type="text"
                             name="chequeno"
+                            placeholder="Enter Cheque No "
                             onChange={(e) =>
                               onChangeText("chequeno", e.target.value)
                             }
@@ -293,6 +322,7 @@ function Donation() {
                           <input
                             type="date"
                             name="date_of_sub"
+                            placeholder="Enter DOB"
                             onChange={(e) =>
                               onChangeText("date_of_sub", e.target.value)
                             }
@@ -309,6 +339,7 @@ function Donation() {
                           <input
                             type="text"
                             value={amount}
+                            placeholder="Enter Amount"
                             onChange={(e) => setamount(e.target.value)}
                           />
                           <p style={{ color: "red", marginTop: "5px" }}>
@@ -347,6 +378,7 @@ function Donation() {
                           <input
                             type="text"
                             name="name_of_bank"
+                            placeholder="Enter Bank Name"
                             onChange={(e) =>
                               onChangeText("name_of_bank", e.target.value)
                             }
@@ -360,25 +392,11 @@ function Donation() {
                             <input
                               type="text"
                               name="remark"
+                              placeholder="Enter Remark"
                               onChange={(e) =>
                                 onChangeText("remark", e.target.value)
                               }
                             />
-                            <label style={{ marginTop: "1rem" }}>
-                              Type of donation 
-                            </label>
-                            <select
-                              id="type"
-                              name="mode"
-                              value={donationtype}
-                              onChange={(e) => setdonationtype(e.target.value)}
-                            >
-                              {typesOfDonation.map((mode) => (
-                                <option key={mode} value={mode}>
-                                  {mode}
-                                </option>
-                              ))}
-                            </select>
                           </div>
                         </div>
                       </div>
@@ -393,7 +411,7 @@ function Donation() {
                           onClick={handlesubmit}
                           className="save-btn"
                         >
-                          Process to pay
+                          Submit
                         </button>
                       </div>
                     </div>

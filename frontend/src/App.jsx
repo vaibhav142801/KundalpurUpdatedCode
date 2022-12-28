@@ -9,15 +9,19 @@ import { toast, ToastContainer } from "react-toastify";
 
 function App() {
   const [opendashboard, setopendashboard] = useState(false);
+  const [showreciept, setshowreciept] = useState(false);
   return (
     <>
       <Router>
-        {!opendashboard && <Navbar />}
+        {!opendashboard && !showreciept ? <Navbar /> : ""}
         {opendashboard && <MainAdmin />}
-        <MainRoutes />
+        <MainRoutes
+          setopendashboard={setopendashboard}
+          setshowreciept={setshowreciept}
+        />
         <AdminRoutes setopendashboard={setopendashboard} />
-        {!opendashboard && <Footer />}        
-      </Router>      
+        {!opendashboard && !showreciept ? <Footer /> : ""}
+      </Router>
     </>
   );
 }
