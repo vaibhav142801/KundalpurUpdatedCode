@@ -6,6 +6,8 @@ import PaymentSuccessfull from "./PaymentSuccessfull/PaymentSuccessfull";
 import ChequeSuccessfull from "./chequeSuccessfull/ChequeSuccessfull";
 import { TypesOfDonation } from "./TypesOfDonation";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
@@ -44,6 +46,10 @@ function Donation() {
   const handleClose = () => setOpen(false);
   const handleOpen1 = () => setOpen1(true);
   const handleClose1 = () => setOpen1(false);
+
+  const { user } = useSelector((state) => state.userReducer);
+
+  console.log("user", user);
   const onChange = (e) => {
     setDonationdata({ ...donationdata, [e.target.name]: e.target.value });
   };

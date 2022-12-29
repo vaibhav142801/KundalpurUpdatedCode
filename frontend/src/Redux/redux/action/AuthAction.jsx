@@ -9,6 +9,9 @@ import {
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAIL,
   UPDATE_PROFILE_REQUEST,
+  LOAD_USER_REQUEST,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_FAIL,
 } from "../constants/action";
 
 export const LoginwithOtp = (data, response) => {
@@ -68,6 +71,35 @@ export const updateProfile = (userData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: UPDATE_PROFILE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//loader user
+export const loadUser = () => async (dispatch) => {
+  try {
+    axios.defaults.headers.get[
+      "Authorization"
+    ] = `Bearer ${sessionStorage.getItem("token")}`;
+    dispatch({ type: UPDATE_PROFILE_REQUEST });
+
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    const { data } = await axios.get(
+      `http://localhost:4543/api/user/profile-list`
+    );
+
+    dispatch({
+      type: LOAD_USER_SUCCESS,
+      payload: data.profile,
+    });
+  } catch (error) {
+    dispatch({
+      type: LOAD_USER_FAIL,
       payload: error.response.data.message,
     });
   }
