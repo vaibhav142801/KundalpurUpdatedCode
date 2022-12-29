@@ -82,7 +82,32 @@
   font-size: 14px;
   padding-left: 1rem;
 }
-
+.inner-input-div-input-red{
+  display: flex;
+  flex-direction: column;
+}
+.inner-input-div-input-red input {
+  width: 263px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid red;
+  border-radius: 5px;
+  font-size: 14px;
+  padding-left: 1rem;
+}
+.inner-input-div-select-red {
+  display: flex;
+  flex-direction: column;
+}
+.inner-input-div-select-red select {
+  width: 263px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid red;
+  border-radius: 5px;
+  font-size: 14px;
+  padding-left: 1rem;
+}
 .inner-input-div select {
   width: 263px;
   height: 40px;
@@ -130,7 +155,7 @@
 }
 .calcel-btn {
   border: none;
-  background: #d68a25;
+  background: #e96d00;
   color: white;
   width: 85px;
   height: 29px;

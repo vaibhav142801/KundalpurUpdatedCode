@@ -1,5 +1,5 @@
 import React from "react";
-import images from "../../../assets/images.png";
+import images from "../../../../assets/images.png";
 import { useNavigate } from "react-router-dom";
 import "./PaymentSuccessfull.css";
 function PaymentSuccessfull({ handleClose, name, amount, recieptno }) {
@@ -33,7 +33,7 @@ function PaymentSuccessfull({ handleClose, name, amount, recieptno }) {
             Go To Donation History
           </button>
           <button onClick={() => handleClose()} className="ok_btn">
-            !Ok
+            Ok
           </button>
         </div>
       </div>
