@@ -23,7 +23,7 @@ import CashDonation from "./ElectronicDonation/ElectronicDonation";
 import "./Donation.css";
 const style = {
   position: "absolute",
-  top: "45%",
+  top: "48%",
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "90%",

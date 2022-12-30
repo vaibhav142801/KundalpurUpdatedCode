@@ -56,21 +56,33 @@ const CashDonation = ({ setOpen }) => {
             <div className="form-input-div">
               <div className="inner-input-div2">
                 <label>Phone No:</label>
-                <input text="text" className="forminput" />
+                <input
+                  text="text"
+                  className="forminput"
+                  placeholder="Enter phone no"
+                />
                 <label>Donation Date:</label>
                 <input text="text" className="forminput" />
               </div>
 
               <div className="inner-input-div2">
                 <label>Name:</label>
-                <input text="text" className="forminput" />
+                <input
+                  text="text"
+                  className="forminput"
+                  placeholder="Full name"
+                />
                 <label>Donation Time:</label>
                 <input text="text" className="forminput" />
               </div>
               <div className="inner-input-div3">
                 <div className="inner-input-div2">
                   <label>Address:</label>
-                  <input text="text" className="forminput" />
+                  <input
+                    text="text"
+                    className="forminput"
+                    placeholder="Enter address"
+                  />
                 </div>
 
                 <div>
@@ -116,11 +128,19 @@ const CashDonation = ({ setOpen }) => {
                     </td>
                     <td>
                       {" "}
-                      <input text="text" className="forminput1" />
+                      <input
+                        text="text"
+                        className="forminput1"
+                        placeholder=" Amout"
+                      />
                     </td>
                     <td>
                       {" "}
-                      <input text="text" className="forminput1" />
+                      <input
+                        text="text"
+                        className="forminput1"
+                        placeholder=" Remark"
+                      />
                     </td>
                     <td style={{ width: "8rem" }}></td>
                   </tr>
@@ -174,18 +194,19 @@ const CashDonation = ({ setOpen }) => {
                   </tr>
                 </tfoot>
               </table>
+              <button
+                onClick={() => {
+                  setNoOfRows({ id: noOfRows.id + 1 });
+                  rowsData.push(noOfRows);
+                  // setRowsData(noOfRows);
+                }}
+                className="add_itrm_btn"
+              >
+                Add Dontion Item
+              </button>
             </div>
           </div>
-          <button
-            onClick={() => {
-              setNoOfRows({ id: noOfRows.id + 1 });
-              rowsData.push(noOfRows);
-              // setRowsData(noOfRows);
-            }}
-            className="add_itrm_btn"
-          >
-            Add Dontion Item
-          </button>
+
           <div className="save-div-btn">
             <button className="save-btn1">Save</button>
             <button onClick={() => setOpen(false)} className="calcel-btn1">
