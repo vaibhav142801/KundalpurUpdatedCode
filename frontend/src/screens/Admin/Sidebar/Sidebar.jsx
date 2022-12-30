@@ -31,14 +31,14 @@ const Sidebar = ({ setshowsidebar }) => {
             <li className="nav-item">
               <div
                 className="nav-link"
-                onClick={() => setshowdropdownmenu3(!showdropdownmenu3)}
+                onClick={() => setshowdropdownmenu2(!showdropdownmenu2)}
               >
                 Donation
-                {showdropdownmenu3 ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                {showdropdownmenu2 ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </div>
             </li>
 
-            <div className={showdropdownmenu3 ? "showmenu" : "hidemenu"}>
+            <div className={showdropdownmenu2 ? "showmenu" : "hidemenu"}>
               <li className="nav-item">
                 <NavLink
                   className={({ isActive }) =>
