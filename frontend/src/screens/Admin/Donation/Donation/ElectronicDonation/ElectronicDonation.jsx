@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./ElectronicDonation.css";
 const CashDonation = ({ setOpen }) => {
   const [donationtype, setdonationtype] = useState("");
-  const [noOfRows, setNoOfRows] = useState(1);
+  const [noOfRows, setNoOfRows] = useState({ id: 1 });
+  const [rowsData, setRowsData] = useState([noOfRows]);
+  console.log(rowsData);
   const typesOfDonation = [
     "Please Select ",
     "बड़े बाबा मंदिर निर्माण दान (विशेष दान)",
@@ -37,7 +39,13 @@ const CashDonation = ({ setOpen }) => {
     "अग्रिम जमा",
     "अमानत जमा",
   ];
-  useEffect(() => {}, []);
+  const RemoveRow = (index) => {
+    const data = rowsData.filter((i) => i.id !== index);
+
+    setRowsData(data);
+    console.log(index);
+  };
+
   return (
     <>
       <div className="cash-donation-div">
@@ -74,63 +82,106 @@ const CashDonation = ({ setOpen }) => {
                 </div>
               </div>
             </div>
-
-            <table class="styled-table">
-              <thead>
-                <tr>
-                  <th style={{ textAlign: "start", width: "21rem" }}>
-                    Type of donation
-                  </th>
-                  <th style={{ textAlign: "start", width: "27rem" }}>Amout</th>
-                  <th colspan="2" style={{ textAlign: "start" }}>
-                    Remark
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {[...Array(noOfRows)].map((elementInArray, index) => {
-                  return (
-                    <tr>
-                      <td>
-                        {" "}
-                        <select
-                          className="inner-input-div1-select "
-                          id="type"
-                          name="mode"
-                          value={donationtype}
-                          onChange={(e) => setdonationtype(e.target.value)}
-                        >
-                          {typesOfDonation.map((mode) => (
-                            <option key={mode} value={mode}>
-                              {mode}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                      <td>
-                        {" "}
-                        <input text="text" className="forminput1" />
-                      </td>
-                      <td>
-                        {" "}
-                        <input text="text" className="forminput1" />
-                      </td>
-                      <td style={{ width: "8rem" }}>Remove</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td>Total</td>
-                  <td>0.00</td>
-                  <td colspan="2"></td>
-                </tr>
-              </tfoot>
-            </table>
+            <div className="table_scrol_barrr">
+              <table class="styled-table">
+                <thead>
+                  <tr>
+                    <th style={{ textAlign: "start", width: "21rem" }}>
+                      Type of donation
+                    </th>
+                    <th style={{ textAlign: "start", width: "27rem" }}>
+                      Amout
+                    </th>
+                    <th colspan="2" style={{ textAlign: "start" }}>
+                      Remark
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <select
+                        className="inner-input-div1-select "
+                        id="type"
+                        name="mode"
+                        value={donationtype}
+                        onChange={(e) => setdonationtype(e.target.value)}
+                      >
+                        {typesOfDonation.map((mode) => (
+                          <option key={mode} value={mode}>
+                            {mode}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                    <td>
+                      {" "}
+                      <input text="text" className="forminput1" />
+                    </td>
+                    <td>
+                      {" "}
+                      <input text="text" className="forminput1" />
+                    </td>
+                    <td style={{ width: "8rem" }}></td>
+                  </tr>
+                  {rowsData.length > 1 &&
+                    rowsData.slice(1).map((item, index) => {
+                      return (
+                        <tr key={item.id}>
+                          <td>
+                            {" "}
+                            <select
+                              className="inner-input-div1-select "
+                              id="type"
+                              name="mode"
+                              value={donationtype}
+                              onChange={(e) => setdonationtype(e.target.value)}
+                            >
+                              {typesOfDonation.map((mode) => (
+                                <option key={mode} value={mode}>
+                                  {mode}
+                                </option>
+                              ))}
+                            </select>
+                          </td>
+                          <td>
+                            {" "}
+                            <input text="text" className="forminput1" />
+                          </td>
+                          <td>
+                            {" "}
+                            <input
+                              text="text"
+                              className="forminput1"
+                              value={item.id}
+                            />
+                          </td>
+                          <td
+                            onClick={() => RemoveRow(item.id)}
+                            style={{ width: "8rem" }}
+                          >
+                            Remove
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td>Total</td>
+                    <td>0.00</td>
+                    <td colspan="2"></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
           </div>
           <button
-            onClick={() => setNoOfRows(noOfRows + 1)}
+            onClick={() => {
+              setNoOfRows({ id: noOfRows.id + 1 });
+              rowsData.push(noOfRows);
+              // setRowsData(noOfRows);
+            }}
             className="add_itrm_btn"
           >
             Add Dontion Item
