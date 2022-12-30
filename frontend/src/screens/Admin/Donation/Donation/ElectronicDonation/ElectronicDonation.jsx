@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./ElectronicDonation.css";
 const CashDonation = ({ setOpen }) => {
   const [donationtype, setdonationtype] = useState("");
+  const [noOfRows, setNoOfRows] = useState(1);
   const typesOfDonation = [
     "Please Select ",
     "बड़े बाबा मंदिर निर्माण दान (विशेष दान)",
@@ -45,67 +46,98 @@ const CashDonation = ({ setOpen }) => {
           <div className="form-div">
             <p>Voucher No:</p>
             <div className="form-input-div">
-              {/* <div className="phone-div-input">
-                <label>Phone No:</label>
-                <input text="text" className="forminput" />
-                <div className="new-menber-no-div">
-                  <p>New Menber:</p>
-                  <p>No</p>
-                  <input type="radio" />
-                  <p>Yes</p>
-                  <input type="radio" />
-                </div>
-              </div> */}
-
               <div className="inner-input-div2">
-                <label>Name:</label>
+                <label>Phone No:</label>
                 <input text="text" className="forminput" />
                 <label>Donation Date:</label>
                 <input text="text" className="forminput" />
               </div>
 
               <div className="inner-input-div2">
-                <label>Address:</label>
+                <label>Name:</label>
                 <input text="text" className="forminput" />
                 <label>Donation Time:</label>
                 <input text="text" className="forminput" />
               </div>
-              <div className="inner-input-div2">
-                <label>Receipt No:</label>
-                <input text="text" className="forminput" />
-                <label>Receipt No:</label>
-                <input text="text" className="forminput" />
+              <div className="inner-input-div3">
+                <div className="inner-input-div2">
+                  <label>Address:</label>
+                  <input text="text" className="forminput" />
+                </div>
+
+                <div>
+                  New Member:
+                  <input type="radio" name="selected" value="yes1" />
+                  No
+                  <input type="radio" name="selected" value="yes2" />
+                  Yes
+                </div>
               </div>
             </div>
-            <div className="bottom_input_div">
-              <div className="inner-input-div1">
-                <label>Type of donation</label>
-                <select
-                  id="type"
-                  name="mode"
-                  value={donationtype}
-                  onChange={(e) => setdonationtype(e.target.value)}
-                >
-                  {typesOfDonation.map((mode) => (
-                    <option key={mode} value={mode}>
-                      {mode}
-                    </option>
-                  ))}
-                </select>
-              </div>{" "}
-              <div className="inner-input-div1">
-                <label>Amout</label>
-                <input text="text" className="forminput1" />
-              </div>{" "}
-              <div className="inner-input-div1">
-                <label>Remark</label>
-                <input text="text" className="forminput1" />
-              </div>{" "}
-            </div>
+
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th style={{ textAlign: "start", width: "21rem" }}>
+                    Type of donation
+                  </th>
+                  <th style={{ textAlign: "start", width: "27rem" }}>Amout</th>
+                  <th colspan="2" style={{ textAlign: "start" }}>
+                    Remark
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {[...Array(noOfRows)].map((elementInArray, index) => {
+                  return (
+                    <tr>
+                      <td>
+                        {" "}
+                        <select
+                          className="inner-input-div1-select "
+                          id="type"
+                          name="mode"
+                          value={donationtype}
+                          onChange={(e) => setdonationtype(e.target.value)}
+                        >
+                          {typesOfDonation.map((mode) => (
+                            <option key={mode} value={mode}>
+                              {mode}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      <td>
+                        {" "}
+                        <input text="text" className="forminput1" />
+                      </td>
+                      <td>
+                        {" "}
+                        <input text="text" className="forminput1" />
+                      </td>
+                      <td style={{ width: "8rem" }}>Remove</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td>Total</td>
+                  <td>0.00</td>
+                  <td colspan="2"></td>
+                </tr>
+              </tfoot>
+            </table>
           </div>
+          <button
+            onClick={() => setNoOfRows(noOfRows + 1)}
+            className="add_itrm_btn"
+          >
+            Add Dontion Item
+          </button>
           <div className="save-div-btn">
             <button className="save-btn1">Save</button>
-            <button onClick={() => setOpen(false)} className="calcel-btn">
+            <button onClick={() => setOpen(false)} className="calcel-btn1">
               Cancel
             </button>
           </div>

@@ -70,7 +70,7 @@ const EmailLogin = () => {
         <div className="input-group">
           <button className="login-btn">Login</button>
         </div>
-        <span className="newusertag">New to Quality Cricket</span>
+        <span className="newusertag">New to kundalpur</span>
         <Link to="/register" className="creatbtn">
           Create Account
         </Link>

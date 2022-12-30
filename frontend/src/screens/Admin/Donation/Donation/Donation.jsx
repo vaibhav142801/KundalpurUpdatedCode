@@ -20,6 +20,7 @@ import Fade from "@mui/material/Fade";
 import CloseIcon from "@mui/icons-material/Close";
 import AddDonatedUser from "../../Donatedusers/AddDonatedUser";
 import CashDonation from "./ElectronicDonation/ElectronicDonation";
+import "./Donation.css";
 const style = {
   position: "absolute",
   top: "45%",
@@ -83,7 +84,7 @@ const Donation = ({ setopendashboard }) => {
         <Fade in={open}>
           <Box sx={style}>
             <div>
-              <div className="add-div-close-div">
+              <div className="add-div-close-div1">
                 <h2> Add Electronic Donation</h2>
                 <CloseIcon onClick={() => handleClose()} />
               </div>

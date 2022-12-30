@@ -77,9 +77,9 @@ td {
 
 .forminput1 {
   height: 42px;
-  width: 333px;
+  width: 133px;
   padding-left: 6px;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   border: 1px solid black;
 }
 
@@ -109,6 +109,16 @@ td {
   flex-direction: column;
   margin-right: 2rem;
 }
+.inner-input-div3 {
+  padding-bottom: 26px;
+    padding-top: 7px;
+    display: flex;
+    flex-direction: column;
+    margin-right: 2rem;
+  
+    height: 189px;
+    justify-content: space-around;
+}
 
 .inner-input-div1 input {
   height: 42px;
@@ -118,14 +128,14 @@ td {
   border: 1px solid black;
 }
 
-.inner-input-div1 select {
+.inner-input-div1-select {
   height: 42px;
-  width: 333px;
+  width: 264px;
   padding-left: 6px;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   border: 1px solid black;
 }
-.inner-input-div1 select:focus {
+.inner-input-div1-select:focus {
   outline: none;
 }
 .inner-input-div1 input:focus {
@@ -146,7 +156,7 @@ td {
 }
 .save-btn1 {
   border: none;
-  background: #e96d00;
+  background: #337ab7;
   color: white;
   height: 29px;
   border-radius: 5px;
@@ -154,4 +164,69 @@ td {
   font-size: 16px;
   padding-left: 1rem;
   padding-right: 1rem;
+}
+.styled-table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  width: 100%;
+ 
+
+}
+.styled-table thead tr {
+ 
+  color: black;
+  text-align: left;
+  background-color: #f3f3f3;
+}
+.styled-table th,
+.styled-table td {
+     padding: 12px 15px;
+     border: 0.5px solid gray;
+}
+
+.styled-table tbody tr {
+  /* border: 1px solid black; */
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+/* .styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+} */
+
+.styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: #009879;
+}
+.remove_data{
+  display: flex;
+    justify-content: space-between;
+}
+
+.styled-table tfoot tr {
+  background-color: #f3f3f3;
+}
+.add_itrm_btn{
+  background-color: #5cb85c;
+    border: navajowhite;
+    color: white;
+    padding: 6px;
+    width: 10rem;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.calcel-btn1 {
+  border: none;
+  background: #d9534f;
+  color: white;
+  width: 85px;
+  height: 29px;
+  border-radius: 5px;
+  font-size: 16px;
 }
