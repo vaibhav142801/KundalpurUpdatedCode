@@ -30,6 +30,7 @@ const style = {
   bgcolor: "background.paper",
   p: 2,
   boxShadow: 24,
+  borderRadius: "5px",
 };
 const Donation = ({ setopendashboard }) => {
   const [isData, setisData] = React.useState([]);
@@ -97,15 +98,6 @@ const Donation = ({ setopendashboard }) => {
       <div className="dashboarddiv">
         <div>
           <div className="main_center_header">
-            {/* <div className="search-header">
-              <div className="search-inner-div">
-                <input type="text" placeholder="Name" />
-                <input type="text" placeholder="Phone No" />
-                <button>Search</button>
-              </div>
-              <div></div>
-            </div> */}
-
             <div className="add-btn-user">
               <button onClick={() => handleOpen()}>+Add</button>
             </div>

@@ -59,7 +59,27 @@
   margin-bottom: 12px;
 }
 
-.forminput:focus {
+.forminput_absolute {
+  height: 29px;
+  width: 89px;
+  padding-left: 6px;
+  margin-top: 11px;
+  margin-bottom: 12px;
+  position: absolute;
+  margin-top: 105px;
+  z-index: 1;
+  padding-right: 63px;
+  margin-left: 125px;
+  border: nono;
+  border-left: none;
+  border-bottom: 1px solid gray;
+  border-top: 1px solid gray;
+  border-right: 1px solid gray;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.forminput_absolute:focus {
   outline: none;
 }
 .table-cash-donation {
@@ -108,16 +128,17 @@ td {
   display: flex;
   flex-direction: column;
   margin-right: 2rem;
+  position: relative;
 }
 .inner-input-div3 {
   padding-bottom: 26px;
-    padding-top: 7px;
-    display: flex;
-    flex-direction: column;
-    margin-right: 2rem;
-  
-    height: 189px;
-    justify-content: space-around;
+  padding-top: 7px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 2rem;
+
+  height: 189px;
+  justify-content: space-around;
 }
 
 .inner-input-div1 input {
@@ -167,16 +188,13 @@ td {
 }
 .styled-table {
   border-collapse: collapse;
-  
+
   font-size: 0.9em;
   font-family: sans-serif;
   min-width: 400px;
   width: 100%;
- 
-
 }
 .styled-table thead tr {
- 
   color: black;
   text-align: left;
   background-color: #f3f3f3;
@@ -184,11 +202,7 @@ td {
 .styled-table th,
 .styled-table td {
   padding: 6px 15px;
-     border: 0.5px solid gray;
-}
-
-.styled-table tbody tr {
-  /* border: 1px solid black; */
+  border: 0.5px solid gray;
 }
 
 .styled-table tbody tr:nth-of-type(even) {
@@ -203,23 +217,23 @@ td {
   font-weight: bold;
   color: #009879;
 }
-.remove_data{
+.remove_data {
   display: flex;
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
 .styled-table tfoot tr {
   background-color: #f3f3f3;
 }
-.add_itrm_btn{
+.add_itrm_btn {
   background-color: #5cb85c;
-    border: navajowhite;
-    color: white;
-    padding: 6px;
-    width: 10rem;
-    border-radius: 5px;
-    font-size: 16px;
-    margin-top: 11px;
+  border: navajowhite;
+  color: white;
+  padding: 6px;
+  width: 10rem;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 11px;
 }
 
 .calcel-btn1 {
@@ -231,11 +245,11 @@ td {
   border-radius: 5px;
   font-size: 16px;
 }
-.table_scrol_barrr{
-  max-height:300px; ;
+.table_scrol_barrr {
+  max-height: 300px;
 
   overflow: auto;
   overflow-x: hidden;
   margin: 0 auto;
-  white-space: nowrap
+  white-space: nowrap;
 }

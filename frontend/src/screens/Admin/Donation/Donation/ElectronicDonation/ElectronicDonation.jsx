@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./ElectronicDonation.css";
+
 const CashDonation = ({ setOpen }) => {
   const [donationtype, setdonationtype] = useState("");
+  const [amount, setamount] = useState("");
+  const [remark, setremark] = useState("");
+  const [todaydate, settodaydate] = useState("");
   const [noOfRows, setNoOfRows] = useState({ id: 1 });
   const [rowsData, setRowsData] = useState([noOfRows]);
-  console.log(rowsData);
+  const [item, setitem] = useState([]);
+  console.log(item, amount);
   const typesOfDonation = [
     "Please Select ",
     "बड़े बाबा मंदिर निर्माण दान (विशेष दान)",
@@ -45,7 +50,31 @@ const CashDonation = ({ setOpen }) => {
     setRowsData(data);
     console.log(index);
   };
+  const itemClick = () => {
+    const id = item.length + 1;
+    setitem((prev) => [
+      ...prev,
+      {
+        id: id,
+        item: donationtype,
+        amount: amount,
+        remark: remark,
+      },
+    ]);
 
+    setamount("");
+    setremark("");
+  };
+  const date = new Date();
+
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  let year = date.getFullYear();
+  let hour = date.getHours();
+  let min = date.getMinutes();
+  const time = `${hour}:${min} PM`;
+  const currentDate = `${year}-${month}-${day}`;
+  console.log(currentDate); // "17-6-2022"
   return (
     <>
       <div className="cash-donation-div">
@@ -62,18 +91,24 @@ const CashDonation = ({ setOpen }) => {
                   placeholder="Enter phone no"
                 />
                 <label>Donation Date:</label>
-                <input text="text" className="forminput" />
+                <input
+                  type="text"
+                  value={currentDate}
+                  className="forminput"
+                  name="todaydate"
+                  onChange={(e) => settodaydate(e.target.value)}
+                />
               </div>
 
               <div className="inner-input-div2">
                 <label>Name:</label>
                 <input
-                  text="text"
+                  type="text"
                   className="forminput"
                   placeholder="Full name"
                 />
                 <label>Donation Time:</label>
-                <input text="text" className="forminput" />
+                <input type="text" value={time} className="forminput" />
               </div>
               <div className="inner-input-div3">
                 <div className="inner-input-div2">
@@ -115,7 +150,7 @@ const CashDonation = ({ setOpen }) => {
                       <select
                         className="inner-input-div1-select "
                         id="type"
-                        name="mode"
+                        name="donationtype"
                         value={donationtype}
                         onChange={(e) => setdonationtype(e.target.value)}
                       >
@@ -129,17 +164,27 @@ const CashDonation = ({ setOpen }) => {
                     <td>
                       {" "}
                       <input
-                        text="text"
+                        type="text"
                         className="forminput1"
-                        placeholder=" Amout"
+                        placeholder="Amout"
+                        name="amount"
+                        value={amount}
+                        onChange={(e) => {
+                          setamount(e.target.value);
+
+                          console.log(e.target.value);
+                        }}
                       />
                     </td>
                     <td>
                       {" "}
                       <input
-                        text="text"
+                        type="text"
                         className="forminput1"
-                        placeholder=" Remark"
+                        placeholder="remark"
+                        name="remark"
+                        value={remark}
+                        onChange={(e) => setremark(e.target.value)}
                       />
                     </td>
                     <td style={{ width: "8rem" }}></td>
@@ -166,14 +211,18 @@ const CashDonation = ({ setOpen }) => {
                           </td>
                           <td>
                             {" "}
-                            <input text="text" className="forminput1" />
+                            <input
+                              text="text"
+                              className="forminput1"
+                              placeholder="Amout"
+                            />
                           </td>
                           <td>
                             {" "}
                             <input
                               text="text"
                               className="forminput1"
-                              value={item.id}
+                              placeholder="Remark"
                             />
                           </td>
                           <td
@@ -198,7 +247,7 @@ const CashDonation = ({ setOpen }) => {
                 onClick={() => {
                   setNoOfRows({ id: noOfRows.id + 1 });
                   rowsData.push(noOfRows);
-                  // setRowsData(noOfRows);
+                  itemClick();
                 }}
                 className="add_itrm_btn"
               >
