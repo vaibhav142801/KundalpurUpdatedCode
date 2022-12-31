@@ -133,13 +133,13 @@ const CashDonation = ({ setOpen }) => {
               <table class="styled-table">
                 <thead>
                   <tr>
-                    <th style={{ textAlign: "start", width: "21rem" }}>
+                    <th style={{ textAlign: "center", width: "21rem" }}>
                       Type of donation
                     </th>
-                    <th style={{ textAlign: "start", width: "27rem" }}>
+                    <th style={{ textAlign: "center", width: "27rem" }}>
                       Amout
                     </th>
-                    <th colspan="2" style={{ textAlign: "start" }}>
+                    <th colspan="2" style={{ textAlign: "center" }}>
                       Remark
                     </th>
                   </tr>
@@ -212,17 +212,27 @@ const CashDonation = ({ setOpen }) => {
                           <td>
                             {" "}
                             <input
-                              text="text"
+                              type="text"
                               className="forminput1"
                               placeholder="Amout"
+                              name="amount"
+                              value={amount}
+                              onChange={(e) => {
+                                setamount(e.target.value);
+
+                                console.log(e.target.value);
+                              }}
                             />
                           </td>
                           <td>
                             {" "}
                             <input
-                              text="text"
+                              type="text"
                               className="forminput1"
-                              placeholder="Remark"
+                              placeholder="remark"
+                              name="remark"
+                              value={remark}
+                              onChange={(e) => setremark(e.target.value)}
                             />
                           </td>
                           <td

@@ -28,6 +28,7 @@ const Sidebar = ({ setshowsidebar }) => {
                 <span className="linkspan"> Dashboard</span>
               </NavLink>
             </li>
+
             <li className="nav-item">
               <div
                 className="nav-link"
@@ -57,6 +58,49 @@ const Sidebar = ({ setshowsidebar }) => {
                   to="/admin-panel/donation"
                 >
                   Electronic Donation
+                </NavLink>
+              </li>
+            </div>
+
+            <li className="nav-item">
+              <div
+                className="nav-link"
+                onClick={() => setshowdropdownmenu1(!showdropdownmenu1)}
+              >
+                System Management
+                {showdropdownmenu1 ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              </div>
+            </li>
+
+            <div className={showdropdownmenu1 ? "showmenu" : "hidemenu"}>
+              <li className="nav-item">
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "active-nav-link" : "nav-link"
+                  }
+                  to="/admin-panel/rolemanagement"
+                >
+                  Role Management
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "active-nav-link" : "nav-link"
+                  }
+                  to="/admin-panel/usermanagement"
+                >
+                  User Management
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "active-nav-link" : "nav-link"
+                  }
+                  to="/admin-panel/vouchermanagement"
+                >
+                  Voucher Management
                 </NavLink>
               </li>
             </div>
