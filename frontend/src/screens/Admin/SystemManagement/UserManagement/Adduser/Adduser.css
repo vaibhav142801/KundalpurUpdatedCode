@@ -1,0 +1,49 @@
+.form-div{
+    
+  display: flex;  
+}
+
+.forminput_add_user {
+    height: 29px;
+    width: 228px;
+    padding-left: 6px;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+
+  .forminput_add_user:focus{
+    outline: none;
+  }
+
+  .form-input-div_add_user{
+    display: flex;
+ 
+  }
+
+.form-input-div_add_user{
+    display: flex;
+    /* height: 9rem; */
+    align-items: center;
+} 
+  .Full_input input{
+    width: 94%;
+    height: 29px;
+    padding-left: 6px;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+
+  .Full_input input:focus{
+    outline: none;
+  }
+  .inner-input-div1-select_add{
+    height: 29px;
+    width: 227px;
+    padding-left: 6px;
+    border-radius: 5px;
+    border: 1px solid black;
+  }

@@ -2,10 +2,13 @@ import React, { useEffect } from "react";
 import CallIcon from "@mui/icons-material/Call";
 import "./Reciept.css";
 import { useLocation, useNavigate } from "react-router-dom";
-const Reciept = ({ setopendashboard }) => {
+const Reciept = ({ setopendashboard, setshowreciept }) => {
   const location = useLocation();
   const [isData, setisData] = React.useState(null);
   const navigation = useNavigate();
+  useEffect(() => {
+    setshowreciept(true);
+  }, []);
 
   const down = () => {
     const re = document.getElementById("receipt");
@@ -97,7 +100,7 @@ const Reciept = ({ setopendashboard }) => {
               </div>
               <div className="recipt-info-div">
                 <h2>राशि अंको में :</h2>
-                <p>R{" " +isData?.AMOUNT}/-</p>
+                <p>R{" " + isData?.AMOUNT}/-</p>
               </div>
             </div>
           </div>

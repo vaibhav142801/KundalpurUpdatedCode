@@ -5,19 +5,34 @@ import Navbar from "./screens/User/Header/Navbar";
 import Footer from "./screens/User/Footer/Footer";
 import MainRoutes from "./routes/MainRoutes";
 import AdminRoutes from "./routes/AdminRoutes";
+import { useDispatch, useSelector } from "react-redux";
+import { loadUser } from "./Redux/redux/action/AuthAction";
 import { toast, ToastContainer } from "react-toastify";
 
 function App() {
+  const dispatch = useDispatch();
   const [opendashboard, setopendashboard] = useState(false);
+  const [showreciept, setshowreciept] = useState(false);
+  if (!sessionStorage.getItem("token")) {
+  }
+
+  const gett = () => {
+    dispatch(loadUser());
+  };
   return (
     <>
       <Router>
-        {!opendashboard && <Navbar />}
+        {!opendashboard && !showreciept ? <Navbar /> : ""}
         {opendashboard && <MainAdmin />}
-        <MainRoutes />
+        <MainRoutes
+          setopendashboard={setopendashboard}
+          setshowreciept={setshowreciept}
+        />
         <AdminRoutes setopendashboard={setopendashboard} />
-        {!opendashboard && <Footer />}        
-      </Router>      
+        {!opendashboard && !showreciept ? <Footer /> : ""}
+      </Router>
+
+      <button onClick={gett()}>get info</button>
     </>
   );
 }

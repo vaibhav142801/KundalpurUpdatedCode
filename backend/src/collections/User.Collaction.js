@@ -26,7 +26,9 @@ class UserCollaction {
             { mobileNo: identity },
           ],
         },
-      }).then((res) => {
+      }
+    )
+      .then((res) => {
         return res;
       })
       .catch((err) => {
@@ -36,7 +38,7 @@ class UserCollaction {
   };
 
   selfRegister = async (body) => {
-    let password = 'abcd@1029';
+    let password = "abcd@1029";
     const salt = bcrypt.genSaltSync(12);
     const hashencrypt = bcrypt.hashSync(password, salt);
     
@@ -62,7 +64,16 @@ class UserCollaction {
   };
 
   createuser = async (body, file) => {
-    const {username,mobileNo,name,email,address,gender,roles,password} = body;
+    const {
+      username,
+      mobileNo,
+      name,
+      email,
+      address,
+      gender,
+      roles,
+      password,
+    } = body;
     const { profile_image } = file;
     const imagePath = uploadimage(profile_image);
 
@@ -70,9 +81,17 @@ class UserCollaction {
     const hashencrypt = bcrypt.hashSync(password, salt);
 
     const query = await TblUser.create({
-      username,mobileNo,name,email,address,gender,roles,profile_image: imagePath,password: hashencrypt,
+      username,
+      mobileNo,
+      name,
+      email,
+      address,
+      gender,
+      roles,
+      profile_image: imagePath,
+      password: hashencrypt,
     });
-    if(query){
+    if (query) {
       const addRole = await TblUsersRoles.create({
         user_id: query.id,
         role_id: 2,
@@ -80,40 +99,52 @@ class UserCollaction {
       return query;
     }
     return null;
-    
   };
 
   updateOTP = async (id, otp) => {
-    const check = await TblOTP.findOne({where: { user_id: id}});
-    if(check){
+    const check = await TblOTP.findOne({ where: { user_id: id } });
+    if (check) {
       //---------update OTP-------
-      const result = await TblOTP.update({otp:otp},{where:{user_id: id}});
+      const result = await TblOTP.update(
+        { otp: otp },
+        { where: { user_id: id } }
+      );
       return result;
-    }else{
+    } else {
       //--------insert new data--------
-      const result =  await TblOTP.create({user_id:id,otp:otp});
+      const result = await TblOTP.create({ user_id: id, otp: otp });
       return result;
     }
   };
 
-  generateResetToken = async(token,id)=>{
+  generateResetToken = async (token, id) => {
     let resetPasswordExpires = Date.now() + 3600000; //expires in an hour
-    await TblPasswordReset.update({resetPasswordOtp:null,resetPasswordToken:token,resetPasswordExpires:resetPasswordExpires},{where:{user_id: id}});
+    await TblPasswordReset.update(
+      {
+        resetPasswordOtp: null,
+        resetPasswordToken: token,
+        resetPasswordExpires: resetPasswordExpires,
+      },
+      { where: { user_id: id } }
+    );
     return token;
-  }
+  };
 
-  resetPassword = async(body,id)=>{
-    const {identity,new_password,token} = body;
+  resetPassword = async (body, id) => {
+    const { identity, new_password, token } = body;
     const salt = bcrypt.genSaltSync(12);
     const hashencrypt = bcrypt.hashSync(new_password, salt);
-    await TblUser.update({password:hashencrypt},{where:{id: id}});
-    await TblPasswordReset.update({resetPasswordToken:null,resetPasswordExpires:null},{where:{user_id: id}});
+    await TblUser.update({ password: hashencrypt }, { where: { id: id } });
+    await TblPasswordReset.update(
+      { resetPasswordToken: null, resetPasswordExpires: null },
+      { where: { user_id: id } }
+    );
     return true;
-  }
+  };
 
-  updateProfile = async(req)=>{
-    const {name,email,password,dob,anniversary_date,address} = req.body;
-    
+  updateProfile = async (req) => {
+    const { name, email, password, dob, anniversary_date, address } = req.body;
+    console.log(req.body);
     const salt = bcrypt.genSaltSync(12);
     const hashencrypt = bcrypt.hashSync(password, salt);
 
@@ -123,7 +154,7 @@ class UserCollaction {
     //------check old pick and remove----
     removefile(user.profile_image);
     // ----********--------------------
-    
+
     const { profile_image } = req.files;
     const imagePath = uploadimage(profile_image);
 
@@ -135,13 +166,24 @@ class UserCollaction {
     user.address = address;
     user.profile_image = imagePath;
     return user.save();
-  }
+  };
 
-  profileList = async(req)=>{
+  profileList = async (req) => {
     const userId = req.user.id;
     const user = await TblUser.findOne({
-      where:{id:userId,is_deleted:false},
-      attributes:['id','username','mobileNo','email','name','dob','anniversary_date','address','gender','profile_image']
+      where: { id: userId, is_deleted: false },
+      attributes: [
+        "id",
+        "username",
+        "mobileNo",
+        "email",
+        "name",
+        "dob",
+        "anniversary_date",
+        "address",
+        "gender",
+        "profile_image",
+      ],
     });
     return user;
   }

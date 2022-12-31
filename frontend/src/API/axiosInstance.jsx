@@ -1,7 +1,9 @@
 import axios from "axios";
 import { backendApiUrl } from "../config/config";
 
-let headers = {};
+let headers = {
+  "Content-Type": "multipart/form-data",
+};
 var token = "";
 
 const gettoken = () => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import CloseIcon from "@mui/icons-material/Close";
@@ -6,9 +6,18 @@ import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
+
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TableFooter from "@mui/material/TableFooter";
+import TablePagination from "@mui/material/TablePagination";
 const style = {
   position: "absolute",
   top: "40%",
@@ -22,9 +31,20 @@ const style = {
 };
 import "./UserMaster.css";
 function UserMaster() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   return (
     <>
       <Modal
@@ -104,96 +124,102 @@ function UserMaster() {
           <button onClick={handleOpen}>+Add</button>
         </div>
         <div className="table-div-maain">
-          <table className="dashborad-table">
-            <tr>
-              <th>Sn</th>
-              <th>Title</th>
-              <th>Name</th>
-              <th>Contact No</th>
-              <th>Email-Id</th>
-              <th>Action</th>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Mr</td>
-              <td>Anil Babu</td>
-              <td>7505786956</td>
-              <td>anilb9850@gmail.com</td>
-              <td>
+          <Table
+            sx={{ minWidth: 650, width: "100%" }}
+            aria-label="simple table"
+          >
+            <TableHead style={{ background: "#FFEEE0" }}>
+              <TableRow>
+                <TableCell>Sn</TableCell>
+                <TableCell>Title</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Contact No</TableCell>
+                <TableCell>Email-Id</TableCell>
+                <TableCell>Action</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableCell>1</TableCell>
+              <TableCell>Mr</TableCell>
+              <TableCell>Anil Babu</TableCell>
+              <TableCell>7505786956</TableCell>
+              <TableCell>anilb9850@gmail.com</TableCell>
+              <TableCell>
                 <RemoveRedEyeIcon /> <EditIcon /> <DeleteForeverIcon />
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Mr</td>
-              <td>Anil Babu</td>
-              <td>7505786956</td>
-              <td>anilb9850@gmail.com</td>
-              <td>
-                <RemoveRedEyeIcon /> <EditIcon /> <DeleteForeverIcon />
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Mr</td>
-              <td>Anil Babu</td>
-              <td>7505786956</td>
-              <td>anilb9850@gmail.com</td>
-              <td>
-                <RemoveRedEyeIcon /> <EditIcon /> <DeleteForeverIcon />
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Mr</td>
-              <td>Anil Babu</td>
-              <td>7505786956</td>
-              <td>anilb9850@gmail.com</td>
-              <td>
-                <RemoveRedEyeIcon /> <EditIcon /> <DeleteForeverIcon />
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Mr</td>
-              <td>Anil Babu</td>
-              <td>7505786956</td>
-              <td>anilb9850@gmail.com</td>
-              <td>
-                <RemoveRedEyeIcon /> <EditIcon /> <DeleteForeverIcon />
-              </td>
-            </tr>{" "}
-            <tr>
-              <td>1</td>
-              <td>Mr</td>
-              <td>Anil Babu</td>
-              <td>7505786956</td>
-              <td>anilb9850@gmail.com</td>
-              <td>
-                <RemoveRedEyeIcon /> <EditIcon /> <DeleteForeverIcon />
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Mr</td>
-              <td>Anil Babu</td>
-              <td>7505786956</td>
-              <td>anilb9850@gmail.com</td>
-              <td>
-                <RemoveRedEyeIcon /> <EditIcon /> <DeleteForeverIcon />
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Mr</td>
-              <td>Anil Babu</td>
-              <td>7505786956</td>
-              <td>anilb9850@gmail.com</td>
-              <td>
-                <RemoveRedEyeIcon /> <EditIcon /> <DeleteForeverIcon />
-              </td>
-            </tr>
-          </table>
+              </TableCell>
+              {/* {(rowsPerPage > 0
+                  ? isData.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                  : isData
+                ).map((row, index) => (
+                  <TableRow
+                    key={index}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                    }}
+                  >
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>
+                      {" "}
+                      {moment(row?.DATE_OF_DAAN).format("DD/MM/YYYY")}
+                    </TableCell>
+                    <TableCell>{row.NAME}</TableCell>
+                    <TableCell> {row.MODE_OF_DONATION}</TableCell>
+                    <TableCell> {row.AMOUNT}</TableCell>
+                    <TableCell>
+                      {" "}
+                      {row.CHEQUE_NO ? row.CHEQUE_NO : "-"}
+                    </TableCell>
+                    <TableCell>
+                      {" "}
+                      {row.DATE_OF_CHEQUE ? row.DATE_OF_CHEQUE : "-"}
+                    </TableCell>
+                    <TableCell>
+                      {" "}
+                      {row.NAME_OF_BANK ? row.NAME_OF_BANK : "-"}
+                    </TableCell>
+                    <TableCell>
+                      {" "}
+                      {row.NAME_OF_BANK ? row.NAME_OF_BANK : "-"}
+                    </TableCell>
+                    <TableCell> {row.PAYMENT_ID}</TableCell>
+                  
+                  </TableRow>
+                ))} */}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  // count={isData.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  rowsPerPageOptions={[5, 10, 25]}
+                  labelRowsPerPage={<span>Rows:</span>}
+                  labelDisplayedRows={({ page }) => {
+                    return `Page: ${page}`;
+                  }}
+                  backIconButtonProps={{
+                    color: "secondary",
+                  }}
+                  nextIconButtonProps={{ color: "secondary" }}
+                  SelectProps={{
+                    inputProps: {
+                      "aria-label": "page number",
+                    },
+                  }}
+                  // showFirstButton={true}
+                  // showLastButton={true}
+                  //ActionsComponent={TablePaginationActions}
+                  //component={Box}
+                  //sx and classes prop discussed in styling section
+                />
+              </TableRow>
+            </TableFooter>
+          </Table>
         </div>
       </div>
     </>

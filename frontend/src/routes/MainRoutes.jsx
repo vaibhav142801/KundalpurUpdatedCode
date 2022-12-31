@@ -12,7 +12,7 @@ import Profile from "../screens/User/profile/Profile";
 import Reciept from "../screens/Admin/Reciept/Reciept";
 import DonationHistory from "../screens/User/donationHistory/DonationHistory";
 
-function MainRoutes() {
+function MainRoutes({ setopendashboard, setshowreciept }) {
   return (
     <>
       <Routes>
@@ -25,7 +25,15 @@ function MainRoutes() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/donation" element={<Donation />} />
         <Route path="/donationhistory" element={<DonationHistory />} />
-        <Route path="/reciept" element={<Reciept />} />
+        <Route
+          path="/reciept"
+          element={
+            <Reciept
+              setopendashboard={setopendashboard}
+              setshowreciept={setshowreciept}
+            />
+          }
+        />
       </Routes>
     </>
   );

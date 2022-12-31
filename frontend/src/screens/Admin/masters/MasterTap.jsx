@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import UserMaster from "./Usermaster/UserMaster";
 import DonationMaster from "./Donationmaster/DonationMaster";
 import RoomMaster from "./RoomMaster/RoomMaster";
+import "./MasterTap.css";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 

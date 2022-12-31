@@ -40,7 +40,7 @@
   margin-top: -7px;
 }
 .main-form-div {
-  width: 60%;
+  width: 40%;
 
   border-radius: 11px;
 
@@ -65,7 +65,7 @@
 .main-input-div {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+
   margin-bottom: 1rem;
 }
 
@@ -74,22 +74,47 @@
   flex-direction: column;
 }
 .inner-input-div input {
-  width: 428px;
-  height: 43px;
+  width: 263px;
+  height: 40px;
   background: #ffffff;
   border: 1px solid #613916;
   border-radius: 5px;
-  font-size: 20px;
+  font-size: 14px;
   padding-left: 1rem;
 }
-
+.inner-input-div-input-red{
+  display: flex;
+  flex-direction: column;
+}
+.inner-input-div-input-red input {
+  width: 263px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid red;
+  border-radius: 5px;
+  font-size: 14px;
+  padding-left: 1rem;
+}
+.inner-input-div-select-red {
+  display: flex;
+  flex-direction: column;
+}
+.inner-input-div-select-red select {
+  width: 263px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid red;
+  border-radius: 5px;
+  font-size: 14px;
+  padding-left: 1rem;
+}
 .inner-input-div select {
-  width: 428px;
-  height: 43px;
+  width: 263px;
+  height: 40px;
   background: #ffffff;
   border: 1px solid #613916;
   border-radius: 5px;
-  font-size: 20px;
+  font-size: 14px;
   padding-left: 1rem;
 }
 .inner-input-div select:focus {
@@ -102,10 +127,10 @@
   font-family: "Imprima";
   font-style: normal;
   font-weight: 400;
-  font-size: 25px;
+  font-size: 19px;
   line-height: 29px;
   color: #827b7b;
-  margin-bottom: 1rem;
+  margin-bottom: 3px;
 }
 
 .save-div-btn {
@@ -130,7 +155,7 @@
 }
 .calcel-btn {
   border: none;
-  background: #d68a25;
+  background: #e96d00;
   color: white;
   width: 85px;
   height: 29px;
@@ -211,8 +236,8 @@
   justify-content: space-between;
 }
 .btn-recharge-div button {
-  width: 130px;
-  height: 44px;
+  width: 84px;
+  height: 40px;
   border-radius: 5px;
   margin-bottom: 1rem;
   border: none;

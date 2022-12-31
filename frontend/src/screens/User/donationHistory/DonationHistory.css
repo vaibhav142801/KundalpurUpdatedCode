@@ -36,3 +36,16 @@
   margin-bottom: 1rem;
   color: #aeabab;
 }
+/* 
+.MuiInputBase-root{
+  margin-bottom: 14px;
+}
+
+.MuiTablePagination-actions{
+  margin-bottom: 15px;
+} */
+
+.MuiTablePagination-displayedRows{
+  margin-left: 73%;
+
+}
