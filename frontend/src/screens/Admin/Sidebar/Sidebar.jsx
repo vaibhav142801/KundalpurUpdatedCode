@@ -100,7 +100,7 @@ const Sidebar = ({ setshowsidebar }) => {
                   }
                   to="/admin-panel/vouchermanagement"
                 >
-                  Voucher Management
+                  Generate Voucher
                 </NavLink>
               </li>
             </div>

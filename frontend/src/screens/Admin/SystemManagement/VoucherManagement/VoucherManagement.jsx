@@ -16,11 +16,11 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import CloseIcon from "@mui/icons-material/Close";
-import "./UserManagement.css";
-import Adduser from "./Adduser/Adduser";
+import "./VoucherManagement.css";
+import AddVoucherToUser from "./AddVoucherToUser/AddVoucherToUser";
 const style = {
   position: "absolute",
-  top: "48%",
+  top: "27%",
   left: "50%",
   transform: "translate(-50%, -50%)",
 
@@ -29,7 +29,7 @@ const style = {
   boxShadow: 24,
   borderRadius: "5px",
 };
-const UserManagement = ({ setopendashboard }) => {
+const VoucherManagement = ({ setopendashboard }) => {
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -83,11 +83,11 @@ const UserManagement = ({ setopendashboard }) => {
           <Box sx={style}>
             <div>
               <div className="add-div-close-div1">
-                <h2> Add User</h2>
+                <h2> Add Electronic Donation</h2>
                 <CloseIcon onClick={() => handleClose()} />
               </div>
 
-              <Adduser setOpen={setOpen} />
+              <AddVoucherToUser setOpen={setOpen} />
             </div>
           </Box>
         </Fade>
@@ -108,12 +108,16 @@ const UserManagement = ({ setopendashboard }) => {
             >
               <TableHead style={{ background: "#FFEEE0" }}>
                 <TableRow>
-                  <TableCell>Username</TableCell>
-                  <TableCell>Company name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Mobile</TableCell>
-                  <TableCell>Address</TableCell>
-                  <TableCell>Status</TableCell>
+                  <TableCell>S.No.</TableCell>
+                  <TableCell>Date</TableCell>
+                  <TableCell>Name </TableCell>
+                  <TableCell>Donation Type</TableCell>
+                  <TableCell>Amount</TableCell>
+                  <TableCell>Cheque No.</TableCell>
+                  <TableCell>Date Of submission</TableCell>
+                  <TableCell>Name of Bank</TableCell>
+                  <TableCell>Payment id</TableCell>
+                  <TableCell>certificate</TableCell>
                   <TableCell>Edit/Delete</TableCell>
                 </TableRow>
               </TableHead>
@@ -139,11 +143,29 @@ const UserManagement = ({ setopendashboard }) => {
                     <TableCell>{row.NAME}</TableCell>
                     <TableCell> {row.MODE_OF_DONATION}</TableCell>
                     <TableCell> {row.AMOUNT}</TableCell>
-
                     <TableCell>
+                      {" "}
+                      {row.CHEQUE_NO ? row.CHEQUE_NO : "-"}
+                    </TableCell>
+                    <TableCell>
+                      {" "}
                       {row.DATE_OF_CHEQUE ? row.DATE_OF_CHEQUE : "-"}
                     </TableCell>
+                    <TableCell>
+                      {" "}
+                      {row.NAME_OF_BANK ? row.NAME_OF_BANK : "-"}
+                    </TableCell>
 
+                    <TableCell> {row.PAYMENT_ID}</TableCell>
+                    <TableCell
+                      onClick={() => {
+                        downloadrecept(row);
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {" "}
+                      downolod
+                    </TableCell>
                     <TableCell>
                       <RemoveRedEyeIcon />
                       <DeleteForeverIcon />
@@ -190,4 +212,4 @@ const UserManagement = ({ setopendashboard }) => {
   );
 };
 
-export default UserManagement;
+export default VoucherManagement;

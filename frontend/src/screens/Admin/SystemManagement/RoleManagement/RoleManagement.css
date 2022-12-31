@@ -1,0 +1,25 @@
+.add-btn-user2{
+    margin-bottom: 8px;
+    margin-top: 1rem;
+    width: 97%;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid gray;
+    border-top: 1px solid gray;
+}
+
+.add-btn-user2 button
+{
+    border: none;
+    background: #e96d00;
+    padding-left: 1rem;
+    height: 29px;
+    color: white;
+    padding-right: 1rem;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+
