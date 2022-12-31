@@ -83,7 +83,7 @@ const VoucherManagement = ({ setopendashboard }) => {
           <Box sx={style}>
             <div>
               <div className="add-div-close-div1">
-                <h2> Add Electronic Donation</h2>
+                <h2> Add User</h2>
                 <CloseIcon onClick={() => handleClose()} />
               </div>
 
@@ -108,17 +108,13 @@ const VoucherManagement = ({ setopendashboard }) => {
             >
               <TableHead style={{ background: "#FFEEE0" }}>
                 <TableRow>
-                  <TableCell>S.No.</TableCell>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Name </TableCell>
-                  <TableCell>Donation Type</TableCell>
-                  <TableCell>Amount</TableCell>
-                  <TableCell>Cheque No.</TableCell>
-                  <TableCell>Date Of submission</TableCell>
-                  <TableCell>Name of Bank</TableCell>
-                  <TableCell>Payment id</TableCell>
-                  <TableCell>certificate</TableCell>
-                  <TableCell>Edit/Delete</TableCell>
+                  <TableCell>Userid</TableCell>
+                  <TableCell>Compnay Name</TableCell>
+                  <TableCell>Voucher</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Remark</TableCell>
+
+                  <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -136,39 +132,15 @@ const VoucherManagement = ({ setopendashboard }) => {
                     }}
                   >
                     <TableCell>{index + 1}</TableCell>
-                    <TableCell>
-                      {" "}
-                      {moment(row?.DATE_OF_DAAN).format("DD/MM/YYYY")}
-                    </TableCell>
+
                     <TableCell>{row.NAME}</TableCell>
                     <TableCell> {row.MODE_OF_DONATION}</TableCell>
                     <TableCell> {row.AMOUNT}</TableCell>
-                    <TableCell>
-                      {" "}
-                      {row.CHEQUE_NO ? row.CHEQUE_NO : "-"}
-                    </TableCell>
-                    <TableCell>
-                      {" "}
-                      {row.DATE_OF_CHEQUE ? row.DATE_OF_CHEQUE : "-"}
-                    </TableCell>
-                    <TableCell>
-                      {" "}
-                      {row.NAME_OF_BANK ? row.NAME_OF_BANK : "-"}
-                    </TableCell>
 
                     <TableCell> {row.PAYMENT_ID}</TableCell>
-                    <TableCell
-                      onClick={() => {
-                        downloadrecept(row);
-                      }}
-                      style={{ cursor: "pointer" }}
-                    >
-                      {" "}
-                      downolod
-                    </TableCell>
+
                     <TableCell>
-                      <RemoveRedEyeIcon />
-                      <DeleteForeverIcon />
+                      <button className="Accepted_btn">Accepted</button>
                     </TableCell>
                   </TableRow>
                 ))}

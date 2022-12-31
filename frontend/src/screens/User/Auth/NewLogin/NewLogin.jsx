@@ -87,6 +87,7 @@ const VivekPLogin = () => {
               id="mobileNo"
               name="mobileNo"
               placeholder="enter mobileNo"
+              autoFocus
               value={mobileNo}
               onChange={(e) => setMobileNo(e.target.value)}
             />
