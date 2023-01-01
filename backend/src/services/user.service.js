@@ -78,11 +78,13 @@ const loginAdmin = async (username, password) => {
 const verifyOTP = async (username, otp) => {
   console.log(username,otp,"userdata")
   const isOTPMatch = await AuthCollaction.isOTPMatch(username, otp);
+
+  console.log(isOTPMatch,"otpmatch")
   if (!isOTPMatch) {
     throw new ApiError(httpStatus.NOT_ACCEPTABLE, "OTP mismatch.");
   }
   const user = await AuthCollaction.getUserDetails(username);
-  
+  console.log(user,"iser")
   return user;
 };
 
