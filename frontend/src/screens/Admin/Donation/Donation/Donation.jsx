@@ -8,17 +8,14 @@ import { useNavigate } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import TableFooter from "@mui/material/TableFooter";
 import TablePagination from "@mui/material/TablePagination";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import CloseIcon from "@mui/icons-material/Close";
-import AddDonatedUser from "../../Donatedusers/AddDonatedUser";
 import CashDonation from "./ElectronicDonation/ElectronicDonation";
 import "./Donation.css";
 const style = {
@@ -37,6 +34,8 @@ const Donation = ({ setopendashboard }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = React.useState(false);
+  const [showalert, setshowalert] = useState(false);
+  const [msg, setmsg] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const navigation = useNavigate();
@@ -73,6 +72,10 @@ const Donation = ({ setopendashboard }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  if (showalert) {
+    Swal.fire("Great!", msg, "success");
+  }
   return (
     <>
       <Modal
@@ -90,7 +93,11 @@ const Donation = ({ setopendashboard }) => {
                 <CloseIcon onClick={() => handleClose()} />
               </div>
 
-              <CashDonation setOpen={setOpen} />
+              <CashDonation
+                setOpen={setOpen}
+                setshowalert={setshowalert}
+                setmsg={setmsg}
+              />
             </div>
           </Box>
         </Fade>
