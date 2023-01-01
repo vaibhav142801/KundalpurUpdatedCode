@@ -43,6 +43,7 @@ class UserCollaction {
   };
 
   getUserDetails = async(identity) => {
+    console.log(identity,"identity");
     const query = await sequelize.query(`SELECT u.id,u.username,u.name,u.email,u.password,u.gender,r.role_name,r.id role_id FROM tbl_users u 
     JOIN tbl_users_roles ur ON u.id = ur.user_id
     JOIN tbl_roles r ON r.id = ur.role_id

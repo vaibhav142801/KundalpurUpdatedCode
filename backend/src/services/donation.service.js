@@ -14,6 +14,13 @@ const addNewDonation = async(req)=>{
   return donation;
 }
 
+const addelecDonation = async(req)=>{
+
+  const ElecDonation = await DonationCollection.addElecDonation(req,12345345)
+  return ElecDonation;
+}
+
+
 const cashDonation = async (req) => {
   const lastID = await DonationCollection.getLastID();
   const receiptNo = generateReceiptNo(lastID);
@@ -41,5 +48,6 @@ module.exports = {
   list,
   getItemList,
   allList,
-  addNewDonation
+  addNewDonation,
+  addelecDonation
 };
