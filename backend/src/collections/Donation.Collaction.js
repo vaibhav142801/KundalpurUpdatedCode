@@ -117,6 +117,8 @@ class DonationCollaction {
     return result;
   };
 
+
+
   addElecDonation = async (req,voucherNo) => {
  
     try {
@@ -181,6 +183,21 @@ class DonationCollaction {
       };
     }
   };
+
+  getElecDonation = async (req) =>{
+    const userId = req.user.id;
+    let data = await TblelecDonation.findAll({
+      where: { created_by: userId },
+include:[
+  {
+    model:TblelecDonationItem,
+    as:'elecItemDetails'
+  }
+]
+    })
+    return data
+  }
+
   getLastID = async () => {
     const lastID = await TblDonation.findOne({
       order: [["id", "DESC"]],

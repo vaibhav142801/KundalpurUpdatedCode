@@ -23,4 +23,5 @@ router.route('/add-cash-donation').post(auth(),donationController.addCashDonatio
 router.route('/add-donation').post(auth(),donationController.addNewDonation);
 router.route('/donation-list').get(auth(),donationController.donationList);
 router.route('/add-elecDonation').post(auth(),donationController.addelecDonation);
+router.route('/add-elecDonation').get(auth(),donationController.getElecDonation);
 module.exports = router;
