@@ -80,7 +80,7 @@ const CashDonation = ({ setOpen }) => {
       <div className="cash-donation-div">
         <div className="cash-donation-container-innser">
           <h2>Electronic Donation</h2>
-          <div className="form-div">
+          <div>
             <p>Voucher No:</p>
             <div className="form-input-div">
               <div className="inner-input-div2">
