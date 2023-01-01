@@ -10,8 +10,10 @@ const createUser = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(userdata);
 });
 
-const login = catchAsync(async (req,res)=>{
+const login = catchAsync(async (req, res) => {
   const { identity, password } = req.body;
+
+  console.log(req.body);
   const data = await userService.loginuser(identity, password);
   if (!data) {
     throw new ApiError(httpStatus.NOT_FOUND, "!somthing Went Wrong");
@@ -26,8 +28,8 @@ const login = catchAsync(async (req,res)=>{
       profile_image: data.profile_image,
     },
     tokens,
-  })
-})
+  });
+});
 
 const loginWithMobile = catchAsync(async (req, res) => {
   const login = await userService.mobileLogin(req.body);
@@ -35,9 +37,9 @@ const loginWithMobile = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.NOT_FOUND, "!somthing Went Wrong");
   }
   res.status(200).send({
-    status:1,
-    msg:'OTP successfully send to your mobile number.'
-  })
+    status: 1,
+    msg: "OTP successfully send to your mobile number.",
+  });
 });
 
 const loginWithEmail = catchAsync(async (req, res) => {
@@ -81,56 +83,56 @@ const verifyOTP = catchAsync(async (req, res) => {
 const forgotPassword = catchAsync(async (req, res) => {
   const result = await userService.forgotPass(req.body);
   res.status(200).send({
-    status:true,
-    data:result
+    status: true,
+    data: result,
   });
 });
 
-const forgotPasswordSecond = catchAsync(async(req,res)=>{
+const forgotPasswordSecond = catchAsync(async (req, res) => {
   const result = await userService.forgotPassSecond(req.body);
-  if(!result){
+  if (!result) {
     throw new ApiError(httpStatus.NOT_FOUND, "Otp mismatch.");
   }
   res.status(200).send({
-    status:true,
-    msg:'OTP matched.',
-    token:result
-  })
+    status: true,
+    msg: "OTP matched.",
+    token: result,
+  });
 });
 
-const forgotPasswordThird = catchAsync(async(req,res)=>{
+const forgotPasswordThird = catchAsync(async (req, res) => {
   const result = await userService.forgotPasswordThird(req.body);
-  if(!result){
+  if (!result) {
     throw new ApiError(httpStatus.NOT_FOUND, "Something went wrong!");
   }
   res.status(200).send({
-    status:true,
-    msg:'Password reset successfully.',
-  })
-})
+    status: true,
+    msg: "Password reset successfully.",
+  });
+});
 
-const updateProfile = catchAsync(async(req,res)=>{
+const updateProfile = catchAsync(async (req, res) => {
   const update = await userService.profileUpdate(req);
-  if(!update){
+  if (!update) {
     throw new ApiError(httpStatus.NOT_FOUND, "Something wrong!");
   }
   res.status(200).send({
-    status:true,
-    msg:'Profile Update Successfully.'
-  })
-})
+    status: true,
+    msg: "Profile Update Successfully.",
+  });
+});
 
-const profileList = catchAsync(async(req,res)=>{
+const profileList = catchAsync(async (req, res) => {
   const list = await userService.profileList(req);
-  if(!list){
+  if (!list) {
     throw new ApiError(httpStatus.NOT_FOUND, "Something wrong!");
   }
   res.status(200).send({
-    status:true,
-    msg:'Profile List.',
-    profile:list
-  })
-})
+    status: true,
+    msg: "Profile List.",
+    profile: list,
+  });
+});
 
 module.exports = {
   createUser,
@@ -142,5 +144,5 @@ module.exports = {
   forgotPasswordSecond,
   forgotPasswordThird,
   updateProfile,
-  profileList
+  profileList,
 };
