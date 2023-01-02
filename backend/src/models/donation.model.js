@@ -24,6 +24,16 @@ const NewDonation = sequelize.define(tbl.TBL_NEW_DONATION, {
         trim: true,
         allowNull: true,
     },
+    TYPE:{
+        type: Sequelize.STRING(150),
+        trim: true,
+        allowNull:false,
+    },
+    REMARK:{
+        type:Sequelize.STRING(150),
+        trim:true,
+    },
+
     AMOUNT: {
         type: Sequelize.FLOAT(10, 2),
         trim: true,
