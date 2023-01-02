@@ -7,7 +7,7 @@ import ChequeSuccessfull from "./chequeSuccessfull/ChequeSuccessfull";
 import { TypesOfDonation } from "./TypesOfDonation";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+import axios from "axios";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
@@ -31,6 +31,7 @@ function Donation() {
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
   const [formerror, setFormerror] = useState({});
+  const [fordonatoin, setfordonatoin] = useState("");
   const [donationdata, setDonationdata] = useState({
     name: "",
     chequeno: "",
@@ -49,11 +50,11 @@ function Donation() {
 
   const { user } = useSelector((state) => state.userReducer);
 
-  console.log("user", user);
+  console.log("user", user.name);
   const onChange = (e) => {
     setDonationdata({ ...donationdata, [e.target.name]: e.target.value });
   };
-  const handlesubmit = (e) => {
+  const handlesubmit = async (e) => {
     setFormerror(validate(donationdata));
 
     if (!sessionStorage.getItem("token")) {
@@ -69,7 +70,7 @@ function Donation() {
         (data) => {
           serverInstance("user/add-donation", "POST", {
             NAME: donationdata.name,
-            MODE_OF_DONATION: mode === "Online" ? 1 : 2,
+            MODE_OF_DONATION: 1,
             AMOUNT: amount,
             CHEQUE_NO: donationdata?.chequeno,
             DATE_OF_CHEQUE: donationdata?.date_of_sub,
@@ -88,7 +89,30 @@ function Donation() {
     }
 
     if (mode === "Cheque") {
-      handleOpen1();
+      axios.defaults.headers.post[
+        "Authorization"
+      ] = `Bearer ${sessionStorage.getItem("token")}`;
+
+      const res = await axios.post(
+        `http://localhost:4543/api/user/add-donation`,
+        {
+          NAME: donationdata.name,
+          MODE_OF_DONATION: 2,
+          AMOUNT: amount,
+          CHEQUE_NO: donationdata?.chequeno,
+          DATE_OF_CHEQUE: donationdata?.date_of_sub,
+          NAME_OF_BANK: donationdata?.name_of_bank,
+          DATE_OF_DAAN: new Date(),
+          PAYMENT_ID: "",
+        }
+      );
+      console.log(donationdata);
+
+      if (res.data.status === true) {
+        handleOpen1();
+      } else {
+        Swal.fire("Error!", "Somthing went wrong!!", "error");
+      }
     }
   };
   useEffect(() => {}, [formerror, donationdata]);
