@@ -60,7 +60,10 @@ class DonationCollaction {
       PAYMENT_ID,
       DATE_OF_DAAN,
       ADDED_BY: userId,
-    });
+    }).catch((err)=>{
+      console.log(err)
+    })
+    console.log(result)
     if (!result) {
       return null;
     }

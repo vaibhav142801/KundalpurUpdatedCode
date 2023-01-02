@@ -11,6 +11,7 @@ const generateReceiptNo = (lastID) => {
 
 const addNewDonation = async(req)=>{
   const donation = await DonationCollection.addNewDonation(req);
+  console.log(donation);
   return donation;
 }
 

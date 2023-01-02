@@ -5,6 +5,7 @@ const ApiError = require("../utils/ApiError");
 
 const addNewDonation = catchAsync(async (req, res) => {
   const data = await donationService.addNewDonation(req);
+  console.log(data,'elect')
   if (!data) {
     throw new ApiError(httpStatus.NOT_FOUND, "!somthing Went Wrong");
   }
