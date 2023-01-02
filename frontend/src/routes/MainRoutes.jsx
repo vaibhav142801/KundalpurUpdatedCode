@@ -11,7 +11,7 @@ import Auth from "../screens/User/Auth/Auth";
 import Profile from "../screens/User/profile/Profile";
 import Reciept from "../screens/Admin/Reciept/Reciept";
 import DonationHistory from "../screens/User/donationHistory/DonationHistory";
-
+import ChangePassword from "../screens/User/ChangePassword/ChangePassword";
 function MainRoutes({ setopendashboard, setshowreciept }) {
   return (
     <>
@@ -34,6 +34,7 @@ function MainRoutes({ setopendashboard, setshowreciept }) {
             />
           }
         />
+        <Route path="/changepassword" element={<ChangePassword />} />
       </Routes>
     </>
   );
