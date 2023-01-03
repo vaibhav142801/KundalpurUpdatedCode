@@ -8,6 +8,14 @@ const generateReceiptNo = (lastID) => {
   return receiptNo;
 }
 
+const generateElcReceiptNo = (lastID) => {
+  const currentYear = new Date().getFullYear()
+  let receiptNo = `Elec${currentYear}-0000${lastID+1}`
+  return receiptNo;
+}
+
+
+
 
 const addNewDonation = async(req)=>{
   const donation = await DonationCollection.addNewDonation(req);
@@ -16,8 +24,9 @@ const addNewDonation = async(req)=>{
 }
 
 const addelecDonation = async(req)=>{
-
-  const ElecDonation = await DonationCollection.addElecDonation(req,12345345)
+  const lastID = await DonationCollection.getElecLastID();
+  const receiptNo = generateReceiptNo(lastID);
+  const ElecDonation = await DonationCollection.addElecDonation(req,receiptNo)
   return ElecDonation;
 }
 

@@ -10,7 +10,7 @@ const electricDonation  = sequelize.define(tbl.TBL_ELEC_DONATION,{
         allowNull:false,
     },
     voucherNo:{
-        type: Sequelize.INTEGER(50),
+        type: Sequelize.STRING(60),
         allowNull:false,
     },
     phoneNo: {

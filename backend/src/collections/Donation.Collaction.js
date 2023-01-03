@@ -38,8 +38,8 @@ class DonationCollaction {
       NAME_OF_BANK,
       PAYMENT_ID,
       DATE_OF_DAAN,
-      type,
-      remark
+      TYPE,
+      REMARK
     } = req.body;
 
     const count = await TblNewDonation.count();
@@ -207,6 +207,14 @@ include:[
 
   getLastID = async () => {
     const lastID = await TblDonation.findOne({
+      order: [["id", "DESC"]],
+      attributes: ["id"],
+    });
+    return lastID ? lastID.id : 1;
+  };
+
+  getElecLastID = async () => {
+    const lastID = await TblelecDonation.findOne({
       order: [["id", "DESC"]],
       attributes: ["id"],
     });
