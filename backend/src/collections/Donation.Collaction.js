@@ -38,6 +38,8 @@ class DonationCollaction {
       NAME_OF_BANK,
       PAYMENT_ID,
       DATE_OF_DAAN,
+      TYPE,
+      REMARK,
     } = req.body;
 
     const count = await TblNewDonation.count();
@@ -58,9 +60,14 @@ class DonationCollaction {
       DATE_OF_CHEQUE,
       NAME_OF_BANK,
       PAYMENT_ID,
+      TYPE,
+      REMARK,
       DATE_OF_DAAN,
       ADDED_BY: userId,
+    }).catch((err) => {
+      console.log(err);
     });
+    console.log(result);
     if (!result) {
       return null;
     }
@@ -117,10 +124,7 @@ class DonationCollaction {
     return result;
   };
 
-
-
-  addElecDonation = async (req,voucherNo) => {
- 
+  addElecDonation = async (req, voucherNo) => {
     try {
       const {
         name,
@@ -132,7 +136,7 @@ class DonationCollaction {
         donation_time,
         donation_item,
       } = req.body;
-      console.log(req.body)
+      console.log(req.body);
       const userId = req.user.id;
 
       const result = await TblelecDonation.create({
@@ -184,19 +188,19 @@ class DonationCollaction {
     }
   };
 
-  getElecDonation = async (req) =>{
+  getElecDonation = async (req) => {
     const userId = req.user.id;
     let data = await TblelecDonation.findAll({
       where: { created_by: userId },
-include:[
-  {
-    model:TblelecDonationItem,
-    as:'elecItemDetails'
-  }
-]
-    })
-    return data
-  }
+      include: [
+        {
+          model: TblelecDonationItem,
+          as: "elecItemDetails",
+        },
+      ],
+    });
+    return data;
+  };
 
   getLastID = async () => {
     const lastID = await TblDonation.findOne({
@@ -230,8 +234,6 @@ include:[
     });
     return record;
   };
-
-  
 
   newDonationRecord = async (req) => {
     const userId = req.user.id;

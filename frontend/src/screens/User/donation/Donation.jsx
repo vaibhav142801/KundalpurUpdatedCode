@@ -77,6 +77,8 @@ function Donation() {
             NAME_OF_BANK: donationdata?.name_of_bank,
             DATE_OF_DAAN: new Date(),
             PAYMENT_ID: data.razorpay_order_id,
+            TYPE: donationdata?.donationtype,
+            REMARK: donationdata?.Remark,
           }).then((res) => {
             if (res.status === true) {
               handleOpen();
@@ -104,6 +106,8 @@ function Donation() {
           NAME_OF_BANK: donationdata?.name_of_bank,
           DATE_OF_DAAN: new Date(),
           PAYMENT_ID: "",
+          TYPE: donationdata?.donationtype,
+          REMARK: donationdata?.Remark,
         }
       );
       console.log(donationdata);
