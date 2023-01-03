@@ -11,6 +11,7 @@ import {
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useAuth } from "../../../../Context/AuthContext";
+import { useJwt } from "react-jwt";
 
 const VivekPLogin = () => {
   const [verify, setVerify] = useState(false);
@@ -38,7 +39,6 @@ const VivekPLogin = () => {
     dispatch(
       LoginwithOtp({ mobile_no: mobileNo }, (res) => {
         if (res.status === 1) {
-          console.log(res)
 
           Swal.fire("Great!", res.msg, "success");
           setVerify(true);
@@ -55,9 +55,11 @@ const VivekPLogin = () => {
       VerifyOtp({ username: mobileNo, otp: otp }, (res) => {
         console.log(res);
         if (res) {
-          auth.setUser(res.tokens.access.token)
-          auth.verifyUser()
+        
+         
           sessionStorage.setItem("token", res.tokens.access.token);
+          auth.setUser(res.tokens.access.token)
+          
           navigation("/donation");
           Swal.fire("Great!", res.msg, "success");
           setMobileNo("");

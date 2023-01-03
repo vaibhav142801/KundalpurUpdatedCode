@@ -13,6 +13,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Swal from "sweetalert2";
 import "./Donation.css";
+import { useJwt } from "react-jwt";
 const style = {
   position: "absolute",
   top: "40%",
@@ -47,7 +48,7 @@ function Donation() {
   const handleClose = () => setOpen(false);
   const handleOpen1 = () => setOpen1(true);
   const handleClose1 = () => setOpen1(false);
-
+const auth = useAuth()
   const { user } = useSelector((state) => state.userReducer);
 
   console.log("user", user.name);
@@ -118,6 +119,7 @@ function Donation() {
     }
   };
   useEffect(() => {}, [formerror, donationdata]);
+  console.log(useJwt(sessionStorage.getItem("token")))
   const validate = (values) => {
     const errors = {};
 
@@ -155,6 +157,7 @@ function Donation() {
   };
 
   return (
+    auth.verify ?
     <>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -515,6 +518,7 @@ function Donation() {
         </div>
       </div>
     </>
+    : <div>Loading ...</div>
   );
 }
 

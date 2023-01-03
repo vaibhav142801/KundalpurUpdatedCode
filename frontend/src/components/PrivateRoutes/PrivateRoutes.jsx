@@ -2,18 +2,24 @@ import React, { useEffect } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../Context/AuthContext';
 
-export default function PrivateRoutes() {
+export default function PrivateRoutes({children}) {
 
     const auth = useAuth();
     const navigate = useNavigate();
- 
+    let token = sessionStorage.getItem('token');
     useEffect(() => {
-        auth.verifyUser()
-    }, [auth.verify])
+     if(!token){
+      navigate('/login')
+     }
+    }, [token])
     
-    if (auth.verify) {
+    
+  console.log('tpken' ,token)
+    if (token) {
         return children;
-      } else {
-        Navigate('/login')
-      }
+      } 
+
+        navigate('/login')
+      
+    
 }
