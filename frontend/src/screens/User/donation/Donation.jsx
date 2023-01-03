@@ -14,6 +14,7 @@ import Fade from "@mui/material/Fade";
 import Swal from "sweetalert2";
 import "./Donation.css";
 import { useJwt } from "react-jwt";
+import { useAuth } from "../../../Context/AuthContext";
 const style = {
   position: "absolute",
   top: "40%",

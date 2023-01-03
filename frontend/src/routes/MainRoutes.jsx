@@ -35,7 +35,8 @@ function MainRoutes({ setopendashboard, setshowreciept }) {
         <Route
           path="/donation"
           element={
-            <PrivateRoutes>
+      // route is protected  
+      <PrivateRoutes>      
               <Donation />
             </PrivateRoutes>
           }
