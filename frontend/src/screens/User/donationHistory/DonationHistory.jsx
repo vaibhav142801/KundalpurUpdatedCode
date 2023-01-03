@@ -112,7 +112,9 @@ function DonationHistory() {
                       <TableCell align="left">
                         {row.NAME_OF_BANK ? row.NAME_OF_BANK : "-"}
                       </TableCell>
-                      <TableCell align="left">{row.PAYMENT_ID}</TableCell>
+                      <TableCell align="left">
+                        {row.PAYMENT_ID ? row.PAYMENT_ID : "-"}
+                      </TableCell>
                       <TableCell
                         align="left"
                         style={{ cursor: "pointer" }}

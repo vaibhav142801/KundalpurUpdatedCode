@@ -4,9 +4,12 @@ import App from "./App";
 import "./index.css";
 import { Provider } from "react-redux";
 import store from "./Redux/redux/store";
+import ProtectedProvider from "./Context/AuthContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
+  <ProtectedProvider>
   <Provider store={store}>
     <App />
   </Provider>
+  </ProtectedProvider>
 );

@@ -10,7 +10,7 @@ import { useLocation } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import Logo from "../../../assets/logo1.jpeg";
-
+import LockOpenIcon from "@mui/icons-material/LockOpen";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -80,6 +80,13 @@ const Navbar = () => {
       >
         <MenuItem onClick={() => navigate("/profile")}>
           <Avatar /> Profile
+        </MenuItem>
+
+        <MenuItem onClick={() => navigate("/changepassword")}>
+          <ListItemIcon>
+            <LockOpenIcon fontSize="small" />
+          </ListItemIcon>
+          Change Password
         </MenuItem>
         <MenuItem onClick={() => navigate("/donationhistory")}>
           <ListItemIcon>

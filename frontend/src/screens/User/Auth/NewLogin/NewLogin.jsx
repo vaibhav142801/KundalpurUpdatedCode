@@ -10,6 +10,7 @@ import {
 } from "../../../../Redux/redux/action/AuthAction";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { useAuth } from "../../../../Context/AuthContext";
 
 const VivekPLogin = () => {
   const [verify, setVerify] = useState(false);
@@ -17,6 +18,9 @@ const VivekPLogin = () => {
 
   const dispatch = useDispatch();
   const navigation = useNavigate();
+
+
+  const auth = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,6 +38,8 @@ const VivekPLogin = () => {
     dispatch(
       LoginwithOtp({ mobile_no: mobileNo }, (res) => {
         if (res.status === 1) {
+          console.log(res)
+
           Swal.fire("Great!", res.msg, "success");
           setVerify(true);
           setMobileNo(mobileNo);
@@ -49,6 +55,8 @@ const VivekPLogin = () => {
       VerifyOtp({ username: mobileNo, otp: otp }, (res) => {
         console.log(res);
         if (res) {
+          auth.setUser(res.tokens.access.token)
+          auth.verifyUser()
           sessionStorage.setItem("token", res.tokens.access.token);
           navigation("/donation");
           Swal.fire("Great!", res.msg, "success");

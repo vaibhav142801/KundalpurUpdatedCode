@@ -15,7 +15,7 @@ const OtpVerify = ({ title, description, mobileNo, handleVerify }) => {
           onSubmit={(e) => {
             e.preventDefault();
             if (otp.length < 6) return;
-            handleVerify(otp);
+            handleVerify(otp)
           }}
           className="verify-form"
         >
