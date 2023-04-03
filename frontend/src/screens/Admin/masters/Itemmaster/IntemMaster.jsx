@@ -20,6 +20,15 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+
+import Delete from '../../../../assets/Delete.png';
+import Edit from '../../../../assets/Edit.png';
+import { Button } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import './IntemMaster.css';
 import { ReactTransliterate } from 'react-transliterate';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -110,7 +119,33 @@ function IntemMaster() {
   useEffect(() => {
     getall_donatiions();
   }, [refetch, open, open3]);
+  const [deleteId, setdeleteId] = useState('');
+  const [open4, setOpen4] = React.useState(false);
 
+  const handleClickOpen3 = (id) => {
+    setOpen4(true);
+    setdeleteId(id);
+  };
+  const handleClose6 = () => setOpen4(false);
+  const handleClose4 = () => {
+    setOpen4(false);
+    console.log('sd');
+    serverInstance('admin/delete-donation-type', 'post', {
+      id: deleteId,
+      type: 2,
+    })
+      .then((res) => {
+        if (res.status) {
+          Swal.fire('Great!', res.message, 'success');
+          getall_donatiions();
+        } else {
+          Swal('Error', 'somthing went  wrong', 'error');
+        }
+      })
+      .catch((error) => {
+        Swal('Error', 'somthing went  wrong', 'error');
+      });
+  };
   const deacivateAndactivateuser = async (id) => {
     try {
       if (!manageActivation) {
@@ -156,6 +191,27 @@ function IntemMaster() {
   });
   return (
     <>
+      <Dialog
+        open={open4}
+        onClose={handleClose6}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {'Do you want to delete'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            After delete you cannot get again
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose6}>Disagree</Button>
+          <Button onClick={handleClose4} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -311,19 +367,21 @@ function IntemMaster() {
                     </TableCell>
                     <TableCell>
                       <Tooltip title="Edit Item head">
-                        <EditIcon onClick={() => handleOpen3(row)} />
+                        <img
+                          src={Edit}
+                          onClick={() => handleOpen3(row)}
+                          alt="xx"
+                          style={{ width: '20px', marginRight: '1rem' }}
+                        />
                       </Tooltip>
 
-                      {row.status === 1 ? (
+                      {row.status === 1 && (
                         <Tooltip title="Now active">
-                          <CloseIcon
-                            onClick={() => deacivateAndactivateuser(row.id)}
-                          />
-                        </Tooltip>
-                      ) : (
-                        <Tooltip title="Now Deactivate">
-                          <CheckIcon
-                            onClick={() => deacivateAndactivateuser(row.id)}
+                          <img
+                            src={Delete}
+                            onClick={() => handleClickOpen3(row.id)}
+                            alt="xx"
+                            style={{ width: '20px' }}
                           />
                         </Tooltip>
                       )}

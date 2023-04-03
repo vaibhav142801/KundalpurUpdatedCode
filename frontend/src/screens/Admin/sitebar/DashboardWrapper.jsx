@@ -37,6 +37,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Signature from '../Signature/Signature';
 import ProfileAdminAndEmp from '../Profile/ProfileAdminAndEmp';
 import ChangePassword from '../ChangePassword/ChangePassword';
+import './DashboardWrapper.css';
 const style = {
   position: 'absolute',
   top: '48%',
@@ -340,8 +341,8 @@ const DashboardWrapper = () => {
           filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
           mt: 1.5,
           '& .MuiAvatar-root': {
-            width: 22,
-            height: 32,
+            width: 55,
+            height: 55,
           },
           '&:before': {
             content: '""',
@@ -349,7 +350,7 @@ const DashboardWrapper = () => {
             position: 'absolute',
             top: 0,
             right: 14,
-            width: 10,
+            width: 0,
             height: 10,
             bgcolor: 'background.paper',
             transform: 'translateY(-50%) rotate(45deg)',
@@ -360,6 +361,28 @@ const DashboardWrapper = () => {
       transformOrigin={{ horizontal: 'right', vertical: 'top' }}
       anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
     >
+      <div className="main_menu_drop">
+        <Avatar
+          alt={empName ? empName : adminName}
+          src={`${backendUrl}uploads/images/${profileimg}`}
+          sx={{
+            width: 50,
+            height: 50,
+            marginRight: '11px',
+            marginTop: '5px',
+            marginLeft: '11px',
+          }}
+        />
+        <Typography
+          sx={{
+            size: '10px',
+            lineHeight: '17px',
+          }}
+        >
+          {empName ? empName : adminName}
+        </Typography>
+      </div>
+
       <MenuItem onClick={() => handleClickOpen3()}>
         <ListItemIcon>
           <UploadIcon fontSize="small" />
@@ -382,7 +405,11 @@ const DashboardWrapper = () => {
       </MenuItem>
 
       <Divider />
-      <MenuItem onClick={() => logout()}>
+      <MenuItem
+        className="main_menu_drop_logout"
+        style={{ marginLeft: '0.2rem' }}
+        onClick={() => logout()}
+      >
         <ListItemIcon>
           <Logout fontSize="small" />
         </ListItemIcon>
@@ -538,7 +565,7 @@ const DashboardWrapper = () => {
             />
           </Search> */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton
+            {/* <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
@@ -547,7 +574,7 @@ const DashboardWrapper = () => {
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
             <Box
               sx={{
                 display: 'flex',
@@ -556,6 +583,7 @@ const DashboardWrapper = () => {
               }}
             >
               <Avatar
+                onClick={handleClick1}
                 alt={empName ? empName : adminName}
                 src={`${backendUrl}uploads/images/${profileimg}`}
                 sx={{
@@ -566,34 +594,6 @@ const DashboardWrapper = () => {
                   marginLeft: '11px',
                 }}
               />
-              <div
-                style={{
-                  paddingRight: '1rem',
-                  paddingTop: '0.5rem',
-                  paddingLeft: '1rem',
-
-                  border: '1px solid gray',
-
-                  paddingBottom: '0.5rem',
-                  borderRadius: '5px',
-                }}
-              >
-                <Typography
-                  sx={{
-                    size: '10px',
-                    lineHeight: '17px',
-                  }}
-                >
-                  {empName ? empName : adminName}
-                </Typography>
-              </div>
-
-              <IconButton size="small" aria-label="more" onClick={handleClick1}>
-                <ArrowDropDownOutlinedIcon
-                  size="large"
-                  sx={{ color: 'gray' }}
-                />
-              </IconButton>
             </Box>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

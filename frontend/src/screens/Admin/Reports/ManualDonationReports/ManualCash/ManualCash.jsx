@@ -48,6 +48,13 @@ import axios from 'axios';
 import { backendApiUrl } from '../../../../../config/config';
 import ManualDonationTap from '../ManualDonationTap';
 import Delete from '../../../../../assets/Delete.png';
+import { Button } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -208,6 +215,29 @@ const ManualCash = ({ setopendashboard }) => {
     });
   };
 
+  const [deleteId, setdeleteId] = useState('');
+  const [open3, setOpen3] = React.useState(false);
+
+  const handleClickOpen3 = (id) => {
+    setOpen3(true);
+    setdeleteId(id);
+  };
+  const handleClose6 = () => setOpen3(false);
+  const handleClose4 = () => {
+    setOpen3(false);
+    serverInstance('admin/delete-meanual-donation', 'post', { id: deleteId })
+      .then((res) => {
+        if (res.status) {
+          Swal.fire('Great!', res.message, 'success');
+          getall_donation();
+        } else {
+          Swal('Error', 'somthing went  wrong', 'error');
+        }
+      })
+      .catch((error) => {
+        Swal('Error', 'somthing went  wrong', 'error');
+      });
+  };
   const deletedonation = async (id) => {
     serverInstance('admin/delete-meanual-donation', 'post', { id: id })
       .then((res) => {
@@ -420,6 +450,27 @@ const ManualCash = ({ setopendashboard }) => {
 
   return (
     <>
+      <Dialog
+        open={open3}
+        onClose={handleClose6}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {'Do you want to delete'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            After delete you cannot get again
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose6}>Disagree</Button>
+          <Button onClick={handleClose4} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -845,7 +896,7 @@ const ManualCash = ({ setopendashboard }) => {
                           <img
                             src={Delete}
                             style={{ width: '20px' }}
-                            onClick={() => deletedonation(row.id)}
+                            onClick={() => handleClickOpen3(row.id)}
                             alt="dd"
                           />
                         )}

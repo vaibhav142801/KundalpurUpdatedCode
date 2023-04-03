@@ -154,8 +154,6 @@ const UpdateCommon = ({
     ] = `Bearer ${sessionStorage.getItem('token')}`;
     e.preventDefault();
     if (showUpdateBtn) {
-      console.log('upadte');
-
       if (fullName && donationItems[0].amount && donationItems[0].type) {
         const res = await axios.put(
           `${backendApiUrl}user/edit-manual-cash-donation`,
@@ -168,8 +166,8 @@ const UpdateCommon = ({
             address: address,
             new_member: newMember,
             modeOfDonation: 2,
-            donation_date: updateData?.donation_date,
-            donation_time: updateData?.donation_time,
+            donation_date: donationDate,
+            donation_time: donationTime,
             donation_item: donationItems,
           },
         );

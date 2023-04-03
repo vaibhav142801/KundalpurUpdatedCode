@@ -164,8 +164,8 @@ const UpdateChe = ({
               ReceiptNo: receiptNo,
               new_member: newMember,
               modeOfDonation: 3,
-              donation_date: updateData?.donation_date,
-              donation_time: updateData?.donation_time,
+              donation_date: donationDate,
+              donation_time: donationTime,
               donation_item: donationItems,
             },
           );

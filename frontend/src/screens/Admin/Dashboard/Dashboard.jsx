@@ -87,7 +87,7 @@ const Dashboard = ({ setopendashboard }) => {
                 style={{ background: '#FE0000', color: 'white' }}
               >
                 <p>Donation</p>
-                <div className="main_repue_img">
+                <div className="main_repue_img" style={{ color: '#05313C' }}>
                   <DonationTotal data={isData1} />
                   <img src={Group225} alt="dd" />
                 </div>
@@ -98,7 +98,7 @@ const Dashboard = ({ setopendashboard }) => {
                 style={{ background: '#FECE00', color: 'white' }}
               >
                 <p>Manual Donation</p>
-                <div className="main_repue_img">
+                <div className="main_repue_img" style={{ color: '#05313C' }}>
                   <ManaulTotal data={isData2} />
                   <img src={Group225} alt="dd" />
                 </div>
@@ -109,7 +109,7 @@ const Dashboard = ({ setopendashboard }) => {
                 style={{ background: '#009430', color: 'white' }}
               >
                 <p>Online Donation</p>
-                <div className="main_repue_img">
+                <div className="main_repue_img" style={{ color: '#05313C' }}>
                   <OnlineTotal data={isData3} />
                   <img src={Group224} alt="dd" />
                 </div>
@@ -153,7 +153,7 @@ const Dashboard = ({ setopendashboard }) => {
                 style={{ background: '#FE0000', color: 'white', width: '23%' }}
               >
                 <p>Donation</p>
-                <div className="main_repue_img">
+                <div className="main_repue_img" style={{ color: '#05313C' }}>
                   <EmpelecTotal data={isData4} />
                   <img src={Group225} alt="dd" />
                 </div>
@@ -164,7 +164,7 @@ const Dashboard = ({ setopendashboard }) => {
                 style={{ background: '#FECE00', color: 'white', width: '23%' }}
               >
                 <p>Manual Donation</p>
-                <div className="main_repue_img">
+                <div className="main_repue_img" style={{ color: '#05313C' }}>
                   <EmpmanulTotal data={isData5} />
                   <img src={Group225} alt="dd" />
                 </div>

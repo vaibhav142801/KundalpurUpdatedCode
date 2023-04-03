@@ -167,8 +167,8 @@ const UpdateTtem = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
           address: address,
           new_member: newMember,
           modeOfDonation: 1,
-          donation_date: updateData?.donation_date,
-          donation_time: updateData?.donation_time,
+          donation_date: donationDate,
+          donation_time: donationTime,
           donation_item: donationItems,
         },
       );

@@ -152,15 +152,17 @@ const CashDonation = ({
   });
 
   var date = today.toISOString().substring(0, 10);
-  const [donationDate, setDonationDate] = useState(date);
+  const [donationDate, setDonationDate] = useState(showUpdateBtn ? '' : date);
 
   const [donationTime, setDonationTime] = useState(
-    today.toLocaleTimeString('it-IT', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    }),
+    showUpdateBtn
+      ? ''
+      : today.toLocaleTimeString('it-IT', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        }),
   );
   const getDonatedUserDetails = () => {
     serverInstance(`admin/getuser-by-num?mobile=${mobileNo}`, 'get').then(
@@ -203,8 +205,8 @@ const CashDonation = ({
           address: address,
           new_member: newMember,
           modeOfDonation: 2,
-          donation_date: updateData?.donation_date,
-          donation_time: updateData?.donation_time,
+          donation_date: donationDate,
+          donation_time: donationTime,
           donation_item: donationItems,
         });
 
@@ -307,8 +309,12 @@ const CashDonation = ({
       setFullName(updateData?.name);
       setMobileNo(updateData?.phoneNo);
       setDonationItems(updateData?.elecItemDetails);
+      setDonationTime(updateData?.donation_time);
+      var today = new Date(updateData?.donation_date);
+      var date = today.toISOString().substring(0, 10);
       setgenderp(updateData?.gender);
       setgenderp1(updateData?.gender);
+      setDonationDate(date);
     }
     setrole(Number(sessionStorage.getItem('userrole')));
   }, []);
