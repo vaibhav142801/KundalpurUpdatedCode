@@ -1,6 +1,7 @@
-import { toast } from "react-toastify";
-import { serverInstance } from "../../../API/ServerInstance";
-import axios from "axios";
+import { toast } from 'react-toastify';
+import { serverInstance } from '../../../API/ServerInstance';
+import { backendApiUrl } from '../../../config/config';
+import axios from 'axios';
 import {
   AUTH_LOGIN,
   AUTH_SIGNUP,
@@ -12,31 +13,22 @@ import {
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAIL,
-} from "../constants/action";
+} from '../constants/action';
 
 export const LoginwithOtp = (data, response) => {
-  serverInstance("user/login-with-mobile", "POST", data).then((res) => {
-    try {
-      response(res);
-      
-    } catch (error) {
-      alert(res.message);
-    }
+  serverInstance('user/login-with-mobile', 'POST', data).then((res) => {
+    response(res);
   });
 };
 
 export const VerifyOtp = (data, response) => {
-  serverInstance("user/verify-opt", "POST", data).then((res) => {
-    try {
-      response(res);
-    } catch (error) {
-      alert(res.message);
-    }
+  serverInstance('user/verify-opt', 'POST', data).then((res) => {
+    response(res);
   });
 };
 
 export const User_AllDonation = (data, response) => {
-  serverInstance("user/donation-list", "GET", {}).then((res) => {
+  serverInstance('user/donation-list', 'GET', {}).then((res) => {
     try {
       response(res);
     } catch (error) {
@@ -49,20 +41,20 @@ export const User_AllDonation = (data, response) => {
 export const updateProfile = (userData) => async (dispatch) => {
   try {
     axios.defaults.headers.post[
-      "Authorization"
-    ] = `Bearer ${sessionStorage.getItem("token")}`;
+      'Authorization'
+    ] = `Bearer ${sessionStorage.getItem('token')}`;
     dispatch({ type: UPDATE_PROFILE_REQUEST });
 
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     };
 
     const { data } = await axios.post(
-      `http://localhost:4543/api/user/update-profile`,
+      `${backendApiUrl}user/update-profile`,
       userData,
-      config
+      config,
     );
 
     dispatch({
@@ -81,22 +73,86 @@ export const updateProfile = (userData) => async (dispatch) => {
 export const loadUser = () => async (dispatch) => {
   try {
     axios.defaults.headers.get[
-      "Authorization"
-    ] = `Bearer ${sessionStorage.getItem("token")}`;
+      'Authorization'
+    ] = `Bearer ${sessionStorage.getItem('token')}`;
     dispatch({ type: UPDATE_PROFILE_REQUEST });
 
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
     };
     const { data } = await axios.get(
-      `http://localhost:4543/api/user/profile-list`
+      `${backendApiUrl}user/profile-list`,
+      config,
     );
 
     dispatch({
       type: LOAD_USER_SUCCESS,
       payload: data.profile,
+    });
+  } catch (error) {
+    dispatch({
+      type: LOAD_USER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// admin user
+export const loadAdminprofile = () => async (dispatch) => {
+  try {
+    axios.defaults.headers.get[
+      'Authorization'
+    ] = `Bearer ${sessionStorage.getItem('token')}`;
+    dispatch({ type: UPDATE_PROFILE_REQUEST });
+
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      },
+    };
+    const { data } = await axios.get(
+      `${backendApiUrl}admin/update-admin-prof`,
+      config,
+    );
+    console.log(data.data);
+    dispatch({
+      type: LOAD_USER_SUCCESS,
+      payload: data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: LOAD_USER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//emplyee user
+export const loademployeeprofile = () => async (dispatch) => {
+  try {
+    axios.defaults.headers.get[
+      'Authorization'
+    ] = `Bearer ${sessionStorage.getItem('token')}`;
+    dispatch({ type: UPDATE_PROFILE_REQUEST });
+
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      },
+    };
+    const { data } = await axios.get(
+      `${backendApiUrl}admin/update-employee-prof `,
+      config,
+    );
+    console.log('ddd', data.data);
+    dispatch({
+      type: LOAD_USER_SUCCESS,
+      payload: data.data,
     });
   } catch (error) {
     dispatch({
