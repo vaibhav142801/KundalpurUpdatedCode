@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import Tooltip from '@mui/material/Tooltip';
 import { serverInstance } from '../../../../../API/ServerInstance';
 import Swal from 'sweetalert2';
 import { useNavigate, Link } from 'react-router-dom';
@@ -230,19 +230,27 @@ const Consolidated = ({ setopendashboard }) => {
               </select>
               <button onClick={() => filterdata()}>Search</button>
               <button onClick={() => getall_donation()}>Reset</button>
-              <img
-                onClick={() => ExportToExcel()}
-                src={ExportExcel}
-                alt="s"
-                style={{ width: '30px' }}
-              />
-              <label>&nbsp;</label>
-              <img
-                onClick={() => ExportPdfmanul(isData, 'ManualCashReport')}
-                src={ExportPdf}
-                alt="ss"
-                style={{ width: '30px' }}
-              />
+              <Tooltip title="Print">
+                <img src={Print} alt="ss" style={{ width: '30px' }} />
+              </Tooltip>
+
+              <Tooltip title="Export excel">
+                <img
+                  onClick={() => ExportToExcel()}
+                  src={ExportExcel}
+                  alt="s"
+                  style={{ width: '30px' }}
+                />
+              </Tooltip>
+
+              <Tooltip title="Export pdf">
+                <img
+                  onClick={() => ExportPdfmanul(isData, 'ManualCashReport')}
+                  src={ExportPdf}
+                  alt="ss"
+                  style={{ width: '30px' }}
+                />
+              </Tooltip>
             </div>
             <div></div>
           </div>

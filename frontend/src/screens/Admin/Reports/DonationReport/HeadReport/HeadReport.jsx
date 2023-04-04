@@ -23,6 +23,7 @@ import Edit from '../../../../../assets/Edit.png';
 import eye from '../../../../../assets/eye.png';
 import DonationReportTap from '../DonationReportTap';
 import { ReactSpinner } from 'react-spinning-wheel';
+import Tooltip from '@mui/material/Tooltip';
 import 'react-spinning-wheel/dist/style.css';
 
 const HeadReport = ({ setopendashboard }) => {
@@ -187,25 +188,30 @@ const HeadReport = ({ setopendashboard }) => {
               </select>
               <button onClick={() => filterdata()}>Search</button>
               <button onClick={() => resetbutn()}>Reset</button>
-              <img
-                onClick={() => ExportPdfmanul(isData, 'HeadReport')}
-                src={Print}
-                alt="ss"
-                style={{ width: '30px' }}
-              />
-              <img
-                onClick={() => ExportToExcel()}
-                src={ExportExcel}
-                alt="s"
-                style={{ width: '30px' }}
-              />
-
-              <img
-                onClick={() => ExportPdfmanul(isData, 'HeadReport')}
-                src={ExportPdf}
-                alt="ss"
-                style={{ width: '30px' }}
-              />
+              <Tooltip title="Print">
+                <img
+                  onClick={() => ExportPdfmanul(isData, 'HeadReport')}
+                  src={Print}
+                  alt="ss"
+                  style={{ width: '30px' }}
+                />
+              </Tooltip>
+              <Tooltip title="Export excel">
+                <img
+                  onClick={() => ExportToExcel()}
+                  src={ExportExcel}
+                  alt="s"
+                  style={{ width: '30px' }}
+                />
+              </Tooltip>
+              <Tooltip title="Export pdf">
+                <img
+                  onClick={() => ExportPdfmanul(isData, 'HeadReport')}
+                  src={ExportPdf}
+                  alt="ss"
+                  style={{ width: '30px' }}
+                />
+              </Tooltip>
             </div>
             <div></div>
           </div>
@@ -224,7 +230,7 @@ const HeadReport = ({ setopendashboard }) => {
                 <TableCell>Amount Electronic</TableCell>
                 <TableCell>Amount Item</TableCell>
                 <TableCell>Amount Cash</TableCell>
-                <TableCell>Total</TableCell>
+                <TableCell style={{ fontWeight: 700 }}>Total</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

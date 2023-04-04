@@ -344,6 +344,7 @@ const CashDonation = ({
               </CustomInputLabel>
               <CustomInput
                 type="text"
+                required
                 id="receiptNo"
                 value={receiptNo}
                 onChange={(event) => {

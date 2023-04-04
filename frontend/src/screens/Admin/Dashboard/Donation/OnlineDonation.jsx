@@ -196,6 +196,7 @@ const OnlineDonation = ({ setopendashboard }) => {
                   style={{
                     fontSize: '15px',
                     color: '#05313C',
+                    fontWeight: 700,
                   }}
                 >
                   Total
@@ -204,6 +205,7 @@ const OnlineDonation = ({ setopendashboard }) => {
                   style={{
                     fontSize: '15px',
                     color: '#05313C',
+                    fontWeight: 700,
                   }}
                 >
                   {isData
@@ -219,6 +221,7 @@ const OnlineDonation = ({ setopendashboard }) => {
                   style={{
                     fontSize: '15px',
                     color: '#05313C',
+                    fontWeight: 700,
                   }}
                 >
                   {isData
@@ -233,6 +236,7 @@ const OnlineDonation = ({ setopendashboard }) => {
                   style={{
                     fontSize: '15px',
                     color: '#05313C',
+                    fontWeight: 700,
                   }}
                 >
                   {isData

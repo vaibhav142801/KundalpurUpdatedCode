@@ -187,6 +187,7 @@ const ManualDonation = () => {
                   style={{
                     fontSize: '15px',
                     color: '#05313C',
+                    fontWeight: 700,
                   }}
                 >
                   Total
@@ -195,6 +196,7 @@ const ManualDonation = () => {
                   style={{
                     fontSize: '15px',
                     color: '#05313C',
+                    fontWeight: 700,
                   }}
                 >
                   {isData
@@ -209,6 +211,7 @@ const ManualDonation = () => {
                   style={{
                     fontSize: '15px',
                     color: '#05313C',
+                    fontWeight: 700,
                   }}
                 >
                   {isData
@@ -223,6 +226,7 @@ const ManualDonation = () => {
                   style={{
                     fontSize: '15px',
                     color: '#05313C',
+                    fontWeight: 700,
                   }}
                 >
                   {isData
@@ -237,6 +241,7 @@ const ManualDonation = () => {
                   style={{
                     fontSize: '15px',
                     color: '#05313C',
+                    fontWeight: 700,
                   }}
                 >
                   {isData

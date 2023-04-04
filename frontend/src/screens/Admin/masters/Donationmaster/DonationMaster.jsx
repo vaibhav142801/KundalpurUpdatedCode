@@ -21,7 +21,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { ReactTransliterate } from 'react-transliterate';
-
+import Tooltip from '@mui/material/Tooltip';
 import Delete from '../../../../assets/Delete.png';
 import Edit from '../../../../assets/Edit.png';
 import { Button } from '@mui/material';
@@ -373,20 +373,24 @@ function DonationMaster() {
                       {row.status === 1 ? 'Active' : 'Deactive'}
                     </TableCell> */}
                     <TableCell>
-                      <img
-                        src={Edit}
-                        onClick={() => handleOpen3(row)}
-                        alt="edit"
-                        style={{ width: '20px', marginRight: '1rem' }}
-                      />
+                      <Tooltip title="Edit">
+                        <img
+                          src={Edit}
+                          onClick={() => handleOpen3(row)}
+                          alt="edit"
+                          style={{ width: '20px', marginRight: '1rem' }}
+                        />
+                      </Tooltip>
 
                       {row.status === 1 && (
-                        <img
-                          style={{ width: '20px' }}
-                          src={Delete}
-                          onClick={() => handleClickOpen3(row?.id)}
-                          alt="delete"
-                        />
+                        <Tooltip title="Delete">
+                          <img
+                            style={{ width: '20px' }}
+                            src={Delete}
+                            onClick={() => handleClickOpen3(row?.id)}
+                            alt="delete"
+                          />
+                        </Tooltip>
                       )}
                     </TableCell>
                   </TableRow>

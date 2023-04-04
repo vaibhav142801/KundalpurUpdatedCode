@@ -20,9 +20,7 @@ const ManualTotal = ({ data }) => {
   const converter = new Converter(hiIN);
   return (
     <>
-      <Typography variant="body1" fontSize={14}>
-        {'₹' + totalAmount + '/-'}
-      </Typography>
+      <span>{'₹' + totalAmount + '/-'}</span>
     </>
   );
 };

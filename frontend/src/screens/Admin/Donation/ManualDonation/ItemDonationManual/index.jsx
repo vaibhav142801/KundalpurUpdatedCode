@@ -372,6 +372,7 @@ const ItemDonation = ({
                 Receipt No
               </CustomInputLabel>
               <CustomInput
+                required
                 type="text"
                 id="receiptNo"
                 value={receiptNo}

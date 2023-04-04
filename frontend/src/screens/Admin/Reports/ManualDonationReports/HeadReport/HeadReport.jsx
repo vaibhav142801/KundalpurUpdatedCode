@@ -22,7 +22,7 @@ import ExportExcel from '../../../../../assets/ExportExcel.png';
 import Edit from '../../../../../assets/Edit.png';
 import eye from '../../../../../assets/eye.png';
 import ManualDonationTap from '../ManualDonationTap';
-
+import Tooltip from '@mui/material/Tooltip';
 const style = {
   position: 'absolute',
   top: '40%',
@@ -212,25 +212,30 @@ const HeadReport = ({ setopendashboard }) => {
               </select>
               <button onClick={() => filterdata()}>Search</button>
               <button onClick={() => resetbutn()}>Reset</button>
-              <img
-                onClick={() => ExportPdfmanul(isData, 'HeadReport')}
-                src={Print}
-                alt="ss"
-                style={{ width: '30px' }}
-              />
-              <img
-                onClick={() => ExportToExcel()}
-                src={ExportExcel}
-                alt="s"
-                style={{ width: '30px' }}
-              />
-
-              <img
-                onClick={() => ExportPdfmanul(isData, 'HeadReport')}
-                src={ExportPdf}
-                alt="ss"
-                style={{ width: '30px' }}
-              />
+              <Tooltip title="Print">
+                <img
+                  onClick={() => ExportPdfmanul(isData, 'HeadReport')}
+                  src={Print}
+                  alt="ss"
+                  style={{ width: '30px' }}
+                />
+              </Tooltip>
+              <Tooltip title="Export excel">
+                <img
+                  onClick={() => ExportToExcel()}
+                  src={ExportExcel}
+                  alt="s"
+                  style={{ width: '30px' }}
+                />
+              </Tooltip>
+              <Tooltip title="Export pdf">
+                <img
+                  onClick={() => ExportPdfmanul(isData, 'HeadReport')}
+                  src={ExportPdf}
+                  alt="ss"
+                  style={{ width: '30px' }}
+                />
+              </Tooltip>
             </div>
             <div></div>
           </div>

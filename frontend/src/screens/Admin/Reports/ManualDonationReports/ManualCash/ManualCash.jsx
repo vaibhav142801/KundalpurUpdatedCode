@@ -4,25 +4,19 @@ import Swal from 'sweetalert2';
 import { useNavigate, Link } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import EditIcon from '@mui/icons-material/Edit';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
-import CancelIcon from '@mui/icons-material/Cancel';
 import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import PrintIcon from '@mui/icons-material/Print';
 import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
 import Cancel from '../../../compoments/Cancel1';
-import SimCardAlertIcon from '@mui/icons-material/SimCardAlert';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import DownloadIcon from '@mui/icons-material/Download';
 import ClearIcon from '@mui/icons-material/Clear';
 import Moment from 'moment-js';
-import CircularProgress from '@mui/material/CircularProgress';
 import exportFromJSON from 'export-from-json';
 import { ExportPdfmanul } from '../../../compoments/ExportPdf';
 import UpdateCash from '../../../Donation/ManualDonation/UpdateComponents/UpdateCash';
@@ -33,7 +27,6 @@ import Print from '../../../../../assets/Print.png';
 import ExportPdf from '../../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../../assets/ExportExcel.png';
 import Edit from '../../../../../assets/Edit.png';
-import eye from '../../../../../assets/eye.png';
 import { ExportPdfmanulElectronic } from '../../../compoments/ExportPdf';
 import ManualTotal from '../../../compoments/ManualTotal';
 import { styled, alpha } from '@mui/material/styles';
@@ -854,51 +847,51 @@ const ManualCash = ({ setopendashboard }) => {
                         })}
                       </TableCell>
                       <TableCell>
-                        {/* <RemoveRedEyeIcon
-                            onClick={() =>
-                              navigation(
-                                `/admin-panel/infoElectronic/${row.id}`,
-                              )
-                            }
-                          /> */}
-
                         {userrole === 1 && (
+                          <Tooltip title="Edit">
+                            <img
+                              onClick={() => upadteOpen(row)}
+                              src={Edit}
+                              alt="print"
+                              style={{ width: '20px', marginRight: '2px' }}
+                            />
+                          </Tooltip>
+                        )}
+                        <Tooltip title="Print">
                           <img
-                            onClick={() => upadteOpen(row)}
-                            src={Edit}
+                            onClick={() =>
+                              navigation('/admin-panel/printContentmanul', {
+                                state: {
+                                  data: row,
+                                },
+                              })
+                            }
+                            src={Print}
                             alt="print"
                             style={{ width: '20px', marginRight: '2px' }}
                           />
-                        )}
-                        <img
-                          onClick={() =>
-                            navigation('/admin-panel/printContentmanul', {
-                              state: {
-                                data: row,
-                              },
-                            })
-                          }
-                          src={Print}
-                          alt="print"
-                          style={{ width: '20px', marginRight: '2px' }}
-                        />
+                        </Tooltip>
 
                         {row.isActive ? (
-                          <DownloadIcon
-                            onClick={() => {
-                              printreceipt(row);
-                            }}
-                          />
+                          <Tooltip title="Download">
+                            <DownloadIcon
+                              onClick={() => {
+                                printreceipt(row);
+                              }}
+                            />
+                          </Tooltip>
                         ) : (
                           <ClearIcon />
                         )}
                         {userrole === 1 && (
-                          <img
-                            src={Delete}
-                            style={{ width: '20px' }}
-                            onClick={() => handleClickOpen3(row.id)}
-                            alt="dd"
-                          />
+                          <Tooltip title="Delete">
+                            <img
+                              src={Delete}
+                              style={{ width: '20px' }}
+                              onClick={() => handleClickOpen3(row.id)}
+                              alt="dd"
+                            />
+                          </Tooltip>
                         )}
                       </TableCell>
                     </TableRow>
@@ -919,8 +912,8 @@ const ManualCash = ({ setopendashboard }) => {
                 <TableCell> &nbsp;</TableCell>
                 <TableCell> &nbsp;</TableCell>
                 <TableCell> &nbsp;</TableCell>
-                <TableCell> Total Amount</TableCell>
-                <TableCell>
+                <TableCell style={{ fontWeight: 700 }}> Total Amount</TableCell>
+                <TableCell style={{ fontWeight: 700 }}>
                   <ManualTotal data={isData} />
                 </TableCell>
                 <TableCell> &nbsp;</TableCell>

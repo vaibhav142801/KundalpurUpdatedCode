@@ -366,7 +366,7 @@ function IntemMaster() {
                       {row.status === 1 ? 'Active' : 'Deactive'}
                     </TableCell>
                     <TableCell>
-                      <Tooltip title="Edit Item head">
+                      <Tooltip title="Edit">
                         <img
                           src={Edit}
                           onClick={() => handleOpen3(row)}
@@ -376,7 +376,7 @@ function IntemMaster() {
                       </Tooltip>
 
                       {row.status === 1 && (
-                        <Tooltip title="Now active">
+                        <Tooltip title="Print">
                           <img
                             src={Delete}
                             onClick={() => handleClickOpen3(row.id)}

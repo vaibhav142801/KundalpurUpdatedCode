@@ -325,31 +325,38 @@ const VoucherManagement = ({ setopendashboard }) => {
                             {row.status ? 'Allocated' : 'Not Used'}
                           </TableCell>
                           <TableCell align="center">
-                            <img
-                              onClick={() =>
-                                navigate('/admin-panel/uservoucher', {
-                                  state: {
-                                    userdata: row,
-                                  },
-                                })
-                              }
-                              src={eye}
-                              alt="s"
-                              style={{ width: '20px', marginRight: '0.3rem' }}
-                            />
+                            <Tooltip title="View">
+                              <img
+                                onClick={() =>
+                                  navigate('/admin-panel/uservoucher', {
+                                    state: {
+                                      userdata: row,
+                                    },
+                                  })
+                                }
+                                src={eye}
+                                alt="s"
+                                style={{ width: '20px', marginRight: '0.3rem' }}
+                              />
+                            </Tooltip>
 
-                            <img
-                              onClick={() => handleOpen1(row)}
-                              src={Edit}
-                              alt="s"
-                              style={{ width: '20px', marginRight: '0.3rem' }}
-                            />
-                            <img
-                              onClick={() => handleClickOpen(row.id)}
-                              src={Delete}
-                              alt="s"
-                              style={{ width: '20px' }}
-                            />
+                            <Tooltip title="Edit">
+                              <img
+                                onClick={() => handleOpen1(row)}
+                                src={Edit}
+                                alt="s"
+                                style={{ width: '20px', marginRight: '0.3rem' }}
+                              />
+                            </Tooltip>
+
+                            <Tooltip title="Delete">
+                              <img
+                                onClick={() => handleClickOpen(row.id)}
+                                src={Delete}
+                                alt="s"
+                                style={{ width: '20px' }}
+                              />
+                            </Tooltip>
                           </TableCell>
                         </TableRow>
                       ))}

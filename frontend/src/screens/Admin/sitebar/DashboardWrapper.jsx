@@ -411,7 +411,7 @@ const DashboardWrapper = () => {
         onClick={() => logout()}
       >
         <ListItemIcon>
-          <Logout fontSize="small" />
+          <Logout style={{ color: 'white' }} fontSize="small" />
         </ListItemIcon>
         Logout
       </MenuItem>

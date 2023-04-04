@@ -351,6 +351,7 @@ const ChequeDonation = ({
                 Receipt No
               </CustomInputLabel>
               <CustomInput
+                required
                 type="text"
                 id="receiptNoo"
                 value={receiptNo}

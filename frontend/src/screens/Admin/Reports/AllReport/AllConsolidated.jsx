@@ -26,6 +26,7 @@ import Chequestotal from '../AllReport/Totals/ChequeTotal';
 import Cashtotal from '../AllReport/Totals/Cashtotal';
 import ElecTotal from '../AllReport/Totals/ElecTotal';
 import Itemtotal from '../AllReport/Totals/Itemtotal';
+import Tooltip from '@mui/material/Tooltip';
 const AllConsolidated = ({ setopendashboard }) => {
   const [isData, setisData] = React.useState('');
   const [page, setPage] = useState(0);
@@ -226,25 +227,30 @@ const AllConsolidated = ({ setopendashboard }) => {
               </select>
               <button onClick={() => filterdata()}>Search</button>
               <button onClick={() => resetbutn()}>Reset</button>
-              <img
-                onClick={() => handlePrint2()}
-                src={Print}
-                alt="ss"
-                style={{ width: '30px' }}
-              />
-              <img
-                onClick={() => ExportToExcel()}
-                src={ExportExcel}
-                alt="s"
-                style={{ width: '30px' }}
-              />
-
-              <img
-                onClick={() => ExportPdfmanul(isData, 'HeadReport')}
-                src={ExportPdf}
-                alt="ss"
-                style={{ width: '30px' }}
-              />
+              <Tooltip title="Print">
+                <img
+                  onClick={() => handlePrint2()}
+                  src={Print}
+                  alt="ss"
+                  style={{ width: '30px' }}
+                />
+              </Tooltip>
+              <Tooltip title="Export excel">
+                <img
+                  onClick={() => ExportToExcel()}
+                  src={ExportExcel}
+                  alt="s"
+                  style={{ width: '30px' }}
+                />
+              </Tooltip>
+              <Tooltip title="Export pdf">
+                <img
+                  onClick={() => ExportPdfmanul(isData, 'HeadReport')}
+                  src={ExportPdf}
+                  alt="ss"
+                  style={{ width: '30px' }}
+                />
+              </Tooltip>
             </div>
             <div></div>
           </div>
@@ -339,15 +345,27 @@ const AllConsolidated = ({ setopendashboard }) => {
               <TableRow>
                 <TableCell> &nbsp;</TableCell>
                 <TableCell> &nbsp;</TableCell>
-                <TableCell>Total</TableCell>
-                <TableCell>{<OnlineTotal data={isData} />}</TableCell>
-                <TableCell>{<ChequeTotal data={isData} />}</TableCell>
-                <TableCell>{<Chequestotal data={isData} />}</TableCell>
+                <TableCell style={{ fontWeight: 700 }}>Total</TableCell>
+                <TableCell style={{ fontWeight: 700 }}>
+                  {<OnlineTotal data={isData} />}
+                </TableCell>
+                <TableCell style={{ fontWeight: 700 }}>
+                  {<ChequeTotal data={isData} />}
+                </TableCell>
+                <TableCell style={{ fontWeight: 700 }}>
+                  {<Chequestotal data={isData} />}
+                </TableCell>
 
-                <TableCell>{<ElecTotal data={isData} />}</TableCell>
-                <TableCell>{<Itemtotal data={isData} />}</TableCell>
+                <TableCell style={{ fontWeight: 700 }}>
+                  {<ElecTotal data={isData} />}
+                </TableCell>
+                <TableCell style={{ fontWeight: 700 }}>
+                  {<Itemtotal data={isData} />}
+                </TableCell>
 
-                <TableCell>{<Cashtotal data={isData} />}</TableCell>
+                <TableCell style={{ fontWeight: 700 }}>
+                  {<Cashtotal data={isData} />}
+                </TableCell>
               </TableRow>
             </TableBody>
             <TableFooter>

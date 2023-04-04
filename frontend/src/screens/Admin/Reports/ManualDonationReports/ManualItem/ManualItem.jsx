@@ -829,49 +829,51 @@ const ManualItem = ({ setopendashboard }) => {
                         })}
                       </TableCell>
                       <TableCell>
-                        {/* <RemoveRedEyeIcon
-                            onClick={() =>
-                              navigation(
-                                `/admin-panel/infoElectronic/${row.id}`,
-                              )
-                            }
-                          /> */}
                         {userrole === 1 && (
+                          <Tooltip title="Edit">
+                            <img
+                              onClick={() => upadteOpen(row)}
+                              src={Edit}
+                              alt="print"
+                              style={{ width: '20px', marginRight: '2px' }}
+                            />
+                          </Tooltip>
+                        )}
+                        <Tooltip title="Print">
                           <img
-                            onClick={() => upadteOpen(row)}
-                            src={Edit}
+                            onClick={() =>
+                              navigation('/admin-panel/printContentmanul', {
+                                state: {
+                                  data: row,
+                                },
+                              })
+                            }
+                            src={Print}
                             alt="print"
                             style={{ width: '20px', marginRight: '2px' }}
                           />
-                        )}
-                        <img
-                          onClick={() =>
-                            navigation('/admin-panel/printContentmanul', {
-                              state: {
-                                data: row,
-                              },
-                            })
-                          }
-                          src={Print}
-                          alt="print"
-                          style={{ width: '20px', marginRight: '2px' }}
-                        />
+                        </Tooltip>
+
                         {row.isActive ? (
-                          <DownloadIcon
-                            onClick={() => {
-                              printreceipt(row);
-                            }}
-                          />
+                          <Tooltip title="Download">
+                            <DownloadIcon
+                              onClick={() => {
+                                printreceipt(row);
+                              }}
+                            />
+                          </Tooltip>
                         ) : (
                           <ClearIcon />
                         )}
                         {userrole === 1 && (
-                          <img
-                            src={Delete}
-                            style={{ width: '20px' }}
-                            onClick={() => handleClickOpen3(row.id)}
-                            alt="dd"
-                          />
+                          <Tooltip title="Delete">
+                            <img
+                              src={Delete}
+                              style={{ width: '20px' }}
+                              onClick={() => handleClickOpen3(row.id)}
+                              alt="dd"
+                            />
+                          </Tooltip>
                         )}
                       </TableCell>
                     </TableRow>
@@ -882,8 +884,11 @@ const ManualItem = ({ setopendashboard }) => {
                     <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>
-                    <TableCell> Total Amount</TableCell>
-                    <TableCell>
+                    <TableCell style={{ fontWeight: 700 }}>
+                      {' '}
+                      Total Amount
+                    </TableCell>
+                    <TableCell style={{ fontWeight: 700 }}>
                       <ManualTotal data={isData} />
                     </TableCell>
                     <TableCell> &nbsp;</TableCell>

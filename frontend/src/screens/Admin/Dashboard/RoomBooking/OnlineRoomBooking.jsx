@@ -144,6 +144,7 @@ const OnlineRoomBooking = ({ setopendashboard }) => {
                   style={{
                     fontSize: '15px',
                     color: '#05313C',
+                    fontWeight: 700,
                   }}
                 >
                   Total
@@ -152,6 +153,7 @@ const OnlineRoomBooking = ({ setopendashboard }) => {
                   style={{
                     fontSize: '15px',
                     color: '#05313C',
+                    fontWeight: 700,
                   }}
                 >
                   0

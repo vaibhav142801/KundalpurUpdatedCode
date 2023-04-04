@@ -818,8 +818,10 @@ const Electornic = ({ setopendashboard }) => {
                     <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>
-                    <TableCell>Total Amount</TableCell>
-                    <TableCell>
+                    <TableCell style={{ fontWeight: 700 }}>
+                      Total Amount
+                    </TableCell>
+                    <TableCell style={{ fontWeight: 700 }}>
                       <ElectronicTotal data={isData} />
                     </TableCell>
                     <TableCell> &nbsp;</TableCell>

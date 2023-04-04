@@ -351,6 +351,7 @@ const ElectronicDonation = ({
                 Receipt No
               </CustomInputLabel>
               <CustomInput
+                required
                 type="text"
                 id="receiptNo"
                 value={receiptNo}

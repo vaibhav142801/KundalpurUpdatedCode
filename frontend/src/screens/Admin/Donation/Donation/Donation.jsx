@@ -925,8 +925,8 @@ const Donation = ({ setopendashboard }) => {
                       <TableCell> &nbsp;</TableCell>
                       <TableCell> &nbsp;</TableCell>
                       <TableCell> &nbsp;</TableCell>
-                      <TableCell>Amount</TableCell>
-                      <TableCell>
+                      <TableCell style={{ fontWeight: 700 }}>Amount</TableCell>
+                      <TableCell style={{ fontWeight: 700 }}>
                         <ElectronicTotal data={isData} />
                       </TableCell>
                       <TableCell> &nbsp;</TableCell>

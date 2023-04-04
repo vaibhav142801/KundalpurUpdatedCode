@@ -20,7 +20,7 @@ const Donation = () => {
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
-
+  const [showacres, setshowacres] = useState(false);
   const componentRef = useRef();
 
   const handlePrint = useReactToPrint({
@@ -116,7 +116,11 @@ const Donation = () => {
           </Tooltip>
           <Tooltip title="Print">
             <img
-              onClick={() => handlePrint()}
+              onClick={() => {
+                setshowacres(true);
+                handlePrint();
+                setshowacres(false);
+              }}
               src={Print}
               alt="cc"
               style={{ width: '30px', marginRight: '2rem' }}
@@ -142,6 +146,22 @@ const Donation = () => {
         </div>
 
         <div className="table-div-maai" ref={componentRef}>
+          {showacres ? (
+            <>
+              <p
+                style={{
+                  textAlign: 'center',
+                  marginBottom: '1rem',
+                  marginTop: '1rem',
+                }}
+              >
+                श्री दिगम्बर जैन सिद्धक्षेत्र कुण्डलगिरि कुण्डलपुर दमोह (म.प्र.)
+              </p>
+            </>
+          ) : (
+            <></>
+          )}
+
           <Table
             sx={{ minWidth: 650, width: '100%' }}
             aria-label="simple table"
@@ -189,6 +209,7 @@ const Donation = () => {
                   style={{
                     fontSize: '15px',
                     color: '#05313C',
+                    fontWeight: 700,
                   }}
                 >
                   Total
@@ -197,6 +218,7 @@ const Donation = () => {
                   style={{
                     fontSize: '15px',
                     color: '#05313C',
+                    fontWeight: 700,
                   }}
                 >
                   {isData
@@ -211,6 +233,7 @@ const Donation = () => {
                   style={{
                     fontSize: '15px',
                     color: '#05313C',
+                    fontWeight: 700,
                   }}
                 >
                   {isData
@@ -225,6 +248,7 @@ const Donation = () => {
                   style={{
                     fontSize: '15px',
                     color: '#05313C',
+                    fontWeight: 700,
                   }}
                 >
                   {isData
@@ -239,6 +263,7 @@ const Donation = () => {
                   style={{
                     fontSize: '15px',
                     color: '#05313C',
+                    fontWeight: 700,
                   }}
                 >
                   {isData

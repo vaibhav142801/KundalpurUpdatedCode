@@ -14,6 +14,7 @@ import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import PrintAlladmin from '../Dashboard/PrintAll/PrintAlladmin';
+import Tooltip from '@mui/material/Tooltip';
 const style5 = {
   position: 'absolute',
   top: '50%',
@@ -64,7 +65,9 @@ const DashbordTap = ({ setopendashboard }) => {
                   <p style={{ marginTop: '0px', marginBottom: '0px' }}>
                     Print All
                   </p>
-                  <img src={Print} alt="dd" style={{ width: '25px' }} />
+                  <Tooltip title="Print">
+                    <img src={Print} alt="dd" style={{ width: '25px' }} />
+                  </Tooltip>
                 </div>
               </div>
               <Donation setopendashboard={setopendashboard} />
@@ -98,7 +101,9 @@ const DashbordTap = ({ setopendashboard }) => {
                   <p style={{ marginTop: '0px', marginBottom: '0px' }}>
                     Print All
                   </p>
-                  <img src={Print} alt="dd" style={{ width: '25px' }} />
+                  <Tooltip title="Print">
+                    <img src={Print} alt="dd" style={{ width: '25px' }} />
+                  </Tooltip>
                 </div>
               </div>
               <EmployeeElectronic setopendashboard={setopendashboard} />

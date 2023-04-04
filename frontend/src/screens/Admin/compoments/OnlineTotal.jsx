@@ -12,9 +12,7 @@ const OnlineTotal = ({ data }) => {
 
   return (
     <>
-      <Typography variant="body1" fontSize={14}>
-        {'₹' + totalAmount + '/-'}
-      </Typography>
+      <span>{'₹' + totalAmount + '/-'}</span>
     </>
   );
 };
