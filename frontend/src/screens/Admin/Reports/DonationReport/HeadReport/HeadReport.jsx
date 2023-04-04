@@ -284,8 +284,8 @@ const HeadReport = ({ setopendashboard }) => {
               <TableRow>
                 <TableCell> &nbsp;</TableCell>
 
-                <TableCell>Total</TableCell>
-                <TableCell>
+                <TableCell style={{ fontWeight: 700 }}>Total</TableCell>
+                <TableCell style={{ fontWeight: 700 }}>
                   {isData
                     ? isData.reduce(
                         (n, { cheque_amount }) => parseFloat(n) + cheque_amount,
@@ -293,7 +293,7 @@ const HeadReport = ({ setopendashboard }) => {
                       )
                     : '0'}
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ fontWeight: 700 }}>
                   {isData
                     ? isData.reduce(
                         (n, { electric_amount }) =>
@@ -302,7 +302,7 @@ const HeadReport = ({ setopendashboard }) => {
                       )
                     : '0'}
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ fontWeight: 700 }}>
                   {isData
                     ? isData.reduce(
                         (n, { item_amount }) => parseFloat(n) + item_amount,
@@ -310,7 +310,7 @@ const HeadReport = ({ setopendashboard }) => {
                       )
                     : '0'}
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ fontWeight: 700 }}>
                   {isData
                     ? isData.reduce(
                         (n, { cash_amount }) => parseFloat(n) + cash_amount,
@@ -318,7 +318,7 @@ const HeadReport = ({ setopendashboard }) => {
                       )
                     : '0'}
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ fontWeight: 700 }}>
                   {isData
                     ? isData.reduce(
                         (n, { total_amount }) => parseFloat(n) + total_amount,

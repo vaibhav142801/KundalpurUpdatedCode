@@ -255,7 +255,6 @@ const DashboardWrapper = () => {
     }, 1000);
   };
 
-  console.log('profile', profileimg);
   const adminprofile = async () => {
     axios.defaults.headers.get[
       'Authorization'
@@ -277,15 +276,14 @@ const DashboardWrapper = () => {
     setprofileimg(res.data.data.profile_image);
   };
 
-  if (userrole === 1) {
-    adminprofile();
-  }
-  if (userrole === 3) {
-    empprofile();
-  }
   useEffect(() => {
     setuserrole(Number(sessionStorage.getItem('userrole')));
   }, []);
+
+  useEffect(() => {
+    adminprofile();
+    empprofile();
+  }, [open4]);
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
 
