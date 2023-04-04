@@ -310,32 +310,48 @@ const AllHead = ({ setopendashboard }) => {
                       <TableCell>
                         {row.ONLINE_TOTAL_AMOUNT
                           ? row.ONLINE_TOTAL_AMOUNT
-                          : '-'}
+                          : '0'}
                       </TableCell>
                       <TableCell>
                         {row.CHEQUE_TOTAL_AMOUNT
                           ? row.CHEQUE_TOTAL_AMOUNT
-                          : '-'}
+                          : '0'}
                       </TableCell>
                       <TableCell>
                         {row.elec_cheque_TOTAL_AMOUNT
                           ? row.elec_cheque_TOTAL_AMOUNT
-                          : row.manual_cheque_TOTAL_AMOUNT}
+                          : row.manual_cheque_TOTAL_AMOUNT ||
+                            (!row.elec_cheque_TOTAL_AMOUNT &&
+                              !row.elec_cheque_TOTAL_AMOUNT)
+                          ? '0'
+                          : ''}
                       </TableCell>
                       <TableCell>
                         {row.manual_bank_TOTAL_AMOUNT
                           ? row.manual_bank_TOTAL_AMOUNT
-                          : row.elec_bank_TOTAL_AMOUNT}
+                          : row.elec_bank_TOTAL_AMOUNT ||
+                            (!row.manual_bank_TOTAL_AMOUNT &&
+                              !row.manual_bank_TOTAL_AMOUNT)
+                          ? '0'
+                          : ''}
                       </TableCell>
                       <TableCell>
                         {row.manual_item_TOTAL_AMOUNT
                           ? row.manual_item_TOTAL_AMOUNT
-                          : row.elec_item_TOTAL_AMOUNT}
+                          : row.elec_item_TOTAL_AMOUNT ||
+                            (!row.manual_item_TOTAL_AMOUNT &&
+                              !row.manual_item_TOTAL_AMOUNT)
+                          ? '0'
+                          : ''}
                       </TableCell>
                       <TableCell>
                         {row.manual_cash_TOTAL_AMOUNT
                           ? row.manual_cash_TOTAL_AMOUNT
-                          : row.elec_cash_TOTAL_AMOUNT}
+                          : row.elec_cash_TOTAL_AMOUNT ||
+                            (!row.manual_cash_TOTAL_AMOUNT &&
+                              !row.manual_cash_TOTAL_AMOUNT)
+                          ? '0'
+                          : ''}
                       </TableCell>
                     </TableRow>
                   ))}
