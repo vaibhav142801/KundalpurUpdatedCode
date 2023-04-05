@@ -292,6 +292,7 @@ const Itemdonation = ({ setopendashboard }) => {
       console.log(res);
     });
   };
+  console.log('data is', isData);
   useEffect(() => {
     getallemp_list();
     getall_donation();

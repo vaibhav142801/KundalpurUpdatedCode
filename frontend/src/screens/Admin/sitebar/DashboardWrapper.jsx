@@ -212,7 +212,6 @@ const DashboardWrapper = () => {
 
   const handleDrawerOpen = () => {
     setOpen(true);
-    console.log('open');
   };
 
   const handleDrawerClose = () => {
