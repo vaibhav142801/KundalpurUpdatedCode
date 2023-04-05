@@ -231,6 +231,7 @@ const CashDonation = ({
           donation_date: donationDate,
           donation_time: donationTime,
           donation_item: donationItems,
+          voucher: receiptNo,
         });
 
         let totalamount = donationItems?.amount
