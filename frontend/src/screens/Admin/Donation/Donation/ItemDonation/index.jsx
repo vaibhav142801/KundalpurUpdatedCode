@@ -240,7 +240,6 @@ const ItemDonation = ({
                 donation_date: donationDate,
                 donation_time: donationTime,
                 donation_item: donationItems,
-                voucher: receiptNo,
               },
             );
 
