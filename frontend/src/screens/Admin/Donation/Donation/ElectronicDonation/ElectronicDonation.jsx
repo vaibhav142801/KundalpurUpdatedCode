@@ -198,12 +198,7 @@ const ElectronicDonation = ({
       if (showUpdateBtn) {
         console.log('upadte');
 
-        if (
-          fullName &&
-          donationItems[0].amount &&
-          donationItems[0].type &&
-          mobileNo
-        ) {
+        if (fullName && donationItems[0].amount && donationItems[0].type) {
           const res = await axios.put(`${backendApiUrl}user/add-elecDonation`, {
             id: updateData?.id,
             name: fullName,
@@ -225,12 +220,7 @@ const ElectronicDonation = ({
           }
         }
       } else {
-        if (
-          fullName &&
-          donationItems[0].amount &&
-          donationItems[0].type &&
-          mobileNo
-        ) {
+        if (fullName && donationItems[0].amount && donationItems[0].type) {
           const res = await axios.post(
             `${backendApiUrl}user/add-elecDonation`,
             {
@@ -419,7 +409,6 @@ const ElectronicDonation = ({
                 Mobile Number
               </CustomInputLabel>
               <CustomInput
-                required
                 id="mobile-no"
                 value={mobileNo}
                 onChange={(e) => setMobileNo(e.target.value)}
@@ -431,7 +420,6 @@ const ElectronicDonation = ({
                 {!newMember ? (
                   <>
                     <Select
-                      required
                       sx={{
                         width: '20%',
                         fontSize: 14,
@@ -532,15 +520,12 @@ const ElectronicDonation = ({
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <CustomInputLabel required htmlFor="address">
-                Address
-              </CustomInputLabel>
+              <CustomInputLabel htmlFor="address">Address</CustomInputLabel>
 
               {!newMember ? (
                 <>
                   <ReactTransliterate
                     style={custumstyle}
-                    required
                     id="address"
                     value={address}
                     onChangeText={(address) => {
@@ -553,7 +538,6 @@ const ElectronicDonation = ({
               ) : (
                 <>
                   <CustomInput
-                    required
                     id="address"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
@@ -700,7 +684,6 @@ const ElectronicDonation = ({
                     </TableCell>
                     <TableCell align="center">
                       <CustomTableInput
-                        required
                         value={item.BankName}
                         onChange={(e) =>
                           handleDonationItemUpdate(
@@ -731,7 +714,6 @@ const ElectronicDonation = ({
                               <div className="centerMain_remove_item">
                                 <ReactTransliterate
                                   style={custommStyleInputTable}
-                                  required
                                   value={item.remark}
                                   onChangeText={(item) => {
                                     handleDonationItemUpdate(
@@ -771,7 +753,6 @@ const ElectronicDonation = ({
                               <div className="centerMain_remove_item">
                                 <ReactTransliterate
                                   style={custommStyleInputTable}
-                                  required
                                   value={hindiremark}
                                   onChangeText={(hindiremark) => {
                                     sethindiremark(hindiremark);

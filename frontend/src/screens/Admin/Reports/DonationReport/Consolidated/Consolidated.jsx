@@ -56,51 +56,25 @@ const donationColorTheme = {
 };
 
 const Consolidated = ({ setopendashboard }) => {
-  const navigation = useNavigate();
+  let filterData;
+  const [empid, setempid] = useState('');
+  const [emproleid, setemproleid] = useState('');
   const [isData, setisData] = React.useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [showalert, setshowalert] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const [open1, setOpen1] = React.useState(false);
-  const [deleteId, setdeleteId] = useState('');
-  const [updateData, setupdateData] = useState('');
   const [openupdate, setopenupdate] = useState(false);
-  const [showUpdateBtn, setshowUpdateBtn] = useState(true);
   const [phone, setphone] = useState('');
   const [date, setdate] = useState('');
-  const [typedonation, settypedonation] = useState(2);
   const [name, setname] = useState('');
   const [donationTypes, setDonationTypes] = useState([]);
-  const [updateId, setupdateId] = useState('');
   const [showsearchData, setshowsearchData] = useState(false);
   const [typeid, settypeid] = useState('');
   const [empylist, setempylist] = useState('');
   const [empylist1, setempylist1] = useState('');
   const [userrole, setuserrole] = useState('');
   const [empId, setempId] = useState('');
-  console.log('dddd', empylist);
-  const handleOpen = (id) => {
-    setupdateId(id);
-    setOpen(true);
-  };
-  const handleClose = () => setOpen(false);
-  const upadteClose = () => {
-    setopenupdate(false);
-  };
-  const upadteOpen = (row) => {
-    setupdateData(row);
-    setopenupdate(true);
-  };
-
-  const handleClickOpen1 = (id) => {
-    setOpen1(true);
-    setdeleteId(id);
-  };
-
-  const handleClose1 = () => {
-    setOpen1(false);
-  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -139,21 +113,6 @@ const Consolidated = ({ setopendashboard }) => {
     exportFromJSON({ data, fileName, exportType });
   };
 
-  const filterdata = async () => {
-    axios.defaults.headers.get[
-      'Authorization'
-    ] = `Bearer ${sessionStorage.getItem('token')}`;
-
-    const res = await axios.get(
-      `${backendApiUrl}user/search-donation?name=${name}&type=${typeid}&date=${date}&phone=${phone}&modeOfDonation=${2}`,
-    );
-    console.log('filter data is', res);
-    if (res.data.status) {
-      setshowsearchData(!showsearchData);
-      setisData(res.data.data);
-    }
-  };
-
   const get_donation_tyeps = () => {
     try {
       Promise.all([serverInstance('admin/donation-type?type=1', 'get')]).then(
@@ -181,15 +140,19 @@ const Consolidated = ({ setopendashboard }) => {
     });
   };
   const getAllDonationDetails = () => {
-    serverInstance('admin/user-report?user=1   ', 'get').then((res) => {
-      console.log('report', res.data);
-      setempylist(res.data);
-
-      // if (res.status) {
-      //   isData(res.data.data);
-      // } else {
-      //   Swal('Error', 'somthing went  wrong', 'error');
-      // }
+    serverInstance('admin/user-report  ', 'get').then((res) => {
+      if (res.data) {
+        if (userrole === 3) {
+          if (emproleid === 0) {
+            setempylist(res.data);
+          } else {
+            filterData = res.data.filter((item) => item.created_by === empid);
+            setempylist(filterData);
+          }
+        } else {
+          setempylist(res.data);
+        }
+      }
     });
   };
   useEffect(() => {
@@ -198,7 +161,9 @@ const Consolidated = ({ setopendashboard }) => {
     setopendashboard(true);
     get_donation_tyeps();
     setuserrole(Number(sessionStorage.getItem('userrole')));
-  }, [showalert, openupdate, open]);
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
+    setempid(Number(sessionStorage.getItem('empid')));
+  }, [showalert, openupdate, open, empid]);
 
   return (
     <>
@@ -253,11 +218,12 @@ const Consolidated = ({ setopendashboard }) => {
           </div>
           <div></div>
         </div>
+
         <h2 style={{ marginBottom: '1rem' }}>Donation Detials</h2>
       </div>
 
-      <div className="table-div-maain">
-        <Table sx={{ minWidth: 650, width: '100%' }} aria-label="simple table">
+      <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
+        <Table sx={{ width: '100%' }} aria-label="simple table">
           <TableHead style={{ background: '#FFEEE0' }}>
             <TableRow>
               <TableCell>S.No</TableCell>

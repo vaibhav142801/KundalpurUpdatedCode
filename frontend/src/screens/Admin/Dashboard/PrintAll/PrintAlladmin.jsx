@@ -14,6 +14,7 @@ import EmpmanulTotal from '../../TotalDashboardFun/EmpmanulTotal';
 function PrintAlladmin({ handleClose }) {
   const componentRef = useRef();
   const [userrole, setuserrole] = useState('');
+  const [emproleid, setemproleid] = useState('');
   const [isData1, setisData1] = useState('');
   const [isData2, setisData2] = useState('');
   const [isData3, setisData3] = useState('');
@@ -58,6 +59,7 @@ function PrintAlladmin({ handleClose }) {
   });
   useEffect(() => {
     setuserrole(Number(sessionStorage.getItem('userrole')));
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
     getallelec(),
       getallmanual(),
       getallonline(),
@@ -263,120 +265,160 @@ function PrintAlladmin({ handleClose }) {
                 </>
               ) : (
                 <>
-                  <div
-                    className="main_card_amount"
-                    style={{
-                      background: '#FE0000',
-                      color: 'white',
-                      width: '23%',
-                    }}
-                  >
-                    <p
-                      style={{
-                        fontSize: '14px',
-                      }}
-                    >
-                      Donation
-                    </p>
-                    <div className="main_repue_img">
-                      <p
+                  {emproleid === 7 ? (
+                    <>
+                      <div
+                        className="main_card_amount"
                         style={{
-                          fontSize: '14px',
+                          background: '#FE0000',
+                          color: 'white',
+                          width: '23%',
                         }}
                       >
-                        <EmpelecTotal data={isData4} />
-                      </p>
+                        <p
+                          style={{
+                            fontSize: '14px',
+                          }}
+                        >
+                          Donation
+                        </p>
+                        <div className="main_repue_img">
+                          <p
+                            style={{
+                              fontSize: '14px',
+                            }}
+                          >
+                            <EmpelecTotal data={isData4} />
+                          </p>
 
-                      <img
+                          <img
+                            style={{
+                              width: '20px',
+                            }}
+                            src={Group225}
+                            alt="dd"
+                          />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div
+                        className="main_card_amount"
                         style={{
-                          width: '20px',
-                        }}
-                        src={Group225}
-                        alt="dd"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="main_card_amount"
-                    style={{
-                      background: '#FECE00',
-                      color: 'white',
-                      width: '23%',
-                    }}
-                  >
-                    <p style={{ fontSize: '14px' }}>Manual Donation</p>
-                    <div className="main_repue_img">
-                      <p
-                        style={{
-                          fontSize: '14px',
+                          background: '#FE0000',
+                          color: 'white',
+                          width: '23%',
                         }}
                       >
-                        <EmpmanulTotal data={isData5} />
-                      </p>
+                        <p
+                          style={{
+                            fontSize: '14px',
+                          }}
+                        >
+                          Donation
+                        </p>
+                        <div className="main_repue_img">
+                          <p
+                            style={{
+                              fontSize: '14px',
+                            }}
+                          >
+                            <EmpelecTotal data={isData4} />
+                          </p>
 
-                      <img
+                          <img
+                            style={{
+                              width: '20px',
+                            }}
+                            src={Group225}
+                            alt="dd"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className="main_card_amount"
                         style={{
-                          width: '20px',
-                        }}
-                        src={Group225}
-                        alt="dd"
-                      />
-                    </div>
-                  </div>
-
-                  <div
-                    className="main_card_amount"
-                    style={{
-                      background: '#3C5FFE',
-                      color: 'white',
-                      width: '23%',
-                    }}
-                  >
-                    <p style={{ fontSize: '14px' }}>Room Booking</p>
-                    <div className="main_repue_img">
-                      <p
-                        style={{
-                          fontSize: '14px',
+                          background: '#FECE00',
+                          color: 'white',
+                          width: '23%',
                         }}
                       >
-                        ₹ 10,000
-                      </p>
-                      <img
-                        style={{
-                          width: '20px',
-                        }}
-                        src={Group227}
-                        alt="dd"
-                      />
-                    </div>
-                  </div>
+                        <p style={{ fontSize: '14px' }}>Manual Donation</p>
+                        <div className="main_repue_img">
+                          <p
+                            style={{
+                              fontSize: '14px',
+                            }}
+                          >
+                            <EmpmanulTotal data={isData5} />
+                          </p>
 
-                  <div
-                    className="main_card_amount"
-                    style={{
-                      background: '#808080',
-                      color: 'white',
-                      width: '23%',
-                    }}
-                  >
-                    <p style={{ fontSize: '14px' }}>Guest in Room</p>
-                    <div className="main_repue_img">
-                      <p
+                          <img
+                            style={{
+                              width: '20px',
+                            }}
+                            src={Group225}
+                            alt="dd"
+                          />
+                        </div>
+                      </div>
+
+                      <div
+                        className="main_card_amount"
                         style={{
-                          fontSize: '14px',
+                          background: '#3C5FFE',
+                          color: 'white',
+                          width: '23%',
                         }}
                       >
-                        10,000
-                      </p>
-                      <img
+                        <p style={{ fontSize: '14px' }}>Room Booking</p>
+                        <div className="main_repue_img">
+                          <p
+                            style={{
+                              fontSize: '14px',
+                            }}
+                          >
+                            ₹ 10,000
+                          </p>
+                          <img
+                            style={{
+                              width: '20px',
+                            }}
+                            src={Group227}
+                            alt="dd"
+                          />
+                        </div>
+                      </div>
+
+                      <div
+                        className="main_card_amount"
                         style={{
-                          width: '20px',
+                          background: '#808080',
+                          color: 'white',
+                          width: '23%',
                         }}
-                        src={Group228}
-                        alt="dd"
-                      />
-                    </div>
-                  </div>
+                      >
+                        <p style={{ fontSize: '14px' }}>Guest in Room</p>
+                        <div className="main_repue_img">
+                          <p
+                            style={{
+                              fontSize: '14px',
+                            }}
+                          >
+                            10,000
+                          </p>
+                          <img
+                            style={{
+                              width: '20px',
+                            }}
+                            src={Group228}
+                            alt="dd"
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
             </div>
@@ -704,136 +746,180 @@ function PrintAlladmin({ handleClose }) {
             </>
           ) : (
             <>
-              <p
-                style={{
-                  color: '#FE0000',
-                  marginTop: '1rem',
-                  marginBottom: '1rem',
-                }}
-              >
-                Donation(दान)
-              </p>
-              <table>
-                <tr
-                  className="margintop_add"
-                  style={{ borderBottom: '1px solid gray' }}
-                >
-                  <th>Cash</th>
-                  <th>Bank</th>
-                  <th>Cheque</th>
-                  <th>Total</th>
-                </tr>
-                {isData4 && (
-                  <>
-                    {isData4 &&
-                      isData4.map((row, index) => (
-                        <tr
-                          key={index}
-                          className="margintop_add"
-                          style={{ borderBottom: '1px solid gray' }}
-                        >
-                          <td>{row.cash_amount}</td>
+              {emproleid === 7 ? (
+                <>
+                  <p
+                    style={{
+                      color: '#FE0000',
+                      marginTop: '1rem',
+                      marginBottom: '1rem',
+                    }}
+                  >
+                    Donation(दान)
+                  </p>
+                  <table>
+                    <tr
+                      className="margintop_add"
+                      style={{ borderBottom: '1px solid gray' }}
+                    >
+                      <th>Bank</th>
+                    </tr>
+                    {isData4 && (
+                      <>
+                        {isData4 &&
+                          isData4.map((row, index) => (
+                            <tr
+                              key={index}
+                              className="margintop_add"
+                              style={{ borderBottom: '1px solid gray' }}
+                            >
+                              <td>{row.bank_amount}</td>
+                            </tr>
+                          ))}
+                      </>
+                    )}
+                  </table>
+                </>
+              ) : (
+                <>
+                  <p
+                    style={{
+                      color: '#FE0000',
+                      marginTop: '1rem',
+                      marginBottom: '1rem',
+                    }}
+                  >
+                    Donation(दान)
+                  </p>
+                  <table>
+                    <tr
+                      className="margintop_add"
+                      style={{ borderBottom: '1px solid gray' }}
+                    >
+                      <th>Cash</th>
+                      <th>Bank</th>
+                      <th>Cheque</th>
+                      <th>Total</th>
+                    </tr>
+                    {isData4 && (
+                      <>
+                        {isData4 &&
+                          isData4.map((row, index) => (
+                            <tr
+                              key={index}
+                              className="margintop_add"
+                              style={{ borderBottom: '1px solid gray' }}
+                            >
+                              <td>{row.cash_amount}</td>
 
-                          <td>{row.bank_amount}</td>
-                          <td>{row.cheque_amount}</td>
+                              <td>{row.bank_amount}</td>
+                              <td>{row.cheque_amount}</td>
 
-                          <td>{row.total}</td>
-                        </tr>
-                      ))}
-                  </>
-                )}
-              </table>
-              <p
-                style={{
-                  color: '#FECE00',
-                  marginTop: '1rem',
-                  marginBottom: '1rem',
-                }}
-              >
-                Manual Donation (दान)
-              </p>
-              <table>
-                <tr
-                  className="margintop_add"
-                  style={{ borderBottom: '1px solid gray', fontSize: '14px' }}
-                >
-                  <th>Cash</th>
-                  <th>Bank</th>
-                  <th>Cheque</th>
-                  <th>Total</th>
-                </tr>
-                {isData4 && (
-                  <>
-                    {isData4 &&
-                      isData4.map((row, index) => (
-                        <tr
-                          key={index}
-                          className="margintop_add"
-                          style={{ borderBottom: '1px solid gray' }}
-                        >
-                          <td>{row.cash_amount}</td>
+                              <td>{row.total}</td>
+                            </tr>
+                          ))}
+                      </>
+                    )}
+                  </table>
+                  <p
+                    style={{
+                      color: '#FECE00',
+                      marginTop: '1rem',
+                      marginBottom: '1rem',
+                    }}
+                  >
+                    Manual Donation (दान)
+                  </p>
+                  <table>
+                    <tr
+                      className="margintop_add"
+                      style={{
+                        borderBottom: '1px solid gray',
+                        fontSize: '14px',
+                      }}
+                    >
+                      <th>Cash</th>
+                      <th>Bank</th>
+                      <th>Cheque</th>
+                      <th>Total</th>
+                    </tr>
+                    {isData4 && (
+                      <>
+                        {isData4 &&
+                          isData4.map((row, index) => (
+                            <tr
+                              key={index}
+                              className="margintop_add"
+                              style={{ borderBottom: '1px solid gray' }}
+                            >
+                              <td>{row.cash_amount}</td>
 
-                          <td>{row.bank_amount}</td>
-                          <td>{row.cheque_amount}</td>
+                              <td>{row.bank_amount}</td>
+                              <td>{row.cheque_amount}</td>
 
-                          <td>{row.total}</td>
-                        </tr>
-                      ))}
-                  </>
-                )}
-              </table>
+                              <td>{row.total}</td>
+                            </tr>
+                          ))}
+                      </>
+                    )}
+                  </table>
 
-              <p
-                style={{
-                  color: '#3C5FFE',
-                  marginBottom: '1rem',
-                  marginTop: '1rem',
-                }}
-              >
-                Room Booking(आवास)
-              </p>
-              <table>
-                <tr
-                  className="margintop_add"
-                  style={{ borderBottom: '1px solid gray', fontSize: '14px' }}
-                >
-                  <th>Cash</th>
-                  <th>Bank</th>
-                  <th>Total</th>
-                </tr>
-                <tr style={{ borderBottom: '1px solid gray' }}>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                </tr>
-              </table>
+                  <p
+                    style={{
+                      color: '#3C5FFE',
+                      marginBottom: '1rem',
+                      marginTop: '1rem',
+                    }}
+                  >
+                    Room Booking(आवास)
+                  </p>
+                  <table>
+                    <tr
+                      className="margintop_add"
+                      style={{
+                        borderBottom: '1px solid gray',
+                        fontSize: '14px',
+                      }}
+                    >
+                      <th>Cash</th>
+                      <th>Bank</th>
+                      <th>Total</th>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid gray' }}>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>0</td>
+                    </tr>
+                  </table>
 
-              <p
-                style={{
-                  color: '#808080',
-                  marginTop: '1rem',
-                  marginBottom: '1rem',
-                }}
-              >
-                Guest In Room(यात्री संख्या)
-              </p>
-              <table>
-                <tr
-                  className="margintop_add"
-                  style={{ borderBottom: '1px solid gray' }}
-                >
-                  <th>Gender</th>
-                  <th>Quantity</th>
-                </tr>
-                <tr>
-                  <td>Male</td>
-                  <td>10</td>
-                </tr>
-                <tr>
-                  <th>Total</th>
-                  <th>10</th>
-                </tr>
-              </table>
+                  <p
+                    style={{
+                      color: '#808080',
+                      marginTop: '1rem',
+                      marginBottom: '1rem',
+                    }}
+                  >
+                    Guest In Room(यात्री संख्या)
+                  </p>
+                  <table>
+                    <tr
+                      className="margintop_add"
+                      style={{ borderBottom: '1px solid gray' }}
+                    >
+                      <th>Gender</th>
+                      <th>Quantity</th>
+                    </tr>
+                    <tr>
+                      <td>Male</td>
+                      <td>10</td>
+                    </tr>
+                    <tr>
+                      <th>Total</th>
+                      <th>10</th>
+                    </tr>
+                  </table>
+                </>
+              )}
             </>
           )}
         </div>

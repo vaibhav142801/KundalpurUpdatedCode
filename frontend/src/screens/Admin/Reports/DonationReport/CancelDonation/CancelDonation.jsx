@@ -123,6 +123,9 @@ const donationColorTheme = {
 
 const CancelDonation = ({ setopendashboard }) => {
   const navigation = useNavigate();
+  let filterData;
+  const [empid, setempid] = useState('');
+  const [emproleid, setemproleid] = useState('');
   const [emplist, setemplist] = useState('');
   const [isData, setisData] = React.useState('');
   const [isDataDummy, setisDataDummy] = React.useState([]);
@@ -175,7 +178,16 @@ const CancelDonation = ({ setopendashboard }) => {
     setsearchvalue('');
     serverInstance('user/add-elecDonation', 'get').then((res) => {
       if (res.status) {
-        let filterData = res.data.filter((item) => item.isActive === false);
+        if (emproleid === 7) {
+          filterData = res.data.filter(
+            (item) =>
+              item.modeOfDonation === '1' &&
+              item.isActive === false &&
+              item.created_by === empid,
+          );
+        } else {
+          filterData = res.data.filter((item) => item.isActive === false);
+        }
 
         setisData(filterData);
         setisDataDummy(filterData);
@@ -244,8 +256,18 @@ const CancelDonation = ({ setopendashboard }) => {
       );
 
       if (res.data.status) {
-        setisData(res.data.data);
-        setisDataDummy(res.data.data);
+        if (emproleid === 7) {
+          filterData = res.data.filter(
+            (item) =>
+              item.modeOfDonation === '1' &&
+              item.isActive === false &&
+              item.created_by === empid,
+          );
+        } else {
+          filterData = res.data.filter((item) => item.isActive === false);
+        }
+        setisData(filterData);
+        setisDataDummy(filterData);
       }
     } else {
       axios.defaults.headers.get[
@@ -257,8 +279,18 @@ const CancelDonation = ({ setopendashboard }) => {
       );
 
       if (res.data.status) {
-        setisData(res.data.data);
-        setisDataDummy(res.data.data);
+        if (emproleid === 7) {
+          filterData = res.data.filter(
+            (item) =>
+              item.modeOfDonation === '1' &&
+              item.isActive === false &&
+              item.created_by === empid,
+          );
+        } else {
+          filterData = res.data.filter((item) => item.isActive === false);
+        }
+        setisData(filterData);
+        setisDataDummy(filterData);
       }
     }
   };
@@ -296,7 +328,9 @@ const CancelDonation = ({ setopendashboard }) => {
     setopendashboard(true);
     get_donation_tyeps();
     setuserrole(Number(sessionStorage.getItem('userrole')));
-  }, [showalert, openupdate, open]);
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
+    setempid(Number(sessionStorage.getItem('empid')));
+  }, [showalert, openupdate, open, empid]);
   const onSearchByOther = (e, type) => {
     if (type === 'Date') {
       setDate(e.target.value);

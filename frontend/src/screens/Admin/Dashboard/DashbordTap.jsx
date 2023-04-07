@@ -28,14 +28,18 @@ const style5 = {
   borderRadius: '15px',
 };
 const DashbordTap = ({ setopendashboard }) => {
+  const [empid, setempid] = useState('');
   const [userrole, setuserrole] = useState('');
   const [open5, setOpen5] = React.useState(false);
+  const [emproleid, setemproleid] = useState('');
   const handleOpen5 = () => setOpen5(true);
   const handleClose5 = () => setOpen5(false);
 
   useEffect(() => {
     setopendashboard(true);
     setuserrole(Number(sessionStorage.getItem('userrole')));
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
+    setempid(Number(sessionStorage.getItem('empRoleid')));
   }, []);
 
   return (
@@ -54,7 +58,7 @@ const DashbordTap = ({ setopendashboard }) => {
         </Fade>
       </Modal>
       <div style={{ marginLeft: '5.3%', marginRight: '1%', marginTop: '1rem' }}>
-        {userrole === 1 ? (
+        {userrole === 1 || emproleid === 0 ? (
           <>
             <div style={{ marginBottom: '2rem', marginTop: '11.5rem' }}>
               <div className="print_all_today">
@@ -106,19 +110,31 @@ const DashbordTap = ({ setopendashboard }) => {
                   </Tooltip>
                 </div>
               </div>
-              <EmployeeElectronic setopendashboard={setopendashboard} />
             </div>
+            {emproleid === 7 ? (
+              <>
+                <div style={{ marginBottom: '2rem' }}>
+                  <EmployeeElectronic setopendashboard={setopendashboard} />
+                </div>
+              </>
+            ) : (
+              <>
+                <div style={{ marginBottom: '2rem' }}>
+                  <EmployeeElectronic setopendashboard={setopendashboard} />
+                </div>
 
-            <div style={{ marginBottom: '2rem' }}>
-              <EmployeeManualDonation setopendashboard={setopendashboard} />
-            </div>
+                <div style={{ marginBottom: '2rem' }}>
+                  <EmployeeManualDonation setopendashboard={setopendashboard} />
+                </div>
 
-            <div style={{ marginBottom: '2rem' }}>
-              <EmployeeRoombooking setopendashboard={setopendashboard} />
-            </div>
-            <div style={{ marginBottom: '2rem' }}>
-              <EmployeeGuestInRoom setopendashboard={setopendashboard} />
-            </div>
+                <div style={{ marginBottom: '2rem' }}>
+                  <EmployeeRoombooking setopendashboard={setopendashboard} />
+                </div>
+                <div style={{ marginBottom: '2rem' }}>
+                  <EmployeeGuestInRoom setopendashboard={setopendashboard} />
+                </div>
+              </>
+            )}
           </>
         )}
       </div>

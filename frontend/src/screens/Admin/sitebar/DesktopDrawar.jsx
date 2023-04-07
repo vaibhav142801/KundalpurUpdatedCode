@@ -149,6 +149,8 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
   const [openedTab, setOpenedTab] = React.useState(0); // for opening subtabs
   const [activeTabId, setActiveTabId] = React.useState(0); // for showing tab as active
   const [userrole, setuserrole] = React.useState('');
+  const [empid, setempid] = React.useState('');
+  const [emproleid, setemproleid] = React.useState('');
   const navigationTabs = [];
 
   const navigationreportTabs = [
@@ -194,32 +196,57 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
     },
   ];
 
-  const navigationEmpTabs = [
-    {
-      id: 1,
-      name: 'Donation',
-      active: false,
-      icon: <img src={f4} alt="f4" style={{ width: '25px' }} />,
-      subTabs: [
-        {
-          id: 1.1,
+  let navigationEmpTabs = [];
+  {
+    userrole === 3 && emproleid === 7 ? (
+      <>
+        {navigationEmpTabs.push({
+          id: 1,
           name: 'Donation',
-          link: 'donation',
           active: false,
-          icon: <StorefrontIcon />,
-          subTabs: [],
-        },
-        {
-          id: 1.2,
-          name: 'Manual Donation',
-          link: 'manualdonation',
+          icon: <img src={f4} alt="f4" style={{ width: '25px' }} />,
+          subTabs: [
+            {
+              id: 1.1,
+              name: 'Donation',
+              link: 'donation',
+              active: false,
+              icon: <StorefrontIcon />,
+              subTabs: [],
+            },
+          ],
+        })}
+      </>
+    ) : (
+      <>
+        {navigationEmpTabs.push({
+          id: 1,
+          name: 'Donation',
           active: false,
-          icon: <SellIcon />,
-          subTabs: [],
-        },
-      ],
-    },
-  ];
+          icon: <img src={f4} alt="f4" style={{ width: '25px' }} />,
+          subTabs: [
+            {
+              id: 1.1,
+              name: 'Donation',
+              link: 'donation',
+              active: false,
+              icon: <StorefrontIcon />,
+              subTabs: [],
+            },
+            {
+              id: 1.2,
+              name: 'Manual Donation',
+              link: 'manualdonation',
+              active: false,
+              icon: <SellIcon />,
+              subTabs: [],
+            },
+          ],
+        })}
+      </>
+    );
+  }
+
   const navigationTabs1 = [
     {
       id: 2,
@@ -246,43 +273,69 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
       ],
     },
   ];
+  let navigationEmpTabs1 = [];
+  {
+    userrole === 3 && emproleid === 7 ? (
+      <>
+        {navigationEmpTabs1.push({
+          id: 4,
+          name: 'Reports',
+          active: false,
+          icon: <img src={f2} alt="f2" style={{ width: '25px' }} />,
+          subTabs: [
+            {
+              id: 4.1,
+              name: 'Donation',
+              link: 'electronic/report/elec',
+              active: false,
+              icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+              subTabs: [],
+            },
+          ],
+        })}
+      </>
+    ) : (
+      <>
+        {navigationEmpTabs1.push({
+          id: 4,
+          name: 'Reports',
+          active: false,
+          icon: <img src={f2} alt="f2" style={{ width: '25px' }} />,
+          subTabs: [
+            {
+              id: 4.5,
+              name: 'Donation',
+              link: 'electronic/report/cash',
+              active: false,
+              icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+              subTabs: [],
+            },
+            {
+              id: 4.1,
+              name: 'Manual Donation',
+              link: 'manual/report/cash',
+              active: false,
+              icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+              subTabs: [],
+            },
+            {
+              id: 4.9,
+              name: 'Online donation',
+              link: 'online/report/online',
+              active: false,
+              icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+              subTabs: [],
+            },
+          ],
+        })}
+      </>
+    );
+  }
 
-  const navigationEmpTabs1 = [
-    {
-      id: 4,
-      name: 'Reports',
-      active: false,
-      icon: <img src={f2} alt="f2" style={{ width: '25px' }} />,
-      subTabs: [
-        {
-          id: 4.5,
-          name: 'Donation',
-          link: 'electronic/report/cash',
-          active: false,
-          icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
-          subTabs: [],
-        },
-        {
-          id: 4.1,
-          name: 'Manual Donation',
-          link: 'manual/report/cash',
-          active: false,
-          icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
-          subTabs: [],
-        },
-        {
-          id: 4.9,
-          name: 'Online donation',
-          link: 'online/report/online',
-          active: false,
-          icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
-          subTabs: [],
-        },
-      ],
-    },
-  ];
   useEffect(() => {
     setuserrole(Number(sessionStorage.getItem('userrole')));
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
+    setempid(Number(sessionStorage.getItem('empRoleid')));
   }, []);
 
   return (
@@ -409,12 +462,47 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
               </Tooltip>
             </>
           )}
+
+          {userrole === 3 && emproleid === 0 && (
+            <>
+              <Tooltip title="System" placement="left-end">
+                <StyledListItemButton
+                  selected={activeTabId === 20}
+                  onClick={() => {
+                    setActiveTabId(20);
+                    handleDrawerClose();
+                    navigate('/admin-panel/usermanagement');
+                  }}
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.2,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <img src={f3} alt="f6" style={{ width: '25px' }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    classes={{ root: stylesag.ListText }}
+                    primary="System"
+                    sx={{ opacity: open ? 1 : 0, ml: 0.8 }}
+                  />
+                </StyledListItemButton>
+              </Tooltip>
+            </>
+          )}
         </ListItem>
         <Divider style={{ padding: '5px 0px' }} />
 
         {/* Admin Navigation Tabs */}
 
-        {userrole === 1
+        {userrole === 1 || (userrole === 3 && emproleid === 0)
           ? navigationTabs.map((Tab, i) => (
               <React.Fragment key={i}>
                 <Tooltip title={Tab.name} placement="left-end">
@@ -550,6 +638,43 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
           </>
         )}
 
+        {userrole === 3 && emproleid === 0 && (
+          <>
+            <ListItem disablePadding sx={{ display: 'block' }}>
+              <Tooltip title="Masters" placement="left-end">
+                <StyledListItemButton
+                  selected={activeTabId === 9}
+                  onClick={() => {
+                    setActiveTabId(9);
+                    handleDrawerClose();
+                    navigate('/admin-panel/masters');
+                  }}
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.2,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <img src={f5} alt="f5" style={{ width: '25px' }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    classes={{ root: stylesag.ListText }}
+                    primary="Masters"
+                    sx={{ opacity: open ? 1 : 0, ml: 0.8 }}
+                  />
+                </StyledListItemButton>
+              </Tooltip>
+            </ListItem>
+          </>
+        )}
+
         {userrole === 1 && (
           <>
             <ListItem disablePadding sx={{ display: 'block' }}>
@@ -587,7 +712,44 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
           </>
         )}
 
-        {userrole === 1
+        {userrole === 3 && emproleid === 0 && (
+          <>
+            <ListItem disablePadding sx={{ display: 'block' }}>
+              <Tooltip title="Masters" placement="left-end">
+                <StyledListItemButton
+                  selected={activeTabId === 10}
+                  onClick={() => {
+                    setActiveTabId(10);
+                    handleDrawerClose();
+                    navigate('/admin-panel/Dharamshala');
+                  }}
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.2,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <img src={f1} alt="f5" style={{ width: '25px' }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    classes={{ root: stylesag.ListText }}
+                    primary="Dharamshala"
+                    sx={{ opacity: open ? 1 : 0, ml: 0.8 }}
+                  />
+                </StyledListItemButton>
+              </Tooltip>
+            </ListItem>
+          </>
+        )}
+
+        {userrole === 1 || (userrole === 3 && emproleid === 0)
           ? navigationTabs1.map((Tab, i) => (
               <React.Fragment key={i}>
                 <Tooltip title={Tab?.name} placement="left-end">
@@ -688,53 +850,23 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
             ))}
       </List>
 
-      <ListItem disablePadding sx={{ display: 'block' }}>
-        <Tooltip title="Masters" placement="left-end">
-          <StyledListItemButton
-            selected={activeTabId === 11}
-            onClick={() => {
-              setActiveTabId(11);
-              handleDrawerClose();
-              navigate('/admin-panel/room/Dashboard');
-            }}
-            sx={{
-              minHeight: 48,
-              justifyContent: open ? 'initial' : 'center',
-              px: 2.2,
-            }}
-          >
-            <ListItemIcon
-              sx={{
-                minWidth: 0,
-                mr: open ? 3 : 'auto',
-                justifyContent: 'center',
-              }}
-            >
-              <img src={f1} alt="f5" style={{ width: '25px' }} />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ root: stylesag.ListText }}
-              primary="Room Booking"
-              sx={{ opacity: open ? 1 : 0, ml: 0.8 }}
-            />
-          </StyledListItemButton>
-        </Tooltip>
-      </ListItem>
-      {/* {userrole === 1 && (
+      {userrole === 3 && emproleid === 7 ? (
+        <></>
+      ) : (
         <>
           <ListItem disablePadding sx={{ display: 'block' }}>
-            <Tooltip title="donated users" placement="left-end">
+            <Tooltip title="Masters" placement="left-end">
               <StyledListItemButton
-                selected={activeTabId === 7}
+                selected={activeTabId === 11}
                 onClick={() => {
-                  setActiveTabId(7);
-                  navigate('/admin-panel/donatedusers');
+                  setActiveTabId(11);
                   handleDrawerClose();
+                  navigate('/admin-panel/room/Dashboard');
                 }}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
-                  px: 2,
+                  px: 2.2,
                 }}
               >
                 <ListItemIcon
@@ -744,21 +876,21 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                     justifyContent: 'center',
                   }}
                 >
-                  <img src={f4} alt="f3" style={{ width: '25px' }} />
+                  <img src={f1} alt="f5" style={{ width: '25px' }} />
                 </ListItemIcon>
                 <ListItemText
                   classes={{ root: stylesag.ListText }}
-                  primary="Donated user"
-                  sx={{ opacity: open ? 1 : 0, ml: 1 }}
+                  primary="Room Booking"
+                  sx={{ opacity: open ? 1 : 0, ml: 0.8 }}
                 />
               </StyledListItemButton>
             </Tooltip>
           </ListItem>
         </>
-      )} */}
+      )}
 
       <List>
-        {userrole === 1
+        {userrole === 1 || (userrole === 3 && emproleid === 0)
           ? navigationreportTabs.map((Tab, i) => (
               <React.Fragment key={i}>
                 <Tooltip title={Tab?.name} placement="left-end">

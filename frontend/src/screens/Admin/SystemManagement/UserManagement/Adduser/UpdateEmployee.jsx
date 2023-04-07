@@ -3,7 +3,16 @@ import { backendApiUrl } from '../../../../../config/config';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import './Adduser.css';
-
+const empRoles = {
+  Administrator: 0,
+  'Donation And Booking': 1,
+  'Room Booking': 2,
+  Accounts: 3,
+  Store: 4,
+  'Super Admin': 5,
+  'Manual Donation': 6,
+  'Elect Donation': 7,
+};
 const UpdateEmployee = ({ setOpen, empdata }) => {
   const [username, setusername] = useState('');
   const [mobile, setmobile] = useState('');
@@ -27,7 +36,7 @@ const UpdateEmployee = ({ setOpen, empdata }) => {
           Address: address,
           Password: password,
           Role: role,
-          Rid: 2,
+          Rid: empRoles[role],
           id: empdata?.id,
           Status: status === 'true' ? true : false,
         });
@@ -148,14 +157,14 @@ const UpdateEmployee = ({ setOpen, empdata }) => {
                     onChange={(e) => setrole(e.target.value)}
                   >
                     <option value="None">Select Role</option>
-                    <option value="Administrator">Administrator</option>
+                    <option value="Administrator">Admin</option>
                     <option value="Donation And Booking">
                       Donation And Booking
                     </option>
                     <option value="Room Booking">Room Booking</option>
-                    <option value="Accounts">Accounts</option>
+                    {/* <option value="Accounts">Accounts</option>
                     <option value="Store">Store</option>
-                    <option value="Super Admin">Super Admin</option>
+                    <option value="Super Admin">Super Admin</option> */}
                     <option value="Manual Donation">Manual Donation</option>
                     <option value="Elect Donation">Elect Donation</option>
                   </select>

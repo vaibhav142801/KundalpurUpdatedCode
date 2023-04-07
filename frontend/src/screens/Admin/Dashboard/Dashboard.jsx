@@ -15,7 +15,9 @@ import './Dashboard.css';
 
 const Dashboard = ({ setopendashboard }) => {
   const navigate = useNavigate();
+  const [empid, setempid] = useState('');
   const [userrole, setuserrole] = useState('');
+  const [emproleid, setemproleid] = useState('');
   const [isData1, setisData1] = useState('');
   const [isData2, setisData2] = useState('');
   const [isData3, setisData3] = useState('');
@@ -59,6 +61,8 @@ const Dashboard = ({ setopendashboard }) => {
   useEffect(() => {
     setopendashboard(true);
     setuserrole(Number(sessionStorage.getItem('userrole')));
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
+    setempid(Number(sessionStorage.getItem('empRoleid')));
     getallelec(),
       getallmanual(),
       getallonline(),
@@ -79,7 +83,7 @@ const Dashboard = ({ setopendashboard }) => {
             flexWrap: 'wrap',
           }}
         >
-          {userrole === 1 ? (
+          {userrole === 1 || emproleid === 0 ? (
             <>
               <div
                 onClick={() => navigate('/admin-panel/donation')}
@@ -156,56 +160,101 @@ const Dashboard = ({ setopendashboard }) => {
             </>
           ) : (
             <>
-              <div
-                onClick={() => navigate('/admin-panel/donation')}
-                className="main_card_amount"
-                style={{ background: '#FE0000', color: 'white', width: '23%' }}
-              >
-                <p>Donation</p>
-                <div
-                  className="main_repue_img"
-                  style={{ color: '#05313C', fontWeight: 700 }}
-                >
-                  <EmpelecTotal data={isData4} />
-                  <img src={Group225} alt="dd" />
-                </div>
-              </div>
-              <div
-                onClick={() => navigate('/admin-panel/manualdonation')}
-                className="main_card_amount"
-                style={{ background: '#FECE00', color: 'white', width: '23%' }}
-              >
-                <p>Manual Donation</p>
-                <div
-                  className="main_repue_img"
-                  style={{ color: '#05313C', fontWeight: 700 }}
-                >
-                  <EmpmanulTotal data={isData5} />
-                  <img src={Group225} alt="dd" />
-                </div>
-              </div>
+              {emproleid === 7 ? (
+                <>
+                  {
+                    <div
+                      onClick={() => navigate('/admin-panel/donation')}
+                      className="main_card_amount"
+                      style={{
+                        background: '#FE0000',
+                        color: 'white',
+                        width: '23%',
+                      }}
+                    >
+                      <p>Donation</p>
+                      <div
+                        className="main_repue_img"
+                        style={{ color: '#05313C', fontWeight: 700 }}
+                      >
+                        <EmpelecTotal data={isData4} />
+                        <img src={Group225} alt="dd" />
+                      </div>
+                    </div>
+                  }
+                </>
+              ) : (
+                <>
+                  {
+                    <div
+                      onClick={() => navigate('/admin-panel/donation')}
+                      className="main_card_amount"
+                      style={{
+                        background: '#FE0000',
+                        color: 'white',
+                        width: '23%',
+                      }}
+                    >
+                      <p>Donation</p>
+                      <div
+                        className="main_repue_img"
+                        style={{ color: '#05313C', fontWeight: 700 }}
+                      >
+                        <EmpelecTotal data={isData4} />
+                        <img src={Group225} alt="dd" />
+                      </div>
+                    </div>
+                  }
+                  <div
+                    onClick={() => navigate('/admin-panel/manualdonation')}
+                    className="main_card_amount"
+                    style={{
+                      background: '#FECE00',
+                      color: 'white',
+                      width: '23%',
+                    }}
+                  >
+                    <p>Manual Donation</p>
+                    <div
+                      className="main_repue_img"
+                      style={{ color: '#05313C', fontWeight: 700 }}
+                    >
+                      <EmpmanulTotal data={isData5} />
+                      <img src={Group225} alt="dd" />
+                    </div>
+                  </div>
 
-              <div
-                className="main_card_amount"
-                style={{ background: '#3C5FFE', color: 'white', width: '23%' }}
-              >
-                <p>Room Booking</p>
-                <div className="main_repue_img">
-                  <p>₹ 0</p>
-                  <img src={Group227} alt="dd" />
-                </div>
-              </div>
+                  <div
+                    className="main_card_amount"
+                    style={{
+                      background: '#3C5FFE',
+                      color: 'white',
+                      width: '23%',
+                    }}
+                  >
+                    <p>Room Booking</p>
+                    <div className="main_repue_img">
+                      <p>₹ 0</p>
+                      <img src={Group227} alt="dd" />
+                    </div>
+                  </div>
 
-              <div
-                className="main_card_amount"
-                style={{ background: '#808080', color: 'white', width: '23%' }}
-              >
-                <p>Guest in Room</p>
-                <div className="main_repue_img">
-                  <p>0</p>
-                  <img src={Group228} alt="dd" />
-                </div>
-              </div>
+                  <div
+                    className="main_card_amount"
+                    style={{
+                      background: '#808080',
+                      color: 'white',
+                      width: '23%',
+                    }}
+                  >
+                    <p>Guest in Room</p>
+                    <div className="main_repue_img">
+                      <p>0</p>
+                      <img src={Group228} alt="dd" />
+                    </div>
+                  </div>
+                </>
+              )}
             </>
           )}
         </div>

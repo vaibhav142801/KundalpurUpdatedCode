@@ -127,6 +127,9 @@ const donationColorTheme = {
   electronic: '#e96d00',
 };
 const Electornic = ({ setopendashboard }) => {
+  let filterData;
+  const [empid, setempid] = useState('');
+  const [emproleid, setemproleid] = useState('');
   const [emplist, setemplist] = useState('');
   const [isData, setisData] = React.useState('');
   const [isDataDummy, setisDataDummy] = React.useState([]);
@@ -135,8 +138,6 @@ const Electornic = ({ setopendashboard }) => {
   const [showalert, setshowalert] = useState(false);
   const [open, setOpen] = React.useState(false);
   const navigation = useNavigate();
-  const [open1, setOpen1] = React.useState(false);
-  const [deleteId, setdeleteId] = useState('');
   const [updateData, setupdateData] = useState('');
   const [openupdate, setopenupdate] = useState(false);
   const [showUpdateBtn, setshowUpdateBtn] = useState(true);
@@ -182,9 +183,18 @@ const Electornic = ({ setopendashboard }) => {
     setsearchvalue('');
     serverInstance('user/add-elecDonation', 'get').then((res) => {
       if (res.status) {
-        let filterData = res.data.filter(
-          (item) => item.modeOfDonation === '1' && item.isActive === true,
-        );
+        if (emproleid === 7) {
+          filterData = res.data.filter(
+            (item) =>
+              item.modeOfDonation === '1' &&
+              item.isActive === true &&
+              item.created_by === empid,
+          );
+        } else {
+          filterData = res.data.filter(
+            (item) => item.modeOfDonation === '1' && item.isActive === true,
+          );
+        }
 
         setisData(filterData);
         setisDataDummy(filterData);
@@ -252,7 +262,17 @@ const Electornic = ({ setopendashboard }) => {
       );
 
       if (res.data.status) {
-        let filterData = res.data.data.filter((item) => item.isActive === true);
+        if (emproleid === 7) {
+          filterData = res.data.filter(
+            (item) =>
+              item.modeOfDonation === '1' &&
+              item.isActive === true &&
+              item.created_by === empid,
+          );
+        } else {
+          filterData = res.data.filter((item) => item.isActive === true);
+        }
+
         setisData(filterData);
         setisDataDummy(filterData);
       }
@@ -266,7 +286,16 @@ const Electornic = ({ setopendashboard }) => {
       );
 
       if (res.data.status) {
-        let filterData = res.data.data.filter((item) => item.isActive === true);
+        if (emproleid === 7) {
+          filterData = res.data.filter(
+            (item) =>
+              item.modeOfDonation === '1' &&
+              item.isActive === true &&
+              item.created_by === empid,
+          );
+        } else {
+          filterData = res.data.filter((item) => item.isActive === true);
+        }
         setisData(filterData);
         setisDataDummy(filterData);
       }
@@ -293,11 +322,9 @@ const Electornic = ({ setopendashboard }) => {
     serverInstance('admin/add-employee', 'get').then((res) => {
       if (res.status) {
         setemplist(res.data);
-        console.log('empl list', res.data);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
       }
-      console.log(res);
     });
   };
   useEffect(() => {
@@ -306,7 +333,11 @@ const Electornic = ({ setopendashboard }) => {
     setopendashboard(true);
     get_donation_tyeps();
     setuserrole(Number(sessionStorage.getItem('userrole')));
-  }, [showalert, open, openupdate]);
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
+    setempid(Number(sessionStorage.getItem('empid')));
+  }, [showalert, open, openupdate, empid]);
+
+  console.log(empid);
   const onSearchByOther = (e, type) => {
     if (type === 'Date') {
       setDate(e.target.value);
@@ -779,7 +810,16 @@ const Electornic = ({ setopendashboard }) => {
                             />
                           </Tooltip>
                         )}
-
+                        {emproleid === 7 && (
+                          <Tooltip title="Edit Donation">
+                            <img
+                              onClick={() => upadteOpen(row)}
+                              src={Edit}
+                              alt="print"
+                              style={{ width: '20px', marginRight: '2px' }}
+                            />
+                          </Tooltip>
+                        )}
                         <Tooltip title="Print Certificate">
                           <img
                             onClick={() =>

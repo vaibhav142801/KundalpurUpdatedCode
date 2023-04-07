@@ -4,7 +4,27 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import './Adduser.css';
+const empRoles = {
+  Administrator: 0,
+  'Donation And Booking': 1,
+  'Room Booking': 2,
+  Accounts: 3,
+  Store: 4,
+  'Super Admin': 5,
+  'Manual Donation': 6,
+  'Elect Donation': 7,
+};
 
+const empRolesReverse = {
+  0: 'Administrator',
+  1: 'Donation And Booking',
+  2: 'Room Booking',
+  3: 'Accounts',
+  4: 'Store',
+  5: 'Super Admin',
+  6: 'Manual Donation',
+  7: 'Elect Donation',
+};
 const Adduser = ({ setOpen }) => {
   const [username, setusername] = useState('');
   const [mobile, setmobile] = useState('');
@@ -14,6 +34,7 @@ const Adduser = ({ setOpen }) => {
   const [role, setrole] = useState('');
   const [status, setstatus] = useState(false);
   const [showloader, setshowloader] = useState(false);
+
   const handlesubmit = async (e) => {
     try {
       setshowloader(true);
@@ -29,7 +50,7 @@ const Adduser = ({ setOpen }) => {
           Address: address,
           Password: password,
           Role: role,
-          Rid: 2,
+          Rid: empRoles[role],
           Status: status === 'true' ? true : false,
         });
         console.log(res.data);
@@ -137,14 +158,14 @@ const Adduser = ({ setOpen }) => {
                     onChange={(e) => setrole(e.target.value)}
                   >
                     <option value="None">Select Role</option>
-                    <option value="Administrator">Administrator</option>
+                    <option value="Administrator">Admin</option>
                     <option value="Donation And Booking">
                       Donation And Booking
                     </option>
                     <option value="Room Booking">Room Booking</option>
-                    <option value="Accounts">Accounts</option>
+                    {/* <option value="Accounts">Accounts</option>
                     <option value="Store">Store</option>
-                    <option value="Super Admin">Super Admin</option>
+                    <option value="Super Admin">Super Admin</option> */}
                     <option value="Manual Donation">Manual Donation</option>
                     <option value="Elect Donation">Elect Donation</option>
                   </select>

@@ -19,7 +19,7 @@ const EmployeeElectronic = () => {
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
-
+  const [emproleid, setemproleid] = useState('');
   const componentRef = useRef();
 
   const handlePrint = useReactToPrint({
@@ -87,7 +87,9 @@ const EmployeeElectronic = () => {
   };
   useEffect(() => {
     getallelec();
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
   }, []);
+
   return (
     <>
       <div className="main_dash_daily_main">
@@ -145,10 +147,18 @@ const EmployeeElectronic = () => {
             <TableHead>
               <TableRow>
                 <TableCell> &nbsp;</TableCell>
-                <TableCell>Cash</TableCell>
-                <TableCell>Bank</TableCell>
-                <TableCell>Cheque</TableCell>
-                <TableCell>Total</TableCell>
+                {emproleid === 7 ? (
+                  <>
+                    <TableCell>Bank</TableCell>
+                  </>
+                ) : (
+                  <>
+                    <TableCell>Cash</TableCell>
+                    <TableCell>Bank</TableCell>
+                    <TableCell>Cheque</TableCell>
+                    <TableCell>Total</TableCell>
+                  </>
+                )}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -169,13 +179,20 @@ const EmployeeElectronic = () => {
                       }}
                     >
                       <TableCell> &nbsp;</TableCell>
+                      {emproleid === 7 ? (
+                        <>
+                          <TableCell>{row.bank_amount}</TableCell>
+                        </>
+                      ) : (
+                        <>
+                          <TableCell>{row.cash_amount}</TableCell>
 
-                      <TableCell>{row.cash_amount}</TableCell>
+                          <TableCell>{row.bank_amount}</TableCell>
+                          <TableCell>{row.cheque_amount}</TableCell>
 
-                      <TableCell>{row.bank_amount}</TableCell>
-                      <TableCell>{row.cheque_amount}</TableCell>
-
-                      <TableCell>{row.total}</TableCell>
+                          <TableCell>{row.total}</TableCell>
+                        </>
+                      )}
                     </TableRow>
                   ))}
                 </>

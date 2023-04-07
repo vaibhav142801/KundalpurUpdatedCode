@@ -123,6 +123,10 @@ const donationColorTheme = {
 };
 
 const Donation = ({ setopendashboard }) => {
+  let filterData;
+  const [empid, setempid] = useState('');
+  const [emproleid, setemproleid] = useState('');
+  const [roleid, setroleid] = useState('');
   const [emplist, setemplist] = useState('');
   const [isData, setisData] = React.useState([]);
   const [isDataDummy, setisDataDummy] = React.useState([]);
@@ -131,18 +135,14 @@ const Donation = ({ setopendashboard }) => {
   const [open, setOpen] = React.useState(true);
   const [open3, setOpen3] = React.useState(false);
   const [donationTypes, setDonationTypes] = useState([]);
-
   const [rowData, setrowData] = useState('');
   const [open4, setOpen4] = useState(false);
   const [datefrom, setdatefrom] = useState('');
   const [dateto, setdateto] = useState('');
   const [voucherfrom, setvoucherfrom] = useState('');
   const [voucherto, setvoucherto] = useState('');
-
   const [open5, setOpen5] = React.useState(false);
-
   const [searchvalue, setsearchvalue] = useState('');
-
   const [voucherno, setVoucherno] = useState('');
   const [date, setDate] = useState('');
   const [receiptNo, setReceiptNo] = useState('');
@@ -156,7 +156,7 @@ const Donation = ({ setopendashboard }) => {
   const handleOpen5 = () => setOpen5(true);
   const handleClose5 = () => setOpen5(false);
 
-  console.log(type);
+  console.log('role name id', emproleid, roleid);
   const handleOpen4 = () => {
     setOpen4(true);
   };
@@ -167,19 +167,27 @@ const Donation = ({ setopendashboard }) => {
 
   const handleOpen = async () => {
     const role = Number(sessionStorage.getItem('userrole'));
-    if (role === 3) {
-      serverInstance('user/check-voucher', 'get').then((res) => {
-        console.log('check couchcer not is ', res);
-
-        if (res.status === false) {
-          handleOpen3();
-        }
-        if (res.status === true) {
-          setOpen(true);
-        }
-      });
+    if (emproleid === 0) {
+    } else {
+      if (role === 3) {
+        serverInstance('user/check-voucher', 'get').then((res) => {
+          if (res.status === false) {
+            handleOpen3();
+          }
+          if (res.status === true) {
+            if (emproleid && roleid) {
+              setOpen(true);
+            }
+          }
+        });
+      }
     }
-    if (role === 1) {
+
+    if (emproleid === 0) {
+      setOpen(true);
+    }
+
+    if (emproleid === 0) {
       setOpen(true);
     }
   };
@@ -232,7 +240,13 @@ const Donation = ({ setopendashboard }) => {
     setsearchvalue('');
     serverInstance('user/add-elecDonation', 'get').then((res) => {
       if (res.status) {
-        let filterData = res.data.filter((item) => item.isActive === true);
+        if (emproleid === 7) {
+          filterData = res.data.filter(
+            (item) => item.isActive === true && item.created_by === empid,
+          );
+        } else {
+          filterData = res.data.filter((item) => item.isActive === true);
+        }
         setisData(filterData);
         setisDataDummy(filterData);
       } else {
@@ -267,7 +281,6 @@ const Donation = ({ setopendashboard }) => {
         ([res, item]) => {
           if (res.status) {
             setDonationTypes(res.data);
-            console.log(res.data);
           } else {
             Swal.fire('Error', 'somthing went  wrong', 'error');
           }
@@ -289,7 +302,13 @@ const Donation = ({ setopendashboard }) => {
       );
 
       if (res.data.status) {
-        let filterData = res.data.data.filter((item) => item.isActive === true);
+        if (emproleid === 7) {
+          filterData = res.data.data.filter(
+            (item) => item.isActive === true && item.created_by === empid,
+          );
+        } else {
+          filterData = res.data.data.filter((item) => item.isActive === true);
+        }
         setisData(filterData);
         setisDataDummy(filterData);
       }
@@ -299,7 +318,13 @@ const Donation = ({ setopendashboard }) => {
         'get`,
       ).then((res) => {
         if (res.data) {
-          let filterData = res.data.filter((item) => item.isActive === true);
+          if (emproleid === 7) {
+            filterData = res.data.data.filter(
+              (item) => item.isActive === true && item.created_by === empid,
+            );
+          } else {
+            filterData = res.data.data.filter((item) => item.isActive === true);
+          }
           setisData(filterData);
           setisDataDummy(filterData);
         }
@@ -310,13 +335,12 @@ const Donation = ({ setopendashboard }) => {
     serverInstance('admin/add-employee', 'get').then((res) => {
       if (res.status) {
         setemplist(res.data);
-        console.log('empl list', res.data);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
       }
-      console.log(res);
     });
   };
+
   useEffect(() => {
     getallemp_list();
     getall_donation();
@@ -325,72 +349,92 @@ const Donation = ({ setopendashboard }) => {
     get_donation_tyeps();
 
     const role = Number(sessionStorage.getItem('userrole'));
-    if (role === 3) {
-      try {
-        serverInstance('user/check-voucher', 'get').then((res) => {
-          console.log('check couchcer not is ', res);
-
-          if (res.status === false) {
-            handleOpen3();
-            setOpen(false);
-          }
-        });
-      } catch (error) {
-        console.log('sss', error.response);
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
+    setroleid(Number(sessionStorage.getItem('userrole')));
+    setempid(Number(sessionStorage.getItem('empid')));
+    if (emproleid === 0) {
+    } else {
+      if (role === 3) {
+        try {
+          serverInstance('user/check-voucher', 'get').then((res) => {
+            if (res.status === false) {
+              handleOpen3();
+              setOpen(false);
+            }
+          });
+        } catch (error) {}
       }
     }
-  }, [open]);
+  }, [open, empid]);
+  let tabs = [];
 
-  const tabs = React.useMemo(
-    () => [
-      {
-        label: 'Cash Donation',
-        component: (
-          <CashDonation
-            handleClose={handleClose}
-            themeColor={donationColorTheme.cash}
-            handleOpen4={handleOpen4}
-            getall_donation={getall_donation}
-            setopendashboard={setopendashboard}
-          />
-        ),
-      },
-      {
-        label: 'Electronic Donation',
-        component: (
-          <ElectronicDonation
-            handleClose={handleClose}
-            themeColor={donationColorTheme.electronic}
-            handleOpen4={handleOpen4}
-            setopendashboard={setopendashboard}
-          />
-        ),
-      },
-      {
-        label: 'Cheque Donation',
-        component: (
-          <ChequeDonation
-            handleClose={handleClose}
-            themeColor={donationColorTheme.cheque}
-            handleOpen4={handleOpen4}
-            setopendashboard={setopendashboard}
-          />
-        ),
-      },
-      {
-        label: 'Item Donation',
-        component: (
-          <ItemDonation
-            handleClose={handleClose}
-            themeColor={donationColorTheme.item}
-            handleOpen4={handleOpen4}
-            setopendashboard={setopendashboard}
-          />
-        ),
-      },
-    ],
-    [],
-  );
+  {
+    roleid === 3 && emproleid === 7 ? (
+      <>
+        {tabs.push({
+          label: 'Electronic Donation',
+          component: (
+            <ElectronicDonation
+              handleClose={handleClose}
+              themeColor={donationColorTheme.electronic}
+              handleOpen4={handleOpen4}
+              setopendashboard={setopendashboard}
+            />
+          ),
+        })}
+      </>
+    ) : (
+      <>
+        {tabs.push(
+          {
+            label: 'Cash Donation',
+            component: (
+              <CashDonation
+                handleClose={handleClose}
+                themeColor={donationColorTheme.cash}
+                handleOpen4={handleOpen4}
+                getall_donation={getall_donation}
+                setopendashboard={setopendashboard}
+              />
+            ),
+          },
+          {
+            label: 'Electronic Donation',
+            component: (
+              <ElectronicDonation
+                handleClose={handleClose}
+                themeColor={donationColorTheme.electronic}
+                handleOpen4={handleOpen4}
+                setopendashboard={setopendashboard}
+              />
+            ),
+          },
+          {
+            label: 'Cheque Donation',
+            component: (
+              <ChequeDonation
+                handleClose={handleClose}
+                themeColor={donationColorTheme.cheque}
+                handleOpen4={handleOpen4}
+                setopendashboard={setopendashboard}
+              />
+            ),
+          },
+          {
+            label: 'Item Donation',
+            component: (
+              <ItemDonation
+                handleClose={handleClose}
+                themeColor={donationColorTheme.item}
+                handleOpen4={handleOpen4}
+                setopendashboard={setopendashboard}
+              />
+            ),
+          },
+        )}
+      </>
+    );
+  }
 
   const onSearchByOther = (e, type) => {
     if (type === 'Date') {
@@ -435,7 +479,7 @@ const Donation = ({ setopendashboard }) => {
         dt?.createdBy?.toLowerCase()?.indexOf(userType) > -1 &&
         dt?.voucherNo?.toLowerCase()?.indexOf(voucherno) > -1,
     );
-    console.log(filtered);
+
     if (type) {
       filtered = filtered?.map((item) => {
         if (item?.elecItemDetails?.find((typ) => typ.type == type)) {
@@ -522,32 +566,36 @@ const Donation = ({ setopendashboard }) => {
         </Fade>
       </Modal>
 
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-      >
-        <Fade in={open}>
-          <Box
-            sx={{
-              ...style,
-              width: {
-                xs: '90%',
-                sm: '70%',
-                md: '70%',
-              },
-            }}
+      {roleid && (
+        <>
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            open={open}
+            onClose={handleClose}
+            closeAfterTransition
           >
-            <UnderlinedTab
-              tabs={tabs}
-              handleClose={handleClose}
-              themeColor={donationColorTheme}
-            />
-          </Box>
-        </Fade>
-      </Modal>
+            <Fade in={open}>
+              <Box
+                sx={{
+                  ...style,
+                  width: {
+                    xs: '90%',
+                    sm: '70%',
+                    md: '70%',
+                  },
+                }}
+              >
+                <UnderlinedTab
+                  tabs={tabs}
+                  handleClose={handleClose}
+                  themeColor={donationColorTheme}
+                />
+              </Box>
+            </Fade>
+          </Modal>
+        </>
+      )}
 
       <Modal
         aria-labelledby="transition-modal-title"

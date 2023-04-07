@@ -8,25 +8,23 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
-import SimCardAlertIcon from '@mui/icons-material/SimCardAlert';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
 import { backendApiUrl } from '../../../../../config/config';
 import axios from 'axios';
-import CircularProgress from '@mui/material/CircularProgress';
 import { ExportPdfmanul } from '../../../compoments/ExportPdf';
 import Print from '../../../../../assets/Print.png';
 import ExportPdf from '../../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../../assets/ExportExcel.png';
-import Edit from '../../../../../assets/Edit.png';
-import eye from '../../../../../assets/eye.png';
 import DonationReportTap from '../DonationReportTap';
 import { ReactSpinner } from 'react-spinning-wheel';
 import Tooltip from '@mui/material/Tooltip';
 import 'react-spinning-wheel/dist/style.css';
 
 const HeadReport = ({ setopendashboard }) => {
+  let filterData;
+  const [empid, setempid] = useState('');
+  const [emproleid, setemproleid] = useState('');
   const [isData, setisData] = React.useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
@@ -121,7 +119,18 @@ const HeadReport = ({ setopendashboard }) => {
     );
     console.log('filter data is now', res.data.data[0].donations);
     if (res.data.data[0].donations) {
-      setisData(res.data.data[0].donations);
+      if (userrole === 3) {
+        if (emproleid === 0) {
+          setisData(res.data.data[0].donations);
+        } else {
+          filterData = res.data.data[0].donations.filter(
+            (item) => item.created_by === empid,
+          );
+          setisData(filterData);
+        }
+      } else {
+        setisData(res.data.data[0].donations);
+      }
     }
   };
 
@@ -133,7 +142,7 @@ const HeadReport = ({ setopendashboard }) => {
     const res = await axios.get(
       `${backendApiUrl}user/searchAllDonation?employeeid=${empId}&type=${type}&fromDate=${datefrom}&toDate=${dateto}`,
     );
-    console.log('Head data is ', res.data.data);
+
     if (res.data.status) {
       setSearchHead(res.data.data);
     }
@@ -141,10 +150,12 @@ const HeadReport = ({ setopendashboard }) => {
 
   useEffect(() => {
     setopendashboard(true);
+    filterdata();
     getAllEmp();
-
     setuserrole(Number(sessionStorage.getItem('userrole')));
-  }, []);
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
+    setempid(Number(sessionStorage.getItem('empid')));
+  }, [empid, emproleid]);
 
   return (
     <>

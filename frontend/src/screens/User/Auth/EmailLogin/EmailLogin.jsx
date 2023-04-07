@@ -71,6 +71,8 @@ const EmailLogin = () => {
           sessionStorage.setItem('userrole', decoded.role);
           sessionStorage.setItem('empName', res.data.user.username);
           sessionStorage.setItem('empRole', res.data.user.Role);
+          sessionStorage.setItem('empRoleid', res.data.user.Rid);
+          sessionStorage.setItem('empid', res.data.user.id);
           sessionStorage.setItem('adminSignature', res.data.user.signature);
           sessionStorage.setItem('token', res.data.tokens.access.token);
           auth.setUser(res.data.tokens.access.token);
