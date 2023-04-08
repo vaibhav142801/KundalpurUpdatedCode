@@ -19,6 +19,7 @@ const EmployeeManualDonation = () => {
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
+  const [emproleid, setemproleid] = useState('');
   const componentRef = useRef();
 
   const handlePrint = useReactToPrint({
@@ -85,6 +86,8 @@ const EmployeeManualDonation = () => {
   };
   useEffect(() => {
     getallmanual();
+
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
   }, []);
   return (
     <>
@@ -141,6 +144,7 @@ const EmployeeManualDonation = () => {
             <TableHead>
               <TableRow>
                 <TableCell>&nbsp;</TableCell>
+
                 <TableCell>Cash</TableCell>
                 <TableCell>Bank</TableCell>
                 <TableCell>Cheque</TableCell>

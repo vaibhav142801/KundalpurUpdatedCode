@@ -31,10 +31,10 @@ const AddVoucherToUser = ({ setOpen }) => {
         user: Number(assingTo),
         name: empname,
       });
-
+      console.log(res.data.data.message);
       if (res.data.data.message) {
         setshowloader(false);
-        Swal.fire('Great!', 'VOUCHER GENERATED SUCCESSFULLY', 'success');
+        Swal.fire('Great!', res.data.data.message, 'success');
         setOpen(false);
       }
     } catch (error) {
@@ -46,6 +46,7 @@ const AddVoucherToUser = ({ setOpen }) => {
     serverInstance('admin/add-employee', 'get').then((res) => {
       if (res.status) {
         setisData(res.data);
+        setassingTo(res.data[0].id);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
       }

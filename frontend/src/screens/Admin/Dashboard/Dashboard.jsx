@@ -160,7 +160,7 @@ const Dashboard = ({ setopendashboard }) => {
             </>
           ) : (
             <>
-              {emproleid === 7 ? (
+              {emproleid === 7 && (
                 <>
                   {
                     <div
@@ -183,28 +183,29 @@ const Dashboard = ({ setopendashboard }) => {
                     </div>
                   }
                 </>
-              ) : (
+              )}
+
+              {emproleid === 1 && (
                 <>
-                  {
+                  <div
+                    onClick={() => navigate('/admin-panel/donation')}
+                    className="main_card_amount"
+                    style={{
+                      background: '#FE0000',
+                      color: 'white',
+                      width: '23%',
+                    }}
+                  >
+                    <p>Donation</p>
                     <div
-                      onClick={() => navigate('/admin-panel/donation')}
-                      className="main_card_amount"
-                      style={{
-                        background: '#FE0000',
-                        color: 'white',
-                        width: '23%',
-                      }}
+                      className="main_repue_img"
+                      style={{ color: '#05313C', fontWeight: 700 }}
                     >
-                      <p>Donation</p>
-                      <div
-                        className="main_repue_img"
-                        style={{ color: '#05313C', fontWeight: 700 }}
-                      >
-                        <EmpelecTotal data={isData4} />
-                        <img src={Group225} alt="dd" />
-                      </div>
+                      <EmpelecTotal data={isData4} />
+                      <img src={Group225} alt="dd" />
                     </div>
-                  }
+                  </div>
+
                   <div
                     onClick={() => navigate('/admin-panel/manualdonation')}
                     className="main_card_amount"
@@ -253,6 +254,73 @@ const Dashboard = ({ setopendashboard }) => {
                       <img src={Group228} alt="dd" />
                     </div>
                   </div>
+                </>
+              )}
+
+              {emproleid === 6 && (
+                <>
+                  <div
+                    onClick={() => navigate('/admin-panel/manualdonation')}
+                    className="main_card_amount"
+                    style={{
+                      background: '#FECE00',
+                      color: 'white',
+                      width: '23%',
+                    }}
+                  >
+                    <p>Manual Donation</p>
+                    <div
+                      className="main_repue_img"
+                      style={{ color: '#05313C', fontWeight: 700 }}
+                    >
+                      <EmpmanulTotal data={isData5} />
+                      <img src={Group225} alt="dd" />
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {emproleid === 2 && (
+                <>
+                  <div
+                    className="main_card_amount"
+                    style={{
+                      background: '#3C5FFE',
+                      color: 'white',
+                      width: '23%',
+                    }}
+                  >
+                    <p>Room Booking</p>
+                    <div className="main_repue_img">
+                      <p>₹ 0</p>
+                      <img src={Group227} alt="dd" />
+                    </div>
+                  </div>
+
+                  <div
+                    className="main_card_amount"
+                    style={{
+                      background: '#808080',
+                      color: 'white',
+                      width: '23%',
+                    }}
+                  >
+                    <p>Guest in Room</p>
+                    <div className="main_repue_img">
+                      <p>0</p>
+                      <img src={Group228} alt="dd" />
+                    </div>
+                  </div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
                 </>
               )}
             </>

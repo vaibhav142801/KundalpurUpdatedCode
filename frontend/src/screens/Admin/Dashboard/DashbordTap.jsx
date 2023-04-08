@@ -111,13 +111,15 @@ const DashbordTap = ({ setopendashboard }) => {
                 </div>
               </div>
             </div>
-            {emproleid === 7 ? (
+            {emproleid === 7 && (
               <>
                 <div style={{ marginBottom: '2rem' }}>
                   <EmployeeElectronic setopendashboard={setopendashboard} />
                 </div>
               </>
-            ) : (
+            )}
+
+            {emproleid === 1 && (
               <>
                 <div style={{ marginBottom: '2rem' }}>
                   <EmployeeElectronic setopendashboard={setopendashboard} />
@@ -127,6 +129,25 @@ const DashbordTap = ({ setopendashboard }) => {
                   <EmployeeManualDonation setopendashboard={setopendashboard} />
                 </div>
 
+                <div style={{ marginBottom: '2rem' }}>
+                  <EmployeeRoombooking setopendashboard={setopendashboard} />
+                </div>
+                <div style={{ marginBottom: '2rem' }}>
+                  <EmployeeGuestInRoom setopendashboard={setopendashboard} />
+                </div>
+              </>
+            )}
+
+            {emproleid === 6 && (
+              <>
+                <div style={{ marginBottom: '2rem' }}>
+                  <EmployeeManualDonation setopendashboard={setopendashboard} />
+                </div>
+              </>
+            )}
+
+            {emproleid === 2 && (
+              <>
                 <div style={{ marginBottom: '2rem' }}>
                   <EmployeeRoombooking setopendashboard={setopendashboard} />
                 </div>

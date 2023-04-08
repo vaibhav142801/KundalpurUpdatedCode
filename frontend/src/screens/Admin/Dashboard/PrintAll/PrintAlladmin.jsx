@@ -84,7 +84,7 @@ function PrintAlladmin({ handleClose }) {
                 marginTop: '1rem',
               }}
             >
-              {userrole === 1 ? (
+              {userrole === 1 || emproleid === 0 ? (
                 <>
                   <div
                     className="main_card_amount"
@@ -195,7 +195,7 @@ function PrintAlladmin({ handleClose }) {
                           fontSize: '9px',
                         }}
                       >
-                        ₹ 10,000
+                        ₹ 0
                       </p>
                       <img
                         style={{
@@ -223,7 +223,7 @@ function PrintAlladmin({ handleClose }) {
                           fontSize: '9px',
                         }}
                       >
-                        ₹ 10,000
+                        ₹ 0
                       </p>
                       <img
                         style={{
@@ -251,7 +251,7 @@ function PrintAlladmin({ handleClose }) {
                           fontSize: '9px',
                         }}
                       >
-                        10,000
+                        0
                       </p>
                       <img
                         style={{
@@ -265,7 +265,7 @@ function PrintAlladmin({ handleClose }) {
                 </>
               ) : (
                 <>
-                  {emproleid === 7 ? (
+                  {emproleid === 7 && (
                     <>
                       <div
                         className="main_card_amount"
@@ -301,41 +301,10 @@ function PrintAlladmin({ handleClose }) {
                         </div>
                       </div>
                     </>
-                  ) : (
-                    <>
-                      <div
-                        className="main_card_amount"
-                        style={{
-                          background: '#FE0000',
-                          color: 'white',
-                          width: '23%',
-                        }}
-                      >
-                        <p
-                          style={{
-                            fontSize: '14px',
-                          }}
-                        >
-                          Donation
-                        </p>
-                        <div className="main_repue_img">
-                          <p
-                            style={{
-                              fontSize: '14px',
-                            }}
-                          >
-                            <EmpelecTotal data={isData4} />
-                          </p>
+                  )}
 
-                          <img
-                            style={{
-                              width: '20px',
-                            }}
-                            src={Group225}
-                            alt="dd"
-                          />
-                        </div>
-                      </div>
+                  {emproleid === 6 && (
+                    <>
                       <div
                         className="main_card_amount"
                         style={{
@@ -363,7 +332,11 @@ function PrintAlladmin({ handleClose }) {
                           />
                         </div>
                       </div>
+                    </>
+                  )}
 
+                  {emproleid === 2 && (
+                    <>
                       <div
                         className="main_card_amount"
                         style={{
@@ -379,7 +352,7 @@ function PrintAlladmin({ handleClose }) {
                               fontSize: '14px',
                             }}
                           >
-                            ₹ 10,000
+                            ₹ 0
                           </p>
                           <img
                             style={{
@@ -406,7 +379,7 @@ function PrintAlladmin({ handleClose }) {
                               fontSize: '14px',
                             }}
                           >
-                            10,000
+                            0
                           </p>
                           <img
                             style={{
@@ -417,13 +390,60 @@ function PrintAlladmin({ handleClose }) {
                           />
                         </div>
                       </div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </>
+                  )}
+
+                  {emproleid === 1 && (
+                    <>
+                      <div
+                        className="main_card_amount"
+                        style={{
+                          background: '#FE0000',
+                          color: 'white',
+                          width: '23%',
+                        }}
+                      >
+                        <p
+                          style={{
+                            fontSize: '14px',
+                          }}
+                        >
+                          Donation
+                        </p>
+                        <div className="main_repue_img">
+                          <p
+                            style={{
+                              fontSize: '14px',
+                            }}
+                          >
+                            <EmpelecTotal data={isData4} />
+                          </p>
+
+                          <img
+                            style={{
+                              width: '20px',
+                            }}
+                            src={Group225}
+                            alt="dd"
+                          />
+                        </div>
+                      </div>
                     </>
                   )}
                 </>
               )}
             </div>
           </div>
-          {userrole === 1 ? (
+          {userrole === 1 || emproleid === 0 ? (
             <>
               <p
                 style={{
@@ -781,6 +801,10 @@ function PrintAlladmin({ handleClose }) {
                   </table>
                 </>
               ) : (
+                <></>
+              )}
+
+              {emproleid === 1 && (
                 <>
                   <p
                     style={{
@@ -864,6 +888,112 @@ function PrintAlladmin({ handleClose }) {
                     )}
                   </table>
 
+                  <p
+                    style={{
+                      color: '#3C5FFE',
+                      marginBottom: '1rem',
+                      marginTop: '1rem',
+                    }}
+                  >
+                    Room Booking(आवास)
+                  </p>
+                  <table>
+                    <tr
+                      className="margintop_add"
+                      style={{
+                        borderBottom: '1px solid gray',
+                        fontSize: '14px',
+                      }}
+                    >
+                      <th>Cash</th>
+                      <th>Bank</th>
+                      <th>Total</th>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid gray' }}>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>0</td>
+                    </tr>
+                  </table>
+
+                  <p
+                    style={{
+                      color: '#808080',
+                      marginTop: '1rem',
+                      marginBottom: '1rem',
+                    }}
+                  >
+                    Guest In Room(यात्री संख्या)
+                  </p>
+                  <table>
+                    <tr
+                      className="margintop_add"
+                      style={{ borderBottom: '1px solid gray' }}
+                    >
+                      <th>Gender</th>
+                      <th>Quantity</th>
+                    </tr>
+                    <tr>
+                      <td>Male</td>
+                      <td>10</td>
+                    </tr>
+                    <tr>
+                      <th>Total</th>
+                      <th>10</th>
+                    </tr>
+                  </table>
+                </>
+              )}
+
+              {emproleid === 6 && (
+                <>
+                  <p
+                    style={{
+                      color: '#FECE00',
+                      marginTop: '1rem',
+                      marginBottom: '1rem',
+                    }}
+                  >
+                    Manual Donation (दान)
+                  </p>
+                  <table>
+                    <tr
+                      className="margintop_add"
+                      style={{
+                        borderBottom: '1px solid gray',
+                        fontSize: '14px',
+                      }}
+                    >
+                      <th>Cash</th>
+                      <th>Bank</th>
+                      <th>Cheque</th>
+                      <th>Total</th>
+                    </tr>
+                    {isData4 && (
+                      <>
+                        {isData4 &&
+                          isData4.map((row, index) => (
+                            <tr
+                              key={index}
+                              className="margintop_add"
+                              style={{ borderBottom: '1px solid gray' }}
+                            >
+                              <td>{row.cash_amount}</td>
+
+                              <td>{row.bank_amount}</td>
+                              <td>{row.cheque_amount}</td>
+
+                              <td>{row.total}</td>
+                            </tr>
+                          ))}
+                      </>
+                    )}
+                  </table>
+                </>
+              )}
+
+              {emproleid === 2 && (
+                <>
                   <p
                     style={{
                       color: '#3C5FFE',

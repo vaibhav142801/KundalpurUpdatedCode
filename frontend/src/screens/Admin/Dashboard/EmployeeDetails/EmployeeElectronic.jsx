@@ -87,6 +87,7 @@ const EmployeeElectronic = () => {
   };
   useEffect(() => {
     getallelec();
+
     setemproleid(Number(sessionStorage.getItem('empRoleid')));
   }, []);
 

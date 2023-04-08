@@ -198,7 +198,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
 
   let navigationEmpTabs = [];
   {
-    userrole === 3 && emproleid === 7 ? (
+    userrole === 3 && emproleid === 7 && (
       <>
         {navigationEmpTabs.push({
           id: 1,
@@ -217,7 +217,34 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
           ],
         })}
       </>
-    ) : (
+    );
+  }
+
+  {
+    userrole === 3 && emproleid === 6 && (
+      <>
+        {navigationEmpTabs.push({
+          id: 1,
+          name: 'Donation',
+          active: false,
+          icon: <img src={f4} alt="f4" style={{ width: '25px' }} />,
+          subTabs: [
+            {
+              id: 2.2,
+              name: 'Manual Donation',
+              link: 'manualdonation',
+              active: false,
+              icon: <SellIcon />,
+              subTabs: [],
+            },
+          ],
+        })}
+      </>
+    );
+  }
+
+  {
+    userrole === 3 && emproleid === 1 && (
       <>
         {navigationEmpTabs.push({
           id: 1,
@@ -234,7 +261,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
               subTabs: [],
             },
             {
-              id: 1.2,
+              id: 2.2,
               name: 'Manual Donation',
               link: 'manualdonation',
               active: false,
@@ -275,7 +302,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
   ];
   let navigationEmpTabs1 = [];
   {
-    userrole === 3 && emproleid === 7 ? (
+    userrole === 3 && emproleid === 7 && (
       <>
         {navigationEmpTabs1.push({
           id: 4,
@@ -294,7 +321,34 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
           ],
         })}
       </>
-    ) : (
+    );
+  }
+
+  {
+    userrole === 3 && emproleid === 6 && (
+      <>
+        {navigationEmpTabs1.push({
+          id: 4,
+          name: 'Reports',
+          active: false,
+          icon: <img src={f2} alt="f2" style={{ width: '25px' }} />,
+          subTabs: [
+            {
+              id: 4.1,
+              name: 'Manual Donation',
+              link: 'manual/report/cash',
+              active: false,
+              icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+              subTabs: [],
+            },
+          ],
+        })}
+      </>
+    );
+  }
+
+  {
+    userrole === 3 && emproleid === 1 && (
       <>
         {navigationEmpTabs1.push({
           id: 4,

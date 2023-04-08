@@ -154,31 +154,43 @@ const UpdateTtem = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
         'Authorization'
       ] = `Bearer ${sessionStorage.getItem('token')}`;
 
-      console.log('upadte');
+      if (
+        fullName &&
+        donationItems[0].itemType &&
+        donationItems[0].type &&
+        mobileNo
+      ) {
+        const modifiedDonationItems = donationItems.map((donationItem) => {
+          return {
+            ...donationItem,
+            amount: donationItem.approxValue,
+          };
+        });
 
-      const res = await axios.put(
-        `${backendApiUrl}user/edit-manual-item-donation`,
-        {
-          id: updateData?.id,
-          name: fullName,
-          gender: newMember ? genderp1 : genderp,
-          phoneNo: mobileNo,
-          ReceiptNo: receiptNo,
-          address: address,
-          new_member: newMember,
-          modeOfDonation: 1,
-          donation_date: donationDate,
-          donation_time: donationTime,
-          donation_item: donationItems,
-        },
-      );
+        const res = await axios.put(
+          `${backendApiUrl}user/edit-manual-item-donation`,
+          {
+            id: updateData?.id,
+            name: fullName,
+            gender: newMember ? genderp1 : genderp,
+            phoneNo: mobileNo,
+            ReceiptNo: receiptNo,
+            address: address,
+            new_member: newMember,
+            modeOfDonation: 1,
+            donation_date: donationDate,
+            donation_time: donationTime,
+            donation_item: modifiedDonationItems,
+          },
+        );
 
-      console.log('update Item', res.data.status);
-      if (res.data.status === true) {
-        setshowloader(false);
-        handleClose();
-      } else {
-        Swal.fire('Error!', 'Somthing went wrong!!', 'error');
+        console.log('update Item', res.data.status);
+        if (res.data.status === true) {
+          setshowloader(false);
+          handleClose();
+        } else {
+          Swal.fire('Error!', 'Somthing went wrong!!', 'error');
+        }
       }
     } catch (error) {
       Swal.fire('Error!', 'Somthing went wrong!!', 'error');

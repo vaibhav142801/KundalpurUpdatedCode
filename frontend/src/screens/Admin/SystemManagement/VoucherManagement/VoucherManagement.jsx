@@ -317,13 +317,25 @@ const VoucherManagement = ({ setopendashboard }) => {
                         >
                           <TableCell align="center"> {index + 1}</TableCell>
                           <TableCell align="center">{row?.name}</TableCell>
-                          <TableCell align="center">{row?.from}</TableCell>
-                          <TableCell align="center">{`${row.voucher}`}</TableCell>
+                          <TableCell align="center">{row?.to / 100}</TableCell>
                           <TableCell align="center">
-                            {`${row.from} to ${row.to}`}
+                            {`${row.from} -- ${row.to}`}
                           </TableCell>
                           <TableCell align="center">
-                            {row?.from === row.to ? 'Used' : 'Allocated'}
+                            {row?.to === row.voucher - 1 ? '0' : row?.voucher}
+                          </TableCell>
+                          <TableCell
+                            style={{
+                              background:
+                                row?.to === row.voucher - 1
+                                  ? '#08ACF0'
+                                  : '#FFC000',
+                              color:
+                                row?.to === row.voucher - 1 ? 'black' : 'black',
+                            }}
+                            align="center"
+                          >
+                            {row?.to === row.voucher - 1 ? 'Used' : 'Running'}
                           </TableCell>
                           <TableCell align="center">
                             <Tooltip title="View">

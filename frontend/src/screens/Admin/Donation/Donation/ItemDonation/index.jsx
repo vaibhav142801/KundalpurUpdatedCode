@@ -227,6 +227,12 @@ const ItemDonation = ({
             donationItems[0].type &&
             mobileNo
           ) {
+            const modifiedDonationItems = donationItems.map((donationItem) => {
+              return {
+                ...donationItem,
+                amount: donationItem.approxValue,
+              };
+            });
             const res = await axios.put(
               `${backendApiUrl}user/edit-item-donation`,
               {
@@ -239,7 +245,7 @@ const ItemDonation = ({
                 modeOfDonation: 1,
                 donation_date: donationDate,
                 donation_time: donationTime,
-                donation_item: donationItems,
+                donation_item: modifiedDonationItems,
               },
             );
 
