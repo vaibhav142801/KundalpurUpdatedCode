@@ -3,9 +3,11 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import f1 from '../../../../assets/f4.png';
 const ManualDonationTap = ({ setopendashboard }) => {
   const [role, setrole] = useState('');
+  const [emproleid, setemproleid] = useState('');
   useEffect(() => {
     setopendashboard(true);
     setrole(Number(sessionStorage.getItem('userrole')));
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
   }, []);
 
   return (
@@ -59,6 +61,32 @@ const ManualDonationTap = ({ setopendashboard }) => {
               />
               Manual Item Report
             </NavLink>
+            {role === 3 && (
+              <>
+                <NavLink
+                  to="/admin-panel/manual/report/headreport"
+                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                >
+                  <img
+                    style={{ marginRight: '4%', width: '20px' }}
+                    src={f1}
+                    alt="fast"
+                  />
+                  Manual Head Report
+                </NavLink>
+                <NavLink
+                  to="/admin-panel/manual/report/consolidated"
+                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                >
+                  <img
+                    style={{ marginRight: '4%', width: '20px' }}
+                    src={f1}
+                    alt="fast"
+                  />
+                  Consolidated
+                </NavLink>
+              </>
+            )}
             {role === 1 && (
               <>
                 <NavLink

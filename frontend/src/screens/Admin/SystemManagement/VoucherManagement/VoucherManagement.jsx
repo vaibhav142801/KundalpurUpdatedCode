@@ -290,8 +290,9 @@ const VoucherManagement = ({ setopendashboard }) => {
                   <TableRow>
                     <TableCell align="center">S.No</TableCell>
                     <TableCell align="center">Empoyee Name</TableCell>
-                    <TableCell align="center">Voucher</TableCell>
-                    <TableCell align="center">Voucher Number</TableCell>
+                    <TableCell align="center">Book No</TableCell>
+                    <TableCell align="center">Voucher No</TableCell>
+                    <TableCell align="center">Voucher No start</TableCell>
                     <TableCell align="center">Status</TableCell>
                     <TableCell align="center">Action</TableCell>
                   </TableRow>
@@ -316,13 +317,13 @@ const VoucherManagement = ({ setopendashboard }) => {
                         >
                           <TableCell align="center"> {index + 1}</TableCell>
                           <TableCell align="center">{row?.name}</TableCell>
+                          <TableCell align="center">{row?.from}</TableCell>
+                          <TableCell align="center">{`${row.voucher}`}</TableCell>
                           <TableCell align="center">
-                            {' '}
                             {`${row.from} to ${row.to}`}
                           </TableCell>
-                          <TableCell align="center">{row?.voucher}</TableCell>
                           <TableCell align="center">
-                            {row.status ? 'Allocated' : 'Not Used'}
+                            {row?.from === row.to ? 'Used' : 'Allocated'}
                           </TableCell>
                           <TableCell align="center">
                             <Tooltip title="View">

@@ -16,6 +16,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
   const [isData, setisData] = React.useState(null);
   const navigation = useNavigate();
 
+  console.log('data is data', isData);
   function printDiv() {
     navigation('/admin-panel/reports/printcontent', {
       state: {
@@ -34,22 +35,26 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
       pdf.save('download.pdf');
     });
   }
-
+  console.log(isData);
   useEffect(() => {
     setopendashboard(true);
 
     if (location.state?.userdata?.createdBy) {
       setisData(location.state?.userdata);
     } else {
-      serverInstance(`user/add-elecDonation`, 'get').then((res) => {
+      serverInstance(
+        `admin/get-elecDonation?id=${location.state?.userdata.id}`,
+        'get',
+      ).then((res) => {
         if (res.status) {
-          setisData(res.data[0]);
+          setisData(res.data);
+
+          console.log('dddd', res.data);
         }
       });
     }
   }, []);
 
-  console.log('dddd', isData);
   return (
     <>
       <div>
@@ -802,7 +807,13 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                 </>
               )}
 
-              <p>हस्ताक्षर प्राप्तकर्ता,({isData?.createdBy})</p>
+              <p>
+                हस्ताक्षर प्राप्तकर्ता,(
+                {isData?.createdBy
+                  ? isData?.createdBy
+                  : isData?.creator_name?.Username}
+                )
+              </p>
             </div>
           </div>
         </div>

@@ -593,7 +593,13 @@ function PrintContent({ setopendashboard, setshowreciept }) {
               className="gray-text-div10 extra_bottom_margin"
               style={{ marginTop: '23%' }}
             >
-              <p>({isData?.createdBy})</p>
+              <p>
+                (
+                {isData?.createdBy
+                  ? isData?.createdBy
+                  : isData?.creator_name?.Username}
+                )
+              </p>
             </div>
             <div>
               {isData?.active === '0' && (
@@ -1145,7 +1151,13 @@ function PrintContent({ setopendashboard, setshowreciept }) {
             <p> &nbsp;</p>
             <p> &nbsp;</p>
 
-            <p className="text_alijdshfhd">({isData?.createdBy})</p>
+            <p className="text_alijdshfhd">
+              (
+              {isData?.createdBy
+                ? isData?.createdBy
+                : isData?.creator_name?.Username}
+              )
+            </p>
           </div>
         </div>
       </div>

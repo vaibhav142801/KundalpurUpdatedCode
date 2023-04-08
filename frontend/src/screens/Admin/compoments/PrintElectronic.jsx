@@ -11,7 +11,7 @@ function PrintElectronic({ isData, handleClose }) {
     content: () => componentRef.current,
   });
 
-  console.log('data', isData);
+  console.log('datxda', isData);
 
   return (
     <>

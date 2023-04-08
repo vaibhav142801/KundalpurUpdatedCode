@@ -665,7 +665,6 @@ const CashDonation = ({
                               >
                                 <ReactTransliterate
                                   style={custommStyleInputTable}
-                                  required
                                   value={item.remark}
                                   onChangeText={(item) => {
                                     handleDonationItemUpdate(

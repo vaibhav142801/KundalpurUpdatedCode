@@ -220,8 +220,8 @@ const ManualCash = ({ setopendashboard }) => {
     setOpen3(false);
     serverInstance('admin/delete-meanual-donation', 'post', { id: deleteId })
       .then((res) => {
-        if (res.status) {
-          Swal.fire('Great!', res.message, 'success');
+        if (res.data.status) {
+          Swal.fire('Great!', res.data.message, 'success');
           getall_donation();
         } else {
           Swal('Error', 'somthing went  wrong', 'error');
@@ -231,20 +231,7 @@ const ManualCash = ({ setopendashboard }) => {
         Swal('Error', 'somthing went  wrong', 'error');
       });
   };
-  const deletedonation = async (id) => {
-    serverInstance('admin/delete-meanual-donation', 'post', { id: id })
-      .then((res) => {
-        if (res.status) {
-          alert(res.message);
-          getall_donation();
-        } else {
-          Swal('Error', 'somthing went  wrong', 'error');
-        }
-      })
-      .catch((error) => {
-        Swal('Error', 'somthing went  wrong', 'error');
-      });
-  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };

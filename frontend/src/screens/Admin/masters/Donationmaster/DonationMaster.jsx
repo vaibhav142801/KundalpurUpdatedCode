@@ -133,8 +133,9 @@ function DonationMaster() {
       type: 1,
     })
       .then((res) => {
-        if (res.status) {
-          Swal.fire('Great!', res.message, 'success');
+        console.log('delete', res);
+        if (res.data.status) {
+          Swal.fire('Great!', res.data.message, 'success');
           getall_donatiions();
         } else {
           Swal('Error', 'somthing went  wrong', 'error');

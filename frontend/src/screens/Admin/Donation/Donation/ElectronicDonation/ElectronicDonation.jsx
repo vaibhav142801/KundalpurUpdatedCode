@@ -62,6 +62,9 @@ const ElectronicDonation = ({
   });
 
   const navigation = useNavigate();
+  const [empid, setempid] = useState('');
+  const [emproleid, setemproleid] = useState('');
+  const [userrole, setuserrole] = useState('');
   const [hindiremark, sethindiremark] = useState('');
   const [donationTypes, setDonationTypes] = useState([]);
   const [receiptNo, setReceiptNo] = useState('');
@@ -315,6 +318,9 @@ const ElectronicDonation = ({
       setgenderp1(updateData?.gender);
       setDonationDate(date);
     }
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
+    setuserrole(Number(sessionStorage.getItem('userrole')));
+    setempid(Number(sessionStorage.getItem('empid')));
   }, []);
   return (
     <Box>
@@ -672,6 +678,9 @@ const ElectronicDonation = ({
                       <CustomTableInput
                         required
                         type="number"
+                        disabled={
+                          showUpdateBtn && userrole === 3 ? true : false
+                        }
                         value={item.amount}
                         onChange={(e) =>
                           handleDonationItemUpdate(
