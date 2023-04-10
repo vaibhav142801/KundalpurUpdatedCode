@@ -96,21 +96,28 @@ const DashbordTap = ({ setopendashboard }) => {
           </>
         ) : (
           <>
-            <div style={{ marginBottom: '2rem', marginTop: '11.5rem' }}>
-              <div className="print_all_today">
-                <div
-                  onClick={() => handleOpen5()}
-                  className="print_all_today_iner"
-                >
-                  <p style={{ marginTop: '0px', marginBottom: '0px' }}>
-                    Print All
-                  </p>
-                  <Tooltip title="Print">
-                    <img src={Print} alt="dd" style={{ width: '25px' }} />
-                  </Tooltip>
+            {emproleid === 3 ? (
+              <></>
+            ) : (
+              <>
+                <div style={{ marginBottom: '2rem', marginTop: '11.5rem' }}>
+                  <div className="print_all_today">
+                    <div
+                      onClick={() => handleOpen5()}
+                      className="print_all_today_iner"
+                    >
+                      <p style={{ marginTop: '0px', marginBottom: '0px' }}>
+                        Print All
+                      </p>
+                      <Tooltip title="Print">
+                        <img src={Print} alt="dd" style={{ width: '25px' }} />
+                      </Tooltip>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </>
+            )}
+
             {emproleid === 7 && (
               <>
                 <div style={{ marginBottom: '2rem' }}>

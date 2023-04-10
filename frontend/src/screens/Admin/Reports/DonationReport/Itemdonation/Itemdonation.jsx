@@ -154,6 +154,10 @@ const Itemdonation = ({ setopendashboard }) => {
   const [remark, setRemark] = useState('');
   const [type, setType] = useState('');
   const [userType, setUserType] = useState('');
+  const [fsize, setfsize] = useState('');
+  const [funit, setfunit] = useState('');
+  const [fno, setfno] = useState('');
+  const [fitem, setfitem] = useState('');
   const handleOpen = (id) => {
     setOpen(true);
     setupdateId(id);
@@ -331,6 +335,19 @@ const Itemdonation = ({ setopendashboard }) => {
     if (type === 'UserType') {
       setUserType(e.target.value.toLowerCase());
     }
+
+    if (type === 'size') {
+      setfsize(e.target.value);
+    }
+    if (type === 'unit') {
+      setfunit(e.target.value?.toLowerCase());
+    }
+    if (type === 'item') {
+      setfitem(e.target.value?.toLowerCase());
+    }
+    if (type === 'no') {
+      setfno(e.target.value);
+    }
   };
   useEffect(() => {
     var filtered = isDataDummy?.filter(
@@ -387,6 +404,54 @@ const Itemdonation = ({ setopendashboard }) => {
       filtered = filtered?.filter((x) => x !== undefined);
     }
 
+    if (fsize) {
+      filtered = filtered?.map((item) => {
+        if (item?.elecItemDetails?.find((typ) => typ.size == fsize)) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+    if (funit) {
+      filtered = filtered?.map((item) => {
+        if (
+          item?.elecItemDetails?.find((typ) => typ.unit?.toLowerCase() == funit)
+        ) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+    if (fno) {
+      filtered = filtered?.map((item) => {
+        if (item?.elecItemDetails?.find((typ) => typ.quantity == fno)) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+
+    if (fitem) {
+      filtered = filtered?.map((item) => {
+        if (
+          item?.elecItemDetails?.find(
+            (typ) => typ.itemType?.toLowerCase() == fitem,
+          )
+        ) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+
     setisData(filtered);
   }, [
     phone,
@@ -399,6 +464,10 @@ const Itemdonation = ({ setopendashboard }) => {
     remark,
     userType,
     voucherno,
+    fitem,
+    fno,
+    fsize,
+    funit,
   ]);
   return (
     <>
@@ -604,6 +673,10 @@ const Itemdonation = ({ setopendashboard }) => {
                 <TableCell>Address</TableCell>
                 <TableCell>Head/Item</TableCell>
                 <TableCell>Amount</TableCell>
+                {/* <TableCell>ItemType</TableCell> */}
+                <TableCell>Size</TableCell>
+                <TableCell>Units</TableCell>
+                <TableCell>Quantity</TableCell>
                 <TableCell>User</TableCell>
                 <TableCell>Remark</TableCell>
                 <TableCell>Action</TableCell>
@@ -683,6 +756,38 @@ const Itemdonation = ({ setopendashboard }) => {
                   placeholder="Search Amount"
                 />
               </TableCell>
+              {/* <TableCell>
+                <input
+                  className="cuolms_search"
+                  type="text"
+                  onChange={(e) => onSearchByOther(e, 'item')}
+                  placeholder="Item"
+                />
+              </TableCell> */}
+              <TableCell>
+                <input
+                  className="cuolms_search"
+                  type="text"
+                  onChange={(e) => onSearchByOther(e, 'size')}
+                  placeholder="Size"
+                />
+              </TableCell>
+              <TableCell>
+                <input
+                  className="cuolms_search"
+                  type="text"
+                  onChange={(e) => onSearchByOther(e, 'unit')}
+                  placeholder="Unit"
+                />
+              </TableCell>
+              <TableCell>
+                <input
+                  className="cuolms_search"
+                  type="text"
+                  onChange={(e) => onSearchByOther(e, 'no')}
+                  placeholder="No"
+                />
+              </TableCell>
               <TableCell>
                 <select
                   name="cars"
@@ -725,17 +830,17 @@ const Itemdonation = ({ setopendashboard }) => {
                       }}
                     >
                       <TableCell>
-                        {Moment(row.donation_date).format('DD/MM/YYYY')}
+                        {Moment(row?.donation_date).format('DD/MM/YYYY')}
                       </TableCell>
-                      <TableCell>{row.ReceiptNo}</TableCell>
-                      <TableCell>{row.voucherNo}</TableCell>
-                      <TableCell>{row.phoneNo}</TableCell>
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell> {row.address}</TableCell>
+                      <TableCell>{row?.ReceiptNo}</TableCell>
+                      <TableCell>{row?.voucherNo}</TableCell>
+                      <TableCell>{row?.phoneNo}</TableCell>
+                      <TableCell>{row?.name}</TableCell>
+                      <TableCell> {row?.address}</TableCell>
                       <TableCell>
                         {row.elecItemDetails.map((row) => {
                           return (
-                            <li style={{ listStyle: 'none' }}>{row.type}</li>
+                            <li style={{ listStyle: 'none' }}>{row?.type}</li>
                           );
                         })}
                       </TableCell>
@@ -745,18 +850,52 @@ const Itemdonation = ({ setopendashboard }) => {
                           0,
                         )}
                       </TableCell>
-                      <TableCell>&nbsp;</TableCell>
+                      {/* <TableCell>
+                        {row.elecItemDetails.map((row) => {
+                          return (
+                            <li style={{ listStyle: 'none' }}>
+                              {row.itemType}{' '}
+                            </li>
+                          );
+                        })}
+                      </TableCell> */}
                       <TableCell>
                         {row.elecItemDetails.map((row) => {
                           return (
-                            <li style={{ listStyle: 'none' }}>{row.remark} </li>
+                            <li style={{ listStyle: 'none' }}>{row?.size} </li>
+                          );
+                        })}
+                      </TableCell>
+                      <TableCell>
+                        {row.elecItemDetails.map((row) => {
+                          return (
+                            <li style={{ listStyle: 'none' }}>{row?.unit} </li>
+                          );
+                        })}
+                      </TableCell>
+                      <TableCell>
+                        {row.elecItemDetails.map((row) => {
+                          return (
+                            <li style={{ listStyle: 'none' }}>
+                              {row?.quantity}{' '}
+                            </li>
+                          );
+                        })}
+                      </TableCell>
+                      <TableCell>{row?.createdBy}</TableCell>
+                      <TableCell>
+                        {row.elecItemDetails.map((row) => {
+                          return (
+                            <li style={{ listStyle: 'none' }}>
+                              {row?.remark}{' '}
+                            </li>
                           );
                         })}
                       </TableCell>
                       <TableCell>
                         <img
                           onClick={() =>
-                            navigation(`/admin-panel/infoElectronic/${row.id}`)
+                            navigation(`/admin-panel/infoElectronic/${row?.id}`)
                           }
                           src={eye}
                           alt="print"
@@ -794,11 +933,12 @@ const Itemdonation = ({ setopendashboard }) => {
                           <ClearIcon />
                         )}
                         {userrole === 1 && (
-                          <CancelIcon onClick={() => handleOpen(row.id)} />
+                          <CancelIcon onClick={() => handleOpen(row?.id)} />
                         )}
                       </TableCell>
                     </TableRow>
                   ))}
+
                   <TableRow>
                     <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>

@@ -183,7 +183,7 @@ const Donation = ({ setopendashboard }) => {
       }
     }
 
-    if (emproleid === 0) {
+    if (role === 1) {
       setOpen(true);
     }
 

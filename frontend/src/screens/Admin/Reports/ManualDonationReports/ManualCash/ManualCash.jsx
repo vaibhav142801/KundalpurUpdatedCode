@@ -215,6 +215,7 @@ const ManualCash = ({ setopendashboard }) => {
     setOpen3(true);
     setdeleteId(id);
   };
+
   const handleClose6 = () => setOpen3(false);
   const handleClose4 = () => {
     setOpen3(false);
@@ -825,7 +826,7 @@ const ManualCash = ({ setopendashboard }) => {
                           0,
                         )}
                       </TableCell>
-                      <TableCell>&nbsp;</TableCell>
+                      <TableCell>{row?.CreatedBy}</TableCell>
                       <TableCell>
                         {row.manualItemDetails.map((row) => {
                           return (

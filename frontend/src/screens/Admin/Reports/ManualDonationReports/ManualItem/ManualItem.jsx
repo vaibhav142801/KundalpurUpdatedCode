@@ -169,6 +169,10 @@ const ManualItem = ({ setopendashboard }) => {
   const [remark, setRemark] = useState('');
   const [type, setType] = useState('');
   const [userType, setUserType] = useState('');
+  const [fsize, setfsize] = useState('');
+  const [funit, setfunit] = useState('');
+  const [fno, setfno] = useState('');
+  const [fitem, setfitem] = useState('');
   const [deleteId, setdeleteId] = useState('');
   const [open3, setOpen3] = React.useState(false);
 
@@ -361,6 +365,18 @@ const ManualItem = ({ setopendashboard }) => {
     if (type === 'UserType') {
       setUserType(e.target.value.toLowerCase());
     }
+    if (type === 'size') {
+      setfsize(e.target.value);
+    }
+    if (type === 'unit') {
+      setfunit(e.target.value?.toLowerCase());
+    }
+    if (type === 'item') {
+      setfitem(e.target.value?.toLowerCase());
+    }
+    if (type === 'no') {
+      setfno(e.target.value);
+    }
   };
   useEffect(() => {
     var filtered = isDataDummy?.filter(
@@ -415,9 +431,72 @@ const ManualItem = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
+    if (fsize) {
+      filtered = filtered?.map((item) => {
+        if (item?.manualItemDetails?.find((typ) => typ.size == fsize)) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+    if (funit) {
+      filtered = filtered?.map((item) => {
+        if (
+          item?.manualItemDetails?.find(
+            (typ) => typ.unit?.toLowerCase() == funit,
+          )
+        ) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+    if (fno) {
+      filtered = filtered?.map((item) => {
+        if (item?.manualItemDetails?.find((typ) => typ.quantity == fno)) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+
+    if (fitem) {
+      filtered = filtered?.map((item) => {
+        if (
+          item?.manualItemDetails?.find(
+            (typ) => typ.itemType?.toLowerCase() == fitem,
+          )
+        ) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
 
     setisData(filtered);
-  }, [phone, receiptNo, date, name, address, type, amount, remark, userType]);
+  }, [
+    phone,
+    receiptNo,
+    date,
+    name,
+    address,
+    type,
+    amount,
+    remark,
+    userType,
+    fitem,
+    fno,
+    fsize,
+    funit,
+  ]);
 
   return (
     <>
@@ -672,11 +751,8 @@ const ManualItem = ({ setopendashboard }) => {
           </div>
         </div>
 
-        <div className="table-div-maain">
-          <Table
-            sx={{ minWidth: 650, width: '100%' }}
-            aria-label="simple table"
-          >
+        <div className="table-div-maaicn">
+          <Table sx={{ width: '100%' }} aria-label="simple table">
             <TableHead style={{ background: '#FFEEE0' }}>
               <TableRow>
                 <TableCell>Date</TableCell>
@@ -687,6 +763,10 @@ const ManualItem = ({ setopendashboard }) => {
                 <TableCell>Address</TableCell>
                 <TableCell>Head/Item</TableCell>
                 <TableCell>Amount</TableCell>
+                {/* <TableCell>ItemType</TableCell> */}
+                <TableCell>Size</TableCell>
+                <TableCell>Units</TableCell>
+                <TableCell>Quantity</TableCell>
                 <TableCell>User</TableCell>
                 <TableCell>Remark</TableCell>
                 <TableCell>Action</TableCell>
@@ -758,6 +838,38 @@ const ManualItem = ({ setopendashboard }) => {
                   placeholder="Search Amount"
                 />
               </TableCell>
+              {/* <TableCell>
+                <input
+                  className="cuolms_search"
+                  type="text"
+                  onChange={(e) => onSearchByOther(e, 'item')}
+                  placeholder="Item"
+                />
+              </TableCell> */}
+              <TableCell>
+                <input
+                  className="cuolms_search"
+                  type="text"
+                  onChange={(e) => onSearchByOther(e, 'size')}
+                  placeholder="Size"
+                />
+              </TableCell>
+              <TableCell>
+                <input
+                  className="cuolms_search"
+                  type="text"
+                  onChange={(e) => onSearchByOther(e, 'unit')}
+                  placeholder="Unit"
+                />
+              </TableCell>
+              <TableCell>
+                <input
+                  className="cuolms_search"
+                  type="text"
+                  onChange={(e) => onSearchByOther(e, 'no')}
+                  placeholder="No"
+                />
+              </TableCell>
               <TableCell>
                 <select
                   name="cars"
@@ -808,19 +920,51 @@ const ManualItem = ({ setopendashboard }) => {
                       <TableCell>{row.name}</TableCell>
                       <TableCell> {row.address}</TableCell>
                       <TableCell>
-                        {row.manualItemDetails.map((row) => {
+                        {row?.manualItemDetails.map((row) => {
                           return (
                             <li style={{ listStyle: 'none' }}>{row.type}</li>
                           );
                         })}
                       </TableCell>
                       <TableCell>
-                        {row.manualItemDetails.reduce(
+                        {row?.manualItemDetails.reduce(
                           (n, { amount }) => parseFloat(n) + parseFloat(amount),
                           0,
                         )}
                       </TableCell>
-                      <TableCell>&nbsp;</TableCell>
+                      {/* <TableCell>
+                        {row?.manualItemDetails.map((row) => {
+                          return (
+                            <li style={{ listStyle: 'none' }}>
+                              {row.itemType}{' '}
+                            </li>
+                          );
+                        })}
+                      </TableCell> */}
+                      <TableCell>
+                        {row?.manualItemDetails.map((row) => {
+                          return (
+                            <li style={{ listStyle: 'none' }}>{row?.size} </li>
+                          );
+                        })}
+                      </TableCell>
+                      <TableCell>
+                        {row?.manualItemDetails.map((row) => {
+                          return (
+                            <li style={{ listStyle: 'none' }}>{row?.unit} </li>
+                          );
+                        })}
+                      </TableCell>
+                      <TableCell>
+                        {row?.manualItemDetails.map((row) => {
+                          return (
+                            <li style={{ listStyle: 'none' }}>
+                              {row?.quantity}{' '}
+                            </li>
+                          );
+                        })}
+                      </TableCell>
+                      <TableCell>{row?.CreatedBy}</TableCell>
                       <TableCell>
                         {row.manualItemDetails.map((row) => {
                           return (

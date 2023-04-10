@@ -372,6 +372,45 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
               icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
               subTabs: [],
             },
+          ],
+        })}
+      </>
+    );
+  }
+
+  {
+    userrole === 3 && emproleid === 3 && (
+      <>
+        {navigationEmpTabs1.push({
+          id: 4,
+          name: 'Reports',
+          active: false,
+          icon: <img src={f2} alt="f2" style={{ width: '25px' }} />,
+          subTabs: [
+            {
+              id: 4.6,
+              name: 'All Reports',
+              link: 'allreport/allhead',
+              active: false,
+              icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+              subTabs: [],
+            },
+            {
+              id: 4.5,
+              name: 'Donation',
+              link: 'electronic/report/cash',
+              active: false,
+              icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+              subTabs: [],
+            },
+            {
+              id: 4.1,
+              name: 'Manual Donation',
+              link: 'manual/report/cash',
+              active: false,
+              icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+              subTabs: [],
+            },
             {
               id: 4.9,
               name: 'Online donation',
@@ -452,36 +491,43 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
       <Divider />
       <List>
         <ListItem disablePadding sx={{ display: 'block' }}>
-          <Tooltip title="Dashbord" placement="left-end">
-            <StyledListItemButton
-              selected={activeTabId === 0}
-              onClick={() => {
-                setActiveTabId(0);
-                handleDrawerClose();
-                navigate('/admin-panel/dashboard');
-              }}
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.2,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                }}
-              >
-                <img src={f6} alt="f6" style={{ width: '25px' }} />
-              </ListItemIcon>
-              <ListItemText
-                classes={{ root: stylesag.ListText }}
-                primary="Dashboard"
-                sx={{ opacity: open ? 1 : 0, ml: 0.8 }}
-              />
-            </StyledListItemButton>
-          </Tooltip>
+          {emproleid === 3 ? (
+            <></>
+          ) : (
+            <>
+              <Tooltip title="Dashbord" placement="left-end">
+                <StyledListItemButton
+                  selected={activeTabId === 0}
+                  onClick={() => {
+                    setActiveTabId(0);
+                    handleDrawerClose();
+                    navigate('/admin-panel/dashboard');
+                  }}
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.2,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <img src={f6} alt="f6" style={{ width: '25px' }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    classes={{ root: stylesag.ListText }}
+                    primary="Dashboard"
+                    sx={{ opacity: open ? 1 : 0, ml: 0.8 }}
+                  />
+                </StyledListItemButton>
+              </Tooltip>
+            </>
+          )}
+
           {userrole === 1 && (
             <>
               <Tooltip title="System" placement="left-end">
@@ -904,9 +950,81 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
             ))}
       </List>
 
-      {userrole === 3 && emproleid === 7 ? (
-        <></>
-      ) : (
+      {userrole === 3 && emproleid === 0 && (
+        <>
+          <ListItem disablePadding sx={{ display: 'block' }}>
+            <Tooltip title="Masters" placement="left-end">
+              <StyledListItemButton
+                selected={activeTabId === 11}
+                onClick={() => {
+                  setActiveTabId(11);
+                  handleDrawerClose();
+                  navigate('/admin-panel/room/Dashboard');
+                }}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.2,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <img src={f1} alt="f5" style={{ width: '25px' }} />
+                </ListItemIcon>
+                <ListItemText
+                  classes={{ root: stylesag.ListText }}
+                  primary="Room Booking"
+                  sx={{ opacity: open ? 1 : 0, ml: 0.8 }}
+                />
+              </StyledListItemButton>
+            </Tooltip>
+          </ListItem>
+        </>
+      )}
+
+      {userrole === 3 && emproleid === 1 && (
+        <>
+          <ListItem disablePadding sx={{ display: 'block' }}>
+            <Tooltip title="Masters" placement="left-end">
+              <StyledListItemButton
+                selected={activeTabId === 11}
+                onClick={() => {
+                  setActiveTabId(11);
+                  handleDrawerClose();
+                  navigate('/admin-panel/room/Dashboard');
+                }}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.2,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <img src={f1} alt="f5" style={{ width: '25px' }} />
+                </ListItemIcon>
+                <ListItemText
+                  classes={{ root: stylesag.ListText }}
+                  primary="Room Booking"
+                  sx={{ opacity: open ? 1 : 0, ml: 0.8 }}
+                />
+              </StyledListItemButton>
+            </Tooltip>
+          </ListItem>
+        </>
+      )}
+
+      {userrole === 3 && emproleid === 2 && (
         <>
           <ListItem disablePadding sx={{ display: 'block' }}>
             <Tooltip title="Masters" placement="left-end">

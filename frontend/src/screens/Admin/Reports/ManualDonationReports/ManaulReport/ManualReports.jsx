@@ -174,11 +174,13 @@ const ManualReports = ({ setopendashboard }) => {
   const [userType, setUserType] = useState('');
   const [deleteId, setdeleteId] = useState('');
   const [open3, setOpen3] = React.useState(false);
-
+  const [chequeno, setchequeno] = useState('');
+  const [bank, setbank] = useState('');
   const handleClickOpen3 = (id) => {
     setOpen3(true);
     setdeleteId(id);
   };
+
   const handleClose6 = () => setOpen3(false);
   const handleClose4 = () => {
     setOpen3(false);
@@ -361,6 +363,12 @@ const ManualReports = ({ setopendashboard }) => {
     if (type === 'UserType') {
       setUserType(e.target.value.toLowerCase());
     }
+    if (type === 'Bank') {
+      setbank(e.target.value);
+    }
+    if (type === 'cheque') {
+      setchequeno(e.target.value);
+    }
   };
   useEffect(() => {
     var filtered = isDataDummy?.filter(
@@ -415,9 +423,42 @@ const ManualReports = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
+    if (bank) {
+      filtered = filtered?.map((item) => {
+        if (item?.manualItemDetails?.find((typ) => typ.BankName == bank)) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+
+    if (chequeno) {
+      filtered = filtered?.map((item) => {
+        if (item?.manualItemDetails?.find((typ) => typ.ChequeNo == chequeno)) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
 
     setisData(filtered);
-  }, [phone, receiptNo, date, name, address, type, amount, remark, userType]);
+  }, [
+    phone,
+    receiptNo,
+    date,
+    name,
+    address,
+    type,
+    amount,
+    remark,
+    userType,
+    bank,
+    chequeno,
+  ]);
 
   return (
     <>
@@ -687,6 +728,8 @@ const ManualReports = ({ setopendashboard }) => {
                 <TableCell>Address</TableCell>
                 <TableCell>Head/Item</TableCell>
                 <TableCell>Amount</TableCell>
+                <TableCell>Bank</TableCell>
+                <TableCell>ChequeNo</TableCell>
                 <TableCell>User</TableCell>
                 <TableCell>Remark</TableCell>
                 <TableCell>Action</TableCell>
@@ -755,6 +798,22 @@ const ManualReports = ({ setopendashboard }) => {
                 />
               </TableCell>
               <TableCell>
+                <input
+                  className="cuolms_search"
+                  type="text"
+                  onChange={(e) => onSearchByOther(e, 'Bank')}
+                  placeholder="Bank name"
+                />
+              </TableCell>
+              <TableCell>
+                <input
+                  className="cuolms_search"
+                  type="text"
+                  onChange={(e) => onSearchByOther(e, 'cheque')}
+                  placeholder="Cheque no"
+                />
+              </TableCell>
+              <TableCell>
                 <select
                   name="cars"
                   id="cars"
@@ -816,7 +875,13 @@ const ManualReports = ({ setopendashboard }) => {
                           0,
                         )}
                       </TableCell>
-                      <TableCell>&nbsp;</TableCell>
+                      <TableCell>
+                        {row?.manualItemDetails[0]?.BankName}
+                      </TableCell>
+                      <TableCell>
+                        {row?.manualItemDetails[0]?.ChequeNo}
+                      </TableCell>
+                      <TableCell>{row?.CreatedBy}</TableCell>
                       <TableCell>
                         {row.manualItemDetails.map((row) => {
                           return (

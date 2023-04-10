@@ -53,6 +53,7 @@ const AcceptRequest = ({ setOpen, empdata }) => {
               <div className="inner-input-div2">
                 <label htmlFor="fromNo">From Number</label>
                 <input
+                  required
                   type="number"
                   id="fromNo"
                   placeholder="From VC"
@@ -66,6 +67,7 @@ const AcceptRequest = ({ setOpen, empdata }) => {
               <div className="inner-input-div2">
                 <label htmlFor="toNo">To Number </label>
                 <input
+                  required
                   id="toNo"
                   className="forminput_add_user"
                   type="number"
@@ -79,6 +81,7 @@ const AcceptRequest = ({ setOpen, empdata }) => {
               <div className="inner-input-div2">
                 <label htmlFor="toNo">Assing To </label>
                 <input
+                  required
                   id="assingTo"
                   className="forminput_add_user"
                   type="text"

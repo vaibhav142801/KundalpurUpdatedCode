@@ -155,6 +155,8 @@ const ManualCheque = ({ setopendashboard }) => {
   const [remark, setRemark] = useState('');
   const [type, setType] = useState('');
   const [userType, setUserType] = useState('');
+  const [chequeno, setchequeno] = useState('');
+  const [bank, setbank] = useState('');
   const upadteClose = () => {
     setopenupdate(false);
   };
@@ -333,6 +335,13 @@ const ManualCheque = ({ setopendashboard }) => {
     if (type === 'UserType') {
       setUserType(e.target.value.toLowerCase());
     }
+
+    if (type === 'Bank') {
+      setbank(e.target.value);
+    }
+    if (type === 'cheque') {
+      setchequeno(e.target.value);
+    }
   };
   useEffect(() => {
     var filtered = isDataDummy?.filter(
@@ -388,7 +397,27 @@ const ManualCheque = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
+    if (bank) {
+      filtered = filtered?.map((item) => {
+        if (item?.elecItemDetails?.find((typ) => typ.BankName == bank)) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
 
+    if (chequeno) {
+      filtered = filtered?.map((item) => {
+        if (item?.elecItemDetails?.find((typ) => typ.ChequeNo == chequeno)) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
     setisData(filtered);
   }, [
     phone,
@@ -401,6 +430,8 @@ const ManualCheque = ({ setopendashboard }) => {
     remark,
     userType,
     voucherno,
+    bank,
+    chequeno,
   ]);
   return (
     <>
@@ -606,6 +637,8 @@ const ManualCheque = ({ setopendashboard }) => {
                 <TableCell>Address</TableCell>
                 <TableCell>Head/Item</TableCell>
                 <TableCell>Amount</TableCell>
+                <TableCell>Bank</TableCell>
+                <TableCell>ChequeNo</TableCell>
                 <TableCell>User</TableCell>
                 <TableCell>Remark</TableCell>
                 <TableCell>Action</TableCell>
@@ -682,6 +715,22 @@ const ManualCheque = ({ setopendashboard }) => {
                 />
               </TableCell>
               <TableCell>
+                <input
+                  className="cuolms_search"
+                  type="text"
+                  onChange={(e) => onSearchByOther(e, 'Bank')}
+                  placeholder="Bank name"
+                />
+              </TableCell>
+              <TableCell>
+                <input
+                  className="cuolms_search"
+                  type="text"
+                  onChange={(e) => onSearchByOther(e, 'cheque')}
+                  placeholder="Cheque no"
+                />
+              </TableCell>
+              <TableCell>
                 <select
                   name="cars"
                   id="cars"
@@ -723,17 +772,17 @@ const ManualCheque = ({ setopendashboard }) => {
                       }}
                     >
                       <TableCell>
-                        {Moment(row.donation_date).format('DD/MM/YYYY')}
+                        {Moment(row?.donation_date).format('DD/MM/YYYY')}
                       </TableCell>
-                      <TableCell>{row.ReceiptNo}</TableCell>
-                      <TableCell>{row.voucherNo}</TableCell>
-                      <TableCell>{row.phoneNo}</TableCell>
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell> {row.address}</TableCell>
+                      <TableCell>{row?.ReceiptNo}</TableCell>
+                      <TableCell>{row?.voucherNo}</TableCell>
+                      <TableCell>{row?.phoneNo}</TableCell>
+                      <TableCell>{row?.name}</TableCell>
+                      <TableCell> {row?.address}</TableCell>
                       <TableCell>
                         {row.elecItemDetails.map((row) => {
                           return (
-                            <li style={{ listStyle: 'none' }}>{row.type}</li>
+                            <li style={{ listStyle: 'none' }}>{row?.type}</li>
                           );
                         })}
                       </TableCell>
@@ -743,7 +792,9 @@ const ManualCheque = ({ setopendashboard }) => {
                           0,
                         )}
                       </TableCell>
-                      <TableCell>&nbsp;</TableCell>
+                      <TableCell>{row.elecItemDetails[0]?.BankName}</TableCell>
+                      <TableCell>{row.elecItemDetails[0]?.ChequeNo}</TableCell>
+                      <TableCell>{row?.createdBy}</TableCell>
                       <TableCell>
                         {row.elecItemDetails.map((row) => {
                           return (
@@ -754,7 +805,7 @@ const ManualCheque = ({ setopendashboard }) => {
                       <TableCell>
                         <img
                           onClick={() =>
-                            navigation(`/admin-panel/infoElectronic/${row.id}`)
+                            navigation(`/admin-panel/infoElectronic/${row?.id}`)
                           }
                           src={eye}
                           alt="print"
@@ -792,7 +843,7 @@ const ManualCheque = ({ setopendashboard }) => {
                           <ClearIcon />
                         )}
                         {userrole === 1 && (
-                          <CancelIcon onClick={() => handleOpen(row.id)} />
+                          <CancelIcon onClick={() => handleOpen(row?.id)} />
                         )}
                       </TableCell>
                     </TableRow>

@@ -66,7 +66,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
 
               <div className="main_print_div">
                 <div>
-                  <p className="common_margin_p">
+                  <p className="common_margin_pp">
                     <span className="rd">
                       दान रसीद नं -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                     </span>
@@ -76,7 +76,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                         : isData?.ReceiptNo}
                     </span>
                   </p>
-                  <p className="common_margin_p">
+                  <p className="common_margin_pp">
                     <span className="grady-text">
                       दान दातार - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                       &nbsp;
@@ -86,7 +86,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                       {isData?.NAME ? isData?.NAME : isData?.name}
                     </span>
                   </p>
-                  <p className="common_margin_p">
+                  <p className="common_margin_pp">
                     <span className="grday-text">
                       स्थान - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                       &nbsp; &nbsp; &nbsp; &nbsp;
@@ -97,7 +97,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                   </p>
                   {isData && isData.CHEQUE_NO && (
                     <>
-                      <p className="common_margin_p">
+                      <p className="common_margin_pp">
                         <span className="grday-text">
                           दान का मद - &nbsp; &nbsp;
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -111,7 +111,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
 
                   {isData && isData.CHEQUE_NO === '' && (
                     <>
-                      <p className="common_margin_p">
+                      <p className="common_margin_pp">
                         <span className="gdray-text">
                           दान का मद - &nbsp; &nbsp;
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -134,7 +134,13 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                     isData.manualItemDetails &&
                     isData.manualItemDetails[0].itemType && (
                       <>
-                        <p className="common_margin_p">
+                        <p
+                          className="common_margin_pp"
+                          style={{
+                            marginBottom: '1.5rem',
+                            marginTop: '1.5rem',
+                          }}
+                        >
                           <span className="grday-text">
                             मद -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
@@ -146,7 +152,13 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                           </span>
                         </p>
 
-                        <p className="common_margin_p">
+                        <p
+                          className="common_margin_pp"
+                          style={{
+                            marginBottom: '1.5rem',
+                            marginTop: '1.5rem',
+                          }}
+                        >
                           <span className="grsay-text">
                             वजन -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                             &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
@@ -160,7 +172,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                     )}
                 </div>
                 <div>
-                  <p className="common_margin_p">
+                  <p className="common_margin_pp">
                     <span className="grady-text">
                       दिनांक - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                     </span>
@@ -179,7 +191,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                       )}
                     </span>
                   </p>
-                  <p className="common_margin_p">
+                  <p className="common_margin_pp">
                     <span className="grday-text">
                       मोबाइल नं - &nbsp; &nbsp; &nbsp;
                     </span>
@@ -196,7 +208,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
 
                   {isData && isData.CHEQUE_NO && (
                     <>
-                      <p className="common_margin_p">
+                      <p className="common_margin_pp">
                         <span className="grday-text">माध्यम -</span>
                         <span className="hidelight" style={{ fontSize: 16 }}>
                           {isData?.CHEQUE_NO}
@@ -207,7 +219,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                   )}
                   {isData && isData.CHEQUE_NO && (
                     <>
-                      <p className="common_margin_p">
+                      <p className="common_margin_pp">
                         <span className="grday-text">विवरण - &nbsp;</span>
                         <span className="hidelight" style={{ fontSize: 16 }}>
                           {isData && isData?.REMARK}
@@ -217,7 +229,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                   )}
                   {isData && isData.CHEQUE_NO === '' && (
                     <>
-                      <p className="common_margin_p">
+                      <p className="common_margin_pp">
                         <span className="grday-text">विवरण - &nbsp;</span>
                         <span className="hidelight" style={{ fontSize: 16 }}>
                           {isData && isData?.REMARK}
@@ -231,7 +243,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                         isData.manualItemDetails &&
                         isData.manualItemDetails[0].ChequeNo && (
                           <>
-                            <p className="common_margin_p">
+                            <p className="common_margin_pp">
                               <span className="grday-text">
                                 माध्यम - &nbsp;&nbsp;&nbsp;&nbsp;
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -263,7 +275,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                       isData.manualItemDetails &&
                       isData.manualItemDetails[0].BankName && (
                         <>
-                          <p className="common_margin_p">
+                          <p className="common_margin_pp">
                             <span className="grday-text">
                               माध्यम - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                               &nbsp; &nbsp; &nbsp;
@@ -286,7 +298,13 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                     isData.manualItemDetails &&
                     isData.manualItemDetails[0].itemType && (
                       <>
-                        <p className="common_margin_p">
+                        <p
+                          className="common_margin_pp"
+                          style={{
+                            marginBottom: '1.5rem',
+                            marginTop: '1.5rem',
+                          }}
+                        >
                           <span className="gdray-text">सामग्री का नाम -</span>
                           <span className="hidelight" style={{ fontSize: 16 }}>
                             {isData &&
@@ -294,7 +312,13 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                               isData.manualItemDetails[0].itemType}
                           </span>
                         </p>
-                        <p className="common_margin_p">
+                        <p
+                          className="common_margin_pp"
+                          style={{
+                            marginBottom: '1.5rem',
+                            marginTop: '1.5rem',
+                          }}
+                        >
                           <span className="grsay-text">
                             संख्या-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                             &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
@@ -310,7 +334,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
 
                   {isData && isData?.modeOfDonation === '4' ? (
                     <>
-                      <p className="common_margin_p">
+                      <p className="common_margin_pp">
                         <span className="grday-text">
                           विवरण - &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
                         </span>
@@ -354,7 +378,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                                 isData.manualItemDetails.map((item) => {
                                   return (
                                     <p
-                                      className="common_margin_p hidelight"
+                                      className="common_margin_pp hidelight"
                                       style={{ fontSize: 16 }}
                                     >
                                       {' '}
@@ -367,9 +391,119 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                         </>
                       )}
                     </div>
+                    {isData && isData.modeOfDonation === '2' && (
+                      <>
+                        <div>
+                          <p className="common_margin_pp">
+                            विवरण - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            &nbsp;&nbsp;
+                            <span
+                              className="hidelight"
+                              style={{ fontSize: 16 }}
+                            >
+                              {isData && isData?.REMARK
+                                ? isData?.REMARK
+                                : isData && isData.manualItemDetails[0].remark}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
+                    {isData && isData.modeOfDonation === 2 && (
+                      <>
+                        <div>
+                          <p className="common_margin_pp">
+                            विवरण - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            &nbsp;&nbsp;
+                            <span
+                              className="hidelight"
+                              style={{ fontSize: 16 }}
+                            >
+                              {isData && isData?.REMARK
+                                ? isData?.REMARK
+                                : isData && isData.manualItemDetails[0].remark}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
+                    {isData && isData.modeOfDonation === '3' && (
+                      <>
+                        <div>
+                          <p className="common_margin_pp">
+                            विवरण - &nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span
+                              className="hidelight"
+                              style={{ fontSize: 16 }}
+                            >
+                              {isData && isData?.REMARK
+                                ? isData?.REMARK
+                                : isData && isData.manualItemDetails[0].remark}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
 
+                    {isData && isData.modeOfDonation === 3 && (
+                      <>
+                        <div>
+                          <p className="common_margin_pp">
+                            विवरण - &nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span
+                              className="hidelight"
+                              style={{ fontSize: 16 }}
+                            >
+                              {isData && isData?.REMARK
+                                ? isData?.REMARK
+                                : isData && isData.manualItemDetails[0].remark}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
+
+                    {isData && isData.modeOfDonation === '1' && (
+                      <>
+                        <div>
+                          <p className="common_margin_pp">
+                            विवरण - &nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span
+                              className="hidelight"
+                              style={{ fontSize: 16 }}
+                            >
+                              {isData && isData?.REMARK
+                                ? isData?.REMARK
+                                : isData && isData.manualItemDetails[0].remark}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
+
+                    {isData && isData.modeOfDonation === 1 && (
+                      <>
+                        <div>
+                          <p className="common_margin_pp">
+                            विवरण - &nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span
+                              className="hidelight"
+                              style={{ fontSize: 16 }}
+                            >
+                              {isData && isData?.REMARK
+                                ? isData?.REMARK
+                                : isData && isData.manualItemDetails[0].remark}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
                     <div className="handle_display_div">
-                      <p className="common_margin_p">
+                      <p className="common_margin_pp">
                         <span className="grday-text">
                           दान राशि अंको में - &nbsp;
                         </span>
@@ -386,109 +520,8 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                           /-
                         </span>
                       </p>
-                      {isData && isData.modeOfDonation === '2' && (
-                        <>
-                          <p className="common_margin_p common_margin_p margin_left_is">
-                            <span className="grsay-text">
-                              विवरण - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                              &nbsp;&nbsp;
-                            </span>
-                            <span
-                              className="hidelight"
-                              style={{ fontSize: 16 }}
-                            >
-                              {isData && isData?.REMARK
-                                ? isData?.REMARK
-                                : isData && isData.manualItemDetails[0].remark}
-                            </span>
-                          </p>
-                        </>
-                      )}
-                      {isData && isData.modeOfDonation === 2 && (
-                        <>
-                          <p className="common_margin_p common_margin_p margin_left_is">
-                            <span className="grsay-text">
-                              विवरण - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                              &nbsp;&nbsp;
-                            </span>
-                            <span
-                              className="hidelight"
-                              style={{ fontSize: 16 }}
-                            >
-                              {isData && isData?.REMARK
-                                ? isData?.REMARK
-                                : isData && isData.manualItemDetails[0].remark}
-                            </span>
-                          </p>
-                        </>
-                      )}
-                      {isData && isData.modeOfDonation === '3' && (
-                        <>
-                          <p className="common_margin_p margin_left_is">
-                            <span className="grday-text">
-                              विवरण - &nbsp;&nbsp;&nbsp;&nbsp;
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            </span>
-                            <span
-                              className="hidelight"
-                              style={{ fontSize: 16 }}
-                            >
-                              {isData && isData?.REMARK
-                                ? isData?.REMARK
-                                : isData && isData.manualItemDetails[0].remark}
-                            </span>
-                          </p>
-                        </>
-                      )}
-
-                      {isData && isData.modeOfDonation === 3 && (
-                        <>
-                          <p className="common_margin_p margin_left_is">
-                            <span className="grday-text">
-                              विवरण - &nbsp;&nbsp;&nbsp;&nbsp;
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            </span>
-                            <span
-                              className="hidelight"
-                              style={{ fontSize: 16 }}
-                            >
-                              {isData && isData?.REMARK
-                                ? isData?.REMARK
-                                : isData && isData.manualItemDetails[0].remark}
-                            </span>
-                          </p>
-                        </>
-                      )}
-
-                      {isData && isData.modeOfDonation === '1' && (
-                        <>
-                          <p className="common_margin_p margin_left_is">
-                            <span className="gdray-text">विवरण - &nbsp;</span>
-                            <span
-                              className="hidelight"
-                              style={{ fontSize: 16 }}
-                            >
-                              {isData && isData?.REMARK
-                                ? isData?.REMARK
-                                : isData && isData.manualItemDetails[0].remark}
-                            </span>
-                          </p>
-                        </>
-                      )}
-
-                      {isData && isData.modeOfDonation === 1 && (
-                        <>
-                          <p className="common_margin_p margin_left_is">
-                            <span className="grday-text">विवरण - &nbsp;</span>
-
-                            {isData && isData?.REMARK
-                              ? isData?.REMARK
-                              : isData && isData.manualItemDetails[0].remark}
-                          </p>
-                        </>
-                      )}
                     </div>
-                    <p className="common_margin_p">
+                    <p className="common_margin_pp">
                       <span className="grday-text">
                         दान राशि शब्दों में - &nbsp;
                       </span>
@@ -587,7 +620,14 @@ function PrintContent({ setopendashboard, setshowreciept }) {
 
             <div
               className="gray-text-div10 extra_bottom_margin"
-              style={{ marginTop: '17.5%' }}
+              style={{
+                marginTop:
+                  isData &&
+                  isData.manualItemDetails &&
+                  isData.manualItemDetails[0].itemType
+                    ? '20%'
+                    : '15%',
+              }}
             >
               <p>({isData?.CreatedBy})</p>
             </div>
@@ -608,9 +648,19 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                 </>
               )}
 
-              <div className="main_print_div">
+              <div
+                className="main_print_div"
+                style={{
+                  marginTop:
+                    isData &&
+                    isData.manualItemDetails &&
+                    isData.manualItemDetails[0].itemType
+                      ? '20%'
+                      : '',
+                }}
+              >
                 <div>
-                  <p className="common_margin_p">
+                  <p className="common_margin_pp">
                     <span className="rd">
                       दान रसीद नं -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                     </span>
@@ -620,7 +670,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                         : isData?.ReceiptNo}
                     </span>
                   </p>
-                  <p className="common_margin_p">
+                  <p className="common_margin_pp">
                     <span className="grady-text">
                       दान दातार - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                       &nbsp;
@@ -630,7 +680,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                       {isData?.NAME ? isData?.NAME : isData?.name}
                     </span>
                   </p>
-                  <p className="common_margin_p">
+                  <p className="common_margin_pp">
                     <span className="grday-text">
                       स्थान - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                       &nbsp; &nbsp; &nbsp; &nbsp;
@@ -641,7 +691,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                   </p>
                   {isData && isData.CHEQUE_NO && (
                     <>
-                      <p className="common_margin_p">
+                      <p className="common_margin_pp">
                         <span className="grday-text">
                           दान का मद - &nbsp; &nbsp;
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -655,7 +705,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
 
                   {isData && isData.CHEQUE_NO === '' && (
                     <>
-                      <p className="common_margin_p">
+                      <p className="common_margin_pp">
                         <span className="gdray-text">
                           दान का मद - &nbsp; &nbsp;
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -678,7 +728,13 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                     isData.manualItemDetails &&
                     isData.manualItemDetails[0].itemType && (
                       <>
-                        <p className="common_margin_p">
+                        <p
+                          className="common_margin_pp"
+                          style={{
+                            marginBottom: '1.5rem',
+                            marginTop: '1.5rem',
+                          }}
+                        >
                           <span className="grday-text">
                             मद -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
@@ -690,7 +746,13 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                           </span>
                         </p>
 
-                        <p className="common_margin_p">
+                        <p
+                          className="common_margin_pp"
+                          style={{
+                            marginBottom: '1.5rem',
+                            marginTop: '1.5rem',
+                          }}
+                        >
                           <span className="grsay-text">
                             वजन -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                             &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
@@ -704,7 +766,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                     )}
                 </div>
                 <div>
-                  <p className="common_margin_p">
+                  <p className="common_margin_pp">
                     <span className="grady-text">
                       दिनांक - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                     </span>
@@ -723,7 +785,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                       )}
                     </span>
                   </p>
-                  <p className="common_margin_p">
+                  <p className="common_margin_pp">
                     <span className="grday-text">
                       मोबाइल नं - &nbsp; &nbsp; &nbsp;
                     </span>
@@ -740,7 +802,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
 
                   {isData && isData.CHEQUE_NO && (
                     <>
-                      <p className="common_margin_p">
+                      <p className="common_margin_pp">
                         <span className="grday-text">माध्यम -</span>
                         <span className="hidelight" style={{ fontSize: 16 }}>
                           {isData?.CHEQUE_NO}
@@ -751,7 +813,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                   )}
                   {isData && isData.CHEQUE_NO && (
                     <>
-                      <p className="common_margin_p">
+                      <p className="common_margin_pp">
                         <span className="grday-text">विवरण - &nbsp;</span>
                         <span className="hidelight" style={{ fontSize: 16 }}>
                           {isData && isData?.REMARK}
@@ -761,7 +823,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                   )}
                   {isData && isData.CHEQUE_NO === '' && (
                     <>
-                      <p className="common_margin_p">
+                      <p className="common_margin_pp">
                         <span className="grday-text">विवरण - &nbsp;</span>
                         <span className="hidelight" style={{ fontSize: 16 }}>
                           {isData && isData?.REMARK}
@@ -775,7 +837,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                         isData.manualItemDetails &&
                         isData.manualItemDetails[0].ChequeNo && (
                           <>
-                            <p className="common_margin_p">
+                            <p className="common_margin_pp">
                               <span className="grday-text">
                                 माध्यम - &nbsp;&nbsp;&nbsp;&nbsp;
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -807,7 +869,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                       isData.manualItemDetails &&
                       isData.manualItemDetails[0].BankName && (
                         <>
-                          <p className="common_margin_p">
+                          <p className="common_margin_pp">
                             <span className="grday-text">
                               माध्यम - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                               &nbsp; &nbsp; &nbsp;
@@ -830,7 +892,13 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                     isData.manualItemDetails &&
                     isData.manualItemDetails[0].itemType && (
                       <>
-                        <p className="common_margin_p">
+                        <p
+                          className="common_margin_pp"
+                          style={{
+                            marginBottom: '1.5rem',
+                            marginTop: '1.5rem',
+                          }}
+                        >
                           <span className="gdray-text">सामग्री का नाम -</span>
                           <span className="hidelight" style={{ fontSize: 16 }}>
                             {isData &&
@@ -838,7 +906,13 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                               isData.manualItemDetails[0].itemType}
                           </span>
                         </p>
-                        <p className="common_margin_p">
+                        <p
+                          className="common_margin_pp"
+                          style={{
+                            marginBottom: '1.5rem',
+                            marginTop: '1.5rem',
+                          }}
+                        >
                           <span className="grsay-text">
                             संख्या-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                             &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
@@ -854,7 +928,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
 
                   {isData && isData?.modeOfDonation === '4' ? (
                     <>
-                      <p className="common_margin_p">
+                      <p className="common_margin_pp">
                         <span className="grday-text">
                           विवरण - &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
                         </span>
@@ -897,7 +971,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                                 isData.manualItemDetails.map((item) => {
                                   return (
                                     <p
-                                      className="common_margin_p hidelight"
+                                      className="common_margin_pp hidelight"
                                       style={{ fontSize: 16 }}
                                     >
                                       {' '}
@@ -910,9 +984,119 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                         </>
                       )}
                     </div>
+                    {isData && isData.modeOfDonation === '2' && (
+                      <>
+                        <div>
+                          <p className="common_margin_pp">
+                            विवरण - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            &nbsp;&nbsp;
+                            <span
+                              className="hidelight"
+                              style={{ fontSize: 16 }}
+                            >
+                              {isData && isData?.REMARK
+                                ? isData?.REMARK
+                                : isData && isData.manualItemDetails[0].remark}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
+                    {isData && isData.modeOfDonation === 2 && (
+                      <>
+                        <div>
+                          <p className="common_margin_pp">
+                            विवरण - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            &nbsp;&nbsp;
+                            <span
+                              className="hidelight"
+                              style={{ fontSize: 16 }}
+                            >
+                              {isData && isData?.REMARK
+                                ? isData?.REMARK
+                                : isData && isData.manualItemDetails[0].remark}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
+                    {isData && isData.modeOfDonation === '3' && (
+                      <>
+                        <div>
+                          <p className="common_margin_pp">
+                            विवरण - &nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span
+                              className="hidelight"
+                              style={{ fontSize: 16 }}
+                            >
+                              {isData && isData?.REMARK
+                                ? isData?.REMARK
+                                : isData && isData.manualItemDetails[0].remark}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
 
+                    {isData && isData.modeOfDonation === 3 && (
+                      <>
+                        <div>
+                          <p className="common_margin_pp">
+                            विवरण - &nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span
+                              className="hidelight"
+                              style={{ fontSize: 16 }}
+                            >
+                              {isData && isData?.REMARK
+                                ? isData?.REMARK
+                                : isData && isData.manualItemDetails[0].remark}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
+
+                    {isData && isData.modeOfDonation === '1' && (
+                      <>
+                        <div>
+                          <p className="common_margin_pp">
+                            विवरण - &nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span
+                              className="hidelight"
+                              style={{ fontSize: 16 }}
+                            >
+                              {isData && isData?.REMARK
+                                ? isData?.REMARK
+                                : isData && isData.manualItemDetails[0].remark}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
+
+                    {isData && isData.modeOfDonation === 1 && (
+                      <>
+                        <div>
+                          <p className="common_margin_pp">
+                            विवरण - &nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span
+                              className="hidelight"
+                              style={{ fontSize: 16 }}
+                            >
+                              {isData && isData?.REMARK
+                                ? isData?.REMARK
+                                : isData && isData.manualItemDetails[0].remark}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
                     <div className="handle_display_div">
-                      <p className="common_margin_p">
+                      <p className="common_margin_pp">
                         <span className="grday-text">
                           दान राशि अंको में - &nbsp;
                         </span>
@@ -929,109 +1113,8 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                           /-
                         </span>
                       </p>
-                      {isData && isData.modeOfDonation === '2' && (
-                        <>
-                          <p className="common_margin_p common_margin_p margin_left_is">
-                            <span className="grsay-text">
-                              विवरण - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                              &nbsp;&nbsp;
-                            </span>
-                            <span
-                              className="hidelight"
-                              style={{ fontSize: 16 }}
-                            >
-                              {isData && isData?.REMARK
-                                ? isData?.REMARK
-                                : isData && isData.manualItemDetails[0].remark}
-                            </span>
-                          </p>
-                        </>
-                      )}
-                      {isData && isData.modeOfDonation === 2 && (
-                        <>
-                          <p className="common_margin_p common_margin_p margin_left_is">
-                            <span className="grsay-text">
-                              विवरण - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                              &nbsp;&nbsp;
-                            </span>
-                            <span
-                              className="hidelight"
-                              style={{ fontSize: 16 }}
-                            >
-                              {isData && isData?.REMARK
-                                ? isData?.REMARK
-                                : isData && isData.manualItemDetails[0].remark}
-                            </span>
-                          </p>
-                        </>
-                      )}
-                      {isData && isData.modeOfDonation === '3' && (
-                        <>
-                          <p className="common_margin_p margin_left_is">
-                            <span className="grday-text">
-                              विवरण - &nbsp;&nbsp;&nbsp;&nbsp;
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            </span>
-                            <span
-                              className="hidelight"
-                              style={{ fontSize: 16 }}
-                            >
-                              {isData && isData?.REMARK
-                                ? isData?.REMARK
-                                : isData && isData.manualItemDetails[0].remark}
-                            </span>
-                          </p>
-                        </>
-                      )}
-
-                      {isData && isData.modeOfDonation === 3 && (
-                        <>
-                          <p className="common_margin_p margin_left_is">
-                            <span className="grday-text">
-                              विवरण - &nbsp;&nbsp;&nbsp;&nbsp;
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            </span>
-                            <span
-                              className="hidelight"
-                              style={{ fontSize: 16 }}
-                            >
-                              {isData && isData?.REMARK
-                                ? isData?.REMARK
-                                : isData && isData.manualItemDetails[0].remark}
-                            </span>
-                          </p>
-                        </>
-                      )}
-
-                      {isData && isData.modeOfDonation === '1' && (
-                        <>
-                          <p className="common_margin_p margin_left_is">
-                            <span className="gdray-text">विवरण - &nbsp;</span>
-                            <span
-                              className="hidelight"
-                              style={{ fontSize: 16 }}
-                            >
-                              {isData && isData?.REMARK
-                                ? isData?.REMARK
-                                : isData && isData.manualItemDetails[0].remark}
-                            </span>
-                          </p>
-                        </>
-                      )}
-
-                      {isData && isData.modeOfDonation === 1 && (
-                        <>
-                          <p className="common_margin_p margin_left_is">
-                            <span className="grday-text">विवरण - &nbsp;</span>
-
-                            {isData && isData?.REMARK
-                              ? isData?.REMARK
-                              : isData && isData.manualItemDetails[0].remark}
-                          </p>
-                        </>
-                      )}
                     </div>
-                    <p className="common_margin_p">
+                    <p className="common_margin_pp">
                       <span className="grday-text">
                         दान राशि शब्दों में - &nbsp;
                       </span>

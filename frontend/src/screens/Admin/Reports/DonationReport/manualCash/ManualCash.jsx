@@ -683,6 +683,7 @@ const ManualCash = ({ setopendashboard }) => {
                   placeholder="Search Amount"
                 />
               </TableCell>
+
               <TableCell>
                 <select
                   name="cars"
@@ -725,17 +726,17 @@ const ManualCash = ({ setopendashboard }) => {
                       }}
                     >
                       <TableCell>
-                        {Moment(row.donation_date).format('DD/MM/YYYY')}
+                        {Moment(row?.donation_date).format('DD/MM/YYYY')}
                       </TableCell>
-                      <TableCell>{row.ReceiptNo}</TableCell>
-                      <TableCell>{row.voucherNo}</TableCell>
-                      <TableCell>{row.phoneNo}</TableCell>
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell> {row.address}</TableCell>
+                      <TableCell>{row?.ReceiptNo}</TableCell>
+                      <TableCell>{row?.voucherNo}</TableCell>
+                      <TableCell>{row?.phoneNo}</TableCell>
+                      <TableCell>{row?.name}</TableCell>
+                      <TableCell> {row?.address}</TableCell>
                       <TableCell>
                         {row.elecItemDetails.map((row) => {
                           return (
-                            <li style={{ listStyle: 'none' }}>{row.type}</li>
+                            <li style={{ listStyle: 'none' }}>{row?.type}</li>
                           );
                         })}
                       </TableCell>
@@ -745,11 +746,14 @@ const ManualCash = ({ setopendashboard }) => {
                           0,
                         )}
                       </TableCell>
-                      <TableCell>&nbsp;</TableCell>
+
+                      <TableCell>{row?.createdBy}</TableCell>
                       <TableCell>
                         {row.elecItemDetails.map((row) => {
                           return (
-                            <li style={{ listStyle: 'none' }}>{row.remark} </li>
+                            <li style={{ listStyle: 'none' }}>
+                              {row?.remark}{' '}
+                            </li>
                           );
                         })}
                       </TableCell>
@@ -758,7 +762,7 @@ const ManualCash = ({ setopendashboard }) => {
                           <img
                             onClick={() =>
                               navigation(
-                                `/admin-panel/infoElectronic/${row.id}`,
+                                `/admin-panel/infoElectronic/${row?.id}`,
                               )
                             }
                             src={eye}
@@ -803,7 +807,7 @@ const ManualCash = ({ setopendashboard }) => {
                         )}
                         {userrole === 1 && (
                           <Tooltip title="Cancel Certificate">
-                            <CancelIcon onClick={() => handleOpen(row.id)} />
+                            <CancelIcon onClick={() => handleOpen(row?.id)} />
                           </Tooltip>
                         )}
                       </TableCell>

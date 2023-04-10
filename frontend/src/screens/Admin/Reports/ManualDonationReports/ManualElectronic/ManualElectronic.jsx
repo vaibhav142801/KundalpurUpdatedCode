@@ -169,6 +169,8 @@ const ManualElectronic = ({ setopendashboard }) => {
   const [remark, setRemark] = useState('');
   const [type, setType] = useState('');
   const [userType, setUserType] = useState('');
+  const [bank, setbank] = useState('');
+  const [transaction, settransaction] = useState('');
   const handleOpen5 = () => setOpen5(true);
   const handleClose5 = () => setOpen5(false);
 
@@ -180,6 +182,7 @@ const ManualElectronic = ({ setopendashboard }) => {
     setOpen3(true);
     setdeleteId(id);
   };
+
   const handleClose6 = () => setOpen3(false);
   const handleClose4 = () => {
     setOpen3(false);
@@ -365,6 +368,12 @@ const ManualElectronic = ({ setopendashboard }) => {
     if (type === 'Remark') {
       setRemark(e.target.value);
     }
+    if (type === 'Bank') {
+      setbank(e.target.value?.toLowerCase());
+    }
+    if (type === 'Transaction') {
+      settransaction(e.target.value);
+    }
     if (type === 'UserType') {
       setUserType(e.target.value.toLowerCase());
     }
@@ -375,7 +384,7 @@ const ManualElectronic = ({ setopendashboard }) => {
         dt?.ReceiptNo.toLowerCase().indexOf(receiptNo) > -1 &&
         dt?.phoneNo.toLowerCase().indexOf(phone) > -1 &&
         Moment(dt?.donation_date).format('YYYY-MM-DD').indexOf(date) > -1 &&
-        dt?.name.toLowerCase().indexOf(name) > -1 &&
+        dt?.name?.toLowerCase().indexOf(name) > -1 &&
         dt?.address.toLowerCase().indexOf(address) > -1 &&
         dt?.CreatedBy?.toLowerCase()?.indexOf(userType) > -1,
     );
@@ -423,8 +432,50 @@ const ManualElectronic = ({ setopendashboard }) => {
       filtered = filtered?.filter((x) => x !== undefined);
     }
 
+    if (bank) {
+      filtered = filtered?.map((item) => {
+        if (
+          item?.manualItemDetails?.find(
+            (typ) => typ.BankName?.toLowerCase() == bank,
+          )
+        ) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+
+    if (transaction) {
+      filtered = filtered?.map((item) => {
+        if (
+          item?.manualItemDetails?.find(
+            (typ) => typ.transactionNo == transaction,
+          )
+        ) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+
     setisData(filtered);
-  }, [phone, receiptNo, date, name, address, type, amount, remark, userType]);
+  }, [
+    phone,
+    receiptNo,
+    date,
+    name,
+    address,
+    type,
+    amount,
+    remark,
+    userType,
+    bank,
+    transaction,
+  ]);
 
   return (
     <>
@@ -694,6 +745,8 @@ const ManualElectronic = ({ setopendashboard }) => {
                 <TableCell>Address</TableCell>
                 <TableCell>Head/Item</TableCell>
                 <TableCell>Amount</TableCell>
+                <TableCell>Bank</TableCell>
+                <TableCell>TransactionNo</TableCell>
                 <TableCell>User</TableCell>
                 <TableCell>Remark</TableCell>
                 <TableCell>Action</TableCell>
@@ -762,6 +815,22 @@ const ManualElectronic = ({ setopendashboard }) => {
                 />
               </TableCell>
               <TableCell>
+                <input
+                  className="cuolms_search"
+                  type="text"
+                  onChange={(e) => onSearchByOther(e, 'Bank')}
+                  placeholder="Bank name"
+                />
+              </TableCell>
+              <TableCell>
+                <input
+                  className="cuolms_search"
+                  type="text"
+                  onChange={(e) => onSearchByOther(e, 'Transaction')}
+                  placeholder="Transaction id"
+                />
+              </TableCell>
+              <TableCell>
                 <select
                   name="cars"
                   id="cars"
@@ -803,17 +872,17 @@ const ManualElectronic = ({ setopendashboard }) => {
                       }}
                     >
                       <TableCell>
-                        {Moment(row.donation_date).format('DD/MM/YYYY')}
+                        {Moment(row?.donation_date).format('DD/MM/YYYY')}
                       </TableCell>
-                      <TableCell>{row.ReceiptNo}</TableCell>
+                      <TableCell>{row?.ReceiptNo}</TableCell>
 
-                      <TableCell>{row.phoneNo}</TableCell>
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell> {row.address}</TableCell>
+                      <TableCell>{row?.phoneNo}</TableCell>
+                      <TableCell>{row?.name}</TableCell>
+                      <TableCell> {row?.address}</TableCell>
                       <TableCell>
                         {row.manualItemDetails.map((row) => {
                           return (
-                            <li style={{ listStyle: 'none' }}>{row.type}</li>
+                            <li style={{ listStyle: 'none' }}>{row?.type}</li>
                           );
                         })}
                       </TableCell>
@@ -823,11 +892,19 @@ const ManualElectronic = ({ setopendashboard }) => {
                           0,
                         )}
                       </TableCell>
-                      <TableCell>&nbsp;</TableCell>
+                      <TableCell>
+                        {row?.manualItemDetails[0]?.BankName}
+                      </TableCell>
+                      <TableCell>
+                        {row?.manualItemDetails[0]?.transactionNo}
+                      </TableCell>
+                      <TableCell>{row?.CreatedBy}</TableCell>
                       <TableCell>
                         {row.manualItemDetails.map((row) => {
                           return (
-                            <li style={{ listStyle: 'none' }}>{row.remark} </li>
+                            <li style={{ listStyle: 'none' }}>
+                              {row?.remark}{' '}
+                            </li>
                           );
                         })}
                       </TableCell>
@@ -873,7 +950,7 @@ const ManualElectronic = ({ setopendashboard }) => {
                             <img
                               src={Delete}
                               style={{ width: '20px' }}
-                              onClick={() => handleClickOpen3(row.id)}
+                              onClick={() => handleClickOpen3(row?.id)}
                               alt="dd"
                             />
                           </Tooltip>

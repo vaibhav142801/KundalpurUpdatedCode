@@ -18,24 +18,29 @@ const AddVoucherToUser = ({ setOpen }) => {
   const handlesubmit = async () => {
     try {
       setshowloader(true);
-      if (!fromNo && !toNo && !assingTo) {
+      if (!fromNo || !toNo || !assingTo) {
         Swal.fire('Error!', 'All fields required', 'error');
-      }
-      axios.defaults.headers.post[
-        'Authorization'
-      ] = `Bearer ${sessionStorage.getItem('token')}`;
-
-      const res = await axios.post(`${backendApiUrl}user/add-voucher-user`, {
-        from: fromNo,
-        to: toNo,
-        user: Number(assingTo),
-        name: empname,
-      });
-      console.log(res.data.data.message);
-      if (res.data.data.message) {
-        setshowloader(false);
-        Swal.fire('Great!', res.data.data.message, 'success');
         setOpen(false);
+        setshowloader(false);
+      }
+      if (fromNo && toNo && assingTo) {
+        setshowloader(true);
+        axios.defaults.headers.post[
+          'Authorization'
+        ] = `Bearer ${sessionStorage.getItem('token')}`;
+
+        const res = await axios.post(`${backendApiUrl}user/add-voucher-user`, {
+          from: fromNo,
+          to: toNo,
+          user: Number(assingTo),
+          name: empname,
+        });
+        console.log(res.data.data.message);
+        if (res.data.data.message) {
+          setshowloader(false);
+          Swal.fire('Great!', res.data.data.message, 'success');
+          setOpen(false);
+        }
       }
     } catch (error) {
       setshowloader(false);

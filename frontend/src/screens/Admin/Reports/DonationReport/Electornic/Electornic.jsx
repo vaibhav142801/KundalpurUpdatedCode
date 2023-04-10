@@ -162,6 +162,8 @@ const Electornic = ({ setopendashboard }) => {
   const [remark, setRemark] = useState('');
   const [type, setType] = useState('');
   const [userType, setUserType] = useState('');
+  const [bank, setbank] = useState('');
+  const [transaction, settransaction] = useState('');
   const handleOpen = (id) => {
     setOpen(true);
     setupdateId(id);
@@ -366,6 +368,13 @@ const Electornic = ({ setopendashboard }) => {
     if (type === 'Remark') {
       setRemark(e.target.value);
     }
+    if (type === 'Bank') {
+      setbank(e.target.value);
+    }
+    if (type === 'Transaction') {
+      settransaction(e.target.value);
+    }
+
     if (type === 'UserType') {
       setUserType(e.target.value.toLowerCase());
     }
@@ -425,6 +434,30 @@ const Electornic = ({ setopendashboard }) => {
       filtered = filtered?.filter((x) => x !== undefined);
     }
 
+    if (bank) {
+      filtered = filtered?.map((item) => {
+        if (item?.elecItemDetails?.find((typ) => typ.BankName == bank)) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+
+    if (transaction) {
+      filtered = filtered?.map((item) => {
+        if (
+          item?.elecItemDetails?.find((typ) => typ.transactionNo == transaction)
+        ) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+
     setisData(filtered);
   }, [
     phone,
@@ -437,6 +470,8 @@ const Electornic = ({ setopendashboard }) => {
     remark,
     userType,
     voucherno,
+    bank,
+    transaction,
   ]);
   return (
     <>
@@ -645,6 +680,8 @@ const Electornic = ({ setopendashboard }) => {
                 <TableCell>Address</TableCell>
                 <TableCell>Head/Item</TableCell>
                 <TableCell>Amount</TableCell>
+                <TableCell>Bank</TableCell>
+                <TableCell>TransactionNo</TableCell>
                 <TableCell>User</TableCell>
                 <TableCell>Remark</TableCell>
                 <TableCell>Action</TableCell>
@@ -720,6 +757,23 @@ const Electornic = ({ setopendashboard }) => {
                   placeholder="Search Amount"
                 />
               </TableCell>
+
+              <TableCell>
+                <input
+                  className="cuolms_search"
+                  type="text"
+                  onChange={(e) => onSearchByOther(e, 'Bank')}
+                  placeholder="Bank name"
+                />
+              </TableCell>
+              <TableCell>
+                <input
+                  className="cuolms_search"
+                  type="text"
+                  onChange={(e) => onSearchByOther(e, 'Transaction')}
+                  placeholder="Transaction id"
+                />
+              </TableCell>
               <TableCell>
                 <select
                   name="cars"
@@ -762,17 +816,17 @@ const Electornic = ({ setopendashboard }) => {
                       }}
                     >
                       <TableCell>
-                        {Moment(row.donation_date).format('DD/MM/YYYY')}
+                        {Moment(row?.donation_date).format('DD/MM/YYYY')}
                       </TableCell>
-                      <TableCell>{row.ReceiptNo}</TableCell>
-                      <TableCell>{row.voucherNo}</TableCell>
-                      <TableCell>{row.phoneNo}</TableCell>
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell> {row.address}</TableCell>
+                      <TableCell>{row?.ReceiptNo}</TableCell>
+                      <TableCell>{row?.voucherNo}</TableCell>
+                      <TableCell>{row?.phoneNo}</TableCell>
+                      <TableCell>{row?.name}</TableCell>
+                      <TableCell> {row?.address}</TableCell>
                       <TableCell>
                         {row.elecItemDetails.map((row) => {
                           return (
-                            <li style={{ listStyle: 'none' }}>{row.type}</li>
+                            <li style={{ listStyle: 'none' }}>{row?.type}</li>
                           );
                         })}
                       </TableCell>
@@ -782,18 +836,24 @@ const Electornic = ({ setopendashboard }) => {
                           0,
                         )}
                       </TableCell>
-                      <TableCell>&nbsp;</TableCell>
+                      <TableCell>{row?.elecItemDetails[0]?.BankName}</TableCell>
+                      <TableCell>
+                        {row.elecItemDetails[0]?.transactionNo}
+                      </TableCell>
+                      <TableCell>{row?.createdBy}</TableCell>
                       <TableCell>
                         {row.elecItemDetails.map((row) => {
                           return (
-                            <li style={{ listStyle: 'none' }}>{row.remark} </li>
+                            <li style={{ listStyle: 'none' }}>
+                              {row?.remark}{' '}
+                            </li>
                           );
                         })}
                       </TableCell>
                       <TableCell>
                         <img
                           onClick={() =>
-                            navigation(`/admin-panel/infoElectronic/${row.id}`)
+                            navigation(`/admin-panel/infoElectronic/${row?.id}`)
                           }
                           src={eye}
                           alt="print"
@@ -845,7 +905,7 @@ const Electornic = ({ setopendashboard }) => {
                         )}
                         {userrole === 1 && (
                           <Tooltip title="Cancel Certificate">
-                            <CancelIcon onClick={() => handleOpen(row.id)} />
+                            <CancelIcon onClick={() => handleOpen(row?.id)} />
                           </Tooltip>
                         )}
                       </TableCell>

@@ -163,8 +163,8 @@ const Adduser = ({ setOpen }) => {
                       Donation And Booking
                     </option>
                     <option value="Room Booking">Room Booking</option>
-                    {/* <option value="Accounts">Accounts</option>
-                    <option value="Store">Store</option>
+                    <option value="Accounts">Accounts</option>
+                    {/* <option value="Store">Store</option>
                     <option value="Super Admin">Super Admin</option> */}
                     <option value="Manual Donation">Manual Donation</option>
                     <option value="Elect Donation">Elect Donation</option>
