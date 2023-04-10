@@ -97,6 +97,7 @@ const style5 = {
 const OnlinepaymentFail = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const [isData, setisData] = React.useState('');
+  const [isDataDummy, setisDataDummy] = React.useState([]);
   const [filterstate, setfilterstate] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
@@ -112,6 +113,16 @@ const OnlinepaymentFail = ({ setopendashboard }) => {
   const [open5, setOpen5] = React.useState(false);
   const handleOpen5 = () => setOpen5(true);
   const handleClose5 = () => setOpen5(false);
+  const [donationTypes, setDonationTypes] = useState([]);
+  const [date, setDate] = useState('');
+  const [receiptNo, setReceiptNo] = useState('');
+  const [phone, setPhone] = useState('');
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+  const [amount, setAmount] = useState('');
+  const [remark, setRemark] = useState('');
+  const [type, setType] = useState('');
+
   const handleClickOpen1 = (id) => {
     setOpen1(true);
     setdeleteId(id);
@@ -130,11 +141,9 @@ const OnlinepaymentFail = ({ setopendashboard }) => {
       if (res.status === true) {
         Swal.fire('Great!', 'Cheque donation delete successfully', 'success');
         setrefetch(!refetch);
-        console.log(res);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
       }
-      console.log(res);
     });
   };
 
@@ -151,18 +160,11 @@ const OnlinepaymentFail = ({ setopendashboard }) => {
             item?.PAYMENT_STATUS === false,
         );
         setisData(filterData);
+        setisDataDummy(filterData);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
       }
       console.log(res);
-    });
-  };
-
-  const downloadrecept = (row) => {
-    navigation('/admin-panel/room/online/recipt', {
-      state: {
-        userdata: row,
-      },
     });
   };
 
@@ -200,7 +202,22 @@ const OnlinepaymentFail = ({ setopendashboard }) => {
     });
     exportFromJSON({ data, fileName, exportType });
   };
-
+  const get_donation_tyeps = () => {
+    try {
+      Promise.all([serverInstance('admin/donation-type?type=1', 'get')]).then(
+        ([res, item]) => {
+          if (res.status) {
+            setDonationTypes(res.data);
+            console.log(res.data);
+          } else {
+            Swal.fire('Error', 'somthing went  wrong', 'error');
+          }
+        },
+      );
+    } catch (error) {
+      Swal.fire('Error!', error, 'error');
+    }
+  };
   const filterdata = async () => {
     axios.defaults.headers.get[
       'Authorization'
@@ -215,6 +232,7 @@ const OnlinepaymentFail = ({ setopendashboard }) => {
           (item) => item?.PAYMENT_STATUS === false,
         );
         setisData(filterData);
+        setisDataDummy(filterData);
       }
     } else {
       const res = await axios.get(
@@ -226,14 +244,67 @@ const OnlinepaymentFail = ({ setopendashboard }) => {
           (item) => item?.PAYMENT_STATUS === false,
         );
         setisData(filterData);
+        setisDataDummy(filterData);
       }
     }
   };
   useEffect(() => {
+    get_donation_tyeps();
     getall_donation();
     setopendashboard(true);
   }, [filterstate, refetch]);
 
+  const onSearchByOther = (e, type) => {
+    if (type === 'Date') {
+      setDate(e.target.value);
+    }
+    if (type === 'Receipt') {
+      setReceiptNo(e.target.value.toLowerCase());
+    }
+    if (type === 'Phone') {
+      setPhone(e.target.value.toLowerCase());
+    }
+    if (type === 'Name') {
+      setName(e.target.value.toLowerCase());
+    }
+    if (type === 'Address') {
+      setAddress(e.target.value.toLowerCase());
+    }
+    if (type === 'Type') {
+      setType(e.target.value.toLowerCase());
+    }
+    if (type === 'Amount') {
+      setAmount(e.target.value.toLowerCase());
+    }
+    if (type === 'Remark') {
+      setRemark(e.target.value.toLowerCase());
+    }
+  };
+  useEffect(() => {
+    var filtered = isDataDummy?.filter(
+      (dt) =>
+        dt?.RECEIPT_NO?.toLowerCase().indexOf(receiptNo) > -1 &&
+        dt?.MobileNo?.toLowerCase().indexOf(phone) > -1 &&
+        Moment(dt?.DATE_OF_DAAN).format('YYYY-MM-DD').indexOf(date) > -1 &&
+        dt?.NAME?.toLowerCase().indexOf(name) > -1 &&
+        dt?.ADDRESS?.toLowerCase().indexOf(address) > -1 &&
+        dt?.TYPE?.toLowerCase().indexOf(type) > -1 &&
+        dt?.REMARK?.toLowerCase()?.indexOf(remark) > -1,
+    );
+
+    if (amount) {
+      filtered = isDataDummy?.map((item) => {
+        if (item.AMOUNT == amount) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+
+    setisData(filtered);
+  }, [phone, receiptNo, date, name, address, type, amount, remark]);
   return (
     <>
       <Modal
@@ -413,12 +484,94 @@ const OnlinepaymentFail = ({ setopendashboard }) => {
                 <TableCell>Receipt No</TableCell>
                 <TableCell>Date</TableCell>
                 <TableCell>Name </TableCell>
+                <TableCell>Address</TableCell>
+                <TableCell>Mobile</TableCell>
                 <TableCell>Donation Type</TableCell>
                 <TableCell>Amount</TableCell>
+                <TableCell>Remark</TableCell>
                 <TableCell>Status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
+              <TableRow>
+                <TableCell>
+                  <input
+                    style={{ width: '100%' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => {
+                      onSearchByOther(e, 'Receipt');
+                    }}
+                    placeholder="Search Receipt No"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '100%' }}
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'Date')}
+                    placeholder="Search Date"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '100%' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'Name')}
+                    placeholder="Search name"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'Address')}
+                    placeholder="Search Address "
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'Phone')}
+                    placeholder="Search Phone "
+                  />
+                </TableCell>
+                <TableCell>
+                  <select
+                    style={{ width: '100%' }}
+                    className="cuolms_search"
+                    onChange={(e) => onSearchByOther(e, 'Type')}
+                  >
+                    <option value="">All Head</option>
+                    {donationTypes.map((item, idx) => {
+                      return (
+                        <option value={item.type_hi}>{item.type_hi}</option>
+                      );
+                    })}
+                  </select>
+                </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '100%' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'Amount')}
+                    placeholder="amount"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'Remark')}
+                    placeholder="Remark"
+                  />
+                </TableCell>
+                <TableCell>&nbsp;</TableCell>
+              </TableRow>
               {isData ? (
                 <>
                   {(rowsPerPage > 0
@@ -441,9 +594,11 @@ const OnlinepaymentFail = ({ setopendashboard }) => {
                         {moment(row?.DATE_OF_DAAN).format('DD/MM/YYYY')}
                       </TableCell>
                       <TableCell>{row?.NAME}</TableCell>
-                      <TableCell> {row?.MODE_OF_DONATION}</TableCell>
+                      <TableCell>{row?.ADDRESS}</TableCell>
+                      <TableCell>{row?.MobileNo}</TableCell>
+                      <TableCell> {row?.TYPE}</TableCell>
                       <TableCell> {row?.AMOUNT}</TableCell>
-
+                      <TableCell>{row?.REMARK}</TableCell>
                       <TableCell align="left">
                         {row?.PAYMENT_STATUS === true
                           ? 'Payment succrssfull'
@@ -452,6 +607,8 @@ const OnlinepaymentFail = ({ setopendashboard }) => {
                     </TableRow>
                   ))}
                   <TableRow>
+                    <TableCell> &nbsp;</TableCell>
+                    <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>

@@ -9,21 +9,22 @@ function ChangeStatus({ id, handleClose }) {
 
   const handlesubmit = async () => {
     try {
-      axios.defaults.headers.post[
-        'Authorization'
-      ] = `Bearer ${sessionStorage.getItem('token')}`;
+      if (approvevalue && paymentId) {
+        axios.defaults.headers.post[
+          'Authorization'
+        ] = `Bearer ${sessionStorage.getItem('token')}`;
 
-      const res = await axios.post(`${backendApiUrl}admin/cheque-status`, {
-        status: Number(approvevalue),
-        id: id,
-        PAYMENT_ID: paymentId,
-      });
-      if (res.data.status) {
-        Swal.fire('Great!', res.data.msg, 'success');
+        const res = await axios.post(`${backendApiUrl}admin/cheque-status`, {
+          status: Number(approvevalue),
+          id: id,
+          PAYMENT_ID: paymentId,
+        });
+        if (res.data.status) {
+          Swal.fire('Great!', res.data.msg, 'success');
 
-        handleClose(false);
+          handleClose(false);
+        }
       }
-      console.log(res);
     } catch (error) {}
   };
 
@@ -39,6 +40,7 @@ function ChangeStatus({ id, handleClose }) {
               <div className="inner-input-div">
                 <label htmlFor="Payment id">Payment id</label>
                 <input
+                  required
                   type="text"
                   name="paymentId"
                   id="paymentId"
@@ -51,6 +53,7 @@ function ChangeStatus({ id, handleClose }) {
               <div className="inner-input-div">
                 <label htmlFor="type">Status</label>
                 <select
+                  required
                   className="inner-input-div1-select-cheque"
                   id="type"
                   name="mode"

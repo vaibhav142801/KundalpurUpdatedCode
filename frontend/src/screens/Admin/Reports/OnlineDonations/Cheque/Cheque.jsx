@@ -111,18 +111,13 @@ const style = {
 };
 const Cheque = ({ setopendashboard }) => {
   const [isData, setisData] = React.useState('');
+  const [isDataDummy, setisDataDummy] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [refetch, setrefetch] = useState(false);
   const navigation = useNavigate();
   const [deleteId, setdeleteId] = useState('');
   const [open, setOpen] = React.useState(false);
-  const [phone, setphone] = useState('');
-  const [date, setdate] = useState('');
-  const [name, setname] = useState('');
-  const [donationTypes, setDonationTypes] = useState([]);
-  const [updateId, setupdateId] = useState('');
-
   const [datefrom, setdatefrom] = useState('');
   const [dateto, setdateto] = useState('');
   const [searchvalue, setsearchvalue] = useState('');
@@ -132,6 +127,19 @@ const Cheque = ({ setopendashboard }) => {
   const [open5, setOpen5] = React.useState(false);
   const handleOpen5 = () => setOpen5(true);
   const handleClose5 = () => setOpen5(false);
+  const [donationTypes, setDonationTypes] = useState([]);
+  const [date, setDate] = useState('');
+  const [receiptNo, setReceiptNo] = useState('');
+  const [phone, setPhone] = useState('');
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+  const [amount, setAmount] = useState('');
+  const [remark, setRemark] = useState('');
+  const [type, setType] = useState('');
+  const [payment, setpayment] = useState('');
+  const [fdate, setfdate] = useState('');
+  const [fcheque, setfcheque] = useState('');
+  const [fbank, setfbank] = useState('');
   const handleOpen = (id) => {
     setOpen(true);
     setdeleteId(id);
@@ -151,6 +159,7 @@ const Cheque = ({ setopendashboard }) => {
           (item) => item.MODE_OF_DONATION === 'CHEQUE',
         );
         setisData(filterData);
+        setisDataDummy(filterData);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
       }
@@ -209,20 +218,18 @@ const Cheque = ({ setopendashboard }) => {
         `${backendApiUrl}admin/search-online-cheque?search=${searchvalue}&type=Cheque`,
       );
 
-      console.log('ss', res.data.data);
-
       if (res.data.status) {
         setisData(res.data.data);
+        setisDataDummy(res.data.data);
       }
     } else {
       const res = await axios.get(
         `${backendApiUrl}admin/filter-online-cheque?fromDate=${datefrom}&toDate=${dateto}&fromRec=${voucherfrom}&toRec=${voucherto}&type=${2}`,
       );
 
-      console.log('ss', res.data.data);
-
       if (res.data.status) {
         setisData(res.data.data);
+        setisDataDummy(res.data.data);
       }
     }
   };
@@ -243,10 +250,85 @@ const Cheque = ({ setopendashboard }) => {
     }
   };
   useEffect(() => {
+    get_donation_tyeps();
     getall_donation();
     get_donation_tyeps;
     setopendashboard(true);
   }, [refetch]);
+  const onSearchByOther = (e, type) => {
+    if (type === 'Date') {
+      setDate(e.target.value);
+    }
+    if (type === 'Receipt') {
+      setReceiptNo(e.target.value.toLowerCase());
+    }
+    if (type === 'Phone') {
+      setPhone(e.target.value.toLowerCase());
+    }
+    if (type === 'Name') {
+      setName(e.target.value.toLowerCase());
+    }
+    if (type === 'Address') {
+      setAddress(e.target.value.toLowerCase());
+    }
+    if (type === 'Type') {
+      setType(e.target.value.toLowerCase());
+    }
+    if (type === 'Amount') {
+      setAmount(e.target.value.toLowerCase());
+    }
+    if (type === 'Remark') {
+      setRemark(e.target.value.toLowerCase());
+    }
+    if (type === 'bank') {
+      setfbank(e.target.value.toLowerCase());
+    }
+    if (type === 'subdate') {
+      setfdate(e.target.value);
+    }
+    if (type === 'cheque') {
+      setfcheque(e.target.value.toLowerCase());
+    }
+  };
+  useEffect(() => {
+    var filtered = isDataDummy?.filter(
+      (dt) =>
+        dt?.RECEIPT_NO?.toLowerCase().indexOf(receiptNo) > -1 &&
+        dt?.MobileNo?.toLowerCase().indexOf(phone) > -1 &&
+        Moment(dt?.DATE_OF_DAAN).format('YYYY-MM-DD').indexOf(date) > -1 &&
+        dt?.NAME?.toLowerCase().indexOf(name) > -1 &&
+        dt?.ADDRESS?.toLowerCase().indexOf(address) > -1 &&
+        dt?.TYPE?.toLowerCase().indexOf(type) > -1 &&
+        dt?.REMARK?.toLowerCase()?.indexOf(fbank) > -1 &&
+        dt?.REMARK?.toLowerCase()?.indexOf(fcheque) > -1 &&
+        Moment(dt?.DATE_OF_DAAN).format('YYYY-MM-DD').indexOf(fdate) > -1,
+    );
+
+    if (amount) {
+      filtered = isDataDummy?.map((item) => {
+        if (item.AMOUNT == amount) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+
+    setisData(filtered);
+  }, [
+    phone,
+    receiptNo,
+    date,
+    name,
+    address,
+    type,
+    amount,
+    remark,
+    fbank,
+    fcheque,
+    fdate,
+  ]);
   return (
     <>
       <Modal
@@ -425,18 +507,118 @@ const Cheque = ({ setopendashboard }) => {
             <TableHead style={{ background: '#F1F0F0' }}>
               <TableRow>
                 <TableCell>Date</TableCell>
-                <TableCell>Receipt No</TableCell>
+                <TableCell>ReceiptNo</TableCell>
                 <TableCell>Name </TableCell>
-                <TableCell>Donation Type</TableCell>
+                <TableCell>Address</TableCell>
+                <TableCell>Mobile</TableCell>
+                <TableCell>DonationType</TableCell>
                 <TableCell>Amount</TableCell>
-                <TableCell>Cheque No.</TableCell>
-                <TableCell>Date Of submission</TableCell>
-                <TableCell>Name of Bank</TableCell>
-
+                <TableCell>ChequeNo.</TableCell>
+                <TableCell>DateOfsubmission</TableCell>
+                <TableCell>NameofBank</TableCell>
+                <TableCell>Remark</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
+              <TableRow>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => {
+                      onSearchByOther(e, 'Receipt');
+                    }}
+                    placeholder="Search Receipt No"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'Date')}
+                    placeholder="Search Date"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'Name')}
+                    placeholder="Search name"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'Address')}
+                    placeholder="Search Address "
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'Phone')}
+                    placeholder="Search Phone "
+                  />
+                </TableCell>
+                <TableCell>
+                  <select
+                    className="cuolms_search"
+                    onChange={(e) => onSearchByOther(e, 'Type')}
+                  >
+                    <option value="">All Head</option>
+                    {donationTypes.map((item, idx) => {
+                      return (
+                        <option value={item.type_hi}>{item.type_hi}</option>
+                      );
+                    })}
+                  </select>
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'Amount')}
+                    placeholder="amount"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'cheque')}
+                    placeholder="Search cheque"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'subdate')}
+                    placeholder="Search date"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'bank')}
+                    placeholder="Bank name"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'Remark')}
+                    placeholder="Remark"
+                  />
+                </TableCell>
+                <TableCell>&nbsp;</TableCell>
+              </TableRow>
               {isData ? (
                 <>
                   {(rowsPerPage > 0
@@ -455,27 +637,24 @@ const Cheque = ({ setopendashboard }) => {
                       }}
                     >
                       <TableCell>
-                        {' '}
                         {moment(row?.DATE_OF_DAAN).format('DD/MM/YYYY')}
                       </TableCell>
                       <TableCell>{row?.RECEIPT_NO}</TableCell>
-
                       <TableCell>{row.NAME}</TableCell>
+                      <TableCell>{row?.ADDRESS}</TableCell>
+                      <TableCell>{row?.MobileNo}</TableCell>
                       <TableCell> {row.MODE_OF_DONATION}</TableCell>
                       <TableCell> {row.AMOUNT}</TableCell>
                       <TableCell>
-                        {' '}
                         {row.CHEQUE_NO ? row.CHEQUE_NO : '-'}
                       </TableCell>
                       <TableCell>
-                        {' '}
                         {row.DATE_OF_CHEQUE ? row.DATE_OF_CHEQUE : '-'}
                       </TableCell>
                       <TableCell>
-                        {' '}
                         {row.NAME_OF_BANK ? row.NAME_OF_BANK : '-'}
                       </TableCell>
-
+                      <TableCell>{row?.REMARK}</TableCell>
                       <TableCell>
                         <img
                           onClick={() =>
@@ -520,12 +699,15 @@ const Cheque = ({ setopendashboard }) => {
                     <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>
+                    <TableCell> &nbsp;</TableCell>
+                    <TableCell> &nbsp;</TableCell>
                     <TableCell style={{ fontWeight: 700 }}>
                       Total Amount
                     </TableCell>
                     <TableCell style={{ fontWeight: 700 }}>
                       <OnlineTotal data={isData} />
                     </TableCell>
+                    <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>

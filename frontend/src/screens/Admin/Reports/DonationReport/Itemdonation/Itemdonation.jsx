@@ -304,6 +304,7 @@ const Itemdonation = ({ setopendashboard }) => {
     get_donation_tyeps();
     setuserrole(Number(sessionStorage.getItem('userrole')));
   }, [showalert, open, openupdate]);
+
   const onSearchByOther = (e, type) => {
     if (type === 'Date') {
       setDate(e.target.value);
@@ -469,6 +470,7 @@ const Itemdonation = ({ setopendashboard }) => {
     fsize,
     funit,
   ]);
+
   return (
     <>
       <Modal
