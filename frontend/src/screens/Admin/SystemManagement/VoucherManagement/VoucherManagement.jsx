@@ -52,7 +52,7 @@ const VoucherManagement = ({ setopendashboard }) => {
   const navigate = useNavigate();
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [data, setdata] = useState('');
@@ -322,21 +322,58 @@ const VoucherManagement = ({ setopendashboard }) => {
                             {`${row.from} -- ${row.to}`}
                           </TableCell>
                           <TableCell align="center">
-                            {row?.to === row.voucher - 1 ? '0' : row?.voucher}
+                            {row?.to === row?.voucher ? '0' : row?.voucher}
                           </TableCell>
-                          <TableCell
-                            style={{
-                              background:
-                                row?.to === row.voucher - 1
-                                  ? '#08ACF0'
-                                  : '#FFC000',
-                              color:
-                                row?.to === row.voucher - 1 ? 'black' : 'black',
-                            }}
-                            align="center"
-                          >
-                            {row?.to === row.voucher - 1 ? 'Used' : 'Running'}
-                          </TableCell>
+                          {row?.status === 2 && (
+                            <>
+                              <TableCell
+                                style={{
+                                  background:
+                                    row?.status === 2 ? 'green' : '#FFC000',
+                                  color: row?.status === 2 ? 'black' : 'black',
+                                }}
+                                align="center"
+                              >
+                                Upcoming
+                              </TableCell>
+                            </>
+                          )}
+                          {row?.status === false && (
+                            <>
+                              <TableCell
+                                style={{
+                                  background:
+                                    row?.status === false
+                                      ? '#08ACF0'
+                                      : '#FFC000',
+                                  color:
+                                    row?.status === false ? 'black' : 'black',
+                                }}
+                                align="center"
+                              >
+                                {row?.status === false ? 'Used' : 'exhausted'}
+                              </TableCell>
+                            </>
+                          )}
+
+                          {row?.status === true && (
+                            <>
+                              <TableCell
+                                style={{
+                                  background:
+                                    row?.status === false
+                                      ? '#08ACF0'
+                                      : '#FFC000',
+                                  color:
+                                    row?.status === false ? 'black' : 'black',
+                                }}
+                                align="center"
+                              >
+                                {row?.status === false ? 'Used' : 'Running'}
+                              </TableCell>
+                            </>
+                          )}
+
                           <TableCell align="center">
                             <Tooltip title="View">
                               <img
@@ -392,7 +429,7 @@ const VoucherManagement = ({ setopendashboard }) => {
                       page={page}
                       onPageChange={handleChangePage}
                       onRowsPerPageChange={handleChangeRowsPerPage}
-                      rowsPerPageOptions={[5, 10, 25]}
+                      rowsPerPageOptions={[25, 50, 100]}
                       labelRowsPerPage={<span>Rows:</span>}
                       labelDisplayedRows={({ page }) => {
                         return `Page: ${page}`;

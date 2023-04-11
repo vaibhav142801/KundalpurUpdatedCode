@@ -227,7 +227,7 @@ const ChequeDonation = ({
           setshowalert(true);
           setshowloader(false);
           handleClose();
-          sendsms(totalamount);
+          sendsms(totalamount, res.data.data.data.ReceiptNo);
           navigation('/manualreceipt', {
             state: {
               userdata: res.data.data.data,
@@ -244,13 +244,6 @@ const ChequeDonation = ({
       Swal.fire('Error!', 'Somthing went wrong!!', 'error');
     }
   };
-  const validate = (name, amount, phoneNo, donationtype) => {
-    const errors = {};
-    if (!name) {
-      errors.name = 'Please enter name';
-    }
-    return errors;
-  };
 
   const getall_donatiions = () => {
     try {
@@ -260,18 +253,15 @@ const ChequeDonation = ({
       ]).then(([res, item]) => {
         if (res.status) {
           setDonationTypes(res.data);
-          console.log(res.data);
         } else {
           Swal.fire('Error', 'somthing went  wrong', 'error');
         }
-
-        console.log('sss', res, item);
       });
     } catch (error) {
       Swal.fire('Error!', error, 'error');
     }
   };
-  const sendsms = async (totalamount) => {
+  const sendsms = async (totalamount, ReceiptNo) => {
     try {
       axios.defaults.headers.post[
         'Authorization'
@@ -279,7 +269,7 @@ const ChequeDonation = ({
       const res = await axios.post(`${backendApiUrl}user/sms`, {
         mobile: mobileNo,
         amount: totalamount,
-        url: '',
+        rno: ReceiptNo,
       });
     } catch (error) {}
   };

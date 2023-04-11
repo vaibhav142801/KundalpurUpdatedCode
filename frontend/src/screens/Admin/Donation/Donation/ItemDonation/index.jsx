@@ -298,7 +298,7 @@ const ItemDonation = ({
           if (res.data.status === true) {
             handleClose();
             setshowloader(false);
-            sendsms(totalamount);
+            sendsms(totalamount, res.data.data.data.ReceiptNo);
             navigation('/reciept', {
               state: {
                 userdata: res.data.data.data,
@@ -324,21 +324,19 @@ const ItemDonation = ({
       ]).then(([res, item]) => {
         if (res.status) {
           setDonationTypes(res.data);
-          console.log(res.data);
         } else {
           Swal.fire('Error', 'somthing went  wrong', 'error');
         }
         if (item.status) {
-          setReceiptNo(item.data);
+          setReceiptNo(item.voucher);
         }
-        console.log('sss', res, item);
       });
     } catch (error) {
       Swal.fire('Error!', error, 'error');
     }
   };
 
-  const sendsms = async (totalamount) => {
+  const sendsms = async (totalamount, ReceiptNo) => {
     try {
       axios.defaults.headers.post[
         'Authorization'
@@ -346,10 +344,7 @@ const ItemDonation = ({
       const res = await axios.post(`${backendApiUrl}user/sms`, {
         mobile: mobileNo,
         amount: totalamount,
-        url: 'gggggggggggggggg',
-        type: 'dddddddd',
-        itemName: 'ssssssssss',
-        weight: 'ssssssss',
+        rno: ReceiptNo,
       });
     } catch (error) {}
   };

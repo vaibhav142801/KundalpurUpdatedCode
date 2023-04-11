@@ -177,6 +177,7 @@ const Donation = ({ setopendashboard }) => {
           if (res.status === true) {
             if (emproleid && roleid) {
               setOpen(true);
+              console.log('chek voucehr res', res);
             }
           }
         });
@@ -242,7 +243,10 @@ const Donation = ({ setopendashboard }) => {
       if (res.status) {
         if (emproleid === 7) {
           filterData = res.data.filter(
-            (item) => item.isActive === true && item.created_by === empid,
+            (item) =>
+              item.isActive === true &&
+              item.modeOfDonation === '1' &&
+              item.created_by === empid,
           );
         } else {
           filterData = res.data.filter((item) => item.isActive === true);

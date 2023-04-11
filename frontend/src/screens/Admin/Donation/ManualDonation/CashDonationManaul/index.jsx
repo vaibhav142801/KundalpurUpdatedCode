@@ -225,7 +225,7 @@ const CashDonation = ({
           });
           handleClose();
 
-          sendsms(totalamount);
+          sendsms(totalamount, res.data.data.data.ReceiptNo);
         } else {
           setshowloader(false);
           Swal.fire('Error!', 'Somthing went wrong!!', 'error');
@@ -234,7 +234,7 @@ const CashDonation = ({
     } catch (error) {}
   };
 
-  const sendsms = async (totalamount) => {
+  const sendsms = async (totalamount, ReceiptNo) => {
     try {
       axios.defaults.headers.post[
         'Authorization'
@@ -242,7 +242,7 @@ const CashDonation = ({
       const res = await axios.post(`${backendApiUrl}user/sms`, {
         mobile: mobileNo,
         amount: totalamount,
-        url: '',
+        rno: ReceiptNo,
       });
       console.log('sent sms ', res);
     } catch (error) {}
@@ -283,6 +283,7 @@ const CashDonation = ({
       setDonationItems(updateData?.manualItemDetails);
       setgenderp(updateData?.gender);
       setgenderp1(updateData?.gender);
+      setReceiptNo(updateData?.ReceiptNo);
     }
     setopendashboard(true);
   }, []);
@@ -307,6 +308,7 @@ const CashDonation = ({
             }}
           >
             <Typography variant="body1">Change language:</Typography>
+
             <Button
               variant={newMember ? 'outlined' : 'contained'}
               sx={{

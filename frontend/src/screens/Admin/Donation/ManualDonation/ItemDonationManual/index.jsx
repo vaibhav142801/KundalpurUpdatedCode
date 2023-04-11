@@ -250,7 +250,7 @@ const ItemDonation = ({
           setshowalert(true);
           handleClose();
           setshowloader(false);
-          sendsms(totalamount);
+          sendsms(totalamount, res.data.data.data.ReceiptNo);
           navigation('/manualreceipt', {
             state: {
               userdata: res.data.data.data,
@@ -292,7 +292,7 @@ const ItemDonation = ({
     }
   };
 
-  const sendsms = async (totalamount) => {
+  const sendsms = async (totalamount, ReceiptNo) => {
     try {
       axios.defaults.headers.post[
         'Authorization'
@@ -300,7 +300,7 @@ const ItemDonation = ({
       const res = await axios.post(`${backendApiUrl}user/sms`, {
         mobile: mobileNo,
         amount: totalamount,
-        url: '',
+        rno: ReceiptNo,
       });
     } catch (error) {}
   };

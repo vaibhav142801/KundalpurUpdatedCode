@@ -251,7 +251,7 @@ const ElectronicDonation = ({
           if (res.data.status === true) {
             handleClose();
             setshowloader(false);
-            sendsms(totalamount);
+            sendsms(totalamount, res.data.data.data.ReceiptNo);
 
             navigation('/reciept', {
               state: {
@@ -281,7 +281,7 @@ const ElectronicDonation = ({
           Swal.fire('Error', 'somthing went  wrong', 'error');
         }
         if (item.status) {
-          setReceiptNo(item.data);
+          setReceiptNo(item.voucher);
         }
 
         console.log('sss', res, item);
@@ -291,7 +291,7 @@ const ElectronicDonation = ({
     }
   };
 
-  const sendsms = async (totalamount) => {
+  const sendsms = async (totalamount, ReceiptNo) => {
     try {
       axios.defaults.headers.post[
         'Authorization'
@@ -299,7 +299,7 @@ const ElectronicDonation = ({
       const res = await axios.post(`${backendApiUrl}user/sms`, {
         mobile: mobileNo,
         amount: totalamount,
-        url: '',
+        rno: ReceiptNo,
       });
     } catch (error) {}
   };

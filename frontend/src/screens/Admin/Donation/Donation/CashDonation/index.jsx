@@ -250,7 +250,7 @@ const CashDonation = ({
               userdata: res.data.data.data,
             },
           });
-          sendsms(totalamount);
+          sendsms(totalamount, res.data.data.data.ReceiptNo);
         } else {
           Swal.fire('Error!', 'Somthing went wrong!!', 'error');
         }
@@ -266,7 +266,7 @@ const CashDonation = ({
       const res = await axios.post(`${backendApiUrl}user/sms`, {
         mobile: mobileNo,
         amount: totalamount,
-        rno: 'receipt0101',
+        rno: ReceiptNo,
       });
       console.log('sent sms ', res);
     } catch (error) {}
@@ -285,7 +285,7 @@ const CashDonation = ({
           Swal.fire('Error', 'somthing went  wrong', 'error');
         }
         if (item.status) {
-          setReceiptNo(item.data);
+          setReceiptNo(item.voucher);
         }
         console.log('sss', res, item);
       });
@@ -300,6 +300,14 @@ const CashDonation = ({
         Swal('Error', 'somthing went  wrong', 'error');
       }
     });
+  };
+  const hasHindiCharacters = (str) => {
+    return (
+      str.split('').filter(function (char) {
+        var charCode = char.charCodeAt();
+        return charCode >= 2309 && charCode <= 2361;
+      }).length > 0
+    );
   };
 
   useEffect(() => {
@@ -342,6 +350,7 @@ const CashDonation = ({
             }}
           >
             <Typography variant="body1">Change language:</Typography>
+
             <Button
               variant={newMember ? 'outlined' : 'contained'}
               sx={{

@@ -1061,6 +1061,43 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
         </>
       )}
 
+      {userrole === 1 && (
+        <>
+          <ListItem disablePadding sx={{ display: 'block' }}>
+            <Tooltip title="Masters" placement="left-end">
+              <StyledListItemButton
+                selected={activeTabId === 11}
+                onClick={() => {
+                  setActiveTabId(11);
+                  handleDrawerClose();
+                  navigate('/admin-panel/room/Dashboard');
+                }}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.2,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <img src={f1} alt="f5" style={{ width: '25px' }} />
+                </ListItemIcon>
+                <ListItemText
+                  classes={{ root: stylesag.ListText }}
+                  primary="Room Booking"
+                  sx={{ opacity: open ? 1 : 0, ml: 0.8 }}
+                />
+              </StyledListItemButton>
+            </Tooltip>
+          </ListItem>
+        </>
+      )}
+
       <List>
         {userrole === 1 || (userrole === 3 && emproleid === 0)
           ? navigationreportTabs.map((Tab, i) => (

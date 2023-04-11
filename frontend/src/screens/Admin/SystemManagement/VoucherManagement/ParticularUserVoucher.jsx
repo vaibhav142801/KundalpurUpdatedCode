@@ -30,7 +30,7 @@ const ParticularUserVoucher = ({ setopendashboard }) => {
   const location = useLocation();
   const navigation = useNavigate();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
   const [isData, setisData] = useState('');
   const [refetchdata, setrefetchdata] = useState(false);
   const [Data, setData] = useState('');
@@ -188,7 +188,7 @@ const ParticularUserVoucher = ({ setopendashboard }) => {
                     page={page}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
-                    rowsPerPageOptions={[20, 30, 40]}
+                    rowsPerPageOptions={[25, 50, 100]}
                     labelRowsPerPage={<span>Rows:</span>}
                     labelDisplayedRows={({ page }) => {
                       return `Page: ${page}`;

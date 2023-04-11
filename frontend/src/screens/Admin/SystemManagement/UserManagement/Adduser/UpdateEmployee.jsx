@@ -63,6 +63,7 @@ const UpdateEmployee = ({ setOpen, empdata }) => {
       setaddress(empdata?.Address);
       setemail(empdata?.Email);
       setrole(empdata?.Role);
+      setstatus(empdata?.Status);
     }
   }, []);
 
