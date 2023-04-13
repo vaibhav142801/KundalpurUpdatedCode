@@ -34,8 +34,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { ReactSpinner } from 'react-spinning-wheel';
-import 'react-spinning-wheel/dist/style.css';
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
+
 const style = {
   position: 'absolute',
   top: '27%',
@@ -50,6 +50,7 @@ const style = {
 };
 const VoucherManagement = ({ setopendashboard }) => {
   const navigate = useNavigate();
+  const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
@@ -65,16 +66,16 @@ const VoucherManagement = ({ setopendashboard }) => {
   };
 
   const handleClose2 = () => {
+    setloader(true);
     setOpen2(false);
     serverInstance(`admin/add-voucher?id=${deleteId}`, 'delete').then((res) => {
-      console.log(res);
       if (res.status === true) {
+        setloader(false);
         Swal.fire('Great!', 'Voucher deleted successfully', 'success');
         setrefetch(true);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
       }
-      console.log(res);
     });
   };
 
@@ -97,13 +98,14 @@ const VoucherManagement = ({ setopendashboard }) => {
   console.log('asss', isData);
 
   const getall_donation = () => {
+    setloader(true);
     serverInstance('user/add-voucher-user', 'get').then((res) => {
       if (res.status) {
+        setloader(false);
         setisData(res.data);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
       }
-      console.log(res);
     });
   };
 
@@ -412,13 +414,7 @@ const VoucherManagement = ({ setopendashboard }) => {
                       ))}
                     </>
                   ) : (
-                    <>
-                      <TableRow>
-                        <TableCell colSpan={6} align="center">
-                          <ReactSpinner />
-                        </TableCell>
-                      </TableRow>
-                    </>
+                    <></>
                   )}
                 </TableBody>
                 <TableFooter>
@@ -451,6 +447,8 @@ const VoucherManagement = ({ setopendashboard }) => {
           </>
         )}
       </div>
+
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

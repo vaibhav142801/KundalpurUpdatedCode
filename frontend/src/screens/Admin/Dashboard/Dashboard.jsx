@@ -10,11 +10,13 @@ import ManaulTotal from '../TotalDashboardFun/ManaulTotal';
 import OnlineTotal from '../TotalDashboardFun/OnlineTotal';
 import EmpelecTotal from '../TotalDashboardFun/EmpelecTotal';
 import EmpmanulTotal from '../TotalDashboardFun/EmpmanulTotal';
+import LoadingSpinner1 from '../../../components/Loading/LoadingSpinner1';
 import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 
 const Dashboard = ({ setopendashboard }) => {
   const navigate = useNavigate();
+  const [loader, setloader] = useState(false);
   const [empid, setempid] = useState('');
   const [userrole, setuserrole] = useState('');
   const [emproleid, setemproleid] = useState('');
@@ -25,36 +27,51 @@ const Dashboard = ({ setopendashboard }) => {
   const [isData5, setisData5] = useState('');
   const getallelec = () => {
     serverInstance('admin/dash-admin-total-elec', 'get').then((res) => {
-      console.log('ele data', res.data.data);
-      setisData1(res.data.data);
+      setloader(true);
+      if (res.data.data) {
+        setloader(false);
+        setisData1(res.data.data);
+      }
     });
   };
 
   const getallmanual = () => {
     serverInstance('admin/dash-admin-total-manual', 'get').then((res) => {
-      console.log('ele data', res.data.data);
-      setisData2(res.data.data);
+      setloader(true);
+      if (res.data.data) {
+        setloader(false);
+        setisData2(res.data.data);
+      }
     });
   };
 
   const getallonline = () => {
     serverInstance('admin/dash-admin-total-online', 'get').then((res) => {
-      console.log('ele data', res.data.data);
-      setisData3(res.data.data);
+      setloader(true);
+      if (res.data.data) {
+        setloader(false);
+        setisData3(res.data.data);
+      }
     });
   };
 
   const getallempelec = () => {
     serverInstance('admin/dash-employee-total-elec', 'get').then((res) => {
-      console.log('ele data', res.data.data);
-      setisData4(res.data.data);
+      setloader(true);
+      if (res.data.data) {
+        setloader(false);
+        setisData4(res.data.data);
+      }
     });
   };
 
   const getallempmanual = () => {
     serverInstance('admin/dash-employee-total-manual', 'get').then((res) => {
-      console.log('ele data', res.data.data);
-      setisData5(res.data.data);
+      setloader(true);
+      if (res.data.data) {
+        setloader(false);
+        setisData4(res.data.data);
+      }
     });
   };
 
@@ -329,6 +346,7 @@ const Dashboard = ({ setopendashboard }) => {
       </div>
 
       <DashbordTap setopendashboard={setopendashboard} />
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

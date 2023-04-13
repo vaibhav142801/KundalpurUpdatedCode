@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { serverInstance } from '../../../../../API/ServerInstance';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import EditIcon from '@mui/icons-material/Edit';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -15,12 +12,9 @@ import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
 import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import PrintIcon from '@mui/icons-material/Print';
 import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
 import ChangeStatus from './ChangeStatus';
-import SimCardAlertIcon from '@mui/icons-material/SimCardAlert';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import DownloadIcon from '@mui/icons-material/Download';
 import exportFromJSON from 'export-from-json';
 import axios from 'axios';
@@ -42,6 +36,7 @@ import PrintOnline from '../../../compoments/PrintOnline';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import OnlineTap from '../OnlineTap';
+import LoadingSpinner1 from '../../../../../components/Loading/LoadingSpinner1';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -110,6 +105,7 @@ const style = {
   borderRadius: '5px',
 };
 const Cheque = ({ setopendashboard }) => {
+  const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [isDataDummy, setisDataDummy] = React.useState([]);
   const [page, setPage] = useState(0);
@@ -148,6 +144,7 @@ const Cheque = ({ setopendashboard }) => {
   const handleClose = () => setOpen(false);
 
   const getall_donation = () => {
+    setloader(true);
     setdatefrom('');
     setdateto('');
     setvoucherfrom('');
@@ -155,6 +152,7 @@ const Cheque = ({ setopendashboard }) => {
     setsearchvalue('');
     serverInstance('admin/donation-list', 'get').then((res) => {
       if (res.status) {
+        setloader(false);
         let filterData = res.data.filter(
           (item) => item.MODE_OF_DONATION === 'CHEQUE',
         );
@@ -210,6 +208,7 @@ const Cheque = ({ setopendashboard }) => {
   };
 
   const filterdata = async () => {
+    setloader(true);
     axios.defaults.headers.get[
       'Authorization'
     ] = `Bearer ${sessionStorage.getItem('token')}`;
@@ -219,6 +218,7 @@ const Cheque = ({ setopendashboard }) => {
       );
 
       if (res.data.status) {
+        setloader(false);
         setisData(res.data.data);
         setisDataDummy(res.data.data);
       }
@@ -228,6 +228,7 @@ const Cheque = ({ setopendashboard }) => {
       );
 
       if (res.data.status) {
+        setloader(false);
         setisData(res.data.data);
         setisDataDummy(res.data.data);
       }
@@ -744,18 +745,13 @@ const Cheque = ({ setopendashboard }) => {
                       'aria-label': 'page number',
                     },
                   }}
-                  // showFirstButton={true}
-                  // showLastButton={true}
-                  //ActionsComponent={TablePaginationActions}
-                  //component={Box}
-                  //sx and classes prop discussed in styling section
                 />
               </TableRow>
             </TableFooter>
           </Table>
-          {/* </TableContainer> */}
         </div>
       </div>
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

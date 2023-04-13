@@ -20,7 +20,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import Delete from '../../../../assets/Delete.png';
 import Edit from '../../../../assets/Edit.png';
 import { Button } from '@mui/material';
@@ -45,6 +45,7 @@ const style = {
 };
 
 function IntemMaster() {
+  const [loader, setloader] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -103,13 +104,15 @@ function IntemMaster() {
 
   const getall_donatiions = () => {
     try {
+      setloader(true);
       serverInstance(`admin/donation-type?type=2`, 'get').then((res) => {
         if (res.status === true) {
           setisData(res.data);
+          setloader(false);
         } else {
           Swal('Error', 'somthing went  wrong', 'error');
+          setloader(false);
         }
-        console.log('ss', res);
       });
     } catch (error) {
       Swal.fire('Error!', error, 'error');
@@ -411,17 +414,14 @@ function IntemMaster() {
                       'aria-label': 'page number',
                     },
                   }}
-                  // showFirstButton={true}
-                  // showLastButton={true}
-                  //ActionsComponent={TablePaginationActions}
-                  //component={Box}
-                  //sx and classes prop discussed in styling section
                 />
               </TableRow>
             </TableFooter>
           </Table>
         </div>
       </div>
+
+      {loader && <LoadingSpinner1 />}
     </>
   );
 }

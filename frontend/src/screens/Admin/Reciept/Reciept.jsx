@@ -48,8 +48,6 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
       ).then((res) => {
         if (res.status) {
           setisData(res.data);
-
-          console.log('dddd', res.data);
         }
       });
     }

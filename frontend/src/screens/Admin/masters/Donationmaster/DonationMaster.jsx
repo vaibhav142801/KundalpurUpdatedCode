@@ -30,6 +30,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 const style = {
   position: 'absolute',
   top: '40%',
@@ -43,6 +44,7 @@ const style = {
 };
 import './DonationMaster.css';
 function DonationMaster() {
+  const [loader, setloader] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -100,13 +102,15 @@ function DonationMaster() {
 
   const getall_donatiions = () => {
     try {
+      setloader(true);
       serverInstance(`admin/donation-type?type=1`, 'get').then((res) => {
         if (res.status === true) {
           setisData(res.data);
+          setloader(false);
         } else {
           Swal('Error', 'somthing went  wrong', 'error');
+          setloader(false);
         }
-        console.log('ss', res);
       });
     } catch (error) {
       Swal.fire('Error!', error, 'error');
@@ -145,6 +149,7 @@ function DonationMaster() {
         Swal('Error', 'somthing went  wrong', 'error');
       });
   };
+
   const deacivateAndactivateuser = async (id) => {
     try {
       if (!manageActivation) {
@@ -430,6 +435,8 @@ function DonationMaster() {
           </Table>
         </div>
       </div>
+
+      {loader && <LoadingSpinner1 />}
     </>
   );
 }

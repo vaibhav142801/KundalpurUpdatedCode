@@ -14,6 +14,7 @@ import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import PrintAlladmin from '../Dashboard/PrintAll/PrintAlladmin';
+import LoadingSpinner1 from '../../../components/Loading/LoadingSpinner1';
 import Tooltip from '@mui/material/Tooltip';
 const style5 = {
   position: 'absolute',
@@ -28,6 +29,7 @@ const style5 = {
   borderRadius: '15px',
 };
 const DashbordTap = ({ setopendashboard }) => {
+  const [loader, setloader] = useState(false);
   const [empid, setempid] = useState('');
   const [userrole, setuserrole] = useState('');
   const [open5, setOpen5] = React.useState(false);
@@ -74,7 +76,10 @@ const DashbordTap = ({ setopendashboard }) => {
                   </Tooltip>
                 </div>
               </div>
-              <Donation setopendashboard={setopendashboard} />
+              <Donation
+                setopendashboard={setopendashboard}
+                setloader={setloader}
+              />
             </div>
             <div style={{ marginBottom: '2rem' }}>
               <ManualDonation setopendashboard={setopendashboard} />
@@ -166,6 +171,8 @@ const DashbordTap = ({ setopendashboard }) => {
           </>
         )}
       </div>
+
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

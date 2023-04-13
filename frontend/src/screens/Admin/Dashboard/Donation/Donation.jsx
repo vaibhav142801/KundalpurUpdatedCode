@@ -16,7 +16,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { useReactToPrint } from 'react-to-print';
 import './DonationStyle.css';
-const Donation = () => {
+const Donation = ({ setloader }) => {
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
@@ -83,9 +83,12 @@ const Donation = () => {
   };
 
   const getalldata = () => {
+    setloader(true);
     serverInstance('admin/dash-admin-total-elec', 'get').then((res) => {
-      console.log('ele data', res.data.data);
-      setisData(res.data.data);
+      if (res.data.data) {
+        setloader(false);
+        setisData(res.data.data);
+      }
     });
   };
 

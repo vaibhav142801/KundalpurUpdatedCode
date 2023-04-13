@@ -38,7 +38,7 @@ import SystemTap from '../SystemTap';
 import { ReactSpinner } from 'react-spinning-wheel';
 import 'react-spinning-wheel/dist/style.css';
 import './UserManagement.css';
-import LoadingSpinner from '../../../../components/Loading/LoadingSpinner';
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 const style = {
   position: 'absolute',
   top: '48%',
@@ -193,11 +193,13 @@ const UserManagement = ({ setopendashboard }) => {
   };
 
   const filterdata = async () => {
+    setIsLoading(true);
     serverInstance(
       `admin/add-employee?name=${name}&phone=${phoneno}',
       'get`,
     ).then((res) => {
       if (res.data) {
+        setIsLoading(false);
         setisData(res.data);
       }
     });
@@ -454,7 +456,7 @@ const UserManagement = ({ setopendashboard }) => {
           </div>
         </div>
       </div>
-      {isLoading ? <LoadingSpinner /> : <></>}
+      {isLoading ? <LoadingSpinner1 /> : <></>}
     </>
   );
 };

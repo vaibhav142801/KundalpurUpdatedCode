@@ -12,7 +12,6 @@ import TablePagination from '@mui/material/TablePagination';
 import { Box, Button } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-
 import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -24,7 +23,7 @@ import Edit from '../../../../assets/Edit.png';
 import eye from '../../../../assets/eye.png';
 import Delete from '../../../../assets/Delete.png';
 import Tooltip from '@mui/material/Tooltip';
-
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import IconButton from '@mui/material/IconButton';
 import { backendApiUrl } from '../../../../config/config';
 import axios from 'axios';
@@ -32,7 +31,6 @@ import AddFacForm from './AddFacForm';
 import Typography from '@mui/material/Typography';
 import UpdateFac from './UpdateFac';
 import CloseIcon from '@mui/icons-material/Close';
-
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -51,7 +49,7 @@ const style = {
 };
 
 const AddFacilities = ({ setopendashboard }) => {
-  const navigation = useNavigate();
+  const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -98,9 +96,11 @@ const AddFacilities = ({ setopendashboard }) => {
     hour12: true,
   });
   const getall_donation = () => {
+    setloader(true);
     serverInstance('room/facility', 'get').then((res) => {
       console.log(res.data);
       if (res.data) {
+        setloader(false);
         setisData(res.data);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
@@ -397,6 +397,7 @@ const AddFacilities = ({ setopendashboard }) => {
           </Table>
         </div>
       </div>
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

@@ -9,18 +9,20 @@ const ElectronicTotal = ({ data }) => {
   if (data) {
     data &&
       data.map((item, inx) => {
-        totalAmount =
-          totalAmount +
-          item.elecItemDetails.reduce(
-            (n, { amount }) => parseFloat(n) + parseFloat(amount),
-            0,
-          );
+        if (item.isActive === true) {
+          totalAmount =
+            totalAmount +
+            item.elecItemDetails.reduce(
+              (n, { amount }) => Number(n) + parseFloat(amount),
+              0,
+            );
+        }
       });
   }
   const converter = new Converter(hiIN);
   return (
     <>
-      <span>{'₹' + totalAmount + '/-'}</span>
+      <span>{'₹' + Math.floor(totalAmount) + '/-'}</span>
     </>
   );
 };

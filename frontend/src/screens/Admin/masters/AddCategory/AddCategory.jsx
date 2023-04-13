@@ -32,7 +32,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import UpdateCategory from './UpdateCategory';
-
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 const style = {
   position: 'absolute',
   top: '40%',
@@ -47,6 +47,7 @@ const style = {
 
 const AddCategory = ({ setopendashboard }) => {
   const navigation = useNavigate();
+  const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -93,9 +94,10 @@ const AddCategory = ({ setopendashboard }) => {
     hour12: true,
   });
   const getall_donation = () => {
+    setloader(true);
     serverInstance('room/category', 'get').then((res) => {
-      console.log('cate', res.data);
       if (res.data) {
+        setloader(false);
         setisData(res.data);
       }
     });
@@ -379,6 +381,7 @@ const AddCategory = ({ setopendashboard }) => {
           </Table>
         </div>
       </div>
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

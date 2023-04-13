@@ -21,7 +21,6 @@ const CashRecipt = ({ setopendashboard, setshowreciept }) => {
   const [isData, setisData] = React.useState(null);
   const navigation = useNavigate();
   const { user } = useSelector((state) => state.userReducer);
-  console.log('data form', isData);
 
   function printDiv() {
     navigation('/admin-panel/printContentmanul', {

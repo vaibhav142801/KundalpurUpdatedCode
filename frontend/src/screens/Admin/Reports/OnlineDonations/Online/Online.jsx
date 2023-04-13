@@ -19,16 +19,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
 import DownloadIcon from '@mui/icons-material/Download';
-import CircularProgress from '@mui/material/CircularProgress';
 import { ExportPdfUser } from '../../../compoments/ExportPdf';
 import axios from 'axios';
 import { backendApiUrl } from '../../../../../config/config';
 import Print from '../../../../../assets/Print.png';
 import ExportPdf from '../../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../../assets/ExportExcel.png';
-import Edit from '../../../../../assets/Edit.png';
-import eye from '../../../../../assets/eye.png';
-import './Online.css';
 import { ExportPdfmanulElectronic } from '../../../compoments/ExportPdf';
 import OnlineTotal from '../../../compoments/OnlineTotal';
 import { styled, alpha } from '@mui/material/styles';
@@ -37,12 +33,12 @@ import InputBase from '@mui/material/InputBase';
 import PrintOnline from '../../../compoments/PrintOnline';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-
+import LoadingSpinner1 from '../../../../../components/Loading/LoadingSpinner1';
 import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
-
 import Fade from '@mui/material/Fade';
 import OnlineTap from '../OnlineTap';
+import './Online.css';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -99,6 +95,7 @@ const style5 = {
 };
 const Online = ({ setopendashboard }) => {
   const navigation = useNavigate();
+  const [loader, setloader] = useState(false);
   const [isDataDummy, setisDataDummy] = React.useState([]);
   const [isData, setisData] = React.useState('');
   const [filterstate, setfilterstate] = useState(false);
@@ -152,12 +149,14 @@ const Online = ({ setopendashboard }) => {
   };
 
   const getall_donation = () => {
+    setloader(true);
     setvoucherfrom('');
     setvoucherto('');
     setdatefrom('');
     setdateto('');
     serverInstance('admin/donation-list', 'get').then((res) => {
       if (res.status) {
+        setloader(false);
         // let filterData = res.data.filter(
         //   (item) =>
         //     item.MODE_OF_DONATION === 'ONLINE' && item?.PAYMENT_STATUS === true,
@@ -230,6 +229,7 @@ const Online = ({ setopendashboard }) => {
     }
   };
   const filterdata = async () => {
+    setloader(true);
     axios.defaults.headers.get[
       'Authorization'
     ] = `Bearer ${sessionStorage.getItem('token')}`;
@@ -239,6 +239,7 @@ const Online = ({ setopendashboard }) => {
       );
 
       if (res.data.status) {
+        setloader(false);
         let filterData = res.data.data.filter(
           (item) => item?.PAYMENT_STATUS === true,
         );
@@ -251,11 +252,12 @@ const Online = ({ setopendashboard }) => {
       );
 
       if (res.data.status) {
-        // let filterData = res.data.data.filter(
-        //   (item) => item?.PAYMENT_STATUS === true,
-        // );
-        setisData(res.data.data);
-        setisDataDummy(res.data.data);
+        setloader(false);
+        let filterData = res.data.data.filter(
+          (item) => item?.PAYMENT_STATUS === true,
+        );
+        setisData(filterData);
+        setisDataDummy(filterData);
       }
     }
   };
@@ -320,6 +322,375 @@ const Online = ({ setopendashboard }) => {
 
     setisData(filtered);
   }, [phone, receiptNo, date, name, address, type, amount, remark, payment]);
+
+  const [currentSort, setcurrentSort] = useState('sort');
+  const [currentSort1, setcurrentSort1] = useState('sort');
+  const [currentSort2, setcurrentSort2] = useState('sort');
+  const [currentSort3, setcurrentSort3] = useState('sort');
+  const [currentSort4, setcurrentSort4] = useState('sort');
+  const [currentSort5, setcurrentSort5] = useState('sort');
+  const [currentSort6, setcurrentSort6] = useState('sort');
+  const [currentSort7, setcurrentSort7] = useState('sort');
+  const [currentSort8, setcurrentSort8] = useState('sort');
+
+  const [sortField, setSortField] = useState('');
+  const onSortChange = (sortField) => {
+    let nextSort;
+
+    if (sortField === 'DATE_OF_DAAN') {
+      if (currentSort === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort === 'caret-up') nextSort = 'sort';
+      else if (currentSort === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort(nextSort);
+    }
+    if (sortField === 'RECEIPT_NO') {
+      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort1 === 'caret-up') nextSort = 'sort';
+      else if (currentSort1 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort1(nextSort);
+    }
+
+    if (sortField === 'NAME') {
+      if (currentSort2 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort2 === 'caret-up') nextSort = 'sort';
+      else if (currentSort2 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort2(nextSort);
+    }
+
+    if (sortField === 'ADDRESS') {
+      if (currentSort3 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort3 === 'caret-up') nextSort = 'sort';
+      else if (currentSort3 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort3(nextSort);
+    }
+    if (sortField === 'MobileNo') {
+      if (currentSort4 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort4 === 'caret-up') nextSort = 'sort';
+      else if (currentSort4 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort4(nextSort);
+    }
+    if (sortField === 'TYPE') {
+      if (currentSort5 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort5 === 'caret-up') nextSort = 'sort';
+      else if (currentSort5 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort5(nextSort);
+    }
+
+    if (sortField === 'AMOUNT') {
+      if (currentSort6 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort6 === 'caret-up') nextSort = 'sort';
+      else if (currentSort6 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort6(nextSort);
+    }
+
+    if (sortField === 'PAYMENT_ID') {
+      if (currentSort7 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort7 === 'caret-up') nextSort = 'sort';
+      else if (currentSort7 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort7(nextSort);
+    }
+    if (sortField === 'REMARK') {
+      if (currentSort8 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort8 === 'caret-up') nextSort = 'sort';
+      else if (currentSort8 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort8(nextSort);
+    }
+  };
+
+  useEffect(() => {
+    if (sortField === 'DATE_OF_DAAN') {
+      if (currentSort === 'caret-up') {
+        isData.sort((a, b) => {
+          let da = new Date(a[sortField]),
+            db = new Date(b[sortField]);
+          return db - da;
+        });
+      } else if (currentSort === 'caret-down') {
+        isData.sort((a, b) => {
+          let da = new Date(a[sortField]),
+            db = new Date(b[sortField]);
+          return da - db;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'RECEIPT_NO') {
+      if (currentSort1 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort1 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'NAME') {
+      if (currentSort2 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort2 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'ADDRESS') {
+      if (currentSort3 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort3 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'MobileNo') {
+      if (currentSort4 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort4 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'TYPE') {
+      if (currentSort5 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort5 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'AMOUNT') {
+      if (currentSort6 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort6 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'PAYMENT_ID') {
+      if (currentSort7 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort7 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'REMARK') {
+      if (currentSort8 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort8 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+  }, [
+    currentSort,
+    currentSort1,
+    currentSort2,
+    currentSort3,
+    currentSort4,
+    currentSort5,
+    currentSort6,
+    currentSort7,
+    currentSort8,
+  ]);
   return (
     <>
       <Modal
@@ -498,21 +869,78 @@ const Online = ({ setopendashboard }) => {
           >
             <TableHead style={{ background: '#F1F0F0' }}>
               <TableRow>
-                <TableCell>Receipt No</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Name </TableCell>
-                <TableCell>Address</TableCell>
-                <TableCell>Mobile</TableCell>
-                <TableCell>Donation Type</TableCell>
-                <TableCell>Amount</TableCell>
-                <TableCell>Payment id</TableCell>
-                <TableCell>Remark</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Action</TableCell>
+                <TableCell>
+                  Date{' '}
+                  <Button onClick={() => onSortChange('DATE_OF_DAAN')}>
+                    <i class={`fa fa-${currentSort}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Receipt No{' '}
+                  <Button onClick={() => onSortChange('RECEIPT_NO')}>
+                    <i class={`fa fa-${currentSort1}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Name{' '}
+                  <Button onClick={() => onSortChange('NAME')}>
+                    <i class={`fa fa-${currentSort2}`} />
+                  </Button>{' '}
+                </TableCell>
+                <TableCell>
+                  Address{' '}
+                  <Button onClick={() => onSortChange('ADDRESS')}>
+                    <i class={`fa fa-${currentSort3}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Mobile{' '}
+                  <Button onClick={() => onSortChange('MobileNo')}>
+                    <i class={`fa fa-${currentSort4}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Donation Type{' '}
+                  <Button onClick={() => onSortChange('TYPE')}>
+                    <i class={`fa fa-${currentSort5}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Amount{' '}
+                  <Button onClick={() => onSortChange('AMOUNT')}>
+                    <i class={`fa fa-${currentSort6}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Payment id{' '}
+                  <Button onClick={() => onSortChange('PAYMENT_ID')}>
+                    <i class={`fa fa-${currentSort7}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Remark{' '}
+                  <Button onClick={() => onSortChange('REMARK')}>
+                    <i class={`fa fa-${currentSort8}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Status <Button>&nbsp;</Button>
+                </TableCell>
+                <TableCell>
+                  Action <Button>&nbsp;</Button>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'Date')}
+                    placeholder="Search Date"
+                  />
+                </TableCell>
                 <TableCell>
                   <input
                     className="cuolms_search"
@@ -523,14 +951,7 @@ const Online = ({ setopendashboard }) => {
                     placeholder="Search Receipt No"
                   />
                 </TableCell>
-                <TableCell>
-                  <input
-                    className="cuolms_search"
-                    type="date"
-                    onChange={(e) => onSearchByOther(e, 'Date')}
-                    placeholder="Search Date"
-                  />
-                </TableCell>
+
                 <TableCell>
                   <input
                     className="cuolms_search"
@@ -612,10 +1033,10 @@ const Online = ({ setopendashboard }) => {
                         '&:last-child td, &:last-child th': { border: 0 },
                       }}
                     >
-                      <TableCell>{row?.RECEIPT_NO}</TableCell>
                       <TableCell>
                         {moment(row?.DATE_OF_DAAN).format('DD/MM/YYYY')}
                       </TableCell>
+                      <TableCell>{row?.RECEIPT_NO}</TableCell>
                       <TableCell>{row?.NAME}</TableCell>
                       <TableCell>{row?.ADDRESS}</TableCell>
                       <TableCell>{row?.MobileNo}</TableCell>
@@ -665,23 +1086,18 @@ const Online = ({ setopendashboard }) => {
                     </TableCell>
                     <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>
-                    <TableCell> &nbsp;</TableCell>
                   </TableRow>
                 </>
               ) : (
-                <>
-                  <TableCell colSpan={9} align="center">
-                    <CircularProgress />
-                  </TableCell>
-                </>
+                <></>
               )}
             </TableBody>
             <TableFooter>
               <TableRow>
                 <TablePagination
-                  // count={isData.length}
-                  // rowsPerPage={rowsPerPage}
-                  // page={page}
+                  count={isData.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                   rowsPerPageOptions={[50, 100, 150]}
@@ -698,18 +1114,14 @@ const Online = ({ setopendashboard }) => {
                       'aria-label': 'page number',
                     },
                   }}
-                  // showFirstButton={true}
-                  // showLastButton={true}
-                  //ActionsComponent={TablePaginationActions}
-                  //component={Box}
-                  //sx and classes prop discussed in styling section
                 />
               </TableRow>
             </TableFooter>
           </Table>
-          {/* </TableContainer> */}
         </div>
       </div>
+
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

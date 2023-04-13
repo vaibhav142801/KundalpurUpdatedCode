@@ -24,6 +24,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Updateuser from './Updateuser';
 import Userinfo from './Userinfo';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 const style = {
   position: 'absolute',
   top: '40%',
@@ -39,6 +40,7 @@ const style = {
 import './UserMaster.css';
 
 function UserMaster() {
+  const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState([]);
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
@@ -107,12 +109,13 @@ function UserMaster() {
   };
 
   const getall_users = () => {
+    setloader(true);
     setsearchName('');
     setsearchPhonne('');
     serverInstance('admin/get-users', 'get').then((res) => {
-      console.log('list', res);
       if (res.status) {
         setisData(res.data);
+        setloader(false);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
       }
@@ -150,16 +153,19 @@ function UserMaster() {
 
   const filterdata = async () => {
     try {
+      setloader(true);
       serverInstance(
         `admin/get-users?phone=${searchPhonne}&name=${searchName}`,
         'get',
       ).then((res) => {
-        console.log('filter', res);
-
-        setisData(res.data);
+        if (res?.data) {
+          setloader(false);
+          setisData(res.data);
+        }
       });
     } catch (error) {
       Swal('Error', error, 'error');
+      setloader(false);
     }
   };
   useEffect(() => {
@@ -447,6 +453,8 @@ function UserMaster() {
           </Table>
         </div>
       </div>
+
+      {loader && <LoadingSpinner1 />}
     </>
   );
 }

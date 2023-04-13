@@ -4,25 +4,19 @@ import Swal from 'sweetalert2';
 import { useNavigate, Link } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import EditIcon from '@mui/icons-material/Edit';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
-import CancelIcon from '@mui/icons-material/Cancel';
 import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import PrintIcon from '@mui/icons-material/Print';
 import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
 import Cancel from '../../../compoments/Cancel1';
-import SimCardAlertIcon from '@mui/icons-material/SimCardAlert';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import DownloadIcon from '@mui/icons-material/Download';
 import ClearIcon from '@mui/icons-material/Clear';
 import Moment from 'moment-js';
-import CircularProgress from '@mui/material/CircularProgress';
 import exportFromJSON from 'export-from-json';
 import { ExportPdfmanulElectronic } from '../../../compoments/ExportPdf';
 import UpdateCash from '../../../Donation/ManualDonation/UpdateComponents/UpdateCash';
@@ -33,7 +27,6 @@ import Print from '../../../../../assets/Print.png';
 import ExportPdf from '../../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../../assets/ExportExcel.png';
 import Edit from '../../../../../assets/Edit.png';
-import eye from '../../../../../assets/eye.png';
 import { ReactSpinner } from 'react-spinning-wheel';
 import 'react-spinning-wheel/dist/style.css';
 import ManualTotal from '../../../compoments/ManualTotal';
@@ -46,7 +39,6 @@ import IconButton from '@mui/material/IconButton';
 import axios from 'axios';
 import { backendApiUrl } from '../../../../../config/config';
 import ManualDonationTap from '../ManualDonationTap';
-
 import Delete from '../../../../../assets/Delete.png';
 import { Button } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
@@ -54,6 +46,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import LoadingSpinner1 from '../../../../../components/Loading/LoadingSpinner1';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -139,6 +132,7 @@ const donationColorTheme = {
 
 const ManualItem = ({ setopendashboard }) => {
   const navigation = useNavigate();
+  const [loader, setloader] = useState(false);
   const [emplist, setemplist] = useState('');
   const [isData, setisData] = React.useState('');
   const [isDataDummy, setisDataDummy] = React.useState([]);
@@ -211,6 +205,7 @@ const ManualItem = ({ setopendashboard }) => {
   };
 
   const getall_donation = () => {
+    setloader(true);
     setsearchvalue('');
     setdatefrom('');
     setdateto('');
@@ -218,6 +213,7 @@ const ManualItem = ({ setopendashboard }) => {
     setvoucherto('');
     serverInstance('admin/manual-donation', 'get').then((res) => {
       if (res.status) {
+        setloader(false);
         let filterData = res.data.filter((item) => item.modeOfDonation === '4');
 
         setisData(filterData);
@@ -277,6 +273,7 @@ const ManualItem = ({ setopendashboard }) => {
   };
 
   const filterdata = async () => {
+    setloader(true);
     axios.defaults.headers.get[
       'Authorization'
     ] = `Bearer ${sessionStorage.getItem('token')}`;
@@ -286,6 +283,7 @@ const ManualItem = ({ setopendashboard }) => {
       );
 
       if (res.data.status) {
+        setloader(false);
         setisData(res.data.data);
         setisDataDummy(res.data.data);
       }
@@ -294,9 +292,8 @@ const ManualItem = ({ setopendashboard }) => {
         `${backendApiUrl}user/manual-search-donation?fromDate=${datefrom}&toDate=${dateto}&fromReceipt=${voucherfrom}&toReceipt=${voucherto}&modeOfDonation=${4}`,
       );
 
-      console.log('ss', res.data.data);
-
       if (res.data.status) {
+        setloader(false);
         setisData(res.data.data);
         setisDataDummy(res.data.data);
       }
@@ -497,7 +494,518 @@ const ManualItem = ({ setopendashboard }) => {
     fsize,
     funit,
   ]);
+  const [currentSort, setcurrentSort] = useState('sort');
+  const [currentSort1, setcurrentSort1] = useState('sort');
+  const [currentSort2, setcurrentSort2] = useState('sort');
+  const [currentSort3, setcurrentSort3] = useState('sort');
+  const [currentSort4, setcurrentSort4] = useState('sort');
+  const [currentSort5, setcurrentSort5] = useState('sort');
+  const [currentSort6, setcurrentSort6] = useState('sort');
+  const [currentSort7, setcurrentSort7] = useState('sort');
+  const [currentSort8, setcurrentSort8] = useState('sort');
+  const [currentSort9, setcurrentSort9] = useState('sort');
+  const [currentSort10, setcurrentSort10] = useState('sort');
+  const [currentSort11, setcurrentSort11] = useState('sort');
+  const [currentSort12, setcurrentSort12] = useState('sort');
 
+  const [sortField, setSortField] = useState('');
+  const onSortChange = (sortField) => {
+    let nextSort;
+
+    if (sortField === 'donation_date') {
+      if (currentSort === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort === 'caret-up') nextSort = 'sort';
+      else if (currentSort === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort(nextSort);
+    }
+    if (sortField === 'ReceiptNo') {
+      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort1 === 'caret-up') nextSort = 'sort';
+      else if (currentSort1 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort1(nextSort);
+    }
+
+    if (sortField === 'voucherNo') {
+      if (currentSort2 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort2 === 'caret-up') nextSort = 'sort';
+      else if (currentSort2 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort2(nextSort);
+    }
+
+    if (sortField === 'phoneNo') {
+      if (currentSort3 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort3 === 'caret-up') nextSort = 'sort';
+      else if (currentSort3 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort3(nextSort);
+    }
+    if (sortField === 'name') {
+      if (currentSort4 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort4 === 'caret-up') nextSort = 'sort';
+      else if (currentSort4 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort4(nextSort);
+    }
+    if (sortField === 'address') {
+      if (currentSort5 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort5 === 'caret-up') nextSort = 'sort';
+      else if (currentSort5 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort5(nextSort);
+    }
+
+    if (sortField === 'type') {
+      if (currentSort6 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort6 === 'caret-up') nextSort = 'sort';
+      else if (currentSort6 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort6(nextSort);
+    }
+
+    if (sortField === 'amount') {
+      if (currentSort7 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort7 === 'caret-up') nextSort = 'sort';
+      else if (currentSort7 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort7(nextSort);
+    }
+    if (sortField === 'CreatedBy') {
+      if (currentSort8 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort8 === 'caret-up') nextSort = 'sort';
+      else if (currentSort8 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort8(nextSort);
+    }
+    if (sortField === 'remark') {
+      if (currentSort9 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort9 === 'caret-up') nextSort = 'sort';
+      else if (currentSort9 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort9(nextSort);
+    }
+
+    if (sortField === 'ChequeNo') {
+      if (currentSort9 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort9 === 'caret-up') nextSort = 'sort';
+      else if (currentSort9 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort9(nextSort);
+    }
+
+    if (sortField === 'BankName') {
+      if (currentSort9 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort9 === 'caret-up') nextSort = 'sort';
+      else if (currentSort9 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort9(nextSort);
+    }
+    if (sortField === 'unit') {
+      if (currentSort11 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort11 === 'caret-up') nextSort = 'sort';
+      else if (currentSort11 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort11(nextSort);
+    }
+    if (sortField === 'size') {
+      if (currentSort10 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort10 === 'caret-up') nextSort = 'sort';
+      else if (currentSort10 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort10(nextSort);
+    }
+    if (sortField === 'quantity') {
+      if (currentSort12 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort12 === 'caret-up') nextSort = 'sort';
+      else if (currentSort12 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort12(nextSort);
+    }
+  };
+
+  useEffect(() => {
+    if (sortField === 'donation_date') {
+      if (currentSort === 'caret-up') {
+        isData.sort((a, b) => {
+          let da = new Date(a[sortField]),
+            db = new Date(b[sortField]);
+          return db - da;
+        });
+      } else if (currentSort === 'caret-down') {
+        isData.sort((a, b) => {
+          let da = new Date(a[sortField]),
+            db = new Date(b[sortField]);
+          return da - db;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'ReceiptNo') {
+      if (currentSort1 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort1 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'voucherNo') {
+      if (currentSort2 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort2 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        setisData(defaultdata);
+      }
+    }
+
+    if (sortField === 'phoneNo') {
+      if (currentSort3 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort3 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'name') {
+      if (currentSort4 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort4 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'address') {
+      if (currentSort5 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort5 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'type') {
+      if (currentSort6 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a.address.toLowerCase(),
+            fb = b.address.toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort6 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a.address.toLowerCase(),
+            fb = b.address.toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'amount') {
+      if (currentSort7 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a.address.toLowerCase(),
+            fb = b.address.toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort7 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a.address.toLowerCase(),
+            fb = b.address.toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+    if (sortField === 'CreatedBy') {
+      if (currentSort8 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort8 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+    if (sortField === 'remark') {
+      if (currentSort9 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a.address.toLowerCase(),
+            fb = b.address.toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort9 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a.address.toLowerCase(),
+            fb = b.address.toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'ChequeNo') {
+      if (currentSort11 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a.address.toLowerCase(),
+            fb = b.address.toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort11 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a.address.toLowerCase(),
+            fb = b.address.toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+    if (sortField === 'BankName') {
+      if (currentSort11 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a.address.toLowerCase(),
+            fb = b.address.toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort11 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a.address.toLowerCase(),
+            fb = b.address.toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+  }, [
+    currentSort,
+    currentSort1,
+    currentSort2,
+    currentSort3,
+    currentSort4,
+    currentSort5,
+    currentSort6,
+    currentSort7,
+    currentSort8,
+    currentSort9,
+    currentSort10,
+    currentSort11,
+  ]);
   return (
     <>
       <Dialog
@@ -755,21 +1263,97 @@ const ManualItem = ({ setopendashboard }) => {
           <Table sx={{ width: '100%' }} aria-label="simple table">
             <TableHead style={{ background: '#FFEEE0' }}>
               <TableRow>
-                <TableCell>Date</TableCell>
-                <TableCell>ReceiptNo</TableCell>
+                <TableCell
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    width: '150px',
+                  }}
+                >
+                  Date
+                  <Button onClick={() => onSortChange('donation_date')}>
+                    <i class={`fa fa-${currentSort}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  ReceiptNo{' '}
+                  <Button onClick={() => onSortChange('ReceiptNo')}>
+                    <i class={`fa fa-${currentSort1}`} />
+                  </Button>
+                </TableCell>
 
-                <TableCell>Phone No</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Address</TableCell>
-                <TableCell>Head/Item</TableCell>
-                <TableCell>Amount</TableCell>
+                <TableCell>
+                  Phone No{' '}
+                  <Button onClick={() => onSortChange('phoneNo')}>
+                    <i class={`fa fa-${currentSort3}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Name{' '}
+                  <Button onClick={() => onSortChange('name')}>
+                    <i class={`fa fa-${currentSort4}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Address{' '}
+                  <Button onClick={() => onSortChange('address')}>
+                    <i class={`fa fa-${currentSort5}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Head/Item{' '}
+                  <Button onClick={() => onSortChange('type')}>
+                    <i class={`fa fa-${currentSort6}`} />
+                  </Button>
+                </TableCell>
+                <TableCell
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    width: '150px',
+                  }}
+                >
+                  Amount{' '}
+                  <Button onClick={() => onSortChange('amount')}>
+                    <i class={`fa fa-${currentSort7}`} />
+                  </Button>
+                </TableCell>
                 {/* <TableCell>ItemType</TableCell> */}
-                <TableCell>Size</TableCell>
-                <TableCell>Units</TableCell>
-                <TableCell>Quantity</TableCell>
-                <TableCell>User</TableCell>
-                <TableCell>Remark</TableCell>
-                <TableCell>Action</TableCell>
+                <TableCell>
+                  Size{' '}
+                  <Button onClick={() => onSortChange('size')}>
+                    <i class={`fa fa-${currentSort10}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Units{' '}
+                  <Button onClick={() => onSortChange('unit')}>
+                    <i class={`fa fa-${currentSort11}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Quantity{' '}
+                  <Button onClick={() => onSortChange('quantity')}>
+                    <i class={`fa fa-${currentSort12}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  User{' '}
+                  <Button onClick={() => onSortChange('CreatedBy')}>
+                    <i class={`fa fa-${currentSort8}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Remark{' '}
+                  <Button onClick={() => onSortChange('remark')}>
+                    <i class={`fa fa-${currentSort9}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Action <Button>&nbsp;</Button>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -1078,6 +1662,7 @@ const ManualItem = ({ setopendashboard }) => {
           </Table>
         </div>
       </div>
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

@@ -27,7 +27,9 @@ import Cashtotal from '../AllReport/Totals/Cashtotal';
 import ElecTotal from '../AllReport/Totals/ElecTotal';
 import Itemtotal from '../AllReport/Totals/Itemtotal';
 import Tooltip from '@mui/material/Tooltip';
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 const AllConsolidated = ({ setopendashboard }) => {
+  const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
@@ -129,6 +131,7 @@ const AllConsolidated = ({ setopendashboard }) => {
     exportFromJSON({ data, fileName, exportType });
   };
   const filterdata = async () => {
+    setloader(true);
     axios.defaults.headers.get[
       'Authorization'
     ] = `Bearer ${sessionStorage.getItem('token')}`;
@@ -136,27 +139,31 @@ const AllConsolidated = ({ setopendashboard }) => {
     const res = await axios.get(
       `${backendApiUrl}admin/centralized-report?user=${empId}&fromDate=${datefrom}&toDate=${dateto}&type=${type}`,
     );
-    console.log('filter data is now', res.data.data);
+
     if (res.data.data) {
+      setloader(false);
       setisData(res.data.data);
     }
   };
 
-  const filterHead = async (type) => {
-    axios.defaults.headers.get[
-      'Authorization'
-    ] = `Bearer ${sessionStorage.getItem('token')}`;
+  // const filterHead = async (type) => {
+  //   setloader(true);
+  //   axios.defaults.headers.get[
+  //     'Authorization'
+  //   ] = `Bearer ${sessionStorage.getItem('token')}`;
 
-    const res = await axios.get(
-      `${backendApiUrl}user/searchAllDonation?employeeid=${empId}&type=${type}&fromDate=${datefrom}&toDate=${dateto}`,
-    );
-    console.log('Head data is ', res.data.data);
-    if (res.data.status) {
-      setSearchHead(res.data.data);
-    }
-  };
+  //   const res = await axios.get(
+  //     `${backendApiUrl}user/searchAllDonation?employeeid=${empId}&type=${type}&fromDate=${datefrom}&toDate=${dateto}`,
+  //   );
+
+  //   if (res.data.status) {
+  //     setloader(false);
+  //     setSearchHead(res.data.data);
+  //   }
+  // };
 
   useEffect(() => {
+    filterdata();
     setopendashboard(true);
     getAllEmp();
     gettypehead();
@@ -294,7 +301,8 @@ const AllConsolidated = ({ setopendashboard }) => {
                     >
                       {' '}
                       <TableCell>&nbsp;</TableCell>
-                      <TableCell onClick={() => filterHead(row.type)}>
+                      {/* <TableCell onClick={() => filterHead(row.type)}> */}
+                      <TableCell>
                         {row.employeeName ? row.employeeName : '-'}
                       </TableCell>
                       <TableCell>
@@ -352,11 +360,7 @@ const AllConsolidated = ({ setopendashboard }) => {
                   ))}
                 </>
               ) : (
-                <>
-                  {/* <TableCell colSpan={8} align="center">
-                      <CircularProgress />
-                    </TableCell> */}
-                </>
+                <></>
               )}
               <TableRow>
                 <TableCell> &nbsp;</TableCell>
@@ -546,6 +550,8 @@ const AllConsolidated = ({ setopendashboard }) => {
           </>
         )}
       </div>
+
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

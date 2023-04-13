@@ -8,50 +8,20 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
-import SimCardAlertIcon from '@mui/icons-material/SimCardAlert';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
 import { backendApiUrl } from '../../../../../config/config';
 import axios from 'axios';
-import CircularProgress from '@mui/material/CircularProgress';
 import { ExportPdfmanul } from '../../../compoments/ExportPdf';
 import Print from '../../../../../assets/Print.png';
 import ExportPdf from '../../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../../assets/ExportExcel.png';
-import Edit from '../../../../../assets/Edit.png';
-import eye from '../../../../../assets/eye.png';
 import ManualDonationTap from '../ManualDonationTap';
 import Tooltip from '@mui/material/Tooltip';
-const style = {
-  position: 'absolute',
-  top: '40%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '30%',
-  bgcolor: 'background.paper',
-  p: 2,
-  boxShadow: 24,
-  borderRadius: '5px',
-};
-
-const openupadtestyle = {
-  position: 'absolute',
-  top: '40%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '30%',
-  bgcolor: 'background.paper',
-  p: 2,
-  boxShadow: 24,
-  borderRadius: '5px',
-};
-
-const donationColorTheme = {
-  cash: '#48a828',
-};
-
+import LoadingSpinner1 from '../../../../../components/Loading/LoadingSpinner1';
+import Button from '@mui/material/Button';
 const HeadReport = ({ setopendashboard }) => {
+  const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
@@ -137,6 +107,7 @@ const HeadReport = ({ setopendashboard }) => {
     exportFromJSON({ data, fileName, exportType });
   };
   const filterdata = async () => {
+    setloader(true);
     axios.defaults.headers.get[
       'Authorization'
     ] = `Bearer ${sessionStorage.getItem('token')}`;
@@ -144,13 +115,15 @@ const HeadReport = ({ setopendashboard }) => {
     const res = await axios.get(
       `${backendApiUrl}admin/donation-manual-report?user=${empId}&from=${datefrom}&to=${dateto}`,
     );
-    console.log('filter data is now', res.data.data[0].donations);
+
     if (res.data.data[0].donations) {
+      setloader(false);
       setisData(res.data.data[0].donations);
     }
   };
 
   const filterHead = async (type) => {
+    setloader(true);
     axios.defaults.headers.get[
       'Authorization'
     ] = `Bearer ${sessionStorage.getItem('token')}`;
@@ -158,19 +131,277 @@ const HeadReport = ({ setopendashboard }) => {
     const res = await axios.get(
       `${backendApiUrl}user/manual-searchAllDonation?employeeid=${empId}&type=${type}&fromDate=${datefrom}&toDate=${dateto}`,
     );
-    console.log('Head data is ', res.data.data);
+
     if (res.data.status) {
+      setloader(false);
       setSearchHead(res.data.data);
     }
   };
 
   useEffect(() => {
+    filterdata();
     setopendashboard(true);
     getAllEmp();
 
     setuserrole(Number(sessionStorage.getItem('userrole')));
   }, []);
+  const [currentSort, setcurrentSort] = useState('sort');
+  const [currentSort1, setcurrentSort1] = useState('sort');
+  const [currentSort2, setcurrentSort2] = useState('sort');
+  const [currentSort3, setcurrentSort3] = useState('sort');
+  const [currentSort4, setcurrentSort4] = useState('sort');
+  const [currentSort5, setcurrentSort5] = useState('sort');
 
+  const [sortField, setSortField] = useState('');
+  const onSortChange = (sortField) => {
+    let nextSort;
+
+    if (sortField === 'type') {
+      if (currentSort === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort === 'caret-up') nextSort = 'sort';
+      else if (currentSort === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort(nextSort);
+    }
+    if (sortField === 'count') {
+      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort1 === 'caret-up') nextSort = 'sort';
+      else if (currentSort1 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort1(nextSort);
+    }
+
+    if (sortField === 'cheque_amount') {
+      if (currentSort2 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort2 === 'caret-up') nextSort = 'sort';
+      else if (currentSort2 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort2(nextSort);
+    }
+
+    if (sortField === 'electric_amount') {
+      if (currentSort3 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort3 === 'caret-up') nextSort = 'sort';
+      else if (currentSort3 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort3(nextSort);
+    }
+    if (sortField === 'item_amount') {
+      if (currentSort4 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort4 === 'caret-up') nextSort = 'sort';
+      else if (currentSort4 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort4(nextSort);
+    }
+    if (sortField === 'cash_amount') {
+      if (currentSort5 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort5 === 'caret-up') nextSort = 'sort';
+      else if (currentSort5 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort5(nextSort);
+    }
+  };
+
+  useEffect(() => {
+    if (sortField === 'type') {
+      if (currentSort1 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort1 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        filterdata();
+      }
+    }
+
+    if (sortField === 'count') {
+      if (currentSort1 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort1 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        filterdata();
+      }
+    }
+
+    if (sortField === 'cheque_amount') {
+      if (currentSort2 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort2 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        filterdata();
+      }
+    }
+
+    if (sortField === 'electric_amount') {
+      if (currentSort3 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort3 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        filterdata();
+      }
+    }
+
+    if (sortField === 'item_amount') {
+      if (currentSort4 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort4 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        filterdata();
+      }
+    }
+
+    if (sortField === 'cash_amount') {
+      if (currentSort5 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort5 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        filterdata();
+      }
+    }
+  }, [
+    currentSort,
+    currentSort1,
+    currentSort2,
+    currentSort3,
+    currentSort4,
+    currentSort5,
+  ]);
   return (
     <>
       <ManualDonationTap setopendashboard={setopendashboard} />
@@ -248,12 +479,42 @@ const HeadReport = ({ setopendashboard }) => {
           >
             <TableHead style={{ background: '#FFEEE0' }}>
               <TableRow>
-                <TableCell>Head Name</TableCell>
-                <TableCell>Count </TableCell>
-                <TableCell>Amount Cheque</TableCell>
-                <TableCell>Amount Electronic</TableCell>
-                <TableCell>Amount Item</TableCell>
-                <TableCell>Amount Cash</TableCell>
+                <TableCell>
+                  Head Name{' '}
+                  <Button onClick={() => onSortChange('type')}>
+                    <i class={`fa fa-${currentSort}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Count{' '}
+                  <Button onClick={() => onSortChange('count')}>
+                    <i class={`fa fa-${currentSort1}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Amount Cheque{' '}
+                  <Button onClick={() => onSortChange('cheque_amount')}>
+                    <i class={`fa fa-${currentSort2}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Amount Electronic{' '}
+                  <Button onClick={() => onSortChange('electric_amount')}>
+                    <i class={`fa fa-${currentSort3}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Amount Item{' '}
+                  <Button onClick={() => onSortChange('item_amount')}>
+                    <i class={`fa fa-${currentSort4}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Amount Cash{' '}
+                  <Button onClick={() => onSortChange('cash_amount')}>
+                    <i class={`fa fa-${currentSort5}`} />
+                  </Button>
+                </TableCell>
                 <TableCell style={{ fontWeight: 700 }}>Total</TableCell>
               </TableRow>
             </TableHead>
@@ -512,6 +773,7 @@ const HeadReport = ({ setopendashboard }) => {
           </>
         )}
       </div>
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

@@ -15,6 +15,7 @@ import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
 import './VoucherManagement.css';
 import CancelVoucher from './CancelVoucher';
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 const style = {
   position: 'absolute',
   top: '40%',
@@ -29,6 +30,7 @@ const style = {
 const ParticularUserVoucher = ({ setopendashboard }) => {
   const location = useLocation();
   const navigation = useNavigate();
+  const [loader, setloader] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [isData, setisData] = useState('');
@@ -54,14 +56,17 @@ const ParticularUserVoucher = ({ setopendashboard }) => {
   useEffect(() => {
     if (location.state) {
       setData(location.state?.userdata);
-
+      setloader(true);
       serverInstance(
         `admin/allocated-vouchers?userId=${Number(
           location.state?.userdata?.assign,
+        )}&from=${Number(location.state?.userdata?.from)}&to=${Number(
+          location.state?.userdata?.to,
         )}`,
         'get',
       ).then((res) => {
         if (res.status) {
+          setloader(false);
           setisData(res.data);
         } else {
           Swal('Error', 'somthing went  wrong', 'error');
@@ -116,9 +121,7 @@ const ParticularUserVoucher = ({ setopendashboard }) => {
                 <TableRow>
                   <TableCell align="center">S.No</TableCell>
                   <TableCell align="center">Empoyee Name</TableCell>
-
                   <TableCell align="center">Voucher Number</TableCell>
-
                   <TableCell align="center">Status</TableCell>
                   <TableCell align="center">Remark</TableCell>
                   <TableCell align="center">Action</TableCell>
@@ -209,6 +212,7 @@ const ParticularUserVoucher = ({ setopendashboard }) => {
           </div>
         </div>
       </div>
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

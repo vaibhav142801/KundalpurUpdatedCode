@@ -2,61 +2,26 @@ import React, { useEffect, useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { serverInstance } from '../../../../../API/ServerInstance';
 import Swal from 'sweetalert2';
-import { useNavigate, Link } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import EditIcon from '@mui/icons-material/Edit';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
-import SimCardAlertIcon from '@mui/icons-material/SimCardAlert';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
-import { backendApiUrl } from '../../../../../config/config';
-import axios from 'axios';
-import CircularProgress from '@mui/material/CircularProgress';
-import { ReactSpinner } from 'react-spinning-wheel';
-import 'react-spinning-wheel/dist/style.css';
 import { ExportPdfmanul } from '../../../compoments/ExportPdf';
 import Print from '../../../../../assets/Print.png';
 import ExportPdf from '../../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../../assets/ExportExcel.png';
-import Edit from '../../../../../assets/Edit.png';
-import eye from '../../../../../assets/eye.png';
 import DonationReportTap from '../DonationReportTap';
-const style = {
-  position: 'absolute',
-  top: '40%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '30%',
-  bgcolor: 'background.paper',
-  p: 2,
-  boxShadow: 24,
-  borderRadius: '5px',
-};
-
-const openupadtestyle = {
-  position: 'absolute',
-  top: '40%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '30%',
-  bgcolor: 'background.paper',
-  p: 2,
-  boxShadow: 24,
-  borderRadius: '5px',
-};
-
-const donationColorTheme = {
-  cash: '#48a828',
-};
+import LoadingSpinner1 from '../../../../../components/Loading/LoadingSpinner1';
+import Button from '@mui/material/Button';
 
 const Consolidated = ({ setopendashboard }) => {
   let filterData;
+  const [loader, setloader] = useState(false);
   const [empid, setempid] = useState('');
   const [emproleid, setemproleid] = useState('');
   const [isData, setisData] = React.useState('');
@@ -65,11 +30,7 @@ const Consolidated = ({ setopendashboard }) => {
   const [showalert, setshowalert] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [openupdate, setopenupdate] = useState(false);
-  const [phone, setphone] = useState('');
-  const [date, setdate] = useState('');
-  const [name, setname] = useState('');
   const [donationTypes, setDonationTypes] = useState([]);
-  const [showsearchData, setshowsearchData] = useState(false);
   const [typeid, settypeid] = useState('');
   const [empylist, setempylist] = useState('');
   const [empylist1, setempylist1] = useState('');
@@ -140,8 +101,10 @@ const Consolidated = ({ setopendashboard }) => {
     });
   };
   const getAllDonationDetails = () => {
+    setloader(true);
     serverInstance('admin/user-report  ', 'get').then((res) => {
       if (res.data) {
+        setloader(false);
         if (userrole === 3) {
           if (emproleid === 0) {
             setempylist(res.data);
@@ -164,14 +127,183 @@ const Consolidated = ({ setopendashboard }) => {
     setemproleid(Number(sessionStorage.getItem('empRoleid')));
     setempid(Number(sessionStorage.getItem('empid')));
   }, [showalert, openupdate, open, empid]);
+  const [currentSort, setcurrentSort] = useState('sort');
+  const [currentSort1, setcurrentSort1] = useState('sort');
+  const [currentSort2, setcurrentSort2] = useState('sort');
+  const [currentSort3, setcurrentSort3] = useState('sort');
 
+  const [sortField, setSortField] = useState('');
+  const onSortChange = (sortField) => {
+    let nextSort;
+
+    if (sortField === 'created_by') {
+      if (currentSort === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort === 'caret-up') nextSort = 'sort';
+      else if (currentSort === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort(nextSort);
+    }
+    if (sortField === 'donation_date') {
+      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort1 === 'caret-up') nextSort = 'sort';
+      else if (currentSort1 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort1(nextSort);
+    }
+
+    if (sortField === 'name') {
+      if (currentSort2 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort2 === 'caret-up') nextSort = 'sort';
+      else if (currentSort2 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort2(nextSort);
+    }
+
+    if (sortField === 'totalDonationAmount') {
+      if (currentSort3 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort3 === 'caret-up') nextSort = 'sort';
+      else if (currentSort3 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort3(nextSort);
+    }
+  };
+
+  useEffect(() => {
+    if (sortField === 'created_by') {
+      if (currentSort === 'caret-up') {
+        empylist.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort === 'caret-down') {
+        empylist.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getAllDonationDetails();
+      }
+    }
+
+    if (sortField === 'donation_date') {
+      if (currentSort1 === 'caret-up') {
+        empylist.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort1 === 'caret-down') {
+        empylist.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getAllDonationDetails();
+      }
+    }
+
+    if (sortField === 'name') {
+      if (currentSort2 === 'caret-up') {
+        empylist.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort2 === 'caret-down') {
+        empylist.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getAllDonationDetails();
+      }
+    }
+
+    if (sortField === 'totalDonationAmount') {
+      if (currentSort3 === 'caret-up') {
+        empylist.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort3 === 'caret-down') {
+        empylist.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getAllDonationDetails();
+      }
+    }
+  }, [currentSort, currentSort1, currentSort2, currentSort3]);
   return (
     <>
       <DonationReportTap setopendashboard={setopendashboard} />
       <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
         <div className="search-header">
           <div className="search-inner-div-reports">
-            <input type="date" />
+            {/* <input type="date" />
             <input type="date" />
             <select
               name="cars"
@@ -193,7 +325,8 @@ const Consolidated = ({ setopendashboard }) => {
                 ))}
             </select>
             <button onClick={() => filterdata()}>Search</button>
-            <button onClick={() => getall_donation()}>Reset</button>
+            <button onClick={() => getall_donation()}>Reset</button> */}
+            <div style={{ width: '80%' }} />
             <Tooltip title="Print">
               <img src={Print} alt="ss" style={{ width: '30px' }} />
             </Tooltip>
@@ -226,10 +359,30 @@ const Consolidated = ({ setopendashboard }) => {
         <Table sx={{ width: '100%' }} aria-label="simple table">
           <TableHead style={{ background: '#FFEEE0' }}>
             <TableRow>
-              <TableCell>S.No</TableCell>
-              <TableCell>Date </TableCell>
-              <TableCell>User</TableCell>
-              <TableCell>Amount</TableCell>
+              <TableCell>
+                S.No{' '}
+                <Button onClick={() => onSortChange('created_by')}>
+                  <i class={`fa fa-${currentSort}`} />
+                </Button>
+              </TableCell>
+              <TableCell>
+                Date{' '}
+                <Button onClick={() => onSortChange('donation_date')}>
+                  <i class={`fa fa-${currentSort1}`} />
+                </Button>{' '}
+              </TableCell>
+              <TableCell>
+                User{' '}
+                <Button onClick={() => onSortChange('name')}>
+                  <i class={`fa fa-${currentSort2}`} />
+                </Button>
+              </TableCell>
+              <TableCell>
+                Amount{' '}
+                <Button onClick={() => onSortChange('totalDonationAmount')}>
+                  <i class={`fa fa-${currentSort3}`} />
+                </Button>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -260,11 +413,7 @@ const Consolidated = ({ setopendashboard }) => {
                 ))}
               </>
             ) : (
-              <>
-                <TableCell colSpan={8} align="center">
-                  <ReactSpinner />
-                </TableCell>
-              </>
+              <></>
             )}
           </TableBody>
           <TableFooter>
@@ -294,6 +443,7 @@ const Consolidated = ({ setopendashboard }) => {
           </TableFooter>
         </Table>
       </div>
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };
