@@ -43,11 +43,12 @@ const style = {
   p: 4,
 };
 import './DonationMaster.css';
+
 function DonationMaster() {
   const [loader, setloader] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(50);
   const [isData, setisData] = React.useState([]);
   const [refetch, setrefetch] = useState(false);
   const [donationtype_in_hindi, setdonationtype_in_hindi] = useState('');
@@ -193,7 +194,94 @@ function DonationMaster() {
     minute: 'numeric',
     hour12: true,
   });
+  const [currentSort, setcurrentSort] = useState('sort');
+  const [currentSort1, setcurrentSort1] = useState('sort');
 
+  const [sortField, setSortField] = useState('');
+  const onSortChange = (sortField) => {
+    let nextSort;
+
+    if (sortField === 'type_hi') {
+      if (currentSort === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort === 'caret-up') nextSort = 'sort';
+      else if (currentSort === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort(nextSort);
+    }
+    if (sortField === 'type_en') {
+      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort1 === 'caret-up') nextSort = 'sort';
+      else if (currentSort1 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort1(nextSort);
+    }
+  };
+
+  useEffect(() => {
+    if (sortField === 'type_hi') {
+      if (currentSort === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField]?.toLowerCase(),
+            fb = b[sortField]?.toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField]?.toLowerCase(),
+            fb = b[sortField]?.toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        // getall_donatiions();
+      }
+    }
+
+    if (sortField === 'type_en') {
+      if (currentSort1 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField]?.toLowerCase(),
+            fb = b[sortField]?.toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort1 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField]?.toLowerCase(),
+            fb = b[sortField]?.toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        // getall_donatiions();
+      }
+    }
+  }, [currentSort, currentSort1]);
   return (
     <>
       <Dialog
@@ -350,8 +438,20 @@ function DonationMaster() {
               <TableRow>
                 <TableCell>S.No.</TableCell>
 
-                <TableCell> Type Donation (hindi)</TableCell>
-                <TableCell> Type Donation (english) </TableCell>
+                <TableCell>
+                  {' '}
+                  Type Donation (hindi)
+                  <Button onClick={() => onSortChange('type_hi')}>
+                    <i class={`fa fa-${currentSort}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  {' '}
+                  Type Donation (english){' '}
+                  <Button onClick={() => onSortChange('type_en')}>
+                    <i class={`fa fa-${currentSort1}`} />
+                  </Button>
+                </TableCell>
                 {/* <TableCell>Status</TableCell> */}
                 <TableCell>Action</TableCell>
               </TableRow>
@@ -410,7 +510,7 @@ function DonationMaster() {
                   page={page}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
-                  rowsPerPageOptions={[5, 10, 25]}
+                  rowsPerPageOptions={[50, 100, 250]}
                   labelRowsPerPage={<span>Rows:</span>}
                   labelDisplayedRows={({ page }) => {
                     return `Page: ${page}`;

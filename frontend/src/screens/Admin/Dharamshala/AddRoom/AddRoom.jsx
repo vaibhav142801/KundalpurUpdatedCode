@@ -30,7 +30,7 @@ import axios from 'axios';
 import AddRoomForm from './AddRoomForm';
 import UpdateRoom from './UpdateRoom';
 import Typography from '@mui/material/Typography';
-
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -51,6 +51,7 @@ const style = {
 
 const AddRoom = ({ setopendashboard }) => {
   const navigation = useNavigate();
+  const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -98,9 +99,10 @@ const AddRoom = ({ setopendashboard }) => {
   });
 
   const getall_donation = () => {
+    setloader(true);
     serverInstance('room', 'get').then((res) => {
-      console.log(res.data);
       if (res.data) {
+        setloader(false);
         setisData(res.data);
       }
     });
@@ -149,7 +151,334 @@ const AddRoom = ({ setopendashboard }) => {
 
     setuserrole(Number(sessionStorage.getItem('userrole')));
   }, [open, open1, open3]);
+  const [currentSort, setcurrentSort] = useState('sort');
+  const [currentSort1, setcurrentSort1] = useState('sort');
+  const [currentSort2, setcurrentSort2] = useState('sort');
+  const [currentSort3, setcurrentSort3] = useState('sort');
+  const [currentSort4, setcurrentSort4] = useState('sort');
+  const [currentSort5, setcurrentSort5] = useState('sort');
+  const [currentSort6, setcurrentSort6] = useState('sort');
+  const [currentSort7, setcurrentSort7] = useState('sort');
+  const [currentSort8, setcurrentSort8] = useState('sort');
+  const [sortField, setSortField] = useState('');
+  const onSortChange = (sortField) => {
+    let nextSort;
 
+    if (sortField === 'dharmasala?.name') {
+      if (currentSort === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort === 'caret-up') nextSort = 'sort';
+      else if (currentSort === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort(nextSort);
+    }
+    if (sortField === 'FroomNo') {
+      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort1 === 'caret-up') nextSort = 'sort';
+      else if (currentSort1 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort1(nextSort);
+    }
+
+    if (sortField === 'TroomNo') {
+      if (currentSort2 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort2 === 'caret-up') nextSort = 'sort';
+      else if (currentSort2 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort2(nextSort);
+    }
+
+    if (sortField === 'facility_name') {
+      if (currentSort3 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort3 === 'caret-up') nextSort = 'sort';
+      else if (currentSort3 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort3(nextSort);
+    }
+    if (sortField === 'category_name') {
+      if (currentSort4 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort4 === 'caret-up') nextSort = 'sort';
+      else if (currentSort4 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort4(nextSort);
+    }
+    if (sortField === 'Rate') {
+      if (currentSort5 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort5 === 'caret-up') nextSort = 'sort';
+      else if (currentSort5 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort5(nextSort);
+    }
+
+    if (sortField === 'advance') {
+      if (currentSort6 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort6 === 'caret-up') nextSort = 'sort';
+      else if (currentSort6 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort6(nextSort);
+    }
+
+    if (sortField === 'coTime') {
+      if (currentSort7 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort7 === 'caret-up') nextSort = 'sort';
+      else if (currentSort7 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort7(nextSort);
+    }
+    if (sortField === 'roomType') {
+      if (currentSort8 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort8 === 'caret-up') nextSort = 'sort';
+      else if (currentSort8 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort8(nextSort);
+    }
+  };
+
+  useEffect(() => {
+    if (sortField === 'harmasala?.name') {
+      if (currentSort === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'FroomNo') {
+      if (currentSort1 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          return fa - fb;
+        });
+      } else if (currentSort1 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          return fb - fa;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'TroomNo') {
+      if (currentSort2 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          return fa - fb;
+        });
+      } else if (currentSort2 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+          return fb - fa;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'facility_name') {
+      if (currentSort3 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a.roomType?.toLowerCase(),
+            fb = b.roomType?.toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort3 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a.roomType?.toLowerCase(),
+            fb = b.roomType?.toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'category_name') {
+      if (currentSort4 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a.roomType?.toLowerCase(),
+            fb = b.roomType?.toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort4 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a.roomType?.toLowerCase(),
+            fb = b.roomType?.toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'Rate') {
+      if (currentSort5 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort5 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'advance') {
+      if (currentSort6 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+          return fa - fb;
+        });
+      } else if (currentSort6 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+          return fb - fa;
+        });
+      } else {
+        // getall_donation();
+      }
+    }
+
+    if (sortField === 'coTime') {
+      if (currentSort7 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort7 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+    if (sortField === 'roomType') {
+      if (currentSort8 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          return fa - fb;
+        });
+      } else if (currentSort8 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          return fb - fa;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+  }, [
+    currentSort,
+    currentSort1,
+    currentSort2,
+    currentSort3,
+    currentSort4,
+    currentSort5,
+    currentSort6,
+    currentSort7,
+    currentSort8,
+  ]);
   return (
     <>
       <Dialog
@@ -288,8 +617,8 @@ const AddRoom = ({ setopendashboard }) => {
             </Tooltip>
             &nbsp;&nbsp;
           </div>
-        </div>
-
+        </div>{' '}
+        mobile name roomNo since remain approvedBy remarks
         <div className="table-div-maain">
           <Table
             sx={{ minWidth: 650, width: '100%' }}
@@ -297,19 +626,75 @@ const AddRoom = ({ setopendashboard }) => {
           >
             <TableHead style={{ background: '#F1F0F0' }}>
               <TableRow>
-                <TableCell>S.No</TableCell>
-                <TableCell>Dharamashala</TableCell>
-                <TableCell>From Room</TableCell>
-                <TableCell>To Room</TableCell>
-                <TableCell>Facilities</TableCell>
-                <TableCell>Category Name</TableCell>
-
-                <TableCell>Rate </TableCell>
-                <TableCell>Advance Amount </TableCell>
-                <TableCell>Check out Time</TableCell>
-                <TableCell>Room Type</TableCell>
-
-                <TableCell>Action</TableCell>
+                <TableCell>
+                  S.No <Button>&nbsp;</Button>
+                </TableCell>
+                <TableCell>
+                  Dharamashala{' '}
+                  <Button onClick={() => onSortChange('dharmasala?.name')}>
+                    <i class={`fa fa-${currentSort}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  From Room{' '}
+                  <Button onClick={() => onSortChange('FroomNo')}>
+                    <i class={`fa fa-${currentSort1}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  To Room{' '}
+                  <Button onClick={() => onSortChange('TroomNo')}>
+                    <i class={`fa fa-${currentSort2}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Facilities{' '}
+                  <Button onClick={() => onSortChange('facility_name')}>
+                    <i class={`fa fa-${currentSort3}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Category Name{' '}
+                  <Button onClick={() => onSortChange('category_name')}>
+                    <i class={`fa fa-${currentSort4}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  <span
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flexDirection: 'column',
+                    }}
+                  >
+                    Rate
+                    <Button onClick={() => onSortChange('Rate')}>
+                      <i class={`fa fa-${currentSort5}`} />
+                    </Button>
+                  </span>
+                </TableCell>
+                <TableCell>
+                  Advance Amount{' '}
+                  <Button onClick={() => onSortChange('advance')}>
+                    <i class={`fa fa-${currentSort6}`} />
+                  </Button>{' '}
+                </TableCell>
+                <TableCell>
+                  Check out Time{' '}
+                  <Button onClick={() => onSortChange('coTime')}>
+                    <i class={`fa fa-${currentSort7}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Room Type{' '}
+                  <Button onClick={() => onSortChange('roomType')}>
+                    <i class={`fa fa-${currentSort8}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Action <Button>&nbsp;</Button>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -399,6 +784,7 @@ const AddRoom = ({ setopendashboard }) => {
           </Table>
         </div>
       </div>
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

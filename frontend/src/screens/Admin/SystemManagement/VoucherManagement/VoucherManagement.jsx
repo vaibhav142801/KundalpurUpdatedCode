@@ -172,6 +172,141 @@ const VoucherManagement = ({ setopendashboard }) => {
     setopendashboard(true);
     getall_donation();
   }, [open, open1, open2]);
+
+  const [currentSort, setcurrentSort] = useState('sort');
+  const [currentSort1, setcurrentSort1] = useState('sort');
+  const [currentSort2, setcurrentSort2] = useState('sort');
+  const [currentSort3, setcurrentSort3] = useState('sort');
+
+  const [sortField, setSortField] = useState('');
+  const onSortChange = (sortField) => {
+    let nextSort;
+
+    if (sortField === 'name') {
+      if (currentSort === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort === 'caret-up') nextSort = 'sort';
+      else if (currentSort === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort(nextSort);
+    }
+    if (sortField === 'to') {
+      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort1 === 'caret-up') nextSort = 'sort';
+      else if (currentSort1 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort1(nextSort);
+    }
+
+    if (sortField === 'from') {
+      if (currentSort2 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort2 === 'caret-up') nextSort = 'sort';
+      else if (currentSort2 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort2(nextSort);
+    }
+
+    if (sortField === 'voucher') {
+      if (currentSort3 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort3 === 'caret-up') nextSort = 'sort';
+      else if (currentSort3 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort3(nextSort);
+    }
+  };
+
+  useEffect(() => {
+    if (sortField === 'name') {
+      if (currentSort === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'to') {
+      if (currentSort1 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          return fa - fb;
+        });
+      } else if (currentSort1 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          return fb - fa;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'from') {
+      if (currentSort2 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          return fa - fb;
+        });
+      } else if (currentSort2 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          return fb - fa;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+
+    if (sortField === 'voucher') {
+      if (currentSort3 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          return fa - fb;
+        });
+      } else if (currentSort3 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          return fb - fa;
+        });
+      } else {
+        getall_donation();
+      }
+    }
+  }, [currentSort, currentSort1, currentSort2, currentSort3]);
   return (
     <>
       <Dialog
@@ -291,10 +426,30 @@ const VoucherManagement = ({ setopendashboard }) => {
                 <TableHead style={{ background: '#F1F0F0' }}>
                   <TableRow>
                     <TableCell align="center">S.No</TableCell>
-                    <TableCell align="center">Empoyee Name</TableCell>
-                    <TableCell align="center">Book No</TableCell>
-                    <TableCell align="center">Voucher No</TableCell>
-                    <TableCell align="center">Voucher No start</TableCell>
+                    <TableCell align="center">
+                      Empoyee Name{' '}
+                      <Button onClick={() => onSortChange('name')}>
+                        <i class={`fa fa-${currentSort}`} />
+                      </Button>
+                    </TableCell>
+                    <TableCell align="center">
+                      Book No{' '}
+                      <Button onClick={() => onSortChange('to')}>
+                        <i class={`fa fa-${currentSort1}`} />
+                      </Button>
+                    </TableCell>
+                    <TableCell align="center">
+                      Voucher No{' '}
+                      <Button onClick={() => onSortChange('from')}>
+                        <i class={`fa fa-${currentSort2}`} />
+                      </Button>
+                    </TableCell>
+                    <TableCell align="center">
+                      Voucher No start{' '}
+                      <Button onClick={() => onSortChange('voucher')}>
+                        <i class={`fa fa-${currentSort3}`} />
+                      </Button>
+                    </TableCell>
                     <TableCell align="center">Status</TableCell>
                     <TableCell align="center">Action</TableCell>
                   </TableRow>

@@ -13,6 +13,7 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
 import exportFromJSON from 'export-from-json';
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import Moment from 'moment-js';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ExportPdfmanul } from '../../../Admin/compoments/ExportPdf';
@@ -66,6 +67,7 @@ const style1 = {
 
 const AddDharamshala = ({ setopendashboard }) => {
   const navigation = useNavigate();
+  const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -118,9 +120,12 @@ const AddDharamshala = ({ setopendashboard }) => {
     hour12: true,
   });
   const getall_donation = () => {
+    setloader(true);
     serverInstance('room/dharmashala', 'get').then((res) => {
-      console.log('dara', res.data);
-      setisData(res.data);
+      if (res.data) {
+        setloader(false);
+        setisData(res.data);
+      }
     });
   };
 
@@ -185,6 +190,94 @@ const AddDharamshala = ({ setopendashboard }) => {
     setuserrole(Number(sessionStorage.getItem('userrole')));
   }, [open, open1]);
 
+  const [currentSort, setcurrentSort] = useState('sort');
+  const [currentSort1, setcurrentSort1] = useState('sort');
+
+  const [sortField, setSortField] = useState('');
+  const onSortChange = (sortField) => {
+    let nextSort;
+
+    if (sortField === 'name') {
+      if (currentSort === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort === 'caret-up') nextSort = 'sort';
+      else if (currentSort === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort(nextSort);
+    }
+    if (sortField === 'desc') {
+      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort1 === 'caret-up') nextSort = 'sort';
+      else if (currentSort1 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort1(nextSort);
+    }
+  };
+
+  useEffect(() => {
+    if (sortField === 'name') {
+      if (currentSort === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField]?.toLowerCase(),
+            fb = b[sortField]?.toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField]?.toLowerCase(),
+            fb = b[sortField]?.toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        // getall_donatiions();
+      }
+    }
+
+    if (sortField === 'desc') {
+      if (currentSort1 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField]?.toLowerCase(),
+            fb = b[sortField]?.toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort1 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField]?.toLowerCase(),
+            fb = b[sortField]?.toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        // getall_donatiions();
+      }
+    }
+  }, [currentSort, currentSort1]);
   return (
     <>
       <Dialog
@@ -367,9 +460,18 @@ const AddDharamshala = ({ setopendashboard }) => {
             <TableHead style={{ background: '#F1F0F0' }}>
               <TableRow>
                 <TableCell>S.No</TableCell>
-                <TableCell>Dharamshala</TableCell>
-                <TableCell>Description</TableCell>
-
+                <TableCell>
+                  Dharamshala{' '}
+                  <Button onClick={() => onSortChange('name')}>
+                    <i class={`fa fa-${currentSort}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Description{' '}
+                  <Button onClick={() => onSortChange('desc')}>
+                    <i class={`fa fa-${currentSort1}`} />
+                  </Button>
+                </TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
@@ -425,13 +527,7 @@ const AddDharamshala = ({ setopendashboard }) => {
                   ))}
                 </>
               ) : (
-                <>
-                  <TableRow>
-                    <TableCell colSpan={12} align="center">
-                      <CircularProgress />
-                    </TableCell>
-                  </TableRow>
-                </>
+                <></>
               )}
             </TableBody>
             <TableFooter>
@@ -462,6 +558,7 @@ const AddDharamshala = ({ setopendashboard }) => {
           </Table>
         </div>
       </div>
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

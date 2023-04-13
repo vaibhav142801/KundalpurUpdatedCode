@@ -192,6 +192,94 @@ function IntemMaster() {
     minute: 'numeric',
     hour12: true,
   });
+  const [currentSort, setcurrentSort] = useState('sort');
+  const [currentSort1, setcurrentSort1] = useState('sort');
+
+  const [sortField, setSortField] = useState('');
+  const onSortChange = (sortField) => {
+    let nextSort;
+
+    if (sortField === 'itemType_hi') {
+      if (currentSort === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort === 'caret-up') nextSort = 'sort';
+      else if (currentSort === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort(nextSort);
+    }
+    if (sortField === 'itemType_en') {
+      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort1 === 'caret-up') nextSort = 'sort';
+      else if (currentSort1 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort1(nextSort);
+    }
+  };
+
+  useEffect(() => {
+    if (sortField === 'itemType_hi') {
+      if (currentSort === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField]?.toLowerCase(),
+            fb = b[sortField]?.toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField]?.toLowerCase(),
+            fb = b[sortField]?.toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        // getall_donatiions();
+      }
+    }
+
+    if (sortField === 'itemType_en') {
+      if (currentSort1 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField]?.toLowerCase(),
+            fb = b[sortField]?.toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort1 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField]?.toLowerCase(),
+            fb = b[sortField]?.toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        // getall_donatiions();
+      }
+    }
+  }, [currentSort, currentSort1]);
   return (
     <>
       <Dialog
@@ -341,8 +429,18 @@ function IntemMaster() {
               <TableRow>
                 <TableCell>S.No.</TableCell>
 
-                <TableCell>Donation Item (hindi)</TableCell>
-                <TableCell>Donation Item (english) </TableCell>
+                <TableCell>
+                  Donation Item (hindi){' '}
+                  <Button onClick={() => onSortChange('itemType_hi')}>
+                    <i class={`fa fa-${currentSort}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Donation Item (english){' '}
+                  <Button onClick={() => onSortChange('itemType_en')}>
+                    <i class={`fa fa-${currentSort1}`} />
+                  </Button>{' '}
+                </TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>

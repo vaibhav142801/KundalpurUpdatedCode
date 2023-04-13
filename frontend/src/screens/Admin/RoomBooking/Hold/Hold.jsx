@@ -15,7 +15,6 @@ import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
 import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
-import CircularProgress from '@mui/material/CircularProgress';
 import { ExportPdfmanul } from '../../../Admin/compoments/ExportPdf';
 import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
@@ -31,12 +30,12 @@ import Holdfrom from './Holdfrom';
 import UpdateHold from './UpdateHold';
 import Typography from '@mui/material/Typography';
 import RoomBookingTap from '../RoomBookingTap';
-
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -58,7 +57,7 @@ const Hold = ({ setopendashboard }) => {
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
   const handleOepn = () => setOpen(true);
-
+  const [loader, setloader] = useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [updatedata, setupdatedata] = useState('');
   const handleClose1 = () => setOpen1(false);
@@ -90,10 +89,11 @@ const Hold = ({ setopendashboard }) => {
     });
   };
   const getall_donation = () => {
+    setloader(true);
     serverInstance('room/hold', 'get').then((res) => {
-      console.log('hold rooms', res.data);
       if (res.data) {
         setisData(res.data);
+        setloader(false);
       }
     });
   };
@@ -154,7 +154,249 @@ const Hold = ({ setopendashboard }) => {
   useEffect(() => {
     getall_donation();
   }, [open, open1, open3]);
+  const [currentSort, setcurrentSort] = useState('sort');
+  const [currentSort1, setcurrentSort1] = useState('sort');
+  const [currentSort2, setcurrentSort2] = useState('sort');
+  const [currentSort3, setcurrentSort3] = useState('sort');
+  const [currentSort4, setcurrentSort4] = useState('sort');
+  const [currentSort5, setcurrentSort5] = useState('sort');
+  const [currentSort6, setcurrentSort6] = useState('sort');
 
+  const [sortField, setSortField] = useState('');
+  const onSortChange = (sortField) => {
+    let nextSort;
+
+    if (sortField === 'mobile') {
+      if (currentSort === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort === 'caret-up') nextSort = 'sort';
+      else if (currentSort === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort(nextSort);
+    }
+    if (sortField === 'name') {
+      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort1 === 'caret-up') nextSort = 'sort';
+      else if (currentSort1 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort1(nextSort);
+    }
+
+    if (sortField === 'roomNo') {
+      if (currentSort2 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort2 === 'caret-up') nextSort = 'sort';
+      else if (currentSort2 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort2(nextSort);
+    }
+
+    if (sortField === 'since') {
+      if (currentSort3 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort3 === 'caret-up') nextSort = 'sort';
+      else if (currentSort3 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort3(nextSort);
+    }
+    if (sortField === 'remain') {
+      if (currentSort4 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort4 === 'caret-up') nextSort = 'sort';
+      else if (currentSort4 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort4(nextSort);
+    }
+    if (sortField === 'approvedBy') {
+      if (currentSort5 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort5 === 'caret-up') nextSort = 'sort';
+      else if (currentSort5 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort5(nextSort);
+    }
+
+    if (sortField === 'remarks') {
+      if (currentSort6 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort6 === 'caret-up') nextSort = 'sort';
+      else if (currentSort6 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort6(nextSort);
+    }
+  };
+
+  useEffect(() => {
+    if (sortField === 'mobile') {
+      if (currentSort === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField].toLowerCase(),
+            fb = b[sortField].toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        // getall_donation();
+      }
+    }
+
+    if (sortField === 'name') {
+      if (currentSort1 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          return fb - fa;
+        });
+      } else if (currentSort1 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          return fa - fb;
+        });
+      } else {
+        // getall_donation();
+      }
+    }
+
+    if (sortField === 'roomNo') {
+      if (currentSort2 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          return fb - fa;
+        });
+      } else if (currentSort2 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+          return fa - fb;
+        });
+      } else {
+        // getall_donation();
+      }
+    }
+
+    if (sortField === 'since') {
+      if (currentSort3 === 'caret-up') {
+        isData.sort((a, b) => {
+          let da = new Date(a[sortField]),
+            db = new Date(b[sortField]);
+          return db - da;
+        });
+      } else if (currentSort3 === 'caret-down') {
+        isData.sort((a, b) => {
+          let da = new Date(a[sortField]),
+            db = new Date(b[sortField]);
+          return da - db;
+        });
+      } else {
+        // getall_donation();
+      }
+    }
+
+    if (sortField === 'remain') {
+      if (currentSort4 === 'caret-up') {
+        isData.sort((a, b) => {
+          let da = new Date(a[sortField]),
+            db = new Date(b[sortField]);
+          return db - da;
+        });
+      } else if (currentSort4 === 'caret-down') {
+        isData.sort((a, b) => {
+          let da = new Date(a[sortField]),
+            db = new Date(b[sortField]);
+          return da - db;
+        });
+      } else {
+        // getall_donation();
+      }
+    }
+
+    if (sortField === 'approvedBy') {
+      if (currentSort5 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort5 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        // getall_donation();
+      }
+    }
+
+    if (sortField === 'remarks') {
+      if (currentSort6 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort6 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField],
+            fb = b[sortField];
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        // getall_donation();
+      }
+    }
+  }, [
+    currentSort,
+    currentSort1,
+    currentSort2,
+    currentSort3,
+    currentSort4,
+    currentSort5,
+    currentSort6,
+  ]);
   return (
     <>
       <Dialog
@@ -305,15 +547,54 @@ const Hold = ({ setopendashboard }) => {
           >
             <TableHead style={{ background: '#F1F0F0' }}>
               <TableRow>
-                <TableCell>S.No</TableCell>
-                <TableCell>Holder Mobile No</TableCell>
-                <TableCell>Room holder Name</TableCell>
-                <TableCell>Room No</TableCell>
-                <TableCell>Hold Since</TableCell>
-                <TableCell>Hold Remain</TableCell>
-                <TableCell>Hold Approved By</TableCell>
-                <TableCell>Remarks</TableCell>
-                <TableCell>Action</TableCell>
+                <TableCell>
+                  S.No <Button>&nbsp;</Button>
+                </TableCell>
+                <TableCell>
+                  Holder Mobile No{' '}
+                  <Button onClick={() => onSortChange('mobile')}>
+                    <i class={`fa fa-${currentSort}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Room holder Name{' '}
+                  <Button onClick={() => onSortChange('name')}>
+                    <i class={`fa fa-${currentSort1}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Room No{' '}
+                  <Button onClick={() => onSortChange('roomNo')}>
+                    <i class={`fa fa-${currentSort2}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Hold Since{' '}
+                  <Button onClick={() => onSortChange('since')}>
+                    <i class={`fa fa-${currentSort3}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Hold Remain{' '}
+                  <Button onClick={() => onSortChange('remain')}>
+                    <i class={`fa fa-${currentSort4}`} />
+                  </Button>{' '}
+                </TableCell>
+                <TableCell>
+                  Hold Approved By{' '}
+                  <Button onClick={() => onSortChange('approvedBy')}>
+                    <i class={`fa fa-${currentSort5}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Remarks{' '}
+                  <Button onClick={() => onSortChange('remarks')}>
+                    <i class={`fa fa-${currentSort6}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Action <Button>&nbsp;</Button>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -369,13 +650,7 @@ const Hold = ({ setopendashboard }) => {
                   ))}
                 </>
               ) : (
-                <>
-                  <TableRow>
-                    <TableCell colSpan={12} align="center">
-                      <CircularProgress />
-                    </TableCell>
-                  </TableRow>
-                </>
+                <></>
               )}
             </TableBody>
             <TableFooter>
@@ -406,6 +681,7 @@ const Hold = ({ setopendashboard }) => {
           </Table>
         </div>
       </div>
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

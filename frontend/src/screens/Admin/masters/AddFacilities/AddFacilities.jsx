@@ -152,7 +152,94 @@ const AddFacilities = ({ setopendashboard }) => {
 
     setuserrole(Number(sessionStorage.getItem('userrole')));
   }, [open, open1, open3]);
+  const [currentSort, setcurrentSort] = useState('sort');
+  const [currentSort1, setcurrentSort1] = useState('sort');
 
+  const [sortField, setSortField] = useState('');
+  const onSortChange = (sortField) => {
+    let nextSort;
+
+    if (sortField === 'name') {
+      if (currentSort === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort === 'caret-up') nextSort = 'sort';
+      else if (currentSort === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort(nextSort);
+    }
+    if (sortField === 'comments') {
+      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
+      else if (currentSort1 === 'caret-up') nextSort = 'sort';
+      else if (currentSort1 === 'sort') nextSort = 'caret-down';
+      setSortField(sortField);
+      setcurrentSort1(nextSort);
+    }
+  };
+
+  useEffect(() => {
+    if (sortField === 'name') {
+      if (currentSort === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField]?.toLowerCase(),
+            fb = b[sortField]?.toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField]?.toLowerCase(),
+            fb = b[sortField]?.toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        // getall_donatiions();
+      }
+    }
+
+    if (sortField === 'comments') {
+      if (currentSort1 === 'caret-up') {
+        isData.sort((a, b) => {
+          let fa = a[sortField]?.toLowerCase(),
+            fb = b[sortField]?.toLowerCase();
+
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (currentSort1 === 'caret-down') {
+        isData.sort((a, b) => {
+          let fa = a[sortField]?.toLowerCase(),
+            fb = b[sortField]?.toLowerCase();
+
+          if (fa > fb) {
+            return -1;
+          }
+          if (fa < fb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else {
+        // getall_donatiions();
+      }
+    }
+  }, [currentSort, currentSort1]);
   return (
     <>
       <Dialog
@@ -304,8 +391,18 @@ const AddFacilities = ({ setopendashboard }) => {
               <TableRow>
                 <TableCell>S.No</TableCell>
 
-                <TableCell>Facility</TableCell>
-                <TableCell>Comment</TableCell>
+                <TableCell>
+                  Facility{' '}
+                  <Button onClick={() => onSortChange('name')}>
+                    <i class={`fa fa-${currentSort}`} />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  Comment{' '}
+                  <Button onClick={() => onSortChange('comments')}>
+                    <i class={`fa fa-${currentSort1}`} />
+                  </Button>
+                </TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>

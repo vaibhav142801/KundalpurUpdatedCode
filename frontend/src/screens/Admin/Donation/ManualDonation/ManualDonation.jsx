@@ -619,7 +619,7 @@ const ManualDonation = ({ setopendashboard }) => {
           return 0;
         });
       } else {
-        setisData(defaultdata);
+        getall_donation();
       }
     }
 
@@ -1104,10 +1104,19 @@ const ManualDonation = ({ setopendashboard }) => {
                     </Button>
                   </TableCell>
                   <TableCell>
-                    Address
-                    <Button onClick={() => onSortChange('address')}>
-                      <i class={`fa fa-${currentSort5}`} />
-                    </Button>
+                    <span
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      Address
+                      <Button onClick={() => onSortChange('address')}>
+                        <i class={`fa fa-${currentSort5}`} />
+                      </Button>
+                    </span>
                   </TableCell>
                   <TableCell>
                     Head/Item

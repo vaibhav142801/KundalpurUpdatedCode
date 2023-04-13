@@ -704,7 +704,7 @@ const ManualItem = ({ setopendashboard }) => {
           return 0;
         });
       } else {
-        setisData(defaultdata);
+        getall_donation();
       }
     }
 
