@@ -72,8 +72,8 @@ const CashDonation = ({
   const [address, setAddress] = useState('');
   const [newMember, setNewMember] = useState(false);
   const [mobileNo, setMobileNo] = useState('');
-  const [genderp, setgenderp] = useState('श्री');
-  const [genderp1, setgenderp1] = useState('SHRI');
+  const [genderp, setgenderp] = useState('');
+  const [genderp1, setgenderp1] = useState('');
   const [fetchuserdetail, setfetchuserdetail] = useState(true);
   const [showloader, setshowloader] = useState(false);
   const [donationItems, setDonationItems] = useState([
@@ -241,16 +241,16 @@ const CashDonation = ({
               0,
             );
 
-        console.log('donnn added ', res.data.data.data);
+        console.log('donnn added ', res.data.data.message.data);
         if (res.data.status === true) {
           handleClose();
           setshowloader(false);
           navigation('/reciept', {
             state: {
-              userdata: res.data.data.data,
+              userdata: res.data.data.message.data,
             },
           });
-          sendsms(totalamount, res.data.data.data.ReceiptNo);
+          sendsms(totalamount, res.data.data.message.data);
         } else {
           Swal.fire('Error!', 'Somthing went wrong!!', 'error');
         }
@@ -320,8 +320,8 @@ const CashDonation = ({
       setDonationTime(updateData?.donation_time);
       var today = new Date(updateData?.donation_date);
       var date = today.toISOString().substring(0, 10);
-      setgenderp(updateData?.gender);
-      setgenderp1(updateData?.gender);
+      // setgenderp(updateData?.gender);
+      // setgenderp1(updateData?.gender);
       setDonationDate(date);
     }
     setrole(Number(sessionStorage.getItem('userrole')));
@@ -421,7 +421,7 @@ const CashDonation = ({
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <CustomInputLabel required htmlFor="full-name">
+              {/* <CustomInputLabel required htmlFor="full-name">
                 {!newMember ? (
                   <>
                     <Select
@@ -498,10 +498,11 @@ const CashDonation = ({
                   </>
                 )}
                 Full Name
-              </CustomInputLabel>
+              </CustomInputLabel> */}
 
               {!newMember ? (
                 <>
+                  Full Name
                   <ReactTransliterate
                     style={custumstyle}
                     id="full-name"
@@ -516,6 +517,7 @@ const CashDonation = ({
                 </>
               ) : (
                 <>
+                  Full Name
                   <CustomInput
                     id="full-name"
                     required
@@ -713,7 +715,7 @@ const CashDonation = ({
                               <div className="centerMain_remove_item">
                                 <ReactTransliterate
                                   style={custommStyleInputTable}
-                                  value={hindiremark}
+                                  value={item.remark}
                                   onChangeText={(hindiremark) => {
                                     sethindiremark(hindiremark);
                                   }}

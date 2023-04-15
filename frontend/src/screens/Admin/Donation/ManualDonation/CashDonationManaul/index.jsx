@@ -646,7 +646,7 @@ const CashDonation = ({
                             <div className="centerMain_remove_item">
                               <ReactTransliterate
                                 style={custommStyleInputTable}
-                                value={hindiremark}
+                                value={item.remark}
                                 onChangeText={(hindiremark) => {
                                   sethindiremark(hindiremark);
                                 }}

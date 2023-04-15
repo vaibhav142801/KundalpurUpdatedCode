@@ -755,7 +755,7 @@ const ItemDonation = ({
                     </TableCell>
                     <TableCell align="center">
                       <CustomTableInput
-                        type="number"
+                        type="text"
                         value={item.quantity}
                         onChange={(e) =>
                           handleDonationItemUpdate(
@@ -768,7 +768,7 @@ const ItemDonation = ({
                     </TableCell>
                     <TableCell align="center">
                       <CustomTableInput
-                        type="number"
+                        type="text"
                         value={item.approxValue}
                         onChange={(e) =>
                           handleDonationItemUpdate(
@@ -786,7 +786,7 @@ const ItemDonation = ({
                             <ReactTransliterate
                               style={custommStyleInputTable}
                               required
-                              value={hindiremark}
+                              value={item.remark}
                               onChangeText={(hindiremark) => {
                                 sethindiremark(hindiremark);
                               }}

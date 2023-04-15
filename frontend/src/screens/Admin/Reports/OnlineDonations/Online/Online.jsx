@@ -157,16 +157,15 @@ const Online = ({ setopendashboard }) => {
     serverInstance('admin/donation-list', 'get').then((res) => {
       if (res.status) {
         setloader(false);
-        // let filterData = res.data.filter(
-        //   (item) =>
-        //     item.MODE_OF_DONATION === 'ONLINE' && item?.PAYMENT_STATUS === true,
-        // );
-        setisData(res.data);
-        setisDataDummy(res.data);
+        let filterData = res.data.filter(
+          (item) =>
+            item.MODE_OF_DONATION === 'ONLINE' && item?.PAYMENT_STATUS === true,
+        );
+        setisData(filterData);
+        setisDataDummy(filterData);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
       }
-      console.log(res);
     });
   };
 

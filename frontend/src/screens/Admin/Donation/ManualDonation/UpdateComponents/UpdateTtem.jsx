@@ -665,7 +665,7 @@ const UpdateTtem = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
                       </TableCell>
                       <TableCell align="center">
                         <CustomTableInput
-                          type="number"
+                          type="text"
                           value={item.quantity}
                           onChange={(e) =>
                             handleDonationItemUpdate(
@@ -678,7 +678,7 @@ const UpdateTtem = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
                       </TableCell>
                       <TableCell align="center">
                         <CustomTableInput
-                          type="number"
+                          type="text"
                           value={item.approxValue}
                           onChange={(e) =>
                             handleDonationItemUpdate(

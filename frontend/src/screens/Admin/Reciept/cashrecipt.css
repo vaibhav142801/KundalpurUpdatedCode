@@ -29,11 +29,17 @@
   width: 100%;
   height: 90px;
 }
-.main-certificate .bankdetail-container .bankdetails .banks1, .banks2, .banks3, h5{
+.main-certificate .bankdetail-container .bankdetails .banks1,
+.banks2,
+.banks3,
+h5 {
   margin-top: 0px;
   margin-bottom: 0px;
 }
-.main-certificate .bankdetail-container .bankdetails .banks1, .banks2, .banks3, p {
+.main-certificate .bankdetail-container .bankdetails .banks1,
+.banks2,
+.banks3,
+p {
   color: #070200d3;
   font-size: 17px;
   font-weight: 510;
@@ -53,10 +59,17 @@
   justify-content: space-between;
   padding: 0.2px 4px;
 }
-.main-head .main-head-container .head-sn {
+ .head-sn {
   display: flex;
   gap: 8px;
   padding: 0px 1.7px;
+  border: 1px solid #c7630b;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  background-color: white;
+  border-radius: 5px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 .main-head .main-head-container .head-name {
   display: flex;

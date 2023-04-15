@@ -63,7 +63,7 @@ const OnlineadminRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
           </div>
           <div className="main-head">
             <div className="main-head-container">
-              <span className="head-sn">
+              <span className="hesad-sn">
                 <p>&nbsp;</p>
                 <h4>&nbsp;</h4>
               </span>
@@ -89,27 +89,6 @@ const OnlineadminRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                       ? isData?.RECEIPT_NO
                       : isData?.ReceiptNo}
                   </h2>
-                </span>
-                <span className="leftitems">
-                  <h2>दान दातार :</h2>
-                  <div>
-                    <h2 className="font_bold_in_donation">
-                      {isData && isData?.gender
-                        ? isData && isData?.gender
-                        : isData && isData?.GENDER}{' '}
-                      &nbsp;
-                      {isData?.NAME ? isData?.NAME : isData?.name}
-                    </h2>
-                  </div>
-                </span>
-                <span className="leftitems">
-                  <h2>स्थान :</h2>
-
-                  <div className="warp_text">
-                    <h2 className="font_bold_in_donation">
-                      {isData?.ADDRESS ? isData?.ADDRESS : isData?.address}{' '}
-                    </h2>
-                  </div>
                 </span>
 
                 {isData && isData.modeOfDonation === '4' ? (
@@ -240,30 +219,6 @@ const OnlineadminRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                   </h2>
                 </span>
 
-                <span className="rightitems">
-                  <h2>मोबाइल नं :</h2>
-                  <h2 className="font_bold_in_donation">{isData?.phoneNo}</h2>
-                </span>
-                {isData && isData.CHEQUE_NO && (
-                  <>
-                    <span className="rightitems">
-                      <h2>विवरण :</h2>
-                      <h2 className="font_bold_in_donation">
-                        {isData && isData?.REMARK}
-                      </h2>
-                    </span>
-                  </>
-                )}
-                {isData && isData.CHEQUE_NO === '' && (
-                  <>
-                    <span className="rightitems">
-                      <h2>विवरण :</h2>
-                      <h2 className="font_bold_in_donation">
-                        {isData && isData?.REMARK}
-                      </h2>
-                    </span>
-                  </>
-                )}
                 {isData &&
                   isData.elecItemDetails &&
                   isData.modeOfDonation === 3 && (
@@ -439,7 +394,7 @@ const OnlineadminRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                     <div className="dan_ka_mad">
                       <h2>दान का मद :</h2>
                     </div>
-                    <span className="center_receipt_format">
+                    <h2 className="center_receipt_format font_bold_in_donation">
                       {isData && isData.elecItemDetails && (
                         <>
                           {isData.elecItemDetails.map((item) => {
@@ -451,9 +406,35 @@ const OnlineadminRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                           })}
                         </>
                       )}
-                    </span>
+                    </h2>
                   </span>
                 )}
+
+                <span className="rightitems2 ">
+                  <div className="dan_ka_mad">
+                    <h2 style={{ marginBottom: '1rem', marginTop: '1rem' }}>
+                      दान दातार :
+                    </h2>
+                  </div>
+                  <h2 className="center_receipt_format font_bold_in_donation">
+                    {isData && isData?.gender
+                      ? isData && isData?.gender
+                      : isData && isData?.GENDER}{' '}
+                    &nbsp;
+                    {isData?.NAME ? isData?.NAME : isData?.name}
+                    {isData?.MobileNo && <>({isData?.MobileNo})</>}
+                  </h2>
+                </span>
+
+                <span className="rightitems2 ">
+                  <div className="dan_ka_mad">
+                    <h2>स्थान :</h2>
+                  </div>
+                  <h2 className="center_receipt_format font_bold_in_donation">
+                    {isData?.ADDRESS ? isData?.ADDRESS : isData?.address}{' '}
+                  </h2>
+                </span>
+
                 {isData && isData.CHEQUE_NO === '' && (
                   <>
                     <span className="rightitems2 ">
@@ -491,6 +472,7 @@ const OnlineadminRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                     </span>
                   </>
                 )}
+
                 {isData && isData?.modeOfDonation === 1 && (
                   <span className="rightitems2 ">
                     <div className="dan_ka_mad">
@@ -594,6 +576,37 @@ const OnlineadminRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                       )}
                     </div>
                   </span>
+                )}
+
+                {isData && isData.CHEQUE_NO && (
+                  <>
+                    <span className="rightitems2 ">
+                      <div className="dan_ka_mad">
+                        <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
+                      </div>
+                      <h2 className="center_receipt_format font_bold_in_donation">
+                        {isData && isData?.REMARK}{' '}
+                        {isData && isData?.NAME_OF_BANK && (
+                          <>
+                            ( {isData?.NAME_OF_BANK}
+                            {isData?.CHEQUE_NO})
+                          </>
+                        )}
+                      </h2>
+                    </span>
+                  </>
+                )}
+                {isData && isData.CHEQUE_NO === '' && (
+                  <>
+                    <span className="rightitems2 ">
+                      <div className="dan_ka_mad">
+                        <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
+                      </div>
+                      <h2 className="center_receipt_format  font_bold_in_donation">
+                        {isData && isData?.REMARK}
+                      </h2>
+                    </span>
+                  </>
                 )}
                 <div className="main_div_center">
                   <span className="rightitems2 ">

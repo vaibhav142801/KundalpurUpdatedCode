@@ -71,8 +71,8 @@ const ChequeDonation = ({
   const [newMember, setNewMember] = useState(false);
   const [mobileNo, setMobileNo] = useState('');
   const [fetchuserdetail, setfetchuserdetail] = useState(true);
-  const [genderp, setgenderp] = useState('श्री');
-  const [genderp1, setgenderp1] = useState('SHRI');
+  const [genderp, setgenderp] = useState('');
+  const [genderp1, setgenderp1] = useState('');
   const [showloader, setshowloader] = useState(false);
   const [donationItems, setDonationItems] = useState([
     {
@@ -263,10 +263,10 @@ const ChequeDonation = ({
           if (res.data.status === true) {
             handleClose();
             setshowloader(false);
-            sendsms(totalamount, res.data.data.data.ReceiptNo);
+            sendsms(totalamount, res.data.data.message.data.ReceiptNo);
             navigation('/reciept', {
               state: {
-                userdata: res.data.data.data,
+                userdata: res.data.data.message.data,
               },
             });
           } else {
@@ -323,8 +323,8 @@ const ChequeDonation = ({
       setDonationTime(updateData?.donation_time);
       var today = new Date(updateData?.donation_date);
       var date = today.toISOString().substring(0, 10);
-      setgenderp(updateData?.gender);
-      setgenderp1(updateData?.gender);
+      // setgenderp(updateData?.gender);
+      // setgenderp1(updateData?.gender);
       setDonationDate(date);
     }
     setrole(Number(sessionStorage.getItem('userrole')));
@@ -422,7 +422,7 @@ const ChequeDonation = ({
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <CustomInputLabel required htmlFor="full-name">
+              {/* <CustomInputLabel required htmlFor="full-name">
                 {!newMember ? (
                   <>
                     <Select
@@ -499,9 +499,10 @@ const ChequeDonation = ({
                   </>
                 )}
                 Full Name
-              </CustomInputLabel>
+              </CustomInputLabel> */}
               {!newMember ? (
                 <>
+                  Full Name
                   <ReactTransliterate
                     style={custumstyle}
                     id="full-name"
@@ -516,6 +517,7 @@ const ChequeDonation = ({
                 </>
               ) : (
                 <>
+                  Full Name
                   <CustomInput
                     id="full-name"
                     required
@@ -791,7 +793,7 @@ const ChequeDonation = ({
                                 <ReactTransliterate
                                   style={custommStyleInputTable}
                                   required
-                                  value={hindiremark}
+                                  value={item.remark}
                                   onChangeText={(hindiremark) => {
                                     sethindiremark(hindiremark);
                                   }}

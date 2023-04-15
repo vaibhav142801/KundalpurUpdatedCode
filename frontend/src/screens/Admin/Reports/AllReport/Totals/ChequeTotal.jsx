@@ -5,8 +5,19 @@ function ChequeTotal({ data }) {
   if (data) {
     data &&
       data.map((item, inx) => {
-        if (item.CHEQUE_TOTAL_AMOUNT) {
-          totalAmount = totalAmount + item.CHEQUE_TOTAL_AMOUNT;
+        if (item?.electric_cheque_TOTAL_AMOUNT) {
+          totalAmount =
+            totalAmount + parseFloat(item?.electric_cheque_TOTAL_AMOUNT);
+        }
+      });
+  }
+
+  if (data) {
+    data &&
+      data.map((item, inx) => {
+        if (item?.manual_cheque_TOTAL_AMOUNT) {
+          totalAmount =
+            totalAmount + parseFloat(item?.manual_cheque_TOTAL_AMOUNT);
         }
       });
   }

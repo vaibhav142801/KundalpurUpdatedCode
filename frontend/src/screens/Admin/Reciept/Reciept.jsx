@@ -16,7 +16,6 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
   const [isData, setisData] = React.useState(null);
   const navigation = useNavigate();
 
-  console.log('data is data', isData);
   function printDiv() {
     navigation('/admin-panel/reports/printcontent', {
       state: {
@@ -43,7 +42,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
       setisData(location.state?.userdata);
     } else {
       serverInstance(
-        `admin/get-elecDonation?id=${location.state?.userdata.id}`,
+        `admin/get-elecDonation?id=${location.state?.userdata?.id}`,
         'get',
       ).then((res) => {
         if (res.status) {
@@ -51,6 +50,8 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
         }
       });
     }
+
+    console.log('data', location.state?.userdata);
   }, []);
 
   return (
@@ -73,8 +74,8 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
           <div className="main-head">
             <div className="main-head-container">
               <span className="head-sn">
-                <p>&nbsp;</p>
-                <h4>&nbsp;</h4>
+                <p>क्र :</p>
+                <h4>{isData?.voucherNo}</h4>
               </span>
               <span className="head-name">
                 <h2>श्री दिगम्बर जैन सिद्धक्षेत्र कुण्डलगिरि</h2>
@@ -99,133 +100,6 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                       : isData?.ReceiptNo}
                   </h2>
                 </span>
-                <span className="leftitems">
-                  <h2>दान दातार :</h2>
-                  <div>
-                    <h2 className="font_bold_in_donation">
-                      {isData && isData?.gender
-                        ? isData && isData?.gender
-                        : isData && isData?.GENDER}{' '}
-                      &nbsp;
-                      {isData?.NAME ? isData?.NAME : isData?.name}
-                    </h2>
-                  </div>
-                </span>
-                <span className="leftitems">
-                  <h2>स्थान :</h2>
-
-                  <div className="warp_text">
-                    <h2 className="font_bold_in_donation">
-                      {isData?.ADDRESS ? isData?.ADDRESS : isData?.address}{' '}
-                    </h2>
-                  </div>
-                </span>
-
-                {isData && isData.modeOfDonation === '4' ? (
-                  <>
-                    {isData &&
-                      isData.elecItemDetails &&
-                      isData.modeOfDonation === '4' &&
-                      isData.elecItemDetails[0].quantity && (
-                        <>
-                          <span className="leftitems ">
-                            <h2>मद:</h2>
-                            <h2 className="font_bold_in_donation">
-                              {isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].type}
-                            </h2>
-                          </span>
-                        </>
-                      )}
-                    {isData &&
-                      isData.elecItemDetails &&
-                      isData.modeOfDonation === '4' &&
-                      isData.elecItemDetails[0].quantity && (
-                        <>
-                          <span className="leftitems ">
-                            <h2>संख्या:</h2>
-                            <h2 className="font_bold_in_donation">
-                              {isData && isData?.TYPE
-                                ? isData?.TYPE
-                                : isData &&
-                                  isData.elecItemDetails &&
-                                  isData.elecItemDetails[0].quantity}
-                            </h2>
-                          </span>
-                          <span className="leftitems ">
-                            <h2>वजन:</h2>
-                            <h2
-                              className="font_bold_in_donation"
-                              style={{ marginBottom: '1rem' }}
-                            >
-                              {isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].size}
-                              {isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].unit}
-                            </h2>
-                          </span>
-                        </>
-                      )}
-                  </>
-                ) : (
-                  <></>
-                )}
-
-                {isData && isData.modeOfDonation === 4 ? (
-                  <>
-                    {isData &&
-                      isData.elecItemDetails &&
-                      isData.modeOfDonation === 4 &&
-                      isData.elecItemDetails[0].quantity && (
-                        <>
-                          <span className="leftitems ">
-                            <h2>मद:</h2>
-                            <h2 className="font_bold_in_donation">
-                              {isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].type}
-                            </h2>
-                          </span>
-                        </>
-                      )}
-                    {isData &&
-                      isData.elecItemDetails &&
-                      isData.modeOfDonation === 4 &&
-                      isData.elecItemDetails[0].quantity && (
-                        <>
-                          <span className="leftitems ">
-                            <h2>संख्या:</h2>
-                            <h2 className="font_bold_in_donation">
-                              {isData && isData?.TYPE
-                                ? isData?.TYPE
-                                : isData &&
-                                  isData.elecItemDetails &&
-                                  isData.elecItemDetails[0].quantity}
-                            </h2>
-                          </span>
-                          <span className="leftitems ">
-                            <h2>वजन:</h2>
-                            <h2
-                              className="font_bold_in_donation"
-                              style={{ marginBottom: '1rem' }}
-                            >
-                              {isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].size}
-                              {isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].unit}
-                            </h2>
-                          </span>
-                        </>
-                      )}
-                  </>
-                ) : (
-                  <></>
-                )}
               </div>
               <div className="rightdata">
                 <span className="rightitems">
@@ -249,10 +123,6 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                   </h2>
                 </span>
 
-                <span className="rightitems">
-                  <h2>मोबाइल नं :</h2>
-                  <h2 className="font_bold_in_donation">{isData?.phoneNo}</h2>
-                </span>
                 {isData && isData.CHEQUE_NO && (
                   <>
                     <span className="rightitems">
@@ -273,165 +143,283 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                     </span>
                   </>
                 )}
-                {isData &&
-                  isData.elecItemDetails &&
-                  isData.modeOfDonation === 3 && (
-                    <>
-                      <span className="rightitems">
-                        <h2>माध्यम :</h2>
-
-                        <h2 className="font_bold_in_donation">
-                          {isData &&
-                            isData.elecItemDetails &&
-                            isData.elecItemDetails[0]?.BankName}
-                          {isData &&
-                            isData.elecItemDetails &&
-                            isData.elecItemDetails[0].ChequeNo}
-                        </h2>
-                      </span>
-                    </>
-                  )}
-
-                {isData &&
-                  isData.elecItemDetails &&
-                  isData.modeOfDonation === '3' && (
-                    <>
-                      <span className="rightitems">
-                        <h2>माध्यम :</h2>
-
-                        <h2 className="font_bold_in_donation">
-                          {isData &&
-                            isData.elecItemDetails &&
-                            isData.elecItemDetails[0].BankName}
-                          {isData &&
-                            isData.elecItemDetails &&
-                            isData.elecItemDetails[0].ChequeNo}
-                        </h2>
-                      </span>
-                    </>
-                  )}
-
-                {isData &&
-                  isData.elecItemDetails &&
-                  isData.modeOfDonation === '1' &&
-                  isData.elecItemDetails[0].BankName && (
-                    <>
-                      <span className="rightitems">
-                        <h2>माध्यम:</h2>
-
-                        <h2 className="font_bold_in_donation">
-                          {isData && isData.elecItemDetails[0].BankName}
-                        </h2>
-                      </span>
-                    </>
-                  )}
-                {isData &&
-                  isData.elecItemDetails &&
-                  isData.modeOfDonation === 1 &&
-                  isData.elecItemDetails[0].BankName && (
-                    <>
-                      <span className="rightitems">
-                        <h2>माध्यम:</h2>
-
-                        <h2 className="font_bold_in_donation">
-                          {isData && isData.elecItemDetails[0].BankName}
-                        </h2>
-                      </span>
-                    </>
-                  )}
-
-                {isData && isData?.modeOfDonation === '2' && (
-                  <span className="rightitems">
-                    <h2>विवरण :</h2>
-                    <h2 className="font_bold_in_donation">
-                      {isData &&
-                        isData.elecItemDetails &&
-                        isData.elecItemDetails[0].remark}
-                    </h2>
-                  </span>
-                )}
-
-                {isData && isData?.modeOfDonation === 2 && (
-                  <span className="rightitems">
-                    <h2>विवरण :</h2>
-                    <h2 className="font_bold_in_donation">
-                      {isData &&
-                        isData.elecItemDetails &&
-                        isData.elecItemDetails[0].remark}
-                    </h2>
-                  </span>
-                )}
-
-                {isData &&
-                  isData.elecItemDetails &&
-                  isData.modeOfDonation === '4' &&
-                  isData.elecItemDetails[0].itemType && (
-                    <>
-                      <span className="rightitems">
-                        <h2>सामग्री का नाम:</h2>
-                        <h2 className="font_bold_in_donation">
-                          {isData && isData?.TYPE
-                            ? isData?.TYPE
-                            : isData &&
-                              isData.elecItemDetails &&
-                              isData.elecItemDetails[0].itemType}
-                        </h2>
-                      </span>
-                    </>
-                  )}
-
-                {isData &&
-                  isData.elecItemDetails &&
-                  isData.modeOfDonation === 4 &&
-                  isData.elecItemDetails[0].itemType && (
-                    <>
-                      <span className="rightitems">
-                        <h2>सामग्री का नाम:</h2>
-                        <h2 className="font_bold_in_donation">
-                          {isData && isData?.TYPE
-                            ? isData?.TYPE
-                            : isData &&
-                              isData.elecItemDetails &&
-                              isData.elecItemDetails[0].itemType}
-                        </h2>
-                      </span>
-                    </>
-                  )}
-
-                {isData &&
-                  isData.elecItemDetails &&
-                  isData.modeOfDonation === '4' &&
-                  isData.elecItemDetails[0].amount && (
-                    <>
-                      <span className="rightitems">
-                        <h2>विवरण :</h2>
-                        <h2 className="font_bold_in_donation">
-                          {isData &&
-                            isData.elecItemDetails &&
-                            isData.elecItemDetails[0].remark}
-                        </h2>
-                      </span>
-                    </>
-                  )}
-
-                {isData &&
-                  isData.elecItemDetails &&
-                  isData.modeOfDonation === 4 &&
-                  isData.elecItemDetails[0].amount && (
-                    <>
-                      <span className="rightitems">
-                        <h2>विवरण :</h2>
-                        <h2 className="font_bold_in_donation">
-                          {isData &&
-                            isData.elecItemDetails &&
-                            isData.elecItemDetails[0].remark}
-                        </h2>
-                      </span>
-                    </>
-                  )}
               </div>
             </div>
 
+            <span className="rightitems2 ">
+              <div
+                className="dan_ka_mad"
+                style={{
+                  marginBottom: '1rem',
+                  marginTop: '1rem',
+                  width: '17%',
+                }}
+              >
+                <h2>दान दातार श्री :</h2>
+              </div>
+              <h2 className="center_receipt_format font_bold_in_donation">
+                {/* {isData && isData?.gender
+                  ? isData && isData?.gender
+                  : isData && isData?.GENDER}{' '}
+                &nbsp; */}
+                {isData?.NAME ? isData?.NAME : isData?.name}{' '}
+                <span className="rightitems">
+                  {isData?.phoneNo && <>({isData?.phoneNo})</>}
+                </span>
+              </h2>
+            </span>
+
+            <span className="rightitems2 ">
+              <div className="dan_ka_mad">
+                <h2>स्थान :</h2>
+              </div>
+              <h2 className="center_receipt_format font_bold_in_donation">
+                {isData?.ADDRESS ? isData?.ADDRESS : isData?.address}
+              </h2>
+            </span>
+            <span className="rightitems2 ">
+              <div className="dan_ka_mad">
+                <h2>दान का मद :</h2>
+              </div>
+              <span className="center_receipt_format">
+                {isData && isData.elecItemDetails && (
+                  <>
+                    {isData.elecItemDetails.map((item) => {
+                      return (
+                        <h2>
+                          <b>{item.type}</b> -₹{item.amount} /-
+                        </h2>
+                      );
+                    })}
+                  </>
+                )}
+              </span>
+            </span>
+
+            {isData &&
+              isData.elecItemDetails &&
+              isData.modeOfDonation === '4' &&
+              isData.elecItemDetails[0].amount && (
+                <>
+                  <span className="rightitems2 ">
+                    <div className="dan_ka_mad">
+                      <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
+                    </div>
+                    <h2 className="center_receipt_format font_bold_in_donation">
+                      {isData &&
+                        isData.elecItemDetails &&
+                        isData.elecItemDetails[0].remark}
+                      {isData &&
+                        isData.elecItemDetails &&
+                        isData.elecItemDetails[0].itemType && (
+                          <>
+                            -
+                            {isData &&
+                              isData.elecItemDetails &&
+                              isData.elecItemDetails[0].itemType}
+                          </>
+                        )}
+                      {isData &&
+                        isData.elecItemDetails &&
+                        isData.elecItemDetails[0].quantity && (
+                          <>
+                            -
+                            {isData &&
+                              isData.elecItemDetails &&
+                              isData.elecItemDetails[0].quantity}
+                          </>
+                        )}
+                      {isData &&
+                        isData.elecItemDetails &&
+                        isData.elecItemDetails[0].size &&
+                        isData &&
+                        isData.elecItemDetails &&
+                        isData.elecItemDetails[0].unit && (
+                          <>
+                            -
+                            {isData &&
+                              isData.elecItemDetails &&
+                              isData.elecItemDetails[0].size}
+                            {isData &&
+                              isData.elecItemDetails &&
+                              isData.elecItemDetails[0].unit}
+                          </>
+                        )}
+                    </h2>
+                  </span>
+                </>
+              )}
+
+            {isData &&
+              isData.elecItemDetails &&
+              isData.modeOfDonation === 4 &&
+              isData.elecItemDetails[0].amount && (
+                <>
+                  <span className="rightitems2 ">
+                    <div className="dan_ka_mad">
+                      <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
+                    </div>
+                    <h2 className="center_receipt_format font_bold_in_donation">
+                      {isData &&
+                        isData.elecItemDetails &&
+                        isData.elecItemDetails[0].remark}
+                      {isData &&
+                        isData.elecItemDetails &&
+                        isData.elecItemDetails[0].itemType && (
+                          <>
+                            -
+                            {isData &&
+                              isData.elecItemDetails &&
+                              isData.elecItemDetails[0].itemType}
+                          </>
+                        )}
+                      {isData &&
+                        isData.elecItemDetails &&
+                        isData.elecItemDetails[0].quantity && (
+                          <>
+                            -
+                            {isData &&
+                              isData.elecItemDetails &&
+                              isData.elecItemDetails[0].quantity}
+                          </>
+                        )}
+                      {isData &&
+                        isData.elecItemDetails &&
+                        isData.elecItemDetails[0].size &&
+                        isData &&
+                        isData.elecItemDetails &&
+                        isData.elecItemDetails[0].unit && (
+                          <>
+                            -
+                            {isData &&
+                              isData.elecItemDetails &&
+                              isData.elecItemDetails[0].size}
+                            {isData &&
+                              isData.elecItemDetails &&
+                              isData.elecItemDetails[0].unit}
+                          </>
+                        )}
+                    </h2>
+                  </span>
+                </>
+              )}
+
+            {isData && isData?.modeOfDonation === '2' && (
+              <span className="rightitems2 ">
+                <div className="dan_ka_mad">
+                  <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
+                </div>
+                <h2 className="center_receipt_format font_bold_in_donation">
+                  {isData &&
+                    isData.elecItemDetails &&
+                    isData.elecItemDetails[0].remark}
+                </h2>
+              </span>
+            )}
+
+            {isData && isData?.modeOfDonation === 2 && (
+              <span className="rightitems2 ">
+                <div className="dan_ka_mad">
+                  <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
+                </div>
+                <h2 className="center_receipt_format  font_bold_in_donation">
+                  {isData &&
+                    isData.elecItemDetails &&
+                    isData.elecItemDetails[0].remark}
+                </h2>
+              </span>
+            )}
+            {isData && isData?.modeOfDonation === 1 && (
+              <span className="rightitems2 ">
+                <div className="dan_ka_mad">
+                  <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
+                </div>
+                <h2 className="center_receipt_format  font_bold_in_donation">
+                  {isData &&
+                    isData.elecItemDetails &&
+                    isData.elecItemDetails[0].remark}{' '}
+                  {isData && isData.elecItemDetails[0].BankName && (
+                    <>( {isData && isData.elecItemDetails[0].BankName} )</>
+                  )}
+                </h2>
+              </span>
+            )}
+
+            {isData && isData?.modeOfDonation === '3' && (
+              <span className="rightitems2 ">
+                <div className="dan_ka_mad">
+                  <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
+                </div>
+                <h2 className="center_receipt_format  font_bold_in_donation">
+                  {isData &&
+                    isData.elecItemDetails &&
+                    isData.elecItemDetails[0].remark}
+                  {isData &&
+                    isData.elecItemDetails &&
+                    isData.elecItemDetails[0].BankName &&
+                    isData &&
+                    isData.elecItemDetails &&
+                    isData.elecItemDetails[0].ChequeNo && (
+                      <>
+                        (
+                        {isData &&
+                          isData.elecItemDetails &&
+                          isData.elecItemDetails[0].BankName}
+                        {isData &&
+                          isData.elecItemDetails &&
+                          isData.elecItemDetails[0].ChequeNo}{' '}
+                        )
+                      </>
+                    )}
+                </h2>
+              </span>
+            )}
+
+            {isData && isData?.modeOfDonation === '1' && (
+              <span className="rightitems2 ">
+                <div className="dan_ka_mad">
+                  <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
+                </div>
+                <h2 className="center_receipt_format  font_bold_in_donation">
+                  {isData &&
+                    isData.elecItemDetails &&
+                    isData.elecItemDetails[0].remark}{' '}
+                  {isData && isData.elecItemDetails[0].BankName && (
+                    <>( {isData && isData.elecItemDetails[0].BankName} )</>
+                  )}
+                </h2>
+              </span>
+            )}
+
+            {isData && isData?.modeOfDonation === 3 && (
+              <span className="rightitems2 ">
+                <div className="dan_ka_mad">
+                  <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
+                </div>
+                <h2 className="center_receipt_format  font_bold_in_donation">
+                  {isData &&
+                    isData.elecItemDetails &&
+                    isData.elecItemDetails[0].remark}{' '}
+                  {isData &&
+                    isData.elecItemDetails &&
+                    isData.elecItemDetails[0].BankName &&
+                    isData &&
+                    isData.elecItemDetails &&
+                    isData.elecItemDetails[0].ChequeNo && (
+                      <>
+                        (
+                        {isData &&
+                          isData.elecItemDetails &&
+                          isData.elecItemDetails[0].BankName}
+                        {isData &&
+                          isData.elecItemDetails &&
+                          isData.elecItemDetails[0].ChequeNo}{' '}
+                        )
+                      </>
+                    )}
+                </h2>
+              </span>
+            )}
             {(isData && isData?.modeOfDonation === '4') ||
             (isData && isData?.modeOfDonation === 4) ? (
               <>
@@ -443,167 +431,6 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
               </>
             ) : (
               <>
-                {isData && isData?.modeOfDonation === '1' && (
-                  <span className="rightitems2 ">
-                    <div className="dan_ka_mad">
-                      <h2>दान का मद :</h2>
-                    </div>
-                    <span className="center_receipt_format">
-                      {isData && isData.elecItemDetails && (
-                        <>
-                          {isData.elecItemDetails.map((item) => {
-                            return (
-                              <h2>
-                                <b>{item.type}</b> -₹{item.amount} /-
-                              </h2>
-                            );
-                          })}
-                        </>
-                      )}
-                    </span>
-                  </span>
-                )}
-                {isData && isData.CHEQUE_NO === '' && (
-                  <>
-                    <span className="rightitems2 ">
-                      <div className="dan_ka_mad">
-                        <h2>दान का मद :</h2>
-                      </div>
-                      <span className="center_receipt_format">
-                        {isData && (
-                          <>
-                            <h2>
-                              <b>{isData.TYPE}</b>
-                            </h2>
-                          </>
-                        )}
-                      </span>
-                    </span>
-                  </>
-                )}
-
-                {isData && isData.CHEQUE_NO && (
-                  <>
-                    <span className="rightitems2 ">
-                      <div className="dan_ka_mad">
-                        <h2>दान का मद :</h2>
-                      </div>
-                      <span className="center_receipt_format">
-                        {isData && (
-                          <>
-                            <h2>
-                              <b>{isData.TYPE}</b>
-                            </h2>
-                          </>
-                        )}
-                      </span>
-                    </span>
-                  </>
-                )}
-                {isData && isData?.modeOfDonation === 1 && (
-                  <span className="rightitems2 ">
-                    <div className="dan_ka_mad">
-                      <h2>दान का मद :</h2>
-                    </div>
-                    <span className="center_receipt_format">
-                      {isData && isData.elecItemDetails && (
-                        <>
-                          {isData.elecItemDetails.map((item) => {
-                            return (
-                              <h2>
-                                <b>{item.type}</b> -₹{item.amount} /-
-                              </h2>
-                            );
-                          })}
-                        </>
-                      )}
-                    </span>
-                  </span>
-                )}
-
-                {isData && isData?.modeOfDonation === '3' && (
-                  <span className="rightitems2 ">
-                    <div className="dan_ka_mad">
-                      <h2>दान का मद :</h2>
-                    </div>
-                    <span className="center_receipt_format">
-                      {isData && isData.elecItemDetails && (
-                        <>
-                          {isData.elecItemDetails.map((item) => {
-                            return (
-                              <h2>
-                                <b>{item.type}</b> -₹{item.amount} /-
-                              </h2>
-                            );
-                          })}
-                        </>
-                      )}
-                    </span>
-                  </span>
-                )}
-
-                {isData && isData?.modeOfDonation === 3 && (
-                  <span className="rightitems2 ">
-                    <div className="dan_ka_mad">
-                      <h2>दान का मद :</h2>
-                    </div>
-                    <span className="center_receipt_format">
-                      {isData && isData.elecItemDetails && (
-                        <>
-                          {isData.elecItemDetails.map((item) => {
-                            return (
-                              <h2>
-                                <b>{item.type}</b> -₹{item.amount} /-
-                              </h2>
-                            );
-                          })}
-                        </>
-                      )}
-                    </span>
-                  </span>
-                )}
-
-                {isData && isData?.modeOfDonation === '2' && (
-                  <div className="rightitems2 ">
-                    <div className="dan_ka_mad">
-                      <h2>दान का मद :</h2>
-                    </div>
-                    <span className="center_receipt_format">
-                      {isData && isData.elecItemDetails && (
-                        <>
-                          {isData.elecItemDetails.map((item) => {
-                            return (
-                              <h2>
-                                <b>{item.type}</b> -₹{item.amount} /-
-                              </h2>
-                            );
-                          })}
-                        </>
-                      )}
-                    </span>
-                  </div>
-                )}
-
-                {isData && isData?.modeOfDonation === 2 && (
-                  <span className="rightitems2 ">
-                    <div className="dan_ka_mad">
-                      <h2>दान का मद :</h2>
-                    </div>
-                    <div className="center_receipt_format">
-                      {isData && isData.elecItemDetails && (
-                        <>
-                          {isData.elecItemDetails.map((item) => {
-                            return (
-                              <h2>
-                                <b>{item.type}</b> -₹{item.amount} /-
-                              </h2>
-                            );
-                          })}
-                        </>
-                      )}
-                    </div>
-                  </span>
-                )}
                 <div className="main_div_center">
                   <span className="rightitems2 ">
                     <h2>दान राशि अंको में :</h2>
@@ -625,49 +452,6 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                       /-
                     </h2>
                   </span>
-                  {isData && isData?.modeOfDonation === '1' && (
-                    <div className="rightitems2  margin_left_div">
-                      <h2 style={{ marginLeft: '38%' }}>विवरण :</h2>
-                      <h2 className="font_bold_in_donation">
-                        {isData &&
-                          isData.elecItemDetails &&
-                          isData.elecItemDetails[0].remark}
-                      </h2>
-                    </div>
-                  )}
-
-                  {isData && isData?.modeOfDonation === 1 && (
-                    <div className="rightitems2  margin_left_div">
-                      <h2 style={{ marginLeft: '38%' }}>विवरण :</h2>
-                      <h2 className="font_bold_in_donation">
-                        {isData &&
-                          isData.elecItemDetails &&
-                          isData.elecItemDetails[0].remark}
-                      </h2>
-                    </div>
-                  )}
-
-                  {isData && isData?.modeOfDonation === '3' && (
-                    <span className="rightitems2  margin_left_div">
-                      <h2 style={{ marginLeft: '38%' }}>विवरण :</h2>
-                      <h2 className="font_bold_in_donation">
-                        {isData &&
-                          isData.elecItemDetails &&
-                          isData.elecItemDetails[0].remark}
-                      </h2>
-                    </span>
-                  )}
-
-                  {isData && isData?.modeOfDonation === 3 && (
-                    <span className="rightitems2  margin_left_div">
-                      <h2 style={{ marginLeft: '38%' }}>विवरण :</h2>
-                      <h2 className="font_bold_in_donation">
-                        {isData &&
-                          isData.elecItemDetails &&
-                          isData.elecItemDetails[0].remark}
-                      </h2>
-                    </span>
-                  )}
                 </div>
 
                 <span className="rightitems2 ">

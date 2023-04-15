@@ -1264,12 +1264,12 @@ const ManualItem = ({ setopendashboard }) => {
             <TableHead style={{ background: '#FFEEE0' }}>
               <TableRow>
                 <TableCell
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    width: '150px',
-                  }}
+                // style={{
+                //   display: 'flex',
+                //   flexDirection: 'column',
+                //   alignItems: 'center',
+                //   // width: '150px',
+                // }}
                 >
                   Date
                   <Button onClick={() => onSortChange('donation_date')}>
@@ -1308,31 +1308,38 @@ const ManualItem = ({ setopendashboard }) => {
                   </Button>
                 </TableCell>
                 <TableCell
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    width: '150px',
-                  }}
+                  style={
+                    {
+                      // display: 'flex',
+                      // flexDirection: 'column',
+                      // alignItems: 'center',
+                      // width: '150px',
+                    }
+                  }
                 >
                   Amount{' '}
                   <Button onClick={() => onSortChange('amount')}>
                     <i class={`fa fa-${currentSort7}`} />
                   </Button>
                 </TableCell>
-                {/* <TableCell>ItemType</TableCell> */}
+                <TableCell>
+                  ItemType{' '}
+                  <Button onClick={() => onSortChange('unit')}>
+                    <i class={`fa fa-${currentSort11}`} />
+                  </Button>
+                </TableCell>
                 <TableCell>
                   Size{' '}
                   <Button onClick={() => onSortChange('size')}>
                     <i class={`fa fa-${currentSort10}`} />
                   </Button>
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   Units{' '}
                   <Button onClick={() => onSortChange('unit')}>
                     <i class={`fa fa-${currentSort11}`} />
                   </Button>
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   Quantity{' '}
                   <Button onClick={() => onSortChange('quantity')}>
@@ -1422,14 +1429,14 @@ const ManualItem = ({ setopendashboard }) => {
                   placeholder="Search Amount"
                 />
               </TableCell>
-              {/* <TableCell>
+              <TableCell>
                 <input
                   className="cuolms_search"
                   type="text"
                   onChange={(e) => onSearchByOther(e, 'item')}
                   placeholder="Item"
                 />
-              </TableCell> */}
+              </TableCell>
               <TableCell>
                 <input
                   className="cuolms_search"
@@ -1438,14 +1445,14 @@ const ManualItem = ({ setopendashboard }) => {
                   placeholder="Size"
                 />
               </TableCell>
-              <TableCell>
+              {/* <TableCell>
                 <input
                   className="cuolms_search"
                   type="text"
                   onChange={(e) => onSearchByOther(e, 'unit')}
                   placeholder="Unit"
                 />
-              </TableCell>
+              </TableCell> */}
               <TableCell>
                 <input
                   className="cuolms_search"
@@ -1516,7 +1523,7 @@ const ManualItem = ({ setopendashboard }) => {
                           0,
                         )}
                       </TableCell>
-                      {/* <TableCell>
+                      <TableCell>
                         {row?.manualItemDetails.map((row) => {
                           return (
                             <li style={{ listStyle: 'none' }}>
@@ -1524,21 +1531,23 @@ const ManualItem = ({ setopendashboard }) => {
                             </li>
                           );
                         })}
-                      </TableCell> */}
+                      </TableCell>
                       <TableCell>
                         {row?.manualItemDetails.map((row) => {
                           return (
-                            <li style={{ listStyle: 'none' }}>{row?.size} </li>
+                            <li style={{ listStyle: 'none' }}>
+                              {row?.size}-{row?.unit}{' '}
+                            </li>
                           );
                         })}
                       </TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         {row?.manualItemDetails.map((row) => {
                           return (
                             <li style={{ listStyle: 'none' }}>{row?.unit} </li>
                           );
                         })}
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell>
                         {row?.manualItemDetails.map((row) => {
                           return (

@@ -26,6 +26,7 @@ import Updateuser from './Updateuser';
 import Userinfo from './Userinfo';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
+
 const style = {
   position: 'absolute',
   top: '40%',

@@ -5,12 +5,13 @@ function ElecTotal({ data }) {
   if (data) {
     data &&
       data.map((item, inx) => {
-        if (item.manual_bank_TOTAL_AMOUNT) {
-          totalAmount = totalAmount + item.manual_bank_TOTAL_AMOUNT;
+        if (item?.electric_bank_TOTAL_AMOUNT) {
+          totalAmount =
+            totalAmount + parseFloat(item.electric_bank_TOTAL_AMOUNT);
         }
 
-        if (item.elec_bank_TOTAL_AMOUNT) {
-          totalAmount = totalAmount + item.elec_bank_TOTAL_AMOUNT;
+        if (item.manual_bank_TOTAL_AMOUNT) {
+          totalAmount = totalAmount + parseFloat(item.manual_bank_TOTAL_AMOUNT);
         }
       });
   }

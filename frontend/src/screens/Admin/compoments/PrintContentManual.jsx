@@ -134,11 +134,17 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                 <div className="wrap_div_child_div">
                   <span className="common_margin_pp hidelight">
                     {isData?.gender}&nbsp;
-                    {isData?.NAME ? isData?.NAME : isData?.name}(
-                    {isData && isData?.MobileNo
-                      ? isData?.MobileNo
-                      : isData && isData.phoneNo}
-                    )
+                    {isData?.NAME ? isData?.NAME : isData?.name}
+                    {isData?.MobileNo ||
+                      (isData && isData.phoneNo && (
+                        <>
+                          (
+                          {isData && isData?.MobileNo
+                            ? isData?.MobileNo
+                            : isData && isData.phoneNo}
+                          )
+                        </>
+                      ))}
                   </span>
                 </div>
               </div>
@@ -163,16 +169,73 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                       {isData && isData?.TYPE
                         ? isData?.TYPE
                         : isData && isData.manualItemDetails[0].remark}
-                      -{' '}
                       {isData &&
                         isData.manualItemDetails &&
-                        isData.manualItemDetails[0].itemType}
-                      -
+                        isData.manualItemDetails[0].itemType && (
+                          <>
+                            -{' '}
+                            {isData &&
+                              isData.manualItemDetails &&
+                              isData.manualItemDetails[0].itemType}
+                          </>
+                        )}
                       {isData &&
                         isData.manualItemDetails &&
-                        isData.manualItemDetails[0].quantity}{' '}
-                      - {isData && isData.manualItemDetails[0].size} &nbsp;
-                      {isData && isData.manualItemDetails[0].unit}
+                        isData.manualItemDetails[0].quantity &&
+                        isData &&
+                        isData.manualItemDetails[0].size && (
+                          <>
+                            -{' '}
+                            {isData &&
+                              isData.manualItemDetails &&
+                              isData.manualItemDetails[0].quantity}{' '}
+                            - {isData && isData.manualItemDetails[0].size}{' '}
+                            &nbsp;
+                            {isData && isData.manualItemDetails[0].unit}
+                          </>
+                        )}
+                    </span>
+                  </p>
+                </>
+              ) : (
+                <></>
+              )}
+
+              {isData && isData?.modeOfDonation === 4 ? (
+                <>
+                  <p className="common_margin_pp">
+                    <span className="grday-text">
+                      विवरण - &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+                    </span>
+                    <span className="hidelight" style={{ fontSize: 16 }}>
+                      {isData && isData?.TYPE
+                        ? isData?.TYPE
+                        : isData && isData.manualItemDetails[0].remark}
+                      {isData &&
+                        isData.manualItemDetails &&
+                        isData.manualItemDetails[0].itemType && (
+                          <>
+                            -{' '}
+                            {isData &&
+                              isData.manualItemDetails &&
+                              isData.manualItemDetails[0].itemType}
+                          </>
+                        )}
+                      {isData &&
+                        isData.manualItemDetails &&
+                        isData.manualItemDetails[0].quantity &&
+                        isData &&
+                        isData.manualItemDetails[0].size && (
+                          <>
+                            -{' '}
+                            {isData &&
+                              isData.manualItemDetails &&
+                              isData.manualItemDetails[0].quantity}{' '}
+                            - {isData && isData.manualItemDetails[0].size}{' '}
+                            &nbsp;
+                            {isData && isData.manualItemDetails[0].unit}
+                          </>
+                        )}
                     </span>
                   </p>
                 </>
@@ -214,30 +277,27 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                 ) : (
                   <>
                     <div className="div_center_text_is">
-                      {isData && isData.manualItemDetails && (
+                      {isData && isData?.manualItemDetails && (
                         <>
-                          <div className="gray-text_div">
+                          <div
+                            className="gray-text_div"
+                            style={{ width: '9rem' }}
+                          >
                             <p>दान का मद -</p>
                           </div>
                           <div className="wrap_div_child_div">
-                            <span
-                              className="hidelight"
-                              style={{ fontSize: 16 }}
-                            >
-                              {isData &&
-                                isData.manualItemDetails &&
-                                isData.manualItemDetails.map((item) => {
-                                  return (
-                                    <p
-                                      className="common_margin_pp hidelight"
-                                      style={{ fontSize: 16 }}
-                                    >
-                                      {' '}
-                                      {item.type}-₹ {item.amount} /-
-                                    </p>
-                                  );
-                                })}
-                            </span>
+                            {isData &&
+                              isData?.manualItemDetails &&
+                              isData?.manualItemDetails.map((item) => {
+                                return (
+                                  <p
+                                    className="common_margin_pp hidelight"
+                                    style={{ fontSize: 16 }}
+                                  >
+                                    {item.type}-₹ {item.amount} /-
+                                  </p>
+                                );
+                              })}
                           </div>
                         </>
                       )}
@@ -357,13 +417,19 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
                                 : isData && isData.manualItemDetails[0].remark}
-                              ({' '}
-                              {isData && isData?.TYPE
-                                ? isData?.TYPE
-                                : isData &&
-                                  isData.manualItemDetails &&
-                                  isData.manualItemDetails[0].BankName}
-                              )
+                              {isData &&
+                                isData.manualItemDetails &&
+                                isData.manualItemDetails[0].BankName && (
+                                  <>
+                                    ({}
+                                    {isData && isData?.TYPE
+                                      ? isData?.TYPE
+                                      : isData &&
+                                        isData.manualItemDetails &&
+                                        isData.manualItemDetails[0].BankName}
+                                    )
+                                  </>
+                                )}
                             </span>
                           </p>
                         </div>
@@ -384,13 +450,19 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
                                 : isData && isData.manualItemDetails[0].remark}
-                              ({' '}
-                              {isData && isData?.TYPE
-                                ? isData?.TYPE
-                                : isData &&
-                                  isData.manualItemDetails &&
-                                  isData.manualItemDetails[0].BankName}
-                              )
+                              {isData &&
+                                isData.manualItemDetails &&
+                                isData.manualItemDetails[0].BankName && (
+                                  <>
+                                    ({}
+                                    {isData && isData?.TYPE
+                                      ? isData?.TYPE
+                                      : isData &&
+                                        isData.manualItemDetails &&
+                                        isData.manualItemDetails[0].BankName}
+                                    )
+                                  </>
+                                )}
                             </span>
                           </p>
                         </div>
@@ -541,7 +613,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                   </div>
                 </>
               )}
-              <div className="main_print_div">
+              <div className="main_print_div" style={{ marginTop: '6rem' }}>
                 <div>
                   <p className="common_margin_pp">
                     <span className="rd">
@@ -693,30 +765,27 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                 ) : (
                   <>
                     <div className="div_center_text_is">
-                      {isData && isData.manualItemDetails && (
+                      {isData && isData?.manualItemDetails && (
                         <>
-                          <div className="gray-text_div">
+                          <div
+                            className="gray-text_div"
+                            style={{ width: '9rem' }}
+                          >
                             <p>दान का मद -</p>
                           </div>
                           <div className="wrap_div_child_div">
-                            <span
-                              className="hidelight"
-                              style={{ fontSize: 16 }}
-                            >
-                              {isData &&
-                                isData.manualItemDetails &&
-                                isData.manualItemDetails.map((item) => {
-                                  return (
-                                    <p
-                                      className="common_margin_pp hidelight"
-                                      style={{ fontSize: 16 }}
-                                    >
-                                      {' '}
-                                      {item.type}-₹ {item.amount} /-
-                                    </p>
-                                  );
-                                })}
-                            </span>
+                            {isData &&
+                              isData?.manualItemDetails &&
+                              isData?.manualItemDetails.map((item) => {
+                                return (
+                                  <p
+                                    className="common_margin_pp hidelight"
+                                    style={{ fontSize: 16 }}
+                                  >
+                                    {item.type}-₹ {item.amount} /-
+                                  </p>
+                                );
+                              })}
                           </div>
                         </>
                       )}
@@ -990,10 +1059,39 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                 )}
               </div>
             </div>
-            <p> &nbsp;</p>
-            <p> &nbsp;</p>
-            <p> &nbsp;</p>
-            <p> &nbsp;</p>
+            {isData?.manualItemDetails.length > 1 ? (
+              <>
+                {isData?.manualItemDetails[0]?.itemType ? (
+                  <>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+                  </>
+                ) : (
+                  <>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <p> &nbsp;</p>
+                <p> &nbsp;</p>
+                <p> &nbsp;</p>
+                <p> &nbsp;</p>
+                <p> &nbsp;</p>
+                <p> &nbsp;</p>
+              </>
+            )}
 
             <p className="text_alijdshfhd">({isData?.CreatedBy})</p>
           </div>

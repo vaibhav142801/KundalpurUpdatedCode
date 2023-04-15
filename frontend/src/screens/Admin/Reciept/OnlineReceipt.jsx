@@ -83,7 +83,7 @@ const OnlineReceipt = ({ setopendashboard, setshowreciept, onlineId }) => {
           </div>
           <div className="main-head">
             <div className="main-head-container">
-              <span className="head-sn">
+              <span className="hedad-sn">
                 <p>&nbsp;</p>
                 <h4>&nbsp;</h4>
               </span>

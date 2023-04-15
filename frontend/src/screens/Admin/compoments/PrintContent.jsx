@@ -112,20 +112,28 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                 </div>
               </div>
               <div className="div_center_text_is">
-                <div className="gray-text_div">
-                  <p>दान दातार -</p>
+                <div className="gray-text_div" style={{ width: '6.3rem' }}>
+                  <p>दान दातार श्री -</p>
                 </div>
                 <div className="wrap_div_child_div">
                   <span
                     className="common_margin_pp hidelight"
                     style={{ fontSize: 16 }}
                   >
-                    {isData?.gender}&nbsp;
-                    {isData?.NAME ? isData?.NAME : isData?.name}(
+                    {/* {isData?.gender}&nbsp; */}
+                    {isData?.NAME ? isData?.NAME : isData?.name}
                     {isData && isData?.MobileNo
                       ? isData?.MobileNo
-                      : isData && isData.phoneNo}
-                    )
+                      : isData &&
+                        isData.phoneNo && (
+                          <>
+                            (
+                            {isData && isData?.MobileNo
+                              ? isData?.MobileNo
+                              : isData && isData.phoneNo}
+                            )
+                          </>
+                        )}
                   </span>
                 </div>
               </div>
@@ -236,13 +244,27 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                               {isData && isData?.TYPE
                                 ? isData?.TYPE
                                 : isData && isData.elecItemDetails[0].remark}
-                              -
+
                               {isData &&
                                 isData.elecItemDetails &&
-                                isData.elecItemDetails[0].itemType}
-                              - {isData && isData.elecItemDetails[0].size}
-                              &nbsp;
-                              {isData && isData.elecItemDetails[0].unit}
+                                isData.elecItemDetails[0].itemType && (
+                                  <>
+                                    -
+                                    {isData &&
+                                      isData.elecItemDetails &&
+                                      isData.elecItemDetails[0].itemType}
+                                  </>
+                                )}
+                              {isData &&
+                                isData.elecItemDetails[0].size &&
+                                isData &&
+                                isData.elecItemDetails[0].unit && (
+                                  <>
+                                    - {isData && isData.elecItemDetails[0].size}
+                                    &nbsp;
+                                    {isData && isData.elecItemDetails[0].unit}
+                                  </>
+                                )}
                             </span>
                           </div>
                         </>
@@ -259,13 +281,26 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                               {isData && isData?.TYPE
                                 ? isData?.TYPE
                                 : isData && isData.elecItemDetails[0].remark}
-                              -
                               {isData &&
                                 isData.elecItemDetails &&
-                                isData.elecItemDetails[0].itemType}
-                              - {isData && isData.elecItemDetails[0].size}
-                              &nbsp;
-                              {isData && isData.elecItemDetails[0].unit}
+                                isData.elecItemDetails[0].itemType && (
+                                  <>
+                                    -
+                                    {isData &&
+                                      isData.elecItemDetails &&
+                                      isData.elecItemDetails[0].itemType}
+                                  </>
+                                )}
+                              {isData &&
+                                isData.elecItemDetails[0].size &&
+                                isData &&
+                                isData.elecItemDetails[0].unit && (
+                                  <>
+                                    - {isData && isData.elecItemDetails[0].size}
+                                    &nbsp;
+                                    {isData && isData.elecItemDetails[0].unit}
+                                  </>
+                                )}
                             </span>
                           </div>
                         </>
@@ -285,9 +320,12 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                 ) : (
                   <>
                     <div className="div_center_text_is">
-                      {isData && isData.elecItemDetails && (
+                      {isData && isData?.elecItemDetails && (
                         <>
-                          <div className="gray-text_div">
+                          <div
+                            className="gray-text_div"
+                            style={{ width: '9rem' }}
+                          >
                             <p>दान का मद -</p>
                           </div>
                           <div className="wrap_div_child_div">
@@ -358,19 +396,28 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
                                 : isData && isData.elecItemDetails[0].remark}
+                              {isData &&
+                                isData.elecItemDetails &&
+                                isData.elecItemDetails[0].BankName &&
+                                isData &&
+                                isData.elecItemDetails &&
+                                isData.elecItemDetails[0].ChequeNo && (
+                                  <>
+                                    (
+                                    {isData && isData?.TYPE
+                                      ? isData?.TYPE
+                                      : isData &&
+                                        isData.elecItemDetails &&
+                                        isData.elecItemDetails[0].BankName}
+                                    {isData && isData?.TYPE
+                                      ? isData?.TYPE
+                                      : isData &&
+                                        isData.elecItemDetails &&
+                                        isData.elecItemDetails[0].ChequeNo}{' '}
+                                    )
+                                  </>
+                                )}
                             </span>
-                            (
-                            {isData && isData?.TYPE
-                              ? isData?.TYPE
-                              : isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].BankName}
-                            {isData && isData?.TYPE
-                              ? isData?.TYPE
-                              : isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].ChequeNo}
-                            )
                           </p>
                         </div>
                       </>
@@ -389,18 +436,29 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
                                 : isData && isData.elecItemDetails[0].remark}
+
+                              {isData &&
+                                isData.elecItemDetails &&
+                                isData.elecItemDetails[0].BankName &&
+                                isData &&
+                                isData.elecItemDetails &&
+                                isData.elecItemDetails[0].ChequeNo && (
+                                  <>
+                                    (
+                                    {isData && isData?.TYPE
+                                      ? isData?.TYPE
+                                      : isData &&
+                                        isData.elecItemDetails &&
+                                        isData.elecItemDetails[0].BankName}
+                                    {isData && isData?.TYPE
+                                      ? isData?.TYPE
+                                      : isData &&
+                                        isData.elecItemDetails &&
+                                        isData.elecItemDetails[0].ChequeNo}{' '}
+                                    )
+                                  </>
+                                )}
                             </span>
-                            {isData && isData?.TYPE
-                              ? isData?.TYPE
-                              : isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].BankName}
-                            {isData && isData?.TYPE
-                              ? isData?.TYPE
-                              : isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].ChequeNo}
-                            )
                           </p>
                         </div>
                       </>
@@ -420,13 +478,19 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                                 ? isData?.REMARK
                                 : isData && isData.elecItemDetails[0].remark}
                             </span>
-                            (
-                            {isData && isData?.TYPE
-                              ? isData?.TYPE
-                              : isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].BankName}
-                            )
+                            {isData &&
+                              isData.elecItemDetails &&
+                              isData.elecItemDetails[0].BankName && (
+                                <>
+                                  (
+                                  {isData && isData?.TYPE
+                                    ? isData?.TYPE
+                                    : isData &&
+                                      isData.elecItemDetails &&
+                                      isData.elecItemDetails[0].BankName}
+                                  )
+                                </>
+                              )}
                           </p>
                         </div>
                       </>
@@ -446,13 +510,19 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                                 ? isData?.REMARK
                                 : isData && isData.elecItemDetails[0].remark}
                             </span>
-                            (
-                            {isData && isData?.TYPE
-                              ? isData?.TYPE
-                              : isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].BankName}
-                            )
+                            {isData &&
+                              isData.elecItemDetails &&
+                              isData.elecItemDetails[0].BankName && (
+                                <>
+                                  (
+                                  {isData && isData?.TYPE
+                                    ? isData?.TYPE
+                                    : isData &&
+                                      isData.elecItemDetails &&
+                                      isData.elecItemDetails[0].BankName}
+                                  )
+                                </>
+                              )}
                           </p>
                         </div>
                       </>
@@ -613,7 +683,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                   </div>
                 </>
               )}
-              <div className="main_print_div">
+              <div className="main_print_div" style={{ marginTop: '6rem' }}>
                 <div>
                   <p className="common_margin_pp">
                     <span className="gray-tedxt">
@@ -660,15 +730,15 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                 </div>
               </div>
               <div className="div_center_text_is">
-                <div className="gray-text_div">
-                  <p>दान दातार -</p>
+                <div className="gray-text_div" style={{ width: '6.3rem' }}>
+                  <p>दान दातार श्री -</p>
                 </div>
                 <div className="wrap_div_child_div">
                   <span
                     className="common_margin_pp hidelight"
                     style={{ fontSize: 16 }}
                   >
-                    {isData?.gender}&nbsp;
+                    {/* {isData?.gender}&nbsp; */}
                     {isData?.NAME ? isData?.NAME : isData?.name}(
                     {isData && isData?.MobileNo
                       ? isData?.MobileNo
@@ -836,7 +906,10 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                     <div className="div_center_text_is">
                       {isData && isData.elecItemDetails && (
                         <>
-                          <div className="gray-text_div">
+                          <div
+                            className="gray-text_div"
+                            style={{ width: '9rem' }}
+                          >
                             <p>दान का मद -</p>
                           </div>
                           <div className="wrap_div_child_div">
@@ -1127,12 +1200,40 @@ function PrintContent({ setopendashboard, setshowreciept }) {
               </div>
             </div>
 
-            <p> &nbsp;</p>
-            <p> &nbsp;</p>
-            <p> &nbsp;</p>
-            <p> &nbsp;</p>
-            <p> &nbsp;</p>
-            <p> &nbsp;</p>
+            {isData?.elecItemDetails && isData?.elecItemDetails.length > 1 ? (
+              <>
+                {isData?.elecItemDetails &&
+                isData?.elecItemDetails[0]?.itemType ? (
+                  <>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+                  </>
+                ) : (
+                  <>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <p> &nbsp;</p>
+                <p> &nbsp;</p>
+                <p> &nbsp;</p>
+                <p> &nbsp;</p>
+                <p> &nbsp;</p>
+                <p> &nbsp;</p>
+              </>
+            )}
 
             <p className="text_alijdshfhd">
               (

@@ -704,7 +704,7 @@ const ElectronicDonation = ({
                             <ReactTransliterate
                               style={custommStyleInputTable}
                               required
-                              value={hindiremark}
+                              value={item.remark}
                               onChangeText={(hindiremark) => {
                                 sethindiremark(hindiremark);
                               }}

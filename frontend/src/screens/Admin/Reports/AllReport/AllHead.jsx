@@ -26,6 +26,7 @@ import Chequestotal from '../AllReport/Totals/ChequeTotal';
 import Cashtotal from '../AllReport/Totals/Cashtotal';
 import ElecTotal from '../AllReport/Totals/ElecTotal';
 import Itemtotal from '../AllReport/Totals/Itemtotal';
+import OnlineCHeque from '../AllReport/Totals/OnlineCHeque';
 import Tooltip from '@mui/material/Tooltip';
 import { Button } from '@mui/material';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
@@ -289,7 +290,7 @@ const AllHead = ({ setopendashboard }) => {
           return 0;
         });
       } else {
-        filterdata();
+        // filterdata();
       }
     }
 
@@ -321,7 +322,7 @@ const AllHead = ({ setopendashboard }) => {
           return 0;
         });
       } else {
-        filterdata();
+        // filterdata();
       }
     }
 
@@ -353,7 +354,7 @@ const AllHead = ({ setopendashboard }) => {
           return 0;
         });
       } else {
-        filterdata();
+        // filterdata();
       }
     }
 
@@ -385,7 +386,7 @@ const AllHead = ({ setopendashboard }) => {
           return 0;
         });
       } else {
-        filterdata();
+        // filterdata();
       }
     }
 
@@ -417,7 +418,7 @@ const AllHead = ({ setopendashboard }) => {
           return 0;
         });
       } else {
-        filterdata();
+        // filterdata();
       }
     }
 
@@ -449,7 +450,7 @@ const AllHead = ({ setopendashboard }) => {
           return 0;
         });
       } else {
-        filterdata();
+        // filterdata();
       }
     }
 
@@ -481,7 +482,7 @@ const AllHead = ({ setopendashboard }) => {
           return 0;
         });
       } else {
-        filterdata();
+        // filterdata();
       }
     }
 
@@ -513,7 +514,7 @@ const AllHead = ({ setopendashboard }) => {
           return 0;
         });
       } else {
-        filterdata();
+        // filterdata();
       }
     }
   }, [
@@ -710,59 +711,50 @@ const AllHead = ({ setopendashboard }) => {
                         '&:last-child td, &:last-child th': { border: 0 },
                       }}
                     >
-                      {' '}
                       <TableCell onClick={() => filterHead(row.type)}>
                         {row.type ? row.type : row.TYPE}
                       </TableCell>
                       <TableCell>
-                        {row.TYPE
-                          ? row.MODE_OF_DONATION + ' ' + 'donation'
-                          : row.donationType + ' ' + 'donation'}
+                        {row?.donationType == 'manual'
+                          ? 'Manual Donation'
+                          : 'Donation'}
                       </TableCell>
                       <TableCell>
-                        {row.ONLINE_TOTAL_AMOUNT
-                          ? row.ONLINE_TOTAL_AMOUNT
-                          : '0'}
+                        {row.ONLINE_TOTAL_AMOUNT ? row.ONLINE_TOTAL_AMOUNT : ''}
                       </TableCell>
                       <TableCell>
-                        {row.CHEQUE_TOTAL_AMOUNT
-                          ? row.CHEQUE_TOTAL_AMOUNT
-                          : '0'}
+                        {row.CHEQUE_TOTAL_AMOUNT ? row.CHEQUE_TOTAL_AMOUNT : ''}
                       </TableCell>
                       <TableCell>
-                        {row.elec_cheque_TOTAL_AMOUNT
-                          ? row.elec_cheque_TOTAL_AMOUNT
-                          : row.manual_cheque_TOTAL_AMOUNT ||
-                            (!row.elec_cheque_TOTAL_AMOUNT &&
-                              !row.elec_cheque_TOTAL_AMOUNT)
-                          ? '0'
+                        {row?.electric_cheque_TOTAL_AMOUNT
+                          ? row?.electric_cheque_TOTAL_AMOUNT
+                          : ''}
+                        {row?.manual_cheque_TOTAL_AMOUNT
+                          ? row?.manual_cheque_TOTAL_AMOUNT
                           : ''}
                       </TableCell>
                       <TableCell>
-                        {row.manual_bank_TOTAL_AMOUNT
-                          ? row.manual_bank_TOTAL_AMOUNT
-                          : row.elec_bank_TOTAL_AMOUNT ||
-                            (!row.manual_bank_TOTAL_AMOUNT &&
-                              !row.manual_bank_TOTAL_AMOUNT)
-                          ? '0'
+                        {row?.manual_bank_TOTAL_AMOUNT
+                          ? row?.manual_bank_TOTAL_AMOUNT
+                          : ''}
+                        {row?.electric_bank_TOTAL_AMOUNT
+                          ? row?.electric_bank_TOTAL_AMOUNT
                           : ''}
                       </TableCell>
                       <TableCell>
-                        {row.manual_item_TOTAL_AMOUNT
-                          ? row.manual_item_TOTAL_AMOUNT
-                          : row.elec_item_TOTAL_AMOUNT ||
-                            (!row.manual_item_TOTAL_AMOUNT &&
-                              !row.manual_item_TOTAL_AMOUNT)
-                          ? '0'
+                        {row?.manual_item_TOTAL_AMOUNT
+                          ? row?.manual_item_TOTAL_AMOUNT
+                          : ''}
+                        {row?.electric_item_TOTAL_AMOUNT
+                          ? row?.electric_item_TOTAL_AMOUNT
                           : ''}
                       </TableCell>
                       <TableCell>
-                        {row.manual_cash_TOTAL_AMOUNT
-                          ? row.manual_cash_TOTAL_AMOUNT
-                          : row.elec_cash_TOTAL_AMOUNT ||
-                            (!row.manual_cash_TOTAL_AMOUNT &&
-                              !row.manual_cash_TOTAL_AMOUNT)
-                          ? '0'
+                        {row?.manual_cash_TOTAL_AMOUNT
+                          ? row?.manual_cash_TOTAL_AMOUNT
+                          : ''}
+                        {row?.electric_cash_TOTAL_AMOUNT
+                          ? row?.electric_cash_TOTAL_AMOUNT
                           : ''}
                       </TableCell>
                     </TableRow>
@@ -782,7 +774,7 @@ const AllHead = ({ setopendashboard }) => {
                   {<OnlineTotal data={isData} />}
                 </TableCell>
                 <TableCell style={{ fontWeight: 700 }}>
-                  {<ChequeTotal data={isData} />}
+                  {<OnlineCHeque data={isData} />}
                 </TableCell>
                 <TableCell style={{ fontWeight: 700 }}>
                   {<Chequestotal data={isData} />}

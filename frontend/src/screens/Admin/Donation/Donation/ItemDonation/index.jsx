@@ -70,8 +70,8 @@ const ItemDonation = ({
   const [address, setAddress] = useState('');
   const [newMember, setNewMember] = useState(false);
   const [mobileNo, setMobileNo] = useState('');
-  const [genderp, setgenderp] = useState('श्री');
-  const [genderp1, setgenderp1] = useState('SHRI');
+  const [genderp, setgenderp] = useState('');
+  const [genderp1, setgenderp1] = useState('');
   const [fetchuserdetail, setfetchuserdetail] = useState(true);
   const [showloader, setshowloader] = useState(false);
   const [donationItems, setDonationItems] = useState([
@@ -298,10 +298,10 @@ const ItemDonation = ({
           if (res.data.status === true) {
             handleClose();
             setshowloader(false);
-            sendsms(totalamount, res.data.data.data.ReceiptNo);
+            sendsms(totalamount, res.data.data.message.data.ReceiptNo);
             navigation('/reciept', {
               state: {
-                userdata: res.data.data.data,
+                userdata: res.data.data.message.data,
               },
             });
           } else {
@@ -358,8 +358,8 @@ const ItemDonation = ({
       setDonationTime(updateData?.donation_time);
       var today = new Date(updateData?.donation_date);
       var date = today.toISOString().substring(0, 10);
-      setgenderp(updateData?.gender);
-      setgenderp1(updateData?.gender);
+      // setgenderp(updateData?.gender);
+      // setgenderp1(updateData?.gender);
       setDonationDate(date);
     }
     setopendashboard(true);
@@ -458,7 +458,7 @@ const ItemDonation = ({
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <CustomInputLabel required htmlFor="full-name">
+              {/* <CustomInputLabel required htmlFor="full-name">
                 {!newMember ? (
                   <>
                     <Select
@@ -535,9 +535,10 @@ const ItemDonation = ({
                   </>
                 )}
                 Full Name
-              </CustomInputLabel>
+              </CustomInputLabel> */}
               {!newMember ? (
                 <>
+                  Full Name
                   <ReactTransliterate
                     style={custumstyle}
                     id="full-name"
@@ -552,6 +553,7 @@ const ItemDonation = ({
                 </>
               ) : (
                 <>
+                  Full Name
                   <CustomInput
                     id="full-name"
                     required
@@ -793,7 +795,7 @@ const ItemDonation = ({
                     </TableCell>
                     <TableCell align="center">
                       <CustomTableInput
-                        type="number"
+                        type="text"
                         value={item.quantity}
                         onChange={(e) =>
                           handleDonationItemUpdate(
@@ -806,7 +808,7 @@ const ItemDonation = ({
                     </TableCell>
                     <TableCell align="center">
                       <CustomTableInput
-                        type="number"
+                        type="text"
                         value={item.approxValue}
                         onChange={(e) =>
                           handleDonationItemUpdate(
@@ -866,7 +868,7 @@ const ItemDonation = ({
                                 <ReactTransliterate
                                   style={custommStyleInputTable}
                                   required
-                                  value={hindiremark}
+                                  value={item.remark}
                                   onChangeText={(hindiremark) => {
                                     sethindiremark(hindiremark);
                                   }}
