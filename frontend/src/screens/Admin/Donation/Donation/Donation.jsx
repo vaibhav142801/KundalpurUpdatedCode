@@ -39,6 +39,7 @@ import Button from '@mui/material/Button';
 import axios from 'axios';
 import { backendApiUrl } from '../../../../config/config';
 import { ExportPdfmanul } from '../../compoments/ExportPdf';
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import './Donation.css';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -125,6 +126,7 @@ const donationColorTheme = {
 
 const Donation = ({ setopendashboard }) => {
   let filterData;
+  const [loader, setloader] = useState(false);
   const [empid, setempid] = useState('');
   const [emproleid, setemproleid] = useState('');
   const [roleid, setroleid] = useState('');
@@ -235,6 +237,7 @@ const Donation = ({ setopendashboard }) => {
   };
 
   const getall_donation = () => {
+    setloader(true);
     setdatefrom('');
     setdateto('');
     setvoucherfrom('');
@@ -249,8 +252,10 @@ const Donation = ({ setopendashboard }) => {
               item.modeOfDonation === '1' &&
               item.created_by === empid,
           );
+          setloader(false);
         } else {
           filterData = res.data.filter((item) => item.isActive === true);
+          setloader(false);
         }
         setisData(filterData);
         setisDataDummy(filterData);
@@ -296,44 +301,56 @@ const Donation = ({ setopendashboard }) => {
     }
   };
 
-  const filterdata = async () => {
-    if (searchvalue) {
-      axios.defaults.headers.get[
-        'Authorization'
-      ] = `Bearer ${sessionStorage.getItem('token')}`;
+  const filterdata = async (e) => {
+    e.preventDefault();
+    setloader(true);
+    try {
+      if (searchvalue) {
+        axios.defaults.headers.get[
+          'Authorization'
+        ] = `Bearer ${sessionStorage.getItem('token')}`;
 
-      const res = await axios.get(
-        `${backendApiUrl}admin/search-electric?search=${searchvalue}`,
-      );
+        const res = await axios.get(
+          `${backendApiUrl}admin/search-electric?search=${searchvalue}`,
+        );
 
-      if (res.data.status) {
-        if (emproleid === 7) {
-          filterData = res.data.data.filter(
-            (item) => item.isActive === true && item.created_by === empid,
-          );
-        } else {
-          filterData = res.data.data.filter((item) => item.isActive === true);
-        }
-        setisData(filterData);
-        setisDataDummy(filterData);
-      }
-    } else {
-      serverInstance(
-        `user/searchAllDonation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}',
-        'get`,
-      ).then((res) => {
-        if (res.data) {
+        if (res.data.status) {
+          setloader(false);
           if (emproleid === 7) {
             filterData = res.data.data.filter(
               (item) => item.isActive === true && item.created_by === empid,
             );
           } else {
+            setloader(false);
             filterData = res.data.data.filter((item) => item.isActive === true);
           }
           setisData(filterData);
           setisDataDummy(filterData);
         }
-      });
+      } else {
+        serverInstance(
+          `user/searchAllDonation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}',
+          'get`,
+        ).then((res) => {
+          if (res.data) {
+            if (emproleid === 7) {
+              filterData = res.data.data.filter(
+                (item) => item.isActive === true && item.created_by === empid,
+                setloader(false),
+              );
+            } else {
+              filterData = res.data.data.filter(
+                (item) => item.isActive === true,
+              );
+              setloader(false);
+            }
+            setisData(filterData);
+            setisDataDummy(filterData);
+          }
+        });
+      }
+    } catch (error) {
+      setloader(false);
     }
   };
   const getallemp_list = () => {
@@ -724,79 +741,82 @@ const Donation = ({ setopendashboard }) => {
             style={{ paddingLeft: '1.5%', paddingRight: '1.3rem' }}
           >
             <div className="search-inner-div-reports">
-              <div className="Center_main_dic_filetr">
-                <label>From Date</label>
-                <input
-                  style={{ width: '100%' }}
-                  type="date"
-                  placeholder="From"
-                  value={datefrom}
-                  name="datefrom"
-                  onChange={(e) => {
-                    setdatefrom(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="Center_main_dic_filetr">
-                <label>To Date</label>
-                <input
-                  style={{ width: '100%' }}
-                  type="date"
-                  placeholder="From"
-                  value={dateto}
-                  name="dateto"
-                  onChange={(e) => {
-                    setdateto(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="Center_main_dic_filetr">
-                <label>From Voucher</label>
-                <input
-                  style={{ width: '100%' }}
-                  type="text"
-                  placeholder="From"
-                  value={voucherfrom}
-                  name="voucherfrom"
-                  onChange={(e) => {
-                    setvoucherfrom(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="Center_main_dic_filetr">
-                <label>To Voucher</label>
-                <input
-                  style={{ width: '100%' }}
-                  type="text"
-                  placeholder="From"
-                  value={voucherto}
-                  name="voucherto"
-                  onChange={(e) => {
-                    setvoucherto(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="Center_main_dic_filetr">
-                <label>&nbsp;</label>
-                <Search>
-                  <SearchIconWrapper>
-                    <SearchIcon />
-                  </SearchIconWrapper>
-                  <StyledInputBase
-                    placeholder="Search…"
-                    inputProps={{ 'aria-label': 'search' }}
-                    value={searchvalue}
-                    name="searchvalue"
-                    onChange={(e) => setsearchvalue(e.target.value)}
+              <form className="search-inner-div-reports" onSubmit={filterdata}>
+                <div className="Center_main_dic_filetr">
+                  <label>From Date</label>
+                  <input
+                    style={{ width: '100%' }}
+                    type="date"
+                    placeholder="From"
+                    value={datefrom}
+                    name="datefrom"
+                    onChange={(e) => {
+                      setdatefrom(e.target.value);
+                    }}
                   />
-                </Search>
-              </div>
+                </div>
+                <div className="Center_main_dic_filetr">
+                  <label>To Date</label>
+                  <input
+                    style={{ width: '100%' }}
+                    type="date"
+                    placeholder="From"
+                    value={dateto}
+                    name="dateto"
+                    onChange={(e) => {
+                      setdateto(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="Center_main_dic_filetr">
+                  <label>From Voucher</label>
+                  <input
+                    style={{ width: '100%' }}
+                    type="text"
+                    placeholder="From"
+                    value={voucherfrom}
+                    name="voucherfrom"
+                    onChange={(e) => {
+                      setvoucherfrom(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="Center_main_dic_filetr">
+                  <label>To Voucher</label>
+                  <input
+                    style={{ width: '100%' }}
+                    type="text"
+                    placeholder="From"
+                    value={voucherto}
+                    name="voucherto"
+                    onChange={(e) => {
+                      setvoucherto(e.target.value);
+                    }}
+                  />
+                </div>
 
-              <div className="Center_main_dic_filetr">
-                <label>&nbsp;</label>
-                <button onClick={() => filterdata()}>Search</button>
-              </div>
+                <div className="Center_main_dic_filetr">
+                  <label>&nbsp;</label>
+                  <Search>
+                    <SearchIconWrapper>
+                      <SearchIcon />
+                    </SearchIconWrapper>
+                    <StyledInputBase
+                      placeholder="Search…"
+                      inputProps={{ 'aria-label': 'search' }}
+                      value={searchvalue}
+                      name="searchvalue"
+                      onChange={(e) => setsearchvalue(e.target.value)}
+                    />
+                  </Search>
+                </div>
+
+                <div className="Center_main_dic_filetr">
+                  <label>&nbsp;</label>
+                  <button>Search</button>
+                </div>
+              </form>
+
               <div className="Center_main_dic_filetr">
                 <label>&nbsp;</label>
                 <button onClick={() => getall_donation()}>Reset</button>
@@ -1192,6 +1212,8 @@ const Donation = ({ setopendashboard }) => {
           </div>
         </div>
       </div>
+
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

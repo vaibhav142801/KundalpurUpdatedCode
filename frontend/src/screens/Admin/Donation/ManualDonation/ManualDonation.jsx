@@ -39,6 +39,7 @@ import axios from 'axios';
 import { backendApiUrl } from '../../../../config/config';
 import './Donation.css';
 import { CircularProgress } from '@mui/material';
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -124,6 +125,7 @@ const donationColorTheme = {
 };
 
 const ManualDonation = ({ setopendashboard }) => {
+  const [loader, setloader] = useState(false);
   const [emplist, setemplist] = useState('');
   const [isData, setisData] = React.useState([]);
   const [isDataDummy, setisDataDummy] = React.useState([]);
@@ -164,29 +166,37 @@ const ManualDonation = ({ setopendashboard }) => {
   const handleOpen4 = () => setOpen4(true);
   const handleClose4 = () => setOpen4(false);
 
-  const filterdata = async () => {
-    if (searchvalue) {
-      axios.defaults.headers.get[
-        'Authorization'
-      ] = `Bearer ${sessionStorage.getItem('token')}`;
+  const filterdata = async (e) => {
+    e.preventDefault();
+    setloader(true);
+    try {
+      if (searchvalue) {
+        axios.defaults.headers.get[
+          'Authorization'
+        ] = `Bearer ${sessionStorage.getItem('token')}`;
 
-      const res = await axios.get(
-        `${backendApiUrl}/admin/search-manual?search=${searchvalue}`,
-      );
-      if (res.data.status) {
-        setisData(res.data.data);
-        setisDataDummy(res.data.data);
-      }
-    } else {
-      serverInstance(
-        `user/manual-searchAllDonation?fromDate=${datefrom}&toDate=${dateto}&fromReceipt=${voucherfrom}&toReceipt=${voucherto}',
-        'get`,
-      ).then((res) => {
-        if (res.data) {
-          setisData(res.data);
-          setisDataDummy(res.data);
+        const res = await axios.get(
+          `${backendApiUrl}/admin/search-manual?search=${searchvalue}`,
+        );
+        if (res.data.status) {
+          setloader(false);
+          setisData(res.data.data);
+          setisDataDummy(res.data.data);
         }
-      });
+      } else {
+        serverInstance(
+          `user/manual-searchAllDonation?fromDate=${datefrom}&toDate=${dateto}&fromReceipt=${voucherfrom}&toReceipt=${voucherto}',
+          'get`,
+        ).then((res) => {
+          if (res.data) {
+            setloader(false);
+            setisData(res.data);
+            setisDataDummy(res.data);
+          }
+        });
+      }
+    } catch (error) {
+      setloader(false);
     }
   };
 
@@ -608,81 +618,84 @@ const ManualDonation = ({ setopendashboard }) => {
             style={{ paddingLeft: '1.5%', paddingRight: '1.5%' }}
           >
             <div className="search-inner-div-reports">
-              <div className="Center_main_dic_filetr">
-                <label>From Date</label>
-                <input
-                  style={{ width: '100%' }}
-                  type="date"
-                  placeholder="From"
-                  value={datefrom}
-                  name="datefrom"
-                  onChange={(e) => {
-                    setdatefrom(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="Center_main_dic_filetr">
-                <label>To Date</label>
-                <input
-                  style={{ width: '100%' }}
-                  type="date"
-                  placeholder="From"
-                  value={dateto}
-                  name="dateto"
-                  onChange={(e) => {
-                    setdateto(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="Center_main_dic_filetr">
-                <label>From Voucher</label>
-                <input
-                  style={{ width: '100%' }}
-                  type="text"
-                  placeholder="From"
-                  value={voucherfrom}
-                  name="voucherfrom"
-                  onChange={(e) => {
-                    setvoucherfrom(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="Center_main_dic_filetr">
-                <label>To Voucher</label>
-                <input
-                  style={{ width: '100%' }}
-                  type="text"
-                  placeholder="From"
-                  value={voucherto}
-                  name="voucherto"
-                  onChange={(e) => {
-                    setvoucherto(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="Center_main_dic_filetr">
-                <label>&nbsp;</label>
-                <Search>
-                  <SearchIconWrapper>
-                    <SearchIcon />
-                  </SearchIconWrapper>
-                  <StyledInputBase
-                    placeholder="Search…"
-                    inputProps={{ 'aria-label': 'search' }}
-                    value={searchvalue}
-                    name="searchvalue"
-                    onChange={(e) => setsearchvalue(e.target.value)}
+              <form className="search-inner-div-reports" onSubmit={filterdata}>
+                <div className="Center_main_dic_filetr">
+                  <label>From Date</label>
+                  <input
+                    style={{ width: '100%' }}
+                    type="date"
+                    placeholder="From"
+                    value={datefrom}
+                    name="datefrom"
+                    onChange={(e) => {
+                      setdatefrom(e.target.value);
+                    }}
                   />
-                </Search>
-              </div>
+                </div>
 
-              <div className="Center_main_dic_filetr">
-                <label>&nbsp;</label>
-                <button onClick={() => filterdata()}>Search</button>
-              </div>
+                <div className="Center_main_dic_filetr">
+                  <label>To Date</label>
+                  <input
+                    style={{ width: '100%' }}
+                    type="date"
+                    placeholder="From"
+                    value={dateto}
+                    name="dateto"
+                    onChange={(e) => {
+                      setdateto(e.target.value);
+                    }}
+                  />
+                </div>
+
+                <div className="Center_main_dic_filetr">
+                  <label>From Voucher</label>
+                  <input
+                    style={{ width: '100%' }}
+                    type="text"
+                    placeholder="From"
+                    value={voucherfrom}
+                    name="voucherfrom"
+                    onChange={(e) => {
+                      setvoucherfrom(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="Center_main_dic_filetr">
+                  <label>To Voucher</label>
+                  <input
+                    style={{ width: '100%' }}
+                    type="text"
+                    placeholder="From"
+                    value={voucherto}
+                    name="voucherto"
+                    onChange={(e) => {
+                      setvoucherto(e.target.value);
+                    }}
+                  />
+                </div>
+
+                <div className="Center_main_dic_filetr">
+                  <label>&nbsp;</label>
+                  <Search>
+                    <SearchIconWrapper>
+                      <SearchIcon />
+                    </SearchIconWrapper>
+                    <StyledInputBase
+                      placeholder="Search…"
+                      inputProps={{ 'aria-label': 'search' }}
+                      value={searchvalue}
+                      name="searchvalue"
+                      onChange={(e) => setsearchvalue(e.target.value)}
+                    />
+                  </Search>
+                </div>
+
+                <div className="Center_main_dic_filetr">
+                  <label>&nbsp;</label>
+                  <button>Search</button>
+                </div>
+              </form>
+
               <div className="Center_main_dic_filetr">
                 <label>&nbsp;</label>
                 <button onClick={() => getall_donation()}>Reset</button>
@@ -1071,6 +1084,8 @@ const ManualDonation = ({ setopendashboard }) => {
           </div>
         </div>
       </div>
+
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

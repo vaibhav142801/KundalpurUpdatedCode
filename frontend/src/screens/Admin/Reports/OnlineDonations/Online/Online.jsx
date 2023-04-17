@@ -161,8 +161,8 @@ const Online = ({ setopendashboard }) => {
           (item) =>
             item.MODE_OF_DONATION === 'ONLINE' && item?.PAYMENT_STATUS === true,
         );
-        setisData(filterdata);
-        setisDataDummy(filterdata);
+        setisData(filterData);
+        setisDataDummy(filterData);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
       }
@@ -227,37 +227,42 @@ const Online = ({ setopendashboard }) => {
       Swal.fire('Error!', error, 'error');
     }
   };
-  const filterdata = async () => {
+  const filterdata = async (e) => {
     setloader(true);
-    axios.defaults.headers.get[
-      'Authorization'
-    ] = `Bearer ${sessionStorage.getItem('token')}`;
-    if (searchvalue) {
-      const res = await axios.get(
-        `${backendApiUrl}/admin/search-online-cheque?search=${searchvalue}&type=ONLINE`,
-      );
-
-      if (res.data.status) {
-        setloader(false);
-        let filterData = res.data.data.filter(
-          (item) => item?.PAYMENT_STATUS === true,
+    e.preventDefault();
+    try {
+      axios.defaults.headers.get[
+        'Authorization'
+      ] = `Bearer ${sessionStorage.getItem('token')}`;
+      if (searchvalue) {
+        const res = await axios.get(
+          `${backendApiUrl}/admin/search-online-cheque?search=${searchvalue}&type=ONLINE`,
         );
-        setisData(filterData);
-        setisDataDummy(filterData);
-      }
-    } else {
-      const res = await axios.get(
-        `${backendApiUrl}/admin/filter-online-cheque?fromDate=${datefrom}&toDate=${dateto}&fromRec=${voucherfrom}&toRec=${voucherto}&type=${1}`,
-      );
 
-      if (res.data.status) {
-        setloader(false);
-        let filterData = res.data.data.filter(
-          (item) => item?.PAYMENT_STATUS === true,
+        if (res.data.status) {
+          setloader(false);
+          let filterData = res.data.data.filter(
+            (item) => item?.PAYMENT_STATUS === true,
+          );
+          setisData(filterData);
+          setisDataDummy(filterData);
+        }
+      } else {
+        const res = await axios.get(
+          `${backendApiUrl}/admin/filter-online-cheque?fromDate=${datefrom}&toDate=${dateto}&fromRec=${voucherfrom}&toRec=${voucherto}&type=${1}`,
         );
-        setisData(filterData);
-        setisDataDummy(filterData);
+
+        if (res.data.status) {
+          setloader(false);
+          let filterData = res.data.data.filter(
+            (item) => item?.PAYMENT_STATUS === true,
+          );
+          setisData(filterData);
+          setisDataDummy(filterData);
+        }
       }
+    } catch (error) {
+      setloader(false);
     }
   };
   useEffect(() => {
@@ -383,76 +388,79 @@ const Online = ({ setopendashboard }) => {
       <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
         <div className="search-header">
           <div className="search-inner-div-reports">
-            <div className="Center_main_dic_filetr">
-              <label>From Date</label>
-              <input
-                style={{ width: '250px' }}
-                type="date"
-                placeholder="From"
-                value={datefrom}
-                name="datefrom"
-                onChange={(e) => {
-                  setdatefrom(e.target.value);
-                }}
-              />
-            </div>
-
-            <div className="Center_main_dic_filetr">
-              <label>To Date</label>
-              <input
-                style={{ width: '250px' }}
-                type="date"
-                placeholder="From"
-                value={dateto}
-                name="dateto"
-                onChange={(e) => {
-                  setdateto(e.target.value);
-                }}
-              />
-            </div>
-            <div className="Center_main_dic_filetr">
-              <label>From Voucher</label>
-              <input
-                style={{ width: '100%' }}
-                type="text"
-                placeholder="From"
-                value={voucherfrom}
-                name="voucherfrom"
-                onChange={(e) => {
-                  setvoucherfrom(e.target.value);
-                }}
-              />
-            </div>
-            <div className="Center_main_dic_filetr">
-              <label>To Voucher</label>
-              <input
-                style={{ width: '100%' }}
-                type="text"
-                placeholder="From"
-                value={voucherto}
-                name="voucherto"
-                onChange={(e) => {
-                  setvoucherto(e.target.value);
-                }}
-              />
-            </div>
-            <div className="Center_main_dic_filetr">
-              <label>&nbsp;</label>
-              <Search>
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ 'aria-label': 'search' }}
+            <form className="search-inner-div-reports" onSubmit={filterdata}>
+              <div className="Center_main_dic_filetr">
+                <label>From Date</label>
+                <input
+                  style={{ width: '250px' }}
+                  type="date"
+                  placeholder="From"
+                  value={datefrom}
+                  name="datefrom"
+                  onChange={(e) => {
+                    setdatefrom(e.target.value);
+                  }}
                 />
-              </Search>
-            </div>
+              </div>
 
-            <div className="Center_main_dic_filetr">
-              <label>&nbsp;</label>
-              <button onClick={() => filterdata()}>Search</button>
-            </div>
+              <div className="Center_main_dic_filetr">
+                <label>To Date</label>
+                <input
+                  style={{ width: '250px' }}
+                  type="date"
+                  placeholder="From"
+                  value={dateto}
+                  name="dateto"
+                  onChange={(e) => {
+                    setdateto(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="Center_main_dic_filetr">
+                <label>From Voucher</label>
+                <input
+                  style={{ width: '100%' }}
+                  type="text"
+                  placeholder="From"
+                  value={voucherfrom}
+                  name="voucherfrom"
+                  onChange={(e) => {
+                    setvoucherfrom(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="Center_main_dic_filetr">
+                <label>To Voucher</label>
+                <input
+                  style={{ width: '100%' }}
+                  type="text"
+                  placeholder="From"
+                  value={voucherto}
+                  name="voucherto"
+                  onChange={(e) => {
+                    setvoucherto(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="Center_main_dic_filetr">
+                <label>&nbsp;</label>
+                <Search>
+                  <SearchIconWrapper>
+                    <SearchIcon />
+                  </SearchIconWrapper>
+                  <StyledInputBase
+                    placeholder="Search…"
+                    inputProps={{ 'aria-label': 'search' }}
+                  />
+                </Search>
+              </div>
+
+              <div className="Center_main_dic_filetr">
+                <label>&nbsp;</label>
+                <button>Search</button>
+              </div>
+            </form>
+
             <div className="Center_main_dic_filetr">
               <label>&nbsp;</label>
               <button onClick={() => getall_donation()}>Reset</button>
@@ -682,7 +690,7 @@ const Online = ({ setopendashboard }) => {
                 <TableCell>&nbsp;</TableCell>
               </TableRow>
 
-              {(isData != isData.length) === 0 && (
+              {isData && (
                 <>
                   {(rowsPerPage > 0
                     ? isData.slice(

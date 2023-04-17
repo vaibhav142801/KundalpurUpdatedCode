@@ -153,8 +153,9 @@ function UserMaster() {
     }
   };
 
-  const filterdata = async () => {
+  const filterdata = async (e) => {
     try {
+      e.preventDefault();
       setloader(true);
       serverInstance(
         `admin/get-users?phone=${searchPhonne}&name=${searchName}`,
@@ -320,23 +321,25 @@ function UserMaster() {
         <hr style={{ color: '#e96d00' }} />
         <div className="search-header" style={{ marginTop: '1rem' }}>
           <div className="search-inner-div">
-            <input
-              type="text"
-              placeholder="Name"
-              value={searchName}
-              name="searchName"
-              onChange={(e) => setsearchName(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Phone No"
-              value={searchPhonne}
-              name="searchPhonne"
-              onChange={(e) => setsearchPhonne(e.target.value)}
-            />
-            <Tooltip title="Search">
-              <button onClick={() => filterdata()}>Search</button>
-            </Tooltip>
+            <form className="search-inner-div" onSubmit={filterdata}>
+              <input
+                type="text"
+                placeholder="Name"
+                value={searchName}
+                name="searchName"
+                onChange={(e) => setsearchName(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Phone No"
+                value={searchPhonne}
+                name="searchPhonne"
+                onChange={(e) => setsearchPhonne(e.target.value)}
+              />
+              <Tooltip title="Search">
+                <button>Search</button>
+              </Tooltip>
+            </form>
 
             <Tooltip title="Get all donator">
               <button onClick={() => getall_users()}>Reset</button>

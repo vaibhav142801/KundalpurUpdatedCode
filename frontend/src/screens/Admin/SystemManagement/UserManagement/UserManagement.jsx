@@ -52,6 +52,7 @@ const style = {
 const UserManagement = ({ setopendashboard }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [isDataDummy, setisDataDummy] = React.useState([]);
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
@@ -104,6 +105,7 @@ const UserManagement = ({ setopendashboard }) => {
     serverInstance('admin/add-employee', 'get').then((res) => {
       if (res.status) {
         setisData(res.data);
+        setisDataDummy(res.data);
         setIsLoading(false);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
@@ -190,24 +192,28 @@ const UserManagement = ({ setopendashboard }) => {
     doc.setFontSize(28);
     doc.save(`${fileName}_${dateStr}.pdf`);
   };
-
-  const filterdata = async () => {
-    setIsLoading(true);
-    serverInstance(
-      `admin/add-employee?name=${name}&phone=${phoneno}',
-      'get`,
-    ).then((res) => {
-      if (res.data) {
-        setIsLoading(false);
-        setisData(res.data);
-      }
-    });
+  const onSearchByOther = (e, type) => {
+    if (type === 'name') {
+      setname(e.target.value.toLowerCase());
+    }
+    if (type === 'phone') {
+      setphoneno(e.target.value.toLowerCase());
+    }
+  };
+  const filterdata = (e) => {
+    e.preventDefault();
+    var filtered = isDataDummy?.filter(
+      (dt) =>
+        dt?.Mobile.toLowerCase().indexOf(phoneno) > -1 &&
+        dt?.Username.toLowerCase().indexOf(name) > -1,
+    );
+    setisData(filtered);
   };
 
   useEffect(() => {
     setopendashboard(true);
     getall_donation();
-  }, [refetch, open, open1, open3]);
+  }, [open, open1, open3]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const sortData = (key) => {
     let direction = 'ascending';
@@ -227,6 +233,7 @@ const UserManagement = ({ setopendashboard }) => {
     );
     setSortConfig({ key: key, direction: direction });
   };
+
   return (
     <>
       <Dialog
@@ -319,21 +326,22 @@ const UserManagement = ({ setopendashboard }) => {
       <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
         <div className="search-header-employee">
           <div className="search-inner-div">
-            <input
-              type="text"
-              placeholder="Name"
-              name="name"
-              value={name}
-              onChange={(e) => setname(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Phone No"
-              name="phoneno"
-              value={phoneno}
-              onChange={(e) => setphoneno(e.target.value)}
-            />
-            <button onClick={() => filterdata()}>Search</button>
+            <form className="search-inner-div" onSubmit={filterdata}>
+              <input
+                type="text"
+                value={name}
+                placeholder="Name"
+                onChange={(e) => onSearchByOther(e, 'name')}
+              />
+              <input
+                type="text"
+                placeholder="Phone No"
+                onChange={(e) => onSearchByOther(e, 'phone')}
+              />
+
+              <button>Search</button>
+            </form>
+
             <button onClick={() => getall_donation()}>Reset</button>
             <button onClick={() => handleOpen()}>+Add</button>
             <Tooltip title="Export Excel File">

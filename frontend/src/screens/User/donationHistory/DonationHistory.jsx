@@ -49,8 +49,6 @@ function DonationHistory({
   const handleClose1 = () => setOpen1(false);
   const { user } = useSelector((state) => state.userReducer);
 
-  console.log('sss', isrow);
-  console.log(isrow);
   React.useEffect(() => {
     setopendashboard(false),
       setshowreciept(false),
@@ -71,7 +69,7 @@ function DonationHistory({
     if (row.active === '0') {
       handleOpen1();
       setuseindonationhistory(true);
-    } else if (row.PAYMENT_STATUS === false) {
+    } else if (row.PAYMENT_ID === '') {
       handleOpen1();
       setshowpaymentfailed(true);
     } else {

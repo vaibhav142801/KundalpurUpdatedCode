@@ -66,6 +66,7 @@ const CashDonation = ({
     },
   });
   const navigation = useNavigate();
+
   const [text, setText] = useState('');
   const [addText, setaddText] = useState('');
   const [hindiremark, sethindiremark] = useState('');
