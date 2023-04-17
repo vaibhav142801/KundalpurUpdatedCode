@@ -187,7 +187,8 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                     {isData.elecItemDetails.map((item) => {
                       return (
                         <h2>
-                          <b>{item.type}</b> -₹{item.amount} /-
+                          <b>{item.type}</b>
+                          {item?.itemType ? <></> : <> -₹{item.amount} /- </>}
                         </h2>
                       );
                     })}
@@ -206,45 +207,22 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                       <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                     </div>
                     <h2 className="center_receipt_format font_bold_in_donation">
-                      {isData &&
-                        isData.elecItemDetails &&
-                        isData.elecItemDetails[0].remark}
-                      {isData &&
-                        isData.elecItemDetails &&
-                        isData.elecItemDetails[0].itemType && (
-                          <>
-                            -
-                            {isData &&
-                              isData.elecItemDetails &&
-                              isData.elecItemDetails[0].itemType}
-                          </>
-                        )}
-                      {isData &&
-                        isData.elecItemDetails &&
-                        isData.elecItemDetails[0].quantity && (
-                          <>
-                            -
-                            {isData &&
-                              isData.elecItemDetails &&
-                              isData.elecItemDetails[0].quantity}
-                          </>
-                        )}
-                      {isData &&
-                        isData.elecItemDetails &&
-                        isData.elecItemDetails[0].size &&
-                        isData &&
-                        isData.elecItemDetails &&
-                        isData.elecItemDetails[0].unit && (
-                          <>
-                            -
-                            {isData &&
-                              isData.elecItemDetails &&
-                              isData.elecItemDetails[0].size}
-                            {isData &&
-                              isData.elecItemDetails &&
-                              isData.elecItemDetails[0].unit}
-                          </>
-                        )}
+                      {isData && isData?.TYPE
+                        ? isData?.TYPE
+                        : isData &&
+                          isData.elecItemDetails.map((item) => {
+                            return (
+                              <>
+                                {item?.remark}
+                                {item?.itemType && (
+                                  <>
+                                    ( {item?.itemType}-{item?.quantity}-
+                                    {item?.size} {item?.unit})
+                                  </>
+                                )}
+                              </>
+                            );
+                          })}
                     </h2>
                   </span>
                 </>
@@ -260,45 +238,22 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                       <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                     </div>
                     <h2 className="center_receipt_format font_bold_in_donation">
-                      {isData &&
-                        isData.elecItemDetails &&
-                        isData.elecItemDetails[0].remark}
-                      {isData &&
-                        isData.elecItemDetails &&
-                        isData.elecItemDetails[0].itemType && (
-                          <>
-                            -
-                            {isData &&
-                              isData.elecItemDetails &&
-                              isData.elecItemDetails[0].itemType}
-                          </>
-                        )}
-                      {isData &&
-                        isData.elecItemDetails &&
-                        isData.elecItemDetails[0].quantity && (
-                          <>
-                            -
-                            {isData &&
-                              isData.elecItemDetails &&
-                              isData.elecItemDetails[0].quantity}
-                          </>
-                        )}
-                      {isData &&
-                        isData.elecItemDetails &&
-                        isData.elecItemDetails[0].size &&
-                        isData &&
-                        isData.elecItemDetails &&
-                        isData.elecItemDetails[0].unit && (
-                          <>
-                            -
-                            {isData &&
-                              isData.elecItemDetails &&
-                              isData.elecItemDetails[0].size}
-                            {isData &&
-                              isData.elecItemDetails &&
-                              isData.elecItemDetails[0].unit}
-                          </>
-                        )}
+                      {isData && isData?.TYPE
+                        ? isData?.TYPE
+                        : isData &&
+                          isData.elecItemDetails.map((item) => {
+                            return (
+                              <>
+                                {item?.remark}
+                                {item?.itemType && (
+                                  <>
+                                    ( {item?.itemType}-{item?.quantity}-
+                                    {item?.size} {item?.unit})
+                                  </>
+                                )}
+                              </>
+                            );
+                          })}
                     </h2>
                   </span>
                 </>
@@ -312,7 +267,9 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                 <h2 className="center_receipt_format font_bold_in_donation">
                   {isData &&
                     isData.elecItemDetails &&
-                    isData.elecItemDetails[0].remark}
+                    isData.elecItemDetails.map((item) => {
+                      return <>( {item?.remark})</>;
+                    })}
                 </h2>
               </span>
             )}
@@ -325,7 +282,9 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                 <h2 className="center_receipt_format  font_bold_in_donation">
                   {isData &&
                     isData.elecItemDetails &&
-                    isData.elecItemDetails[0].remark}
+                    isData.elecItemDetails.map((item) => {
+                      return <>( {item?.remark})</>;
+                    })}
                 </h2>
               </span>
             )}
@@ -335,12 +294,16 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                   <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                 </div>
                 <h2 className="center_receipt_format  font_bold_in_donation">
-                  {isData &&
-                    isData.elecItemDetails &&
-                    isData.elecItemDetails[0].remark}{' '}
-                  {isData && isData.elecItemDetails[0].BankName && (
-                    <>( {isData && isData.elecItemDetails[0].BankName} )</>
-                  )}
+                  {isData && isData?.REMARK
+                    ? isData?.REMARK
+                    : isData &&
+                      isData.elecItemDetails.map((item) => {
+                        return (
+                          <>
+                            {item?.remark} ({item?.BankName})
+                          </>
+                        );
+                      })}
                 </h2>
               </span>
             )}
@@ -351,26 +314,22 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                   <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                 </div>
                 <h2 className="center_receipt_format  font_bold_in_donation">
-                  {isData &&
-                    isData.elecItemDetails &&
-                    isData.elecItemDetails[0].remark}
-                  {isData &&
-                    isData.elecItemDetails &&
-                    isData.elecItemDetails[0].BankName &&
-                    isData &&
-                    isData.elecItemDetails &&
-                    isData.elecItemDetails[0].ChequeNo && (
-                      <>
-                        (
-                        {isData &&
-                          isData.elecItemDetails &&
-                          isData.elecItemDetails[0].BankName}
-                        {isData &&
-                          isData.elecItemDetails &&
-                          isData.elecItemDetails[0].ChequeNo}{' '}
-                        )
-                      </>
-                    )}
+                  {isData && isData?.REMARK
+                    ? isData?.REMARK
+                    : isData &&
+                      isData.elecItemDetails.map((item) => {
+                        return (
+                          <>
+                            {item?.remark}{' '}
+                            {item?.BankName && (
+                              <>
+                                ({item?.BankName}
+                                {item?.ChequeNo})
+                              </>
+                            )}
+                          </>
+                        );
+                      })}
                 </h2>
               </span>
             )}
@@ -381,12 +340,16 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                   <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                 </div>
                 <h2 className="center_receipt_format  font_bold_in_donation">
-                  {isData &&
-                    isData.elecItemDetails &&
-                    isData.elecItemDetails[0].remark}{' '}
-                  {isData && isData.elecItemDetails[0].BankName && (
-                    <>( {isData && isData.elecItemDetails[0].BankName} )</>
-                  )}
+                  {isData && isData?.REMARK
+                    ? isData?.REMARK
+                    : isData &&
+                      isData.elecItemDetails.map((item) => {
+                        return (
+                          <>
+                            {item?.remark} ({item?.BankName})
+                          </>
+                        );
+                      })}
                 </h2>
               </span>
             )}
@@ -397,26 +360,22 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                   <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                 </div>
                 <h2 className="center_receipt_format  font_bold_in_donation">
-                  {isData &&
-                    isData.elecItemDetails &&
-                    isData.elecItemDetails[0].remark}{' '}
-                  {isData &&
-                    isData.elecItemDetails &&
-                    isData.elecItemDetails[0].BankName &&
-                    isData &&
-                    isData.elecItemDetails &&
-                    isData.elecItemDetails[0].ChequeNo && (
-                      <>
-                        (
-                        {isData &&
-                          isData.elecItemDetails &&
-                          isData.elecItemDetails[0].BankName}
-                        {isData &&
-                          isData.elecItemDetails &&
-                          isData.elecItemDetails[0].ChequeNo}{' '}
-                        )
-                      </>
-                    )}
+                  {isData && isData?.REMARK
+                    ? isData?.REMARK
+                    : isData &&
+                      isData.elecItemDetails.map((item) => {
+                        return (
+                          <>
+                            {item?.remark}{' '}
+                            {item?.BankName && (
+                              <>
+                                ({item?.BankName}
+                                {item?.ChequeNo})
+                              </>
+                            )}
+                          </>
+                        );
+                      })}
                 </h2>
               </span>
             )}

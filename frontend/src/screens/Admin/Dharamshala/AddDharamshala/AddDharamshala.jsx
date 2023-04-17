@@ -190,94 +190,26 @@ const AddDharamshala = ({ setopendashboard }) => {
     setuserrole(Number(sessionStorage.getItem('userrole')));
   }, [open, open1]);
 
-  const [currentSort, setcurrentSort] = useState('sort');
-  const [currentSort1, setcurrentSort1] = useState('sort');
-
-  const [sortField, setSortField] = useState('');
-  const onSortChange = (sortField) => {
-    let nextSort;
-
-    if (sortField === 'name') {
-      if (currentSort === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort === 'caret-up') nextSort = 'sort';
-      else if (currentSort === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort(nextSort);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
     }
-    if (sortField === 'desc') {
-      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort1 === 'caret-up') nextSort = 'sort';
-      else if (currentSort1 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort1(nextSort);
-    }
+    setisData(
+      [...isData].sort((a, b) => {
+        if (a[key] < b[key]) {
+          return direction === 'ascending' ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }),
+    );
+    setSortConfig({ key: key, direction: direction });
   };
 
-  useEffect(() => {
-    if (sortField === 'name') {
-      if (currentSort === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        // getall_donatiions();
-      }
-    }
-
-    if (sortField === 'desc') {
-      if (currentSort1 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort1 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        // getall_donatiions();
-      }
-    }
-  }, [currentSort, currentSort1]);
   return (
     <>
       <Dialog
@@ -461,16 +393,20 @@ const AddDharamshala = ({ setopendashboard }) => {
               <TableRow>
                 <TableCell>S.No</TableCell>
                 <TableCell>
-                  Dharamshala{' '}
-                  <Button onClick={() => onSortChange('name')}>
-                    <i class={`fa fa-${currentSort}`} />
-                  </Button>
+                  Dharamshala
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>
-                  Description{' '}
-                  <Button onClick={() => onSortChange('desc')}>
-                    <i class={`fa fa-${currentSort1}`} />
-                  </Button>
+                  Description
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('desc')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>

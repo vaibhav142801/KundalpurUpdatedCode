@@ -66,6 +66,25 @@ const Assign = ({ setopendashboard }) => {
     setopendashboard(true);
     getall_donation();
   }, [open]);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setisData(
+      [...isData].sort((a, b) => {
+        if (a[key] < b[key]) {
+          return direction === 'ascending' ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }),
+    );
+    setSortConfig({ key: key, direction: direction });
+  };
   return (
     <>
       <Modal
@@ -96,9 +115,30 @@ const Assign = ({ setopendashboard }) => {
           <Table sx={{ width: '100%' }} aria-label="simple table">
             <TableHead style={{ background: '#F1F0F0' }}>
               <TableRow>
-                <TableCell>EmpId</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Role</TableCell>
+                <TableCell>
+                  EmpId
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('id')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Name
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('Username')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Role
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('Role')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>

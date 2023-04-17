@@ -1,7 +1,7 @@
 import React from 'react';
 
 function EmpmanulTotal({ data }) {
-  console.log('total calculate total', data);
+  console.log('total employee nnanual total', data);
   return (
     <>
       <span>

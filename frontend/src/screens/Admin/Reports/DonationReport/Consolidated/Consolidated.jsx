@@ -127,176 +127,27 @@ const Consolidated = ({ setopendashboard }) => {
     setemproleid(Number(sessionStorage.getItem('empRoleid')));
     setempid(Number(sessionStorage.getItem('empid')));
   }, [showalert, openupdate, open, empid]);
-  const [currentSort, setcurrentSort] = useState('sort');
-  const [currentSort1, setcurrentSort1] = useState('sort');
-  const [currentSort2, setcurrentSort2] = useState('sort');
-  const [currentSort3, setcurrentSort3] = useState('sort');
 
-  const [sortField, setSortField] = useState('');
-  const onSortChange = (sortField) => {
-    let nextSort;
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
-    if (sortField === 'created_by') {
-      if (currentSort === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort === 'caret-up') nextSort = 'sort';
-      else if (currentSort === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort(nextSort);
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
     }
-    if (sortField === 'donation_date') {
-      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort1 === 'caret-up') nextSort = 'sort';
-      else if (currentSort1 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort1(nextSort);
-    }
-
-    if (sortField === 'name') {
-      if (currentSort2 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort2 === 'caret-up') nextSort = 'sort';
-      else if (currentSort2 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort2(nextSort);
-    }
-
-    if (sortField === 'totalDonationAmount') {
-      if (currentSort3 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort3 === 'caret-up') nextSort = 'sort';
-      else if (currentSort3 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort3(nextSort);
-    }
+    setisData(
+      [...isData].sort((a, b) => {
+        if (a[key] < b[key]) {
+          return direction === 'ascending' ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }),
+    );
+    setSortConfig({ key: key, direction: direction });
   };
-
-  useEffect(() => {
-    if (sortField === 'created_by') {
-      if (currentSort === 'caret-up') {
-        empylist.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort === 'caret-down') {
-        empylist.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getAllDonationDetails();
-      }
-    }
-
-    if (sortField === 'donation_date') {
-      if (currentSort1 === 'caret-up') {
-        empylist.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort1 === 'caret-down') {
-        empylist.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getAllDonationDetails();
-      }
-    }
-
-    if (sortField === 'name') {
-      if (currentSort2 === 'caret-up') {
-        empylist.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort2 === 'caret-down') {
-        empylist.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getAllDonationDetails();
-      }
-    }
-
-    if (sortField === 'totalDonationAmount') {
-      if (currentSort3 === 'caret-up') {
-        empylist.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort3 === 'caret-down') {
-        empylist.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getAllDonationDetails();
-      }
-    }
-  }, [currentSort, currentSort1, currentSort2, currentSort3]);
   return (
     <>
       <DonationReportTap setopendashboard={setopendashboard} />
@@ -360,28 +211,36 @@ const Consolidated = ({ setopendashboard }) => {
           <TableHead style={{ background: '#FFEEE0' }}>
             <TableRow>
               <TableCell>
-                S.No{' '}
-                <Button onClick={() => onSortChange('created_by')}>
-                  <i class={`fa fa-${currentSort}`} />
-                </Button>
+                S.No
+                <i
+                  style={{ marginLeft: '0.5rem' }}
+                  onClick={() => sortData('created_by')}
+                  class={`fa fa-sort`}
+                />
               </TableCell>
               <TableCell>
-                Date{' '}
-                <Button onClick={() => onSortChange('donation_date')}>
-                  <i class={`fa fa-${currentSort1}`} />
-                </Button>{' '}
+                Date
+                <i
+                  style={{ marginLeft: '0.5rem' }}
+                  onClick={() => sortData('donation_date')}
+                  class={`fa fa-sort`}
+                />
               </TableCell>
               <TableCell>
-                User{' '}
-                <Button onClick={() => onSortChange('name')}>
-                  <i class={`fa fa-${currentSort2}`} />
-                </Button>
+                User
+                <i
+                  style={{ marginLeft: '0.5rem' }}
+                  onClick={() => sortData('name')}
+                  class={`fa fa-sort`}
+                />
               </TableCell>
               <TableCell>
-                Amount{' '}
-                <Button onClick={() => onSortChange('totalDonationAmount')}>
-                  <i class={`fa fa-${currentSort3}`} />
-                </Button>
+                Amount
+                <i
+                  style={{ marginLeft: '0.5rem' }}
+                  onClick={() => sortData('totalDonationAmount')}
+                  class={`fa fa-sort`}
+                />
               </TableCell>
             </TableRow>
           </TableHead>

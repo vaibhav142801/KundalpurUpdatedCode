@@ -1,7 +1,7 @@
 import React from 'react';
 
 function ManaulTotal({ data }) {
-  console.log('total calculate total', data);
+  console.log('total manual', data);
   return (
     <>
       <span>

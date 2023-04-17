@@ -145,263 +145,27 @@ const HeadReport = ({ setopendashboard }) => {
 
     setuserrole(Number(sessionStorage.getItem('userrole')));
   }, []);
-  const [currentSort, setcurrentSort] = useState('sort');
-  const [currentSort1, setcurrentSort1] = useState('sort');
-  const [currentSort2, setcurrentSort2] = useState('sort');
-  const [currentSort3, setcurrentSort3] = useState('sort');
-  const [currentSort4, setcurrentSort4] = useState('sort');
-  const [currentSort5, setcurrentSort5] = useState('sort');
 
-  const [sortField, setSortField] = useState('');
-  const onSortChange = (sortField) => {
-    let nextSort;
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
-    if (sortField === 'type') {
-      if (currentSort === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort === 'caret-up') nextSort = 'sort';
-      else if (currentSort === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort(nextSort);
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
     }
-    if (sortField === 'count') {
-      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort1 === 'caret-up') nextSort = 'sort';
-      else if (currentSort1 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort1(nextSort);
-    }
-
-    if (sortField === 'cheque_amount') {
-      if (currentSort2 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort2 === 'caret-up') nextSort = 'sort';
-      else if (currentSort2 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort2(nextSort);
-    }
-
-    if (sortField === 'electric_amount') {
-      if (currentSort3 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort3 === 'caret-up') nextSort = 'sort';
-      else if (currentSort3 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort3(nextSort);
-    }
-    if (sortField === 'item_amount') {
-      if (currentSort4 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort4 === 'caret-up') nextSort = 'sort';
-      else if (currentSort4 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort4(nextSort);
-    }
-    if (sortField === 'cash_amount') {
-      if (currentSort5 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort5 === 'caret-up') nextSort = 'sort';
-      else if (currentSort5 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort5(nextSort);
-    }
+    setisData(
+      [...isData].sort((a, b) => {
+        if (a[key] < b[key]) {
+          return direction === 'ascending' ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }),
+    );
+    setSortConfig({ key: key, direction: direction });
   };
-
-  useEffect(() => {
-    if (sortField === 'type') {
-      if (currentSort1 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort1 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        filterdata();
-      }
-    }
-
-    if (sortField === 'count') {
-      if (currentSort1 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort1 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        filterdata();
-      }
-    }
-
-    if (sortField === 'cheque_amount') {
-      if (currentSort2 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort2 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        filterdata();
-      }
-    }
-
-    if (sortField === 'electric_amount') {
-      if (currentSort3 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort3 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        filterdata();
-      }
-    }
-
-    if (sortField === 'item_amount') {
-      if (currentSort4 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort4 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        filterdata();
-      }
-    }
-
-    if (sortField === 'cash_amount') {
-      if (currentSort5 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort5 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        filterdata();
-      }
-    }
-  }, [
-    currentSort,
-    currentSort1,
-    currentSort2,
-    currentSort3,
-    currentSort4,
-    currentSort5,
-  ]);
   return (
     <>
       <ManualDonationTap setopendashboard={setopendashboard} />
@@ -480,40 +244,52 @@ const HeadReport = ({ setopendashboard }) => {
             <TableHead style={{ background: '#FFEEE0' }}>
               <TableRow>
                 <TableCell>
-                  Head Name{' '}
-                  <Button onClick={() => onSortChange('type')}>
-                    <i class={`fa fa-${currentSort}`} />
-                  </Button>
+                  Head Name
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('type')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>
-                  Count{' '}
-                  <Button onClick={() => onSortChange('count')}>
-                    <i class={`fa fa-${currentSort1}`} />
-                  </Button>
+                  Count
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('count')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>
-                  Amount Cheque{' '}
-                  <Button onClick={() => onSortChange('cheque_amount')}>
-                    <i class={`fa fa-${currentSort2}`} />
-                  </Button>
+                  Amount Cheque
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('cheque_amount')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>
-                  Amount Electronic{' '}
-                  <Button onClick={() => onSortChange('electric_amount')}>
-                    <i class={`fa fa-${currentSort3}`} />
-                  </Button>
+                  Amount Electronic
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('electric_amount')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>
-                  Amount Item{' '}
-                  <Button onClick={() => onSortChange('item_amount')}>
-                    <i class={`fa fa-${currentSort4}`} />
-                  </Button>
+                  Amount Item
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('item_amount')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>
-                  Amount Cash{' '}
-                  <Button onClick={() => onSortChange('cash_amount')}>
-                    <i class={`fa fa-${currentSort5}`} />
-                  </Button>
+                  Amount Cash
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('cash_amount')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell style={{ fontWeight: 700 }}>Total</TableCell>
               </TableRow>

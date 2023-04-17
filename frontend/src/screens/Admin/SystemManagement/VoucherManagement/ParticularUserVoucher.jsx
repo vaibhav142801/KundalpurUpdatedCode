@@ -77,6 +77,26 @@ const ParticularUserVoucher = ({ setopendashboard }) => {
 
     setopendashboard(true);
   }, [refetchdata]);
+
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setisData(
+      [...isData].sort((a, b) => {
+        if (a[key] < b[key]) {
+          return direction === 'ascending' ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }),
+    );
+    setSortConfig({ key: key, direction: direction });
+  };
   return (
     <>
       <Modal
@@ -119,11 +139,39 @@ const ParticularUserVoucher = ({ setopendashboard }) => {
             >
               <TableHead style={{ background: '#F1F0F0' }}>
                 <TableRow>
-                  <TableCell align="center">S.No</TableCell>
-                  <TableCell align="center">Empoyee Name</TableCell>
-                  <TableCell align="center">Voucher Number</TableCell>
-                  <TableCell align="center">Status</TableCell>
-                  <TableCell align="center">Remark</TableCell>
+                  <TableCell align="center">S.No </TableCell>
+                  <TableCell align="center">
+                    Empoyee Name
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortData('name')}
+                      class={`fa fa-sort`}
+                    />
+                  </TableCell>
+                  <TableCell align="center">
+                    Voucher Number
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortData('voucherNo')}
+                      class={`fa fa-sort`}
+                    />
+                  </TableCell>
+                  <TableCell align="center">
+                    Status
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortData('status')}
+                      class={`fa fa-sort`}
+                    />
+                  </TableCell>
+                  <TableCell align="center">
+                    Remark
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortData('rsn')}
+                      class={`fa fa-sort`}
+                    />
+                  </TableCell>
                   <TableCell align="center">Action</TableCell>
                 </TableRow>
               </TableHead>

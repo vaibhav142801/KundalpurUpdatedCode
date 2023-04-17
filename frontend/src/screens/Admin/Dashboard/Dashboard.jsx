@@ -68,9 +68,10 @@ const Dashboard = ({ setopendashboard }) => {
   const getallempmanual = () => {
     serverInstance('admin/dash-employee-total-manual', 'get').then((res) => {
       setloader(true);
+      console.log('manua dele', res.data.data);
       if (res.data.data) {
         setloader(false);
-        setisData4(res.data.data);
+        setisData5(res.data.data);
       }
     });
   };

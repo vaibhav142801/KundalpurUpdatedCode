@@ -430,412 +430,100 @@ const ManualCash = ({ setopendashboard }) => {
     setisData(filtered);
   }, [phone, receiptNo, date, name, address, type, amount, remark, userType]);
 
-  const [currentSort, setcurrentSort] = useState('sort');
-  const [currentSort1, setcurrentSort1] = useState('sort');
-  const [currentSort2, setcurrentSort2] = useState('sort');
-  const [currentSort3, setcurrentSort3] = useState('sort');
-  const [currentSort4, setcurrentSort4] = useState('sort');
-  const [currentSort5, setcurrentSort5] = useState('sort');
-  const [currentSort6, setcurrentSort6] = useState('sort');
-  const [currentSort7, setcurrentSort7] = useState('sort');
-  const [currentSort8, setcurrentSort8] = useState('sort');
-  const [currentSort9, setcurrentSort9] = useState('sort');
-  const [sortField, setSortField] = useState('');
-  const onSortChange = (sortField) => {
-    let nextSort;
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
-    if (sortField === 'donation_date') {
-      if (currentSort === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort === 'caret-up') nextSort = 'sort';
-      else if (currentSort === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort(nextSort);
+  const sortDataAmount = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
     }
-    if (sortField === 'ReceiptNo') {
-      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort1 === 'caret-up') nextSort = 'sort';
-      else if (currentSort1 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort1(nextSort);
+    setisData(
+      [...isData].sort((a, b) => {
+        if (
+          a[key].reduce(
+            (n, { amount }) => parseFloat(n) + parseFloat(amount),
+            0,
+          ) <
+          b[key].reduce(
+            (n, { amount }) => parseFloat(n) + parseFloat(amount),
+            0,
+          )
+        ) {
+          return direction === 'ascending' ? -1 : 1;
+        }
+        if (
+          a[key].reduce(
+            (n, { amount }) => parseFloat(n) + parseFloat(amount),
+            0,
+          ) >
+          b[key].reduce(
+            (n, { amount }) => parseFloat(n) + parseFloat(amount),
+            0,
+          )
+        ) {
+          return direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }),
+    );
+    setSortConfig({ key: key, direction: direction });
+  };
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
     }
-
-    if (sortField === 'voucherNo') {
-      if (currentSort2 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort2 === 'caret-up') nextSort = 'sort';
-      else if (currentSort2 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort2(nextSort);
-    }
-
-    if (sortField === 'phoneNo') {
-      if (currentSort3 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort3 === 'caret-up') nextSort = 'sort';
-      else if (currentSort3 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort3(nextSort);
-    }
-    if (sortField === 'name') {
-      if (currentSort4 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort4 === 'caret-up') nextSort = 'sort';
-      else if (currentSort4 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort4(nextSort);
-    }
-    if (sortField === 'address') {
-      if (currentSort5 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort5 === 'caret-up') nextSort = 'sort';
-      else if (currentSort5 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort5(nextSort);
-    }
-
-    if (sortField === 'type') {
-      if (currentSort6 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort6 === 'caret-up') nextSort = 'sort';
-      else if (currentSort6 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort6(nextSort);
-    }
-
-    if (sortField === 'amount') {
-      if (currentSort7 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort7 === 'caret-up') nextSort = 'sort';
-      else if (currentSort7 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort7(nextSort);
-    }
-    if (sortField === 'CreatedBy') {
-      if (currentSort8 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort8 === 'caret-up') nextSort = 'sort';
-      else if (currentSort8 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort8(nextSort);
-    }
-    if (sortField === 'remark') {
-      if (currentSort9 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort9 === 'caret-up') nextSort = 'sort';
-      else if (currentSort9 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort9(nextSort);
-    }
+    setisData(
+      [...isData].sort((a, b) => {
+        if (a[key] < b[key]) {
+          return direction === 'ascending' ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }),
+    );
+    setSortConfig({ key: key, direction: direction });
   };
 
-  useEffect(() => {
-    if (sortField === 'donation_date') {
-      if (currentSort === 'caret-up') {
-        isData.sort((a, b) => {
-          let da = new Date(a[sortField]),
-            db = new Date(b[sortField]);
-          return db - da;
-        });
-      } else if (currentSort === 'caret-down') {
-        isData.sort((a, b) => {
-          let da = new Date(a[sortField]),
-            db = new Date(b[sortField]);
-          return da - db;
-        });
-      } else {
-        getall_donation();
-      }
+  const sortDataHead = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
     }
-
-    if (sortField === 'ReceiptNo') {
-      if (currentSort1 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort1 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_donation();
-      }
+    setisData(
+      [...isData].sort((a, b) => {
+        if (a[key][0]?.type < b[key][0]?.type) {
+          return direction === 'ascending' ? -1 : 1;
+        }
+        if (a[key][0]?.type > b[key][0]?.type) {
+          return direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }),
+    );
+    setSortConfig({ key: key, direction: direction });
+  };
+  const sortRemark = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
     }
+    setisData(
+      [...isData].sort((a, b) => {
+        if (a[key][0]?.remark < b[key][0]?.remark) {
+          return direction === 'ascending' ? -1 : 1;
+        }
+        if (a[key][0]?.remark > b[key][0]?.remark) {
+          return direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }),
+    );
+    setSortConfig({ key: key, direction: direction });
+  };
 
-    if (sortField === 'voucherNo') {
-      if (currentSort2 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort2 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_donation();
-      }
-    }
-
-    if (sortField === 'phoneNo') {
-      if (currentSort3 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort3 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_donation();
-      }
-    }
-
-    if (sortField === 'name') {
-      if (currentSort4 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort4 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_donation();
-      }
-    }
-
-    if (sortField === 'address') {
-      if (currentSort5 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort5 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_donation();
-      }
-    }
-
-    if (sortField === 'type') {
-      if (currentSort6 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a.address.toLowerCase(),
-            fb = b.address.toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort6 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a.address.toLowerCase(),
-            fb = b.address.toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_donation();
-      }
-    }
-
-    if (sortField === 'amount') {
-      if (currentSort7 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a.address.toLowerCase(),
-            fb = b.address.toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort7 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a.address.toLowerCase(),
-            fb = b.address.toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_donation();
-      }
-    }
-    if (sortField === 'CreatedBy') {
-      if (currentSort5 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort5 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_donation();
-      }
-    }
-    if (sortField === 'remark') {
-      if (currentSort9 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a.address.toLowerCase(),
-            fb = b.address.toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort9 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a.address.toLowerCase(),
-            fb = b.address.toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_donation();
-      }
-    }
-  }, [
-    currentSort,
-    currentSort1,
-    currentSort2,
-    currentSort3,
-    currentSort4,
-    currentSort5,
-    currentSort6,
-    currentSort7,
-    currentSort8,
-    currentSort9,
-  ]);
   return (
     <>
       <Dialog
@@ -1096,84 +784,80 @@ const ManualCash = ({ setopendashboard }) => {
           >
             <TableHead style={{ background: '#FFEEE0' }}>
               <TableRow>
-                <TableCell
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    width: '150px',
-                  }}
-                >
+                <TableCell>
                   Date
-                  <Button onClick={() => onSortChange('donation_date')}>
-                    <i class={`fa fa-${currentSort}`} />
-                  </Button>
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('donation_date')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>
                   ReceiptNo
-                  <Button onClick={() => onSortChange('ReceiptNo')}>
-                    <i class={`fa fa-${currentSort1}`} />
-                  </Button>
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('ReceiptNo')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
 
                 <TableCell>
                   Phone No
-                  <Button onClick={() => onSortChange('phoneNo')}>
-                    <i class={`fa fa-${currentSort3}`} />
-                  </Button>
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('phoneNo')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
-                <TableCell
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                  }}
-                >
+                <TableCell>
                   Name
-                  <Button onClick={() => onSortChange('name')}>
-                    <i class={`fa fa-${currentSort4}`} />
-                  </Button>
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>
                   Address
-                  <Button onClick={() => onSortChange('address')}>
-                    <i class={`fa fa-${currentSort5}`} />
-                  </Button>
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('address')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>
                   Head/Item
-                  <Button onClick={() => onSortChange('type')}>
-                    <i class={`fa fa-${currentSort6}`} />
-                  </Button>
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortDataHead('manualItemDetails')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>
                   Amount
-                  <Button onClick={() => onSortChange('amount')}>
-                    <i class={`fa fa-${currentSort7}`} />
-                  </Button>
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortDataAmount('manualItemDetails')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
-                <TableCell
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                  }}
-                >
+                <TableCell>
                   User
-                  <Button onClick={() => onSortChange('CreatedBy')}>
-                    <i class={`fa fa-${currentSort8}`} />
-                  </Button>
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('CreatedBy')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>
                   Remark
-                  <Button onClick={() => onSortChange('remark')}>
-                    <i class={`fa fa-${currentSort9}`} />
-                  </Button>
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortRemark('manualItemDetails')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
-
-                <TableCell>
-                  Action <Button>&nbsp;</Button>
-                </TableCell>
+                <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -1257,6 +941,7 @@ const ManualCash = ({ setopendashboard }) => {
 
               <TableCell>
                 <input
+                  style={{ width: '100%' }}
                   className="cuolms_search"
                   type="text"
                   placeholder="Remark"

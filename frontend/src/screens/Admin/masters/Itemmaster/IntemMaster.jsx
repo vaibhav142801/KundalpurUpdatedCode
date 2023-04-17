@@ -192,94 +192,26 @@ function IntemMaster() {
     minute: 'numeric',
     hour12: true,
   });
-  const [currentSort, setcurrentSort] = useState('sort');
-  const [currentSort1, setcurrentSort1] = useState('sort');
 
-  const [sortField, setSortField] = useState('');
-  const onSortChange = (sortField) => {
-    let nextSort;
-
-    if (sortField === 'itemType_hi') {
-      if (currentSort === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort === 'caret-up') nextSort = 'sort';
-      else if (currentSort === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort(nextSort);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
     }
-    if (sortField === 'itemType_en') {
-      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort1 === 'caret-up') nextSort = 'sort';
-      else if (currentSort1 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort1(nextSort);
-    }
+    setisData(
+      [...isData].sort((a, b) => {
+        if (a[key] < b[key]) {
+          return direction === 'ascending' ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }),
+    );
+    setSortConfig({ key: key, direction: direction });
   };
-
-  useEffect(() => {
-    if (sortField === 'itemType_hi') {
-      if (currentSort === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        // getall_donatiions();
-      }
-    }
-
-    if (sortField === 'itemType_en') {
-      if (currentSort1 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort1 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        // getall_donatiions();
-      }
-    }
-  }, [currentSort, currentSort1]);
   return (
     <>
       <Dialog
@@ -430,18 +362,22 @@ function IntemMaster() {
                 <TableCell>S.No.</TableCell>
 
                 <TableCell>
-                  Donation Item (hindi){' '}
-                  <Button onClick={() => onSortChange('itemType_hi')}>
-                    <i class={`fa fa-${currentSort}`} />
-                  </Button>
+                  Donation Item (hindi)
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('itemType_hi')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>
-                  Donation Item (english){' '}
-                  <Button onClick={() => onSortChange('itemType_en')}>
-                    <i class={`fa fa-${currentSort1}`} />
-                  </Button>{' '}
+                  Donation Item (english)
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('itemType_en')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
-                <TableCell>Status</TableCell>
+                {/* <TableCell>Status</TableCell> */}
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
@@ -463,9 +399,9 @@ function IntemMaster() {
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{row.itemType_hi}</TableCell>
                     <TableCell>{row.itemType_en}</TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       {row.status === 1 ? 'Active' : 'Deactive'}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>
                       <Tooltip title="Edit">
                         <img

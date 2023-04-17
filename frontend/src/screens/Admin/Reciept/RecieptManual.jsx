@@ -362,9 +362,12 @@ const CashRecipt = ({ setopendashboard, setshowreciept }) => {
                 <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
 
                 <h2 className="font_bold_in_donation">
-                  {isData &&
-                    isData.manualItemDetails &&
-                    isData.manualItemDetails[0].remark}
+                  {isData && isData?.REMARK
+                    ? isData?.REMARK
+                    : isData &&
+                      isData.manualItemDetails.map((item) => {
+                        return <> {item?.remark}</>;
+                      })}
                 </h2>
               </span>
             )}
@@ -397,47 +400,22 @@ const CashRecipt = ({ setopendashboard, setshowreciept }) => {
                       <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                     </div>
                     <h2 className="font_bold_in_donation">
-                      {isData &&
-                        isData.manualItemDetails &&
-                        isData.manualItemDetails[0].remark}
-
-                      {isData &&
-                        isData.manualItemDetails &&
-                        isData.manualItemDetails[0].itemType && (
-                          <>
-                            -
-                            {isData &&
-                              isData.manualItemDetails &&
-                              isData.manualItemDetails[0].itemType}
-                          </>
-                        )}
-
-                      {isData &&
-                        isData.manualItemDetails &&
-                        isData.manualItemDetails[0].quantity && (
-                          <>
-                            -
-                            {isData &&
-                              isData.manualItemDetails &&
-                              isData.manualItemDetails[0].quantity}
-                          </>
-                        )}
-                      {isData &&
-                        isData.manualItemDetails &&
-                        isData.manualItemDetails[0].size &&
-                        isData &&
-                        isData.manualItemDetails &&
-                        isData.manualItemDetails[0].unit && (
-                          <>
-                            -
-                            {isData &&
-                              isData.manualItemDetails &&
-                              isData.manualItemDetails[0].size}
-                            {isData &&
-                              isData.manualItemDetails &&
-                              isData.manualItemDetails[0].unit}
-                          </>
-                        )}
+                      {isData && isData?.TYPE
+                        ? isData?.TYPE
+                        : isData &&
+                          isData.manualItemDetails.map((item) => {
+                            return (
+                              <>
+                                {item?.remark}
+                                {item?.itemType && (
+                                  <>
+                                    ( {item?.itemType}-{item?.quantity}-
+                                    {item?.size} {item?.unit})
+                                  </>
+                                )}
+                              </>
+                            );
+                          })}
                     </h2>
                   </span>
                 </>
@@ -451,35 +429,22 @@ const CashRecipt = ({ setopendashboard, setshowreciept }) => {
                   <span className="rightitems">
                     <h2>विवरण :</h2>
                     <h2 className="font_bold_in_donation">
-                      {isData &&
-                        isData.manualItemDetails &&
-                        isData.manualItemDetails[0].remark}{' '}
-                      {isData &&
-                        isData.manualItemDetails &&
-                        isData.manualItemDetails[0].itemType && (
-                          <>
-                            -
-                            {isData &&
-                              isData.manualItemDetails &&
-                              isData.manualItemDetails[0].itemType}
-                          </>
-                        )}
-                      {isData &&
-                        isData.manualItemDetails &&
-                        isData.manualItemDetails[0].size &&
-                        isData &&
-                        isData.manualItemDetails &&
-                        isData.manualItemDetails[0].unit && (
-                          <>
-                            -
-                            {isData &&
-                              isData.manualItemDetails &&
-                              isData.manualItemDetails[0].size}
-                            {isData &&
-                              isData.manualItemDetails &&
-                              isData.manualItemDetails[0].unit}
-                          </>
-                        )}
+                      {isData && isData?.TYPE
+                        ? isData?.TYPE
+                        : isData &&
+                          isData.manualItemDetails.map((item) => {
+                            return (
+                              <>
+                                {item?.remark}
+                                {item?.itemType && (
+                                  <>
+                                    ( {item?.itemType}-{item?.quantity}-
+                                    {item?.size} {item?.unit})
+                                  </>
+                                )}
+                              </>
+                            );
+                          })}
                     </h2>
                   </span>
                 </>
@@ -490,9 +455,12 @@ const CashRecipt = ({ setopendashboard, setshowreciept }) => {
                   <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                 </div>
                 <h2 className="font_bold_in_donation">
-                  {isData &&
-                    isData.manualItemDetails &&
-                    isData.manualItemDetails[0].remark}
+                  {isData && isData?.REMARK
+                    ? isData?.REMARK
+                    : isData &&
+                      isData.manualItemDetails.map((item) => {
+                        return <> {item?.remark}</>;
+                      })}
                 </h2>
               </span>
             )}
@@ -503,12 +471,17 @@ const CashRecipt = ({ setopendashboard, setshowreciept }) => {
                   <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                 </div>
                 <h2 className="font_bold_in_donation">
-                  {isData &&
-                    isData.manualItemDetails &&
-                    isData.manualItemDetails[0].remark}
-                  {isData.manualItemDetails[0].BankName && (
-                    <>({isData.manualItemDetails[0].BankName})</>
-                  )}
+                  {isData && isData?.REMARK
+                    ? isData?.REMARK
+                    : isData &&
+                      isData.manualItemDetails.map((item) => {
+                        return (
+                          <>
+                            {item?.remark}{' '}
+                            {item?.BankName && <>({item?.BankName})</>}
+                          </>
+                        );
+                      })}
                 </h2>
               </span>
             )}
@@ -519,12 +492,17 @@ const CashRecipt = ({ setopendashboard, setshowreciept }) => {
                   <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                 </div>
                 <h2 className="font_bold_in_donation">
-                  {isData &&
-                    isData.manualItemDetails &&
-                    isData.manualItemDetails[0].remark}
-                  {isData.manualItemDetails[0].BankName && (
-                    <>({isData.manualItemDetails[0].BankName})</>
-                  )}
+                  {isData && isData?.REMARK
+                    ? isData?.REMARK
+                    : isData &&
+                      isData.manualItemDetails.map((item) => {
+                        return (
+                          <>
+                            {item?.remark}{' '}
+                            {item?.BankName && <>({item?.BankName})</>}
+                          </>
+                        );
+                      })}
                 </h2>
               </span>
             )}
@@ -535,26 +513,21 @@ const CashRecipt = ({ setopendashboard, setshowreciept }) => {
                   <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                 </div>
                 <h2 className="font_bold_in_donation">
-                  {isData &&
-                    isData.manualItemDetails &&
-                    isData.manualItemDetails[0].remark}
-                  {isData &&
-                    isData.manualItemDetails &&
-                    isData.manualItemDetails[0].BankName &&
-                    isData &&
-                    isData.manualItemDetails &&
-                    isData.manualItemDetails[0].ChequeNo && (
-                      <>
-                        ({' '}
-                        {isData &&
-                          isData.manualItemDetails &&
-                          isData.manualItemDetails[0].BankName}
-                        {isData &&
-                          isData.manualItemDetails &&
-                          isData.manualItemDetails[0].ChequeNo}{' '}
-                        )
-                      </>
-                    )}
+                  {isData && isData?.REMARK
+                    ? isData?.REMARK
+                    : isData &&
+                      isData.manualItemDetails.map((item) => {
+                        return (
+                          <>
+                            {item?.remark}{' '}
+                            {item?.BankName && (
+                              <>
+                                ({item?.BankName} {item?.ChequeNo})
+                              </>
+                            )}
+                          </>
+                        );
+                      })}
                 </h2>
               </span>
             )}
@@ -565,26 +538,21 @@ const CashRecipt = ({ setopendashboard, setshowreciept }) => {
                   <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                 </div>
                 <h2 className="font_bold_in_donation">
-                  {isData &&
-                    isData.manualItemDetails &&
-                    isData.manualItemDetails[0].remark}
-                  {isData &&
-                    isData.manualItemDetails &&
-                    isData.manualItemDetails[0].BankName &&
-                    isData &&
-                    isData.manualItemDetails &&
-                    isData.manualItemDetails[0].ChequeNo && (
-                      <>
-                        ({' '}
-                        {isData &&
-                          isData.manualItemDetails &&
-                          isData.manualItemDetails[0].BankName}
-                        {isData &&
-                          isData.manualItemDetails &&
-                          isData.manualItemDetails[0].ChequeNo}{' '}
-                        )
-                      </>
-                    )}
+                  {isData && isData?.REMARK
+                    ? isData?.REMARK
+                    : isData &&
+                      isData.manualItemDetails.map((item) => {
+                        return (
+                          <>
+                            {item?.remark}{' '}
+                            {item?.BankName && (
+                              <>
+                                ({item?.BankName} {item?.ChequeNo})
+                              </>
+                            )}
+                          </>
+                        );
+                      })}
                 </h2>
               </span>
             )}

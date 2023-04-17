@@ -330,6 +330,27 @@ const Cheque = ({ setopendashboard }) => {
     fcheque,
     fdate,
   ]);
+
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setisData(
+      [...isData].sort((a, b) => {
+        if (a[key] < b[key]) {
+          return direction === 'ascending' ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }),
+    );
+    setSortConfig({ key: key, direction: direction });
+  };
   return (
     <>
       <Modal
@@ -507,24 +528,102 @@ const Cheque = ({ setopendashboard }) => {
           >
             <TableHead style={{ background: '#F1F0F0' }}>
               <TableRow>
-                <TableCell>Date</TableCell>
-                <TableCell>ReceiptNo</TableCell>
-                <TableCell>Name </TableCell>
-                <TableCell>Address</TableCell>
-                <TableCell>Mobile</TableCell>
-                <TableCell>DonationType</TableCell>
-                <TableCell>Amount</TableCell>
-                <TableCell>ChequeNo.</TableCell>
-                <TableCell>DateOfsubmission</TableCell>
-                <TableCell>NameofBank</TableCell>
-                <TableCell>Remark</TableCell>
-                <TableCell>Action</TableCell>
+                <TableCell>
+                  Date{' '}
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('DATE_OF_DAAN')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  ReceiptNo{' '}
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('RECEIPT_NO')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Name{' '}
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('NAME')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Address{' '}
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('ADDRESS')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Mobile{' '}
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('MobileNo')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  head{' '}
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('MODE_OF_DONATION')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Amount{' '}
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('AMOUNT')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  ChequeNo{' '}
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('CHEQUE_NO')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  DateOfsub{' '}
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('DATE_OF_CHEQUE')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Bank{' '}
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('NAME_OF_BANK')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Remark{' '}
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('REMARK')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>Action </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
                 <TableCell>
                   <input
+                    style={{ width: '100%' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
@@ -535,6 +634,7 @@ const Cheque = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
+                    style={{ width: '100%' }}
                     className="cuolms_search"
                     type="date"
                     onChange={(e) => onSearchByOther(e, 'Date')}
@@ -623,12 +723,10 @@ const Cheque = ({ setopendashboard }) => {
               {isData ? (
                 <>
                   {(rowsPerPage > 0
-                    ? isData
-                        .reverse()
-                        .slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage,
-                        )
+                    ? isData.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage,
+                      )
                     : isData
                   ).map((row, index) => (
                     <TableRow

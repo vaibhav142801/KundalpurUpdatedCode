@@ -194,94 +194,26 @@ function DonationMaster() {
     minute: 'numeric',
     hour12: true,
   });
-  const [currentSort, setcurrentSort] = useState('sort');
-  const [currentSort1, setcurrentSort1] = useState('sort');
 
-  const [sortField, setSortField] = useState('');
-  const onSortChange = (sortField) => {
-    let nextSort;
-
-    if (sortField === 'type_hi') {
-      if (currentSort === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort === 'caret-up') nextSort = 'sort';
-      else if (currentSort === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort(nextSort);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
     }
-    if (sortField === 'type_en') {
-      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort1 === 'caret-up') nextSort = 'sort';
-      else if (currentSort1 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort1(nextSort);
-    }
+    setisData(
+      [...isData].sort((a, b) => {
+        if (a[key] < b[key]) {
+          return direction === 'ascending' ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }),
+    );
+    setSortConfig({ key: key, direction: direction });
   };
-
-  useEffect(() => {
-    if (sortField === 'type_hi') {
-      if (currentSort === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        // getall_donatiions();
-      }
-    }
-
-    if (sortField === 'type_en') {
-      if (currentSort1 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort1 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        // getall_donatiions();
-      }
-    }
-  }, [currentSort, currentSort1]);
   return (
     <>
       <Dialog
@@ -439,18 +371,20 @@ function DonationMaster() {
                 <TableCell>S.No.</TableCell>
 
                 <TableCell>
-                  {' '}
                   Type Donation (hindi)
-                  <Button onClick={() => onSortChange('type_hi')}>
-                    <i class={`fa fa-${currentSort}`} />
-                  </Button>
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('type_hi')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>
-                  {' '}
                   Type Donation (english){' '}
-                  <Button onClick={() => onSortChange('type_en')}>
-                    <i class={`fa fa-${currentSort1}`} />
-                  </Button>
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('type_en')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 {/* <TableCell>Status</TableCell> */}
                 <TableCell>Action</TableCell>

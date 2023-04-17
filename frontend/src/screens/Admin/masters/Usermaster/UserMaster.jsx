@@ -173,176 +173,25 @@ function UserMaster() {
   useEffect(() => {
     getall_users();
   }, [refetch, open]);
-  const [currentSort, setcurrentSort] = useState('sort');
-  const [currentSort1, setcurrentSort1] = useState('sort');
-  const [currentSort2, setcurrentSort2] = useState('sort');
-  const [currentSort3, setcurrentSort3] = useState('sort');
-
-  const [sortField, setSortField] = useState('');
-  const onSortChange = (sortField) => {
-    let nextSort;
-
-    if (sortField === 'name') {
-      if (currentSort === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort === 'caret-up') nextSort = 'sort';
-      else if (currentSort === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort(nextSort);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
     }
-    if (sortField === 'address') {
-      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort1 === 'caret-up') nextSort = 'sort';
-      else if (currentSort1 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort1(nextSort);
-    }
-
-    if (sortField === 'mobileNo') {
-      if (currentSort2 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort2 === 'caret-up') nextSort = 'sort';
-      else if (currentSort2 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort2(nextSort);
-    }
-
-    if (sortField === 'email') {
-      if (currentSort3 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort3 === 'caret-up') nextSort = 'sort';
-      else if (currentSort3 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort3(nextSort);
-    }
+    setisData(
+      [...isData].sort((a, b) => {
+        if (a[key] < b[key]) {
+          return direction === 'ascending' ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }),
+    );
+    setSortConfig({ key: key, direction: direction });
   };
-
-  useEffect(() => {
-    if (sortField === 'name') {
-      if (currentSort === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_users();
-      }
-    }
-
-    if (sortField === 'address') {
-      if (currentSort1 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort1 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_users();
-      }
-    }
-
-    if (sortField === 'mobileNo') {
-      if (currentSort2 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort2 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_users();
-      }
-    }
-
-    if (sortField === 'email') {
-      if (currentSort3 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort3 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField]?.toLowerCase(),
-            fb = b[sortField]?.toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_users();
-      }
-    }
-  }, [currentSort, currentSort1, currentSort2, currentSort3]);
   return (
     <>
       <Modal
@@ -525,30 +374,45 @@ function UserMaster() {
               <TableRow>
                 <TableCell>Sn</TableCell>
                 <TableCell>
-                  Name{' '}
-                  <Button onClick={() => onSortChange('name')}>
-                    <i class={`fa fa-${currentSort}`} />
-                  </Button>
+                  Name
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>
-                  {' '}
-                  <Button onClick={() => onSortChange('address')}>
-                    <i class={`fa fa-${currentSort1}`} />
-                  </Button>
+                  Address
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('address')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>
-                  Contact No{' '}
-                  <Button onClick={() => onSortChange('mobileNo')}>
-                    <i class={`fa fa-${currentSort2}`} />
-                  </Button>
+                  Contact No
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('mobileNo')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
                 <TableCell>
-                  Email-Id{' '}
-                  <Button onClick={() => onSortChange('email')}>
-                    <i class={`fa fa-${currentSort3}`} />
-                  </Button>
+                  Email-Id
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('email')}
+                    class={`fa fa-sort`}
+                  />
                 </TableCell>
-                <TableCell>Status</TableCell>
+                <TableCell>
+                  Status
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('status')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>

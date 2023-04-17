@@ -54,7 +54,7 @@ const UserManagement = ({ setopendashboard }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(50);
   const [open, setOpen] = React.useState(false);
   const [refetch, setrefetch] = useState(false);
   const [open1, setOpen1] = React.useState(false);
@@ -208,264 +208,25 @@ const UserManagement = ({ setopendashboard }) => {
     setopendashboard(true);
     getall_donation();
   }, [refetch, open, open1, open3]);
-
-  const [currentSort, setcurrentSort] = useState('sort');
-  const [currentSort1, setcurrentSort1] = useState('sort');
-  const [currentSort2, setcurrentSort2] = useState('sort');
-  const [currentSort3, setcurrentSort3] = useState('sort');
-  const [currentSort4, setcurrentSort4] = useState('sort');
-  const [currentSort5, setcurrentSort5] = useState('sort');
-
-  const [sortField, setSortField] = useState('');
-  const onSortChange = (sortField) => {
-    let nextSort;
-
-    if (sortField === 'Mobile') {
-      if (currentSort === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort === 'caret-up') nextSort = 'sort';
-      else if (currentSort === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort(nextSort);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
     }
-    if (sortField === 'Username') {
-      if (currentSort1 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort1 === 'caret-up') nextSort = 'sort';
-      else if (currentSort1 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort1(nextSort);
-    }
-
-    if (sortField === 'Address') {
-      if (currentSort2 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort2 === 'caret-up') nextSort = 'sort';
-      else if (currentSort2 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort2(nextSort);
-    }
-
-    if (sortField === 'Email') {
-      if (currentSort3 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort3 === 'caret-up') nextSort = 'sort';
-      else if (currentSort3 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort3(nextSort);
-    }
-    if (sortField === 'Role') {
-      if (currentSort4 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort4 === 'caret-up') nextSort = 'sort';
-      else if (currentSort4 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort4(nextSort);
-    }
-    if (sortField === 'Status') {
-      if (currentSort5 === 'caret-down') nextSort = 'caret-up';
-      else if (currentSort5 === 'caret-up') nextSort = 'sort';
-      else if (currentSort5 === 'sort') nextSort = 'caret-down';
-      setSortField(sortField);
-      setcurrentSort5(nextSort);
-    }
+    setisData(
+      [...isData].sort((a, b) => {
+        if (a[key] < b[key]) {
+          return direction === 'ascending' ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }),
+    );
+    setSortConfig({ key: key, direction: direction });
   };
-
-  useEffect(() => {
-    if (sortField === 'Mobile') {
-      if (currentSort === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_donation();
-      }
-    }
-
-    if (sortField === 'Username') {
-      if (currentSort1 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort1 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_donation();
-      }
-    }
-
-    if (sortField === 'Address') {
-      if (currentSort2 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort2 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_donation();
-      }
-    }
-
-    if (sortField === 'Email') {
-      if (currentSort3 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort3 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_donation();
-      }
-    }
-
-    if (sortField === 'Role') {
-      if (currentSort4 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort4 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField].toLowerCase(),
-            fb = b[sortField].toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_donation();
-      }
-    }
-
-    if (sortField === 'Status') {
-      if (currentSort5 === 'caret-up') {
-        isData.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa > fb) {
-            return -1;
-          }
-          if (fa < fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (currentSort5 === 'caret-down') {
-        isData.sort((a, b) => {
-          let fa = a[sortField],
-            fb = b[sortField];
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        });
-      } else {
-        getall_donation();
-      }
-    }
-  }, [
-    currentSort,
-    currentSort1,
-    currentSort2,
-    currentSort3,
-    currentSort4,
-    currentSort5,
-  ]);
   return (
     <>
       <Dialog
@@ -602,40 +363,52 @@ const UserManagement = ({ setopendashboard }) => {
                 <TableRow>
                   <TableCell>Sr No.</TableCell>
                   <TableCell>
-                    Mobile{' '}
-                    <Button onClick={() => onSortChange('Mobile')}>
-                      <i class={`fa fa-${currentSort}`} />
-                    </Button>
+                    Mobil
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortData('Mobile')}
+                      class={`fa fa-sort`}
+                    />
                   </TableCell>
                   <TableCell>
-                    Username{' '}
-                    <Button onClick={() => onSortChange('Username')}>
-                      <i class={`fa fa-${currentSort1}`} />
-                    </Button>
+                    Username
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortData('Username')}
+                      class={`fa fa-sort`}
+                    />
                   </TableCell>
                   <TableCell>
-                    Address{' '}
-                    <Button onClick={() => onSortChange('Address')}>
-                      <i class={`fa fa-${currentSort2}`} />
-                    </Button>
+                    Address
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortData('Address')}
+                      class={`fa fa-sort`}
+                    />
                   </TableCell>
                   <TableCell>
-                    Email{' '}
-                    <Button onClick={() => onSortChange('Email')}>
-                      <i class={`fa fa-${currentSort3}`} />
-                    </Button>
+                    Email
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortData('Email')}
+                      class={`fa fa-sort`}
+                    />
                   </TableCell>
                   <TableCell>
-                    Role{' '}
-                    <Button onClick={() => onSortChange('Role')}>
-                      <i class={`fa fa-${currentSort4}`} />
-                    </Button>
+                    Role
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortData('Role')}
+                      class={`fa fa-sort`}
+                    />
                   </TableCell>
                   <TableCell>
-                    Status{' '}
-                    <Button onClick={() => onSortChange('Status')}>
-                      <i class={`fa fa-${currentSort5}`} />
-                    </Button>
+                    Status
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortData('Status')}
+                      class={`fa fa-sort`}
+                    />
                   </TableCell>
                   <TableCell>
                     Action <Button>&nbsp;</Button>
@@ -717,7 +490,7 @@ const UserManagement = ({ setopendashboard }) => {
                     page={page}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={[50, 100, 250]}
                     labelRowsPerPage={<span>Rows:</span>}
                     labelDisplayedRows={({ page }) => {
                       return `Page: ${page}`;

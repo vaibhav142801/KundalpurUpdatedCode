@@ -117,7 +117,7 @@ const style2 = {
 };
 
 const donationColorTheme = {
-  cash: '#9F2B68',
+  cash: '#00ff00',
   electronic: '#9F2B68',
   cheque: '#808080',
   item: '#FF0000',
@@ -756,82 +756,80 @@ const ManualDonation = ({ setopendashboard }) => {
             >
               <TableHead style={{ background: '#FFEEE0' }}>
                 <TableRow>
-                  <TableCell
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                    }}
-                  >
+                  <TableCell>
                     Date
-                    <Button onClick={() => sortData('donation_date')}>
-                      <i class={`fa fa-sort`} />
-                    </Button>
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortData('donation_date')}
+                      class={`fa fa-sort`}
+                    />
                   </TableCell>
                   <TableCell>
                     ReceiptNo
-                    <Button onClick={() => sortData('ReceiptNo')}>
-                      <i class={`fa fa-sort`} />
-                    </Button>
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortData('ReceiptNo')}
+                      class={`fa fa-sort`}
+                    />
                   </TableCell>
 
                   <TableCell>
                     Phone No
-                    <Button onClick={() => sortData('phoneNo')}>
-                      <i class={`fa fa-sort`} />
-                    </Button>
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortData('phoneNo')}
+                      class={`fa fa-sort`}
+                    />
                   </TableCell>
-                  <TableCell
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                    }}
-                  >
+                  <TableCell>
                     Name
-                    <Button onClick={() => sortData('name')}>
-                      <i class={`fa fa-sort`} />
-                    </Button>
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortData('name')}
+                      class={`fa fa-sort`}
+                    />
                   </TableCell>
                   <TableCell>
                     Address
-                    <Button onClick={() => sortData('address')}>
-                      <i class={`fa fa-sort`} />
-                    </Button>
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortData('address')}
+                      class={`fa fa-sort`}
+                    />
                   </TableCell>
                   <TableCell>
                     Head/Item
-                    <Button onClick={() => sortDataHead('manualItemDetails')}>
-                      <i class={`fa fa-sort`} />
-                    </Button>
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortDataHead('manualItemDetails')}
+                      class={`fa fa-sort`}
+                    />
                   </TableCell>
                   <TableCell>
                     Amount
-                    <Button onClick={() => sortDataAmount('manualItemDetails')}>
-                      <i class={`fa fa-sort`} />
-                    </Button>
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortDataAmount('manualItemDetails')}
+                      class={`fa fa-sort`}
+                    />
                   </TableCell>
-                  <TableCell
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                    }}
-                  >
+                  <TableCell>
                     User
-                    <Button onClick={() => sortData('CreatedBy')}>
-                      <i class={`fa fa-sort`} />
-                    </Button>
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortData('CreatedBy')}
+                      class={`fa fa-sort`}
+                    />
                   </TableCell>
                   <TableCell>
                     Remark
-                    <Button onClick={() => sortRemark('manualItemDetails')}>
-                      <i class={`fa fa-sort`} />
-                    </Button>
+                    <i
+                      style={{ marginLeft: '0.5rem' }}
+                      onClick={() => sortRemark('manualItemDetails')}
+                      class={`fa fa-sort`}
+                    />
                   </TableCell>
-                  <TableCell>
-                    Action <Button>&nbsp;</Button>
-                  </TableCell>
+                  <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -862,6 +860,7 @@ const ManualDonation = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
+                    style={{ width: '100%' }}
                     type="text"
                     className="cuolms_search"
                     onChange={(e) => onSearchByOther(e, 'Name')}
@@ -870,6 +869,7 @@ const ManualDonation = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
+                    style={{ width: '100%' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => onSearchByOther(e, 'Address')}

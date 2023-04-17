@@ -224,7 +224,9 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData &&
                                 isData.elecItemDetails &&
-                                isData.elecItemDetails[0].type}
+                                isData.elecItemDetails.map((item) => {
+                                  return <>{item?.type},</>;
+                                })}
                             </span>
                           </div>
                         </>
@@ -243,28 +245,21 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData && isData?.TYPE
                                 ? isData?.TYPE
-                                : isData && isData.elecItemDetails[0].remark}
-
-                              {isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].itemType && (
-                                  <>
-                                    -
-                                    {isData &&
-                                      isData.elecItemDetails &&
-                                      isData.elecItemDetails[0].itemType}
-                                  </>
-                                )}
-                              {isData &&
-                                isData.elecItemDetails[0].size &&
-                                isData &&
-                                isData.elecItemDetails[0].unit && (
-                                  <>
-                                    - {isData && isData.elecItemDetails[0].size}
-                                    &nbsp;
-                                    {isData && isData.elecItemDetails[0].unit}
-                                  </>
-                                )}
+                                : isData &&
+                                  isData.elecItemDetails.map((item) => {
+                                    return (
+                                      <>
+                                        {item?.remark}
+                                        {item?.itemType && (
+                                          <>
+                                            ( {item?.itemType}-{item?.quantity}-
+                                            {item?.size}
+                                            {item?.unit})
+                                          </>
+                                        )}
+                                      </>
+                                    );
+                                  })}
                             </span>
                           </div>
                         </>
@@ -280,27 +275,20 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData && isData?.TYPE
                                 ? isData?.TYPE
-                                : isData && isData.elecItemDetails[0].remark}
-                              {isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].itemType && (
-                                  <>
-                                    -
-                                    {isData &&
-                                      isData.elecItemDetails &&
-                                      isData.elecItemDetails[0].itemType}
-                                  </>
-                                )}
-                              {isData &&
-                                isData.elecItemDetails[0].size &&
-                                isData &&
-                                isData.elecItemDetails[0].unit && (
-                                  <>
-                                    - {isData && isData.elecItemDetails[0].size}
-                                    &nbsp;
-                                    {isData && isData.elecItemDetails[0].unit}
-                                  </>
-                                )}
+                                : isData &&
+                                  isData.elecItemDetails.map((item) => {
+                                    return (
+                                      <>
+                                        {item?.remark}
+                                        {item?.itemType && (
+                                          <>
+                                            ( {item?.itemType}-{item?.quantity}-
+                                            {item?.size} {item?.unit})
+                                          </>
+                                        )}
+                                      </>
+                                    );
+                                  })}
                             </span>
                           </div>
                         </>
@@ -359,7 +347,10 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
-                                : isData && isData.elecItemDetails[0].remark}
+                                : isData &&
+                                  isData.elecItemDetails.map((item) => {
+                                    return <>( {item?.remark})</>;
+                                  })}
                             </span>
                           </p>
                         </div>
@@ -377,7 +368,12 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
-                                : isData && isData.elecItemDetails[0].remark}
+                                : isData &&
+                                  isData.elecItemDetails.elecItemDetails.map(
+                                    (item) => {
+                                      return <>( {item?.remark})</>;
+                                    },
+                                  )}
                             </span>
                           </p>
                         </div>
@@ -395,28 +391,20 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
-                                : isData && isData.elecItemDetails[0].remark}
-                              {isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].BankName &&
-                                isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].ChequeNo && (
-                                  <>
-                                    (
-                                    {isData && isData?.TYPE
-                                      ? isData?.TYPE
-                                      : isData &&
-                                        isData.elecItemDetails &&
-                                        isData.elecItemDetails[0].BankName}
-                                    {isData && isData?.TYPE
-                                      ? isData?.TYPE
-                                      : isData &&
-                                        isData.elecItemDetails &&
-                                        isData.elecItemDetails[0].ChequeNo}{' '}
-                                    )
-                                  </>
-                                )}
+                                : isData &&
+                                  isData.elecItemDetails.map((item) => {
+                                    return (
+                                      <>
+                                        {item?.remark}{' '}
+                                        {item?.BankName && (
+                                          <>
+                                            ({item?.BankName}
+                                            {item?.ChequeNo})
+                                          </>
+                                        )}
+                                      </>
+                                    );
+                                  })}
                             </span>
                           </p>
                         </div>
@@ -435,29 +423,20 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
-                                : isData && isData.elecItemDetails[0].remark}
-
-                              {isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].BankName &&
-                                isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].ChequeNo && (
-                                  <>
-                                    (
-                                    {isData && isData?.TYPE
-                                      ? isData?.TYPE
-                                      : isData &&
-                                        isData.elecItemDetails &&
-                                        isData.elecItemDetails[0].BankName}
-                                    {isData && isData?.TYPE
-                                      ? isData?.TYPE
-                                      : isData &&
-                                        isData.elecItemDetails &&
-                                        isData.elecItemDetails[0].ChequeNo}{' '}
-                                    )
-                                  </>
-                                )}
+                                : isData &&
+                                  isData.elecItemDetails.map((item) => {
+                                    return (
+                                      <>
+                                        {item?.remark}{' '}
+                                        {item?.BankName && (
+                                          <>
+                                            ({item?.BankName}
+                                            {item?.ChequeNo})
+                                          </>
+                                        )}
+                                      </>
+                                    );
+                                  })}
                             </span>
                           </p>
                         </div>
@@ -476,21 +455,15 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
-                                : isData && isData.elecItemDetails[0].remark}
+                                : isData &&
+                                  isData.elecItemDetails.map((item) => {
+                                    return (
+                                      <>
+                                        {item?.remark} ({item?.BankName})
+                                      </>
+                                    );
+                                  })}
                             </span>
-                            {isData &&
-                              isData.elecItemDetails &&
-                              isData.elecItemDetails[0].BankName && (
-                                <>
-                                  (
-                                  {isData && isData?.TYPE
-                                    ? isData?.TYPE
-                                    : isData &&
-                                      isData.elecItemDetails &&
-                                      isData.elecItemDetails[0].BankName}
-                                  )
-                                </>
-                              )}
                           </p>
                         </div>
                       </>
@@ -508,21 +481,15 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
-                                : isData && isData.elecItemDetails[0].remark}
+                                : isData &&
+                                  isData.elecItemDetails.map((item) => {
+                                    return (
+                                      <>
+                                        {item?.remark} ({item?.BankName})
+                                      </>
+                                    );
+                                  })}
                             </span>
-                            {isData &&
-                              isData.elecItemDetails &&
-                              isData.elecItemDetails[0].BankName && (
-                                <>
-                                  (
-                                  {isData && isData?.TYPE
-                                    ? isData?.TYPE
-                                    : isData &&
-                                      isData.elecItemDetails &&
-                                      isData.elecItemDetails[0].BankName}
-                                  )
-                                </>
-                              )}
                           </p>
                         </div>
                       </>
@@ -835,7 +802,9 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData &&
                                 isData.elecItemDetails &&
-                                isData.elecItemDetails[0].type}
+                                isData.elecItemDetails.map((item) => {
+                                  return <>{item?.type},</>;
+                                })}
                             </span>
                           </div>
                         </>
@@ -854,14 +823,20 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData && isData?.TYPE
                                 ? isData?.TYPE
-                                : isData && isData.elecItemDetails[0].remark}
-                              -
-                              {isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].itemType}
-                              - {isData && isData.elecItemDetails[0].size}
-                              &nbsp;
-                              {isData && isData.elecItemDetails[0].unit}
+                                : isData &&
+                                  isData.elecItemDetails.map((item) => {
+                                    return (
+                                      <>
+                                        {item?.remark}
+                                        {item?.itemType && (
+                                          <>
+                                            ( {item?.itemType}-{item?.quantity}-
+                                            {item?.size} {item?.unit})
+                                          </>
+                                        )}
+                                      </>
+                                    );
+                                  })}
                             </span>
                           </div>
                         </>
@@ -877,14 +852,20 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData && isData?.TYPE
                                 ? isData?.TYPE
-                                : isData && isData.elecItemDetails[0].remark}
-                              -
-                              {isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].itemType}
-                              - {isData && isData.elecItemDetails[0].size}
-                              &nbsp;
-                              {isData && isData.elecItemDetails[0].unit}
+                                : isData &&
+                                  isData.elecItemDetails.map((item) => {
+                                    return (
+                                      <>
+                                        {item?.remark}
+                                        {item?.itemType && (
+                                          <>
+                                            ( {item?.itemType}-{item?.quantity}-
+                                            {item?.size} {item?.unit})
+                                          </>
+                                        )}
+                                      </>
+                                    );
+                                  })}
                             </span>
                           </div>
                         </>
@@ -943,7 +924,10 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
-                                : isData && isData.elecItemDetails[0].remark}
+                                : isData &&
+                                  isData?.elecItemDetails.map((item) => {
+                                    return <>( {item?.remark})</>;
+                                  })}
                             </span>
                           </p>
                         </div>
@@ -961,7 +945,10 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
-                                : isData && isData.elecItemDetails[0].remark}
+                                : isData &&
+                                  isData?.elecItemDetails.map((item) => {
+                                    return <>( {item?.remark})</>;
+                                  })}
                             </span>
                           </p>
                         </div>
@@ -979,20 +966,21 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
-                                : isData && isData.elecItemDetails[0].remark}
+                                : isData &&
+                                  isData.elecItemDetails.map((item) => {
+                                    return (
+                                      <>
+                                        {item?.remark}{' '}
+                                        {item?.BankName && (
+                                          <>
+                                            ({item?.BankName}
+                                            {item?.ChequeNo})
+                                          </>
+                                        )}
+                                      </>
+                                    );
+                                  })}
                             </span>
-                            (
-                            {isData && isData?.TYPE
-                              ? isData?.TYPE
-                              : isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].BankName}
-                            {isData && isData?.TYPE
-                              ? isData?.TYPE
-                              : isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].ChequeNo}
-                            )
                           </p>
                         </div>
                       </>
@@ -1010,19 +998,21 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
-                                : isData && isData.elecItemDetails[0].remark}
+                                : isData &&
+                                  isData.elecItemDetails.map((item) => {
+                                    return (
+                                      <>
+                                        {item?.remark}{' '}
+                                        {item?.BankName && (
+                                          <>
+                                            ({item?.BankName}
+                                            {item?.ChequeNo})
+                                          </>
+                                        )}
+                                      </>
+                                    );
+                                  })}
                             </span>
-                            {isData && isData?.TYPE
-                              ? isData?.TYPE
-                              : isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].BankName}
-                            {isData && isData?.TYPE
-                              ? isData?.TYPE
-                              : isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].ChequeNo}
-                            )
                           </p>
                         </div>
                       </>
@@ -1040,15 +1030,15 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
-                                : isData && isData.elecItemDetails[0].remark}
+                                : isData &&
+                                  isData.elecItemDetails.map((item) => {
+                                    return (
+                                      <>
+                                        {item?.remark} ({item?.BankName})
+                                      </>
+                                    );
+                                  })}
                             </span>
-                            (
-                            {isData && isData?.TYPE
-                              ? isData?.TYPE
-                              : isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].BankName}
-                            )
                           </p>
                         </div>
                       </>
@@ -1066,15 +1056,15 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                             >
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
-                                : isData && isData.elecItemDetails[0].remark}
+                                : isData &&
+                                  isData.elecItemDetails.map((item) => {
+                                    return (
+                                      <>
+                                        {item?.remark} ({item?.BankName})
+                                      </>
+                                    );
+                                  })}
                             </span>
-                            (
-                            {isData && isData?.TYPE
-                              ? isData?.TYPE
-                              : isData &&
-                                isData.elecItemDetails &&
-                                isData.elecItemDetails[0].BankName}
-                            )
                           </p>
                         </div>
                       </>
