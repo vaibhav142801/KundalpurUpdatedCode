@@ -27,6 +27,7 @@ import Cashtotal from '../AllReport/Totals/Cashtotal';
 import ElecTotal from '../AllReport/Totals/ElecTotal';
 import Itemtotal from '../AllReport/Totals/Itemtotal';
 import OnlineCHeque from '../AllReport/Totals/OnlineCHeque';
+import AllTotal from '../AllReport/Totals/AllTotal';
 import Tooltip from '@mui/material/Tooltip';
 import { Button } from '@mui/material';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
@@ -224,7 +225,7 @@ const AllHead = ({ setopendashboard }) => {
                 name="type"
                 onChange={(e) => settype(e.target.value)}
               >
-                <option>Type/Head</option>
+                <option value="">All Head</option>
                 {headlist &&
                   headlist.map((item, index) => (
                     <option key={index} value={item.type_hi}>
@@ -238,7 +239,7 @@ const AllHead = ({ setopendashboard }) => {
                 name="empId"
                 onChange={(e) => setempId(e.target.value)}
               >
-                <option>Select User</option>
+                <option value="">All User</option>
                 {empylist &&
                   empylist.map((item, index) => (
                     <option key={index} value={item.id}>
@@ -386,7 +387,7 @@ const AllHead = ({ setopendashboard }) => {
                           row?.manual_cheque_TOTAL_AMOUNT}
 
                         {row?.manual_cheque_TOTAL_AMOUNT === '' &&
-                          row?.manual_cheque_TOTAL_AMOUNT == '' &&
+                          row?.electric_cheque_TOTAL_AMOUNT === '' &&
                           '0'}
                       </TableCell>
                       <TableCell>
@@ -412,6 +413,8 @@ const AllHead = ({ setopendashboard }) => {
                         {row?.electric_cash_TOTAL_AMOUNT === '' &&
                           row?.electric_cash_TOTAL_AMOUNT === '' &&
                           '0'}
+                        {row?.cheque === '' && '0'}
+                        {row?.online === '' && '0'}
                       </TableCell>
 
                       <TableCell>
@@ -422,7 +425,7 @@ const AllHead = ({ setopendashboard }) => {
                             parseFloat(row?.electric_cash_TOTAL_AMOUNT)}
                         {row?.donationType == 'manual' &&
                           parseFloat(row?.manual_cheque_TOTAL_AMOUNT) +
-                            parseFloat(row?.manual_item_TOTAL_AMOUNT) +
+                            parseFloat(row?.manual_bank_TOTAL_AMOUNT) +
                             parseFloat(row?.manual_item_TOTAL_AMOUNT) +
                             parseFloat(row?.manual_cash_TOTAL_AMOUNT)}
                         {row?.donationType == 'online' &&
@@ -438,10 +441,10 @@ const AllHead = ({ setopendashboard }) => {
                 <TableCell> &nbsp;</TableCell>
                 <TableCell style={{ fontWeight: 700 }}>Total</TableCell>
                 <TableCell style={{ fontWeight: 700 }}>
-                  {<OnlineTotal data={isData} />}
+                  {<OnlineCHeque data={isData} />}
                 </TableCell>
                 <TableCell style={{ fontWeight: 700 }}>
-                  {<OnlineCHeque data={isData} />}
+                  {<OnlineTotal data={isData} />}
                 </TableCell>
                 <TableCell style={{ fontWeight: 700 }}>
                   {<Chequestotal data={isData} />}
@@ -459,7 +462,7 @@ const AllHead = ({ setopendashboard }) => {
                 </TableCell>
 
                 <TableCell style={{ fontWeight: 700 }}>
-                  {<Cashtotal data={isData} />}
+                  {<AllTotal data={isData} />}
                 </TableCell>
               </TableRow>
             </TableBody>

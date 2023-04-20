@@ -27,6 +27,7 @@ import Cashtotal from '../AllReport/Totals/Cashtotal';
 import ElecTotal from '../AllReport/Totals/ElecTotal';
 import Itemtotal from '../AllReport/Totals/Itemtotal';
 import OnlineCHeque from '../AllReport/Totals/OnlineCHeque';
+import AllTotal from '../AllReport/Totals/AllTotal';
 import Tooltip from '@mui/material/Tooltip';
 import { Button } from '@mui/material';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
@@ -233,7 +234,7 @@ const AllConsolidated = ({ setopendashboard }) => {
                 name="type"
                 onChange={(e) => settype(e.target.value)}
               >
-                <option>Type/Head</option>
+                <option value="">All Head</option>
                 {headlist &&
                   headlist.map((item, index) => (
                     <option key={index} value={item.type_hi}>
@@ -247,7 +248,7 @@ const AllConsolidated = ({ setopendashboard }) => {
                 name="empId"
                 onChange={(e) => setempId(e.target.value)}
               >
-                <option>Select User</option>
+                <option value="">All User</option>
                 {empylist &&
                   empylist.map((item, index) => (
                     <option key={index} value={item.id}>
@@ -358,6 +359,8 @@ const AllConsolidated = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
+
+                <TableCell>Total Amount</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -432,6 +435,18 @@ const AllConsolidated = ({ setopendashboard }) => {
                           row?.electric_cash_TOTAL_AMOUNT === '' &&
                           '0'}
                       </TableCell>
+                      <TableCell>
+                        {row?.donationType == 'electric' &&
+                          parseFloat(row?.electric_cheque_TOTAL_AMOUNT) +
+                            parseFloat(row?.electric_bank_TOTAL_AMOUNT) +
+                            parseFloat(row?.electric_item_TOTAL_AMOUNT) +
+                            parseFloat(row?.electric_cash_TOTAL_AMOUNT)}
+                        {row?.donationType == 'manual' &&
+                          parseFloat(row?.manual_cheque_TOTAL_AMOUNT) +
+                            parseFloat(row?.manual_bank_TOTAL_AMOUNT) +
+                            parseFloat(row?.manual_item_TOTAL_AMOUNT) +
+                            parseFloat(row?.manual_cash_TOTAL_AMOUNT)}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </>
@@ -461,6 +476,10 @@ const AllConsolidated = ({ setopendashboard }) => {
 
                 <TableCell style={{ fontWeight: 700 }}>
                   {<Cashtotal data={isData} />}
+                </TableCell>
+
+                <TableCell style={{ fontWeight: 700 }}>
+                  {<AllTotal data={isData} />}
                 </TableCell>
               </TableRow>
             </TableBody>

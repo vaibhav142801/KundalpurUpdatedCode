@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 function OnlineTotal({ data }) {
   let totalAmount = 0;
   if (data) {
     data &&
       data.map((item, inx) => {
-        if (item.ONLINE_TOTAL_AMOUNT) {
-          totalAmount = totalAmount + item.ONLINE_TOTAL_AMOUNT;
+        if (item?.online) {
+          totalAmount = totalAmount + parseFloat(item?.online);
         }
       });
   }

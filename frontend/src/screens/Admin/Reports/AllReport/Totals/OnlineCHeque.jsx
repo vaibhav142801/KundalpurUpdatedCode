@@ -5,8 +5,8 @@ function OnlineCHeque({ data }) {
   if (data) {
     data &&
       data.map((item, inx) => {
-        if (item.ONLINE_TOTAL_AMOUNT) {
-          totalAmount = totalAmount + item.ONLINE_TOTAL_AMOUNT;
+        if (item?.cheque) {
+          totalAmount = totalAmount + parseFloat(item.cheque);
         }
       });
   }
