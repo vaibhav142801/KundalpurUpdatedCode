@@ -106,30 +106,7 @@ const ItemDonation = ({
       donationItems.filter((donationItem) => donationItem !== item),
     );
   }
-  const genderoptiins = [
-    {
-      id: 2,
-      gender: 'श्रीमति',
-    },
-    {
-      id: 3,
-      gender: 'मे.',
-    },
-    {
-      id: 4,
-      gender: 'कु.',
-    },
-  ];
-  const genderoptiins1 = [
-    {
-      id: 2,
-      gender: 'SMT',
-    },
-    {
-      id: 3,
-      gender: 'M/s',
-    },
-  ];
+
   const unitss = [
     {
       id: 3,
@@ -144,7 +121,7 @@ const ItemDonation = ({
       unit: 'UG',
     },
   ];
-  console.log('donationItems', donationItems);
+
   function handleDonationItemUpdate(originalDonationItem, key, value) {
     setDonationItems(
       donationItems.map((donationItem) =>
@@ -213,8 +190,6 @@ const ItemDonation = ({
       e.preventDefault();
 
       if (showUpdateBtn) {
-        console.log('upadte');
-
         if (
           fullName &&
           donationItems[0].amount &&
@@ -258,8 +233,6 @@ const ItemDonation = ({
           }
         }
       } else {
-        console.log('clicked');
-
         if (
           fullName &&
           donationItems[0].itemType &&
@@ -358,8 +331,7 @@ const ItemDonation = ({
       setDonationTime(updateData?.donation_time);
       var today = new Date(updateData?.donation_date);
       var date = today.toISOString().substring(0, 10);
-      // setgenderp(updateData?.gender);
-      // setgenderp1(updateData?.gender);
+
       setDonationDate(date);
     }
     setopendashboard(true);
@@ -458,84 +430,6 @@ const ItemDonation = ({
             </Grid>
 
             <Grid item xs={12} md={6}>
-              {/* <CustomInputLabel required htmlFor="full-name">
-                {!newMember ? (
-                  <>
-                    <Select
-                      required
-                      sx={{
-                        width: '20%',
-                        fontSize: 14,
-                        '& .MuiSelect-select': {
-                          padding: '1px',
-                        },
-                      }}
-                      value={genderp}
-                      onChange={(e) => setgenderp(e.target.value)}
-                    >
-                      <MenuItem
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={'श्री'}
-                      >
-                        श्री
-                      </MenuItem>
-                      {genderoptiins.map((item, idx) => {
-                        return (
-                          <MenuItem
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            key={item.id}
-                            value={item.gender}
-                          >
-                            {item.gender}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </>
-                ) : (
-                  <>
-                    <Select
-                      required
-                      sx={{
-                        width: '20%',
-                        fontSize: 14,
-                        '& .MuiSelect-select': {
-                          padding: '1px',
-                        },
-                      }}
-                      value={genderp1}
-                      onChange={(e) => setgenderp1(e.target.value)}
-                    >
-                      <MenuItem
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={'SHRI'}
-                      >
-                        SHRI
-                      </MenuItem>
-                      {genderoptiins1.map((item, idx) => {
-                        return (
-                          <MenuItem
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            key={item.id}
-                            value={item.gender}
-                          >
-                            {item.gender}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </>
-                )}
-                Full Name
-              </CustomInputLabel> */}
               {!newMember ? (
                 <>
                   Full Name

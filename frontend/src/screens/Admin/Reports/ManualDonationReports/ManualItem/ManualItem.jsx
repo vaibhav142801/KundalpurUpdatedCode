@@ -13,7 +13,6 @@ import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
-import Cancel from '../../../compoments/Cancel1';
 import DownloadIcon from '@mui/icons-material/Download';
 import ClearIcon from '@mui/icons-material/Clear';
 import Moment from 'moment-js';
@@ -687,25 +686,7 @@ const ManualItem = ({ setopendashboard }) => {
           </Box>
         </Fade>
       </Modal>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-      >
-        <Fade in={open}>
-          <Box sx={style}>
-            <div>
-              <div className="add-div-close-div1">
-                <h2>Cancel electronic donation </h2>
-                <CloseIcon onClick={() => handleClose()} />
-              </div>
-              <Cancel handleClose={handleClose} updateId={updateId} type={2} />
-            </div>
-          </Box>
-        </Fade>
-      </Modal>
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

@@ -7,19 +7,6 @@ export const tableTotalCellStyles = {
   paddingInline: '10px',
   paddingBlock: '4px',
   outline: '1px solid #C4C4C4',
-
-  // top:{
-
-  //   paddingInline:'4px',
-  //   paddingBlock:'4px',
-  //   outline: '1px solid #C4C4C4'
-  // },
-  // bottom:{
-  //   paddingInline:'4px',
-  //   paddingBlock:'4px',
-  //   outline: '1px solid #C4C4C4',
-  //   outlineTop:'none'
-  // }
 };
 
 const TotalAmountRow = ({ donationItems }) => {

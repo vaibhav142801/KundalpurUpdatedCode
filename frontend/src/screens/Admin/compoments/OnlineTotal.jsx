@@ -1,6 +1,4 @@
 import React from 'react';
-import Typography from '@mui/material/Typography';
-
 const OnlineTotal = ({ data }) => {
   let totalAmount = 0;
   if (data) {

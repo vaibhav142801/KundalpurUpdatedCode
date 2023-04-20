@@ -1,13 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
 import OnlineTotal from '../compoments/OnlineTotal';
 import { useReactToPrint } from 'react-to-print';
-import Moment from 'moment-js';
-import TableContainer from '@mui/material/TableContainer';
+
 import moment from 'moment';
 function PrintOnline({ isData, handleClose }) {
   const componentRef = useRef();
@@ -16,16 +10,9 @@ function PrintOnline({ isData, handleClose }) {
     content: () => componentRef.current,
   });
 
-  console.log('data', isData);
-
   return (
     <>
       <div style={{ maxHeight: 'calc(80vh - 4rem)', overflowY: 'auto' }}>
-        {/* <div className="button_div_print_download10">
-          <button onClick={() => navigation(-1)}>Back</button>
-
-          <div />
-        </div> */}
         <div ref={componentRef}>
           <div>
             <p style={{ textAlign: 'center', marginTop: '1rem' }}>

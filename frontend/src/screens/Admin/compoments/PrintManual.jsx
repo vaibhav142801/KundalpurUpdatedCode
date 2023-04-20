@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import ManualTotal from '../compoments/ManualTotal';
 import { useReactToPrint } from 'react-to-print';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Moment from 'moment-js';
 function PrintManual({ isData, handleClose }) {
   const navigation = useNavigate();
@@ -11,19 +11,9 @@ function PrintManual({ isData, handleClose }) {
     content: () => componentRef.current,
   });
 
-  console.log('data', isData);
-
   return (
     <>
       <div style={{ maxHeight: 'calc(80vh - 4rem)', overflowY: 'auto' }}>
-        {/* <div
-          className="button_div_print_download10"
-          style={{ marginTop: '6%' }}
-        >
-          <button onClick={() => navigation(-1)}>Back</button>
-
-          <div />
-        </div> */}
         <div ref={componentRef}>
           <div>
             <p style={{ textAlign: 'center', marginTop: '1rem' }}>

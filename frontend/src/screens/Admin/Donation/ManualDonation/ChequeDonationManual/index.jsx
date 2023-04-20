@@ -9,7 +9,6 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
-import { alpha } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Table from '@mui/material/Table';
@@ -22,7 +21,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CustomInput, CustomInputLabel, CustomTableInput } from '../common';
 import TotalAmountRow from '../common/TotalAmountRow';
 import { ReactTransliterate } from 'react-transliterate';
@@ -51,7 +50,6 @@ const ChequeDonation = ({
   themeColor,
   updateData,
   showUpdateBtn,
-  handleOpen4,
   setopendashboard,
 }) => {
   const theme = createTheme({
@@ -65,18 +63,14 @@ const ChequeDonation = ({
     },
   });
   const navigation = useNavigate();
-  const [text, setText] = useState('');
-  const [addText, setaddText] = useState('');
   const [hindiremark, sethindiremark] = useState('');
   const [donationTypes, setDonationTypes] = useState([]);
   const [receiptNo, setReceiptNo] = useState('');
   const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
   const [fetchuserdetail, setfetchuserdetail] = useState(true);
-  const [bankName, setBankName] = useState('');
   const [newMember, setNewMember] = useState(false);
   const [mobileNo, setMobileNo] = useState('');
-  const [formerror, setFormerror] = useState({});
   const [genderp, setgenderp] = useState('श्री');
   const [genderp1, setgenderp1] = useState('SHRI');
   const [showloader, setshowloader] = useState(false);
@@ -133,7 +127,6 @@ const ChequeDonation = ({
     );
   }
 
-  console.log('donationItems', donationItems);
   function handleDonationItemUpdate(originalDonationItem, key, value) {
     setDonationItems(
       donationItems.map((donationItem) =>
@@ -194,8 +187,6 @@ const ChequeDonation = ({
 
       e.preventDefault();
 
-      console.log('clicked');
-
       if (
         fullName &&
         donationItems[0].amount &&
@@ -233,7 +224,6 @@ const ChequeDonation = ({
               userdata: res.data.data.data,
             },
           });
-          console.log('donationItems', donationItems);
         } else {
           setshowloader(false);
           Swal.fire('Error!', 'Somthing went wrong!!', 'error');

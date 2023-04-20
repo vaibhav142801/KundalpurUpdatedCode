@@ -1,25 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { serverInstance } from '../../../../API/ServerInstance';
 import InputBase from '@mui/material/InputBase';
-import InputLabel from '@mui/material/InputLabel';
 import { backendApiUrl, backendUrl } from '../../../../config/config';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import camera from '../../../../assets/camera.png';
 import './AddRoom.css';
-import {
-  Box,
-  Button,
-  ButtonBase,
-  FormControlLabel,
-  Grid,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
-  Typography,
-} from '@mui/material';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { MenuItem, Select } from '@mui/material';
+import { styled } from '@mui/material/styles';
 const formData = new FormData();
 export const CustomInput = styled(InputBase)(({ theme }) => ({
   width: '280px',

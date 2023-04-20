@@ -66,8 +66,6 @@ const ElectronicDonation = ({
     },
   });
   const navigation = useNavigate();
-  const [text, setText] = useState('');
-  const [addText, setaddText] = useState('');
   const [hindiremark, sethindiremark] = useState('');
   const [donationTypes, setDonationTypes] = useState([]);
   const [receiptNo, setReceiptNo] = useState('');
@@ -132,7 +130,6 @@ const ElectronicDonation = ({
     );
   }
 
-  console.log('donationItems', donationItems);
   function handleDonationItemUpdate(originalDonationItem, key, value) {
     setDonationItems(
       donationItems.map((donationItem) =>
@@ -190,8 +187,6 @@ const ElectronicDonation = ({
       axios.defaults.headers.post[
         'Authorization'
       ] = `Bearer ${sessionStorage.getItem('token')}`;
-
-      console.log('clicked');
 
       if (
         fullName &&
@@ -251,12 +246,9 @@ const ElectronicDonation = ({
       ]).then(([res, item]) => {
         if (res.status) {
           setDonationTypes(res.data);
-          console.log(res.data);
         } else {
           Swal.fire('Error', 'somthing went  wrong', 'error');
         }
-
-        console.log('sss', res, item);
       });
     } catch (error) {
       Swal.fire('Error!', error, 'error');

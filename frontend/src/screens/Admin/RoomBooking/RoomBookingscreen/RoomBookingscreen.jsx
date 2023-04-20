@@ -233,7 +233,6 @@ function RoomBookingscreen({ setopendashboard }) {
       }
 
       if (Paymode === 'Cash') {
-        console.log('cash');
         serverInstance('room/checkin', 'post', {
           date: checkindata.checkintime,
           time: checkindata.checkincurrTime,

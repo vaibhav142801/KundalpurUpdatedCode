@@ -105,7 +105,7 @@ function Profile() {
                       src={
                         previewprofile
                           ? previewprofile
-                          : user?.profile_image
+                          : profileimg
                           ? profileimg
                           : profileimgs
                       }

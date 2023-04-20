@@ -118,7 +118,6 @@ const UpdateCommon = ({
     );
   }
 
-  console.log('donationItems', donationItems);
   function handleDonationItemUpdate(originalDonationItem, key, value) {
     setDonationItems(
       donationItems.map((donationItem) =>
@@ -172,7 +171,6 @@ const UpdateCommon = ({
           },
         );
 
-        console.log('update', res.data);
         if (res.data.status === true) {
           setshowloader(false);
           handleClose();
@@ -191,7 +189,6 @@ const UpdateCommon = ({
       ]).then(([res, item]) => {
         if (res.status) {
           setDonationTypes(res.data);
-          console.log(res.data);
         } else {
           Swal.fire('Error', 'somthing went  wrong', 'error');
         }
@@ -202,13 +199,12 @@ const UpdateCommon = ({
 
     serverInstance('admin/voucher-get', 'get').then((res) => {
       if (res.status) {
-        console.log('voucher data', res);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
       }
     });
   };
-  console.log(donationDate);
+
   useEffect(() => {
     getall_donatiions();
     setAddress('');

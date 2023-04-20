@@ -24,7 +24,7 @@ function ChequeTotal({ data }) {
 
   return (
     <>
-      <span>{totalAmount}</span>
+      <>{totalAmount}</>
     </>
   );
 }

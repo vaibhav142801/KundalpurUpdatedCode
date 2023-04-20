@@ -11,6 +11,7 @@ import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import CheckAvalability from './CheckAvalability';
+import CircularProgress from '@material-ui/core/CircularProgress';
 const style = {
   position: 'absolute',
   top: '47%',
@@ -88,6 +89,7 @@ const idproff = [
 ];
 
 function CheckinForm({ setOpen }) {
+  const [showloader1, setshowloader1] = useState(false);
   const [fullname, setfullname] = useState('');
   const [email, setemail] = useState('');
   const [phoneno, setphoneno] = useState('');
@@ -103,7 +105,12 @@ function CheckinForm({ setOpen }) {
   const [Children, setChildren] = useState('');
   const [TotalMember, setTotalMember] = useState();
   const [facility, setfacility] = useState('');
+  const [roomlist, setroomlist] = useState('');
+  const [category, setcategory] = useState('');
+  const [categoryname, setcategoryname] = useState('');
+  const [dharamshalaname, setdharamshalaname] = useState('');
   const [Dharamshala, setDharamshala] = useState('');
+  const [showavailability, setshowavailability] = useState(false);
   const [open1, setOpen1] = React.useState(false);
   const handleClose1 = () => setOpen1(false);
   const handleOepn1 = () => setOpen1(true);
@@ -189,10 +196,32 @@ function CheckinForm({ setOpen }) {
       }
     });
   };
+  const getallcategory = () => {
+    serverInstance('room/category', 'get').then((res) => {
+      console.log('category', res.data);
+      if (res.data) {
+        setcategory(res.data);
+      }
+    });
+  };
+  const checkavailability = async () => {
+    setshowloader1(true);
+    serverInstance(
+      `room/check-room-catg?hotelName=${dharamshalaname}&category=${categoryname}`,
+      'get',
+    ).then((res) => {
+      console.log('roooms list', res.data);
 
+      if (res.data) {
+        setroomlist(res.data);
+        setshowloader1(false);
+      }
+    });
+  };
   useEffect(() => {
     getalldharamshala();
     getallfacility();
+    getallcategory();
   }, []);
   return (
     <>
@@ -228,291 +257,497 @@ function CheckinForm({ setOpen }) {
         </Fade>
       </Modal>
       <div className="cash-donation-div">
-        <div className="cash-donation-container-innser">
-          <div className="main_div_checkin_div">
-            <p>Details</p>
-            <div>
-              <div className="date_and_time_div">
-                <div className="inpur_div_room">
-                  <label htmlFor="date">Date</label>
-                  <CustomInput
-                    style={{ width: '80%' }}
-                    type="date"
-                    required
-                    id="date"
-                    name="date"
-                    value={date}
-                    onChange={(e) => setdate(e.target.value)}
-                  />
-                </div>
-
-                <div className="inpur_div_room">
-                  <label htmlFor="time">Time</label>
-                  <CustomInput
-                    style={{ width: '95%' }}
-                    id="time"
-                    type="time"
-                    required
-                    name="time"
-                    value={time}
-                    onChange={(e) => settime(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="minddle_div_room">
-                <div className="minddle_div_room_innear">
-                  <label htmlFor="phoneno">Mobile Number</label>
-                  <CustomInput
-                    id="phoneno"
-                    type="text"
-                    name="phoneno"
-                    required
-                    placeholder="Enter the mobile number"
-                    value={phoneno}
-                    onChange={(e) => setphoneno(e.target.value)}
-                  />
-                </div>
-                <div className="minddle_div_room_innear">
-                  <label htmlFor="email">Father's Name</label>
-                  <CustomInput
-                    id="email"
-                    type="email"
-                    name="email"
-                    required
-                    placeholder="Enter the Father's Name"
-                    value={email}
-                    onChange={(e) => setemail(e.target.value)}
-                  />
-                </div>
-                <div className="minddle_div_room_innear">
-                  <label htmlFor="fullname">Full Name</label>
-                  <CustomInput
-                    id="fullname"
-                    type="text"
-                    name="fullname"
-                    required
-                    placeholder="Enter the full name"
-                    value={fullname}
-                    onChange={(e) => setfullname(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="minddle_div_room">
-                <div className="minddle_div_room_innear_adddress">
-                  <label htmlFor="address">Address</label>
-                  <input
-                    type="text"
-                    id="address"
-                    name="address"
-                    required
-                    placeholder="Enter the Address"
-                    value={address}
-                    onChange={(e) => setaddress(e.target.value)}
-                  />
-                </div>
-
-                <div className="date_and_time_div_add">
-                  <div
-                    className="inpur_div_room_add"
-                    style={{ marginRight: '1.1rem' }}
-                  >
-                    <label htmlFor="city">City</label>
-                    <input
-                      type="text"
-                      id="city"
-                      name="city"
+        {showavailability ? (
+          <>
+            <div className="cash-donation-container-innser10">
+              <div className="form-div" style={{ marginBottom: '1rem' }}>
+                <div className="form-input-div_add_user">
+                  <div className="inner-input-div2">
+                    <label style={{ marginBottom: '0.3rem' }} htmlFor="rate">
+                      Dharamshala
+                    </label>
+                    <Select
+                      id="donation-type"
                       required
-                      placeholder="City"
-                      value={city}
-                      onChange={(e) => setcity(e.target.value)}
-                    />
+                      sx={{
+                        width: '266px',
+                        fontSize: 14,
+                        '& .MuiSelect-select': {
+                          // borderColor: !!formerror.donationtype ? 'red' : '',
+                          padding: '10px 0px 10px 10px',
+                          background: '#fff',
+                        },
+                      }}
+                      value={dharamshalaname}
+                      name="dharamshalaname"
+                      onChange={(e) => setdharamshalaname(e.target.value)}
+                      displayEmpty
+                    >
+                      <MenuItem
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={''}
+                      >
+                        Please select
+                      </MenuItem>
+                      {Dharamshala
+                        ? Dharamshala.map((item, index) => {
+                            return (
+                              <MenuItem
+                                sx={{
+                                  fontSize: 14,
+                                }}
+                                key={item?.dharmasala_id}
+                                value={item?.dharmasala_id}
+                              >
+                                {item?.name}
+                              </MenuItem>
+                            );
+                          })
+                        : ''}
+                    </Select>
                   </div>
 
-                  <div
-                    className="inpur_div_room_add"
-                    style={{ marginRight: '1.1rem' }}
-                  >
-                    <label>State</label>
-                    <select
-                      value={state}
-                      onChange={(e) => setstate(e.target.value)}
+                  <div className="inner-input-div2">
+                    <label
+                      style={{ marginBottom: '0.3rem' }}
+                      htmlFor="advncerate"
                     >
-                      {statelist &&
-                        statelist.map((item) => {
+                      Category
+                    </label>
+                    <Select
+                      id="donation-type"
+                      required
+                      sx={{
+                        width: '266px',
+                        fontSize: 14,
+                        '& .MuiSelect-select': {
+                          // borderColor: !!formerror.donationtype ? 'red' : '',
+                          padding: '10px 0px 10px 10px',
+                          background: '#fff',
+                        },
+                      }}
+                      value={categoryname}
+                      name="categoryname"
+                      onChange={(e) => setcategoryname(e.target.value)}
+                      displayEmpty
+                    >
+                      <MenuItem
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={''}
+                      >
+                        Please select
+                      </MenuItem>
+                      {category &&
+                        category.map((item) => {
                           return (
-                            <option
-                              // sx={{
-                              //   fontSize: 14,
-                              // }}
-                              key={item.id}
-                              value={item.state}
+                            <MenuItem
+                              sx={{
+                                fontSize: 14,
+                              }}
+                              key={item?.category_id}
+                              value={item?.category_id}
                             >
-                              {item.state}
-                            </option>
+                              {item?.name}
+                            </MenuItem>
                           );
                         })}
-                    </select>
+                    </Select>
                   </div>
 
-                  <div className="inpur_div_room_add">
-                    <label htmlFor="pincode">Pincode</label>
-                    <input
-                      type="text"
-                      id="pincode"
-                      name="pincode"
-                      required
-                      placeholder="pincode"
-                      value={pincode}
-                      onChange={(e) => setpincode(e.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="minddle_div_room">
-                <div className="minddle_div_room_innear">
-                  <label>Id Proof</label>
-                  <Select
-                    id="categroyname"
-                    required
-                    sx={{
-                      width: '280px',
-                      fontSize: 14,
-                      '& .MuiSelect-select': {
-                        // borderColor: !!formerror.donationtype ? 'red' : '',
-                        padding: '10px 0px 10px 10px',
-                        background: '#fff',
-                      },
-                    }}
-                    value={idproffname}
-                    name="idproffname"
-                    onChange={(e) => setidproffname(e.target.value)}
-                    displayEmpty
-                  >
-                    <MenuItem
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={''}
+                  <div className="inner-input-div2">
+                    <label style={{ marginBottom: '0.3rem' }} htmlFor="toNo">
+                      &nbsp;
+                    </label>
+                    <button
+                      onClick={() => checkavailability()}
+                      className="check_babbs_btn"
                     >
-                      Please select
-                    </MenuItem>
-                    {idproff &&
-                      idproff.map((item) => {
-                        return (
-                          <MenuItem
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            key={item.id}
-                            value={item.doc}
-                          >
-                            {item.doc}
-                          </MenuItem>
-                        );
-                      })}
-                  </Select>
-                </div>
-                <div className="minddle_div_room_innear">
-                  <label htmlFor="idproffno">Id Proof Number</label>
-                  <CustomInput
-                    id="idproffno"
-                    type="text"
-                    name="idproffno"
-                    required
-                    placeholder="Enter the idproff no"
-                    value={idproffno}
-                    onChange={(e) => setidproffno(e.target.value)}
-                  />
-                </div>
-                <div className="minddle_div_room_innear">
-                  <label>Stay Days</label>
-                  <CustomInput
-                    id="staydays"
-                    type="text"
-                    name="staydays"
-                    required
-                    placeholder="Enter the stay days"
-                    value={staydays}
-                    onChange={(e) => setstaydays(e.target.value)}
-                  />
+                      {showloader1 ? (
+                        <CircularProgress
+                          style={{ width: '21px', height: '21px' }}
+                        />
+                      ) : (
+                        ' Check Availability'
+                      )}
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <div className="main_div_checkin_div1">
-            <p>Member Details</p>
-            <div className="main_Btotn_check_div">
-              <div className="main_ddsh_div">
-                <div className="main_Btotn_check_div_input">
-                  <label htmlFor='"maleno'>Male</label>
-                  <input
-                    id="maleno"
-                    type="text"
-                    name="maleno"
-                    required
-                    placeholder="Male member "
-                    value={maleno}
-                    onChange={(e) => {
-                      setmaleno(e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="main_Btotn_check_div_input">
-                  <label htmlFor="femaleno">Female</label>
-                  <input
-                    id="femaleno"
-                    type="text"
-                    name="femaleno"
-                    required
-                    placeholder="Female member"
-                    value={femaleno}
-                    onChange={(e) => setfemaleno(e.target.value)}
-                  />
-                </div>
-                <div className="main_Btotn_check_div_input">
-                  <label htmlFor="Children">Children</label>
-                  <input
-                    id="Children"
-                    type="text"
-                    name="Children"
-                    required
-                    placeholder="Children member"
-                    value={Children}
-                    onChange={(e) => setChildren(e.target.value)}
-                  />
+              {roomlist ? (
+                <>
+                  <div className="tablescrollbarss">
+                    <table className="table_ddd">
+                      <tbody>
+                        <tr>
+                          <td className="table_tddd">Booked</td>
+                          <td className="table_tddd">Room No</td>
+                          <td className="table_tddd">Room Rent</td>
+                          <td className="table_tddd">Advance Deposit</td>
+                          <td className="table_tddd">Dharamshala</td>
+                          <td className="table_tddd">Category</td>
+                          <td className="table_tddd">Facility</td>
+                          <td className="table_tddd">Time</td>
+                        </tr>
+                        {roomlist &&
+                          roomlist.map((item, index) => {
+                            return (
+                              <tr key={item?.id}>
+                                <td className="table_tddd">
+                                  <input
+                                    type="checkbox"
+                                    onClick={() => {
+                                      setroomnumber(item?.RoomNo);
+                                      // setdharamshalanameroom(item?.name);
+                                      // setcategoryroom(item?.category_name);
+                                      // setfacilityname(item?.facility_name);
+                                      // setrate(item?.Rate);
+                                      // setadvancerate(item?.advance);
+                                      // setdharamshalid(item?.dharmasala_id);
+                                    }}
+                                  />
+                                </td>
+                                <td className="table_tddd">{item?.RoomNo}</td>
+                                <td className="table_tddd">{item?.Rate}</td>
+                                <td className="table_tddd">{item?.advance}</td>
+                                <td className="table_tddd">
+                                  {item?.dharmasala && item?.dharmasala.name}
+                                </td>
+
+                                <td className="table_tddd">
+                                  {item?.category_name}
+                                </td>
+                                <td className="table_tddd">
+                                  {item?.facility_name.map((element) => (
+                                    <span style={{ marginRight: '5px' }}>
+                                      {element}
+                                    </span>
+                                  ))}
+                                </td>
+                                <td className="table_tddd">Auto</td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div className="save-div-btn">
+                    <button
+                      // onClick={() => handlesubmit()}
+                      className="save-div-btn-btn"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => setshowavailability(false)}
+                      className="save-div-btn-btn-cancel"
+                    >
+                      Back
+                    </button>
+                  </div>
+                </>
+              ) : (
+                ''
+              )}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="cash-donation-container-innser">
+              <div className="main_div_checkin_div">
+                <p>Details</p>
+                <div>
+                  <div className="date_and_time_div">
+                    <div className="inpur_div_room">
+                      <label htmlFor="date">Date</label>
+                      <CustomInput
+                        style={{ width: '80%' }}
+                        type="date"
+                        required
+                        id="date"
+                        name="date"
+                        value={date}
+                        onChange={(e) => setdate(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="inpur_div_room">
+                      <label htmlFor="time">Time</label>
+                      <CustomInput
+                        style={{ width: '95%' }}
+                        id="time"
+                        type="time"
+                        required
+                        name="time"
+                        value={time}
+                        onChange={(e) => settime(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="minddle_div_room">
+                    <div className="minddle_div_room_innear">
+                      <label htmlFor="phoneno">Mobile Number</label>
+                      <CustomInput
+                        id="phoneno"
+                        type="text"
+                        name="phoneno"
+                        required
+                        placeholder="Enter the mobile number"
+                        value={phoneno}
+                        onChange={(e) => setphoneno(e.target.value)}
+                      />
+                    </div>
+                    <div className="minddle_div_room_innear">
+                      <label htmlFor="email">Father's Name</label>
+                      <CustomInput
+                        id="email"
+                        type="email"
+                        name="email"
+                        required
+                        placeholder="Enter the Father's Name"
+                        value={email}
+                        onChange={(e) => setemail(e.target.value)}
+                      />
+                    </div>
+                    <div className="minddle_div_room_innear">
+                      <label htmlFor="fullname">Full Name</label>
+                      <CustomInput
+                        id="fullname"
+                        type="text"
+                        name="fullname"
+                        required
+                        placeholder="Enter the full name"
+                        value={fullname}
+                        onChange={(e) => setfullname(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="minddle_div_room">
+                    <div className="minddle_div_room_innear_adddress">
+                      <label htmlFor="address">Address</label>
+                      <input
+                        type="text"
+                        id="address"
+                        name="address"
+                        required
+                        placeholder="Enter the Address"
+                        value={address}
+                        onChange={(e) => setaddress(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="date_and_time_div_add">
+                      <div
+                        className="inpur_div_room_add"
+                        style={{ marginRight: '1.1rem' }}
+                      >
+                        <label htmlFor="city">City</label>
+                        <input
+                          type="text"
+                          id="city"
+                          name="city"
+                          required
+                          placeholder="City"
+                          value={city}
+                          onChange={(e) => setcity(e.target.value)}
+                        />
+                      </div>
+
+                      <div
+                        className="inpur_div_room_add"
+                        style={{ marginRight: '1.1rem' }}
+                      >
+                        <label>State</label>
+                        <select
+                          value={state}
+                          onChange={(e) => setstate(e.target.value)}
+                        >
+                          {statelist &&
+                            statelist.map((item) => {
+                              return (
+                                <option
+                                  // sx={{
+                                  //   fontSize: 14,
+                                  // }}
+                                  key={item.id}
+                                  value={item.state}
+                                >
+                                  {item.state}
+                                </option>
+                              );
+                            })}
+                        </select>
+                      </div>
+
+                      <div className="inpur_div_room_add">
+                        <label htmlFor="pincode">Pincode</label>
+                        <input
+                          type="text"
+                          id="pincode"
+                          name="pincode"
+                          required
+                          placeholder="pincode"
+                          value={pincode}
+                          onChange={(e) => setpincode(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="minddle_div_room">
+                    <div className="minddle_div_room_innear">
+                      <label>Id Proof</label>
+                      <Select
+                        id="categroyname"
+                        required
+                        sx={{
+                          width: '280px',
+                          fontSize: 14,
+                          '& .MuiSelect-select': {
+                            // borderColor: !!formerror.donationtype ? 'red' : '',
+                            padding: '10px 0px 10px 10px',
+                            background: '#fff',
+                          },
+                        }}
+                        value={idproffname}
+                        name="idproffname"
+                        onChange={(e) => setidproffname(e.target.value)}
+                        displayEmpty
+                      >
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={''}
+                        >
+                          Please select
+                        </MenuItem>
+                        {idproff &&
+                          idproff.map((item) => {
+                            return (
+                              <MenuItem
+                                sx={{
+                                  fontSize: 14,
+                                }}
+                                key={item.id}
+                                value={item.doc}
+                              >
+                                {item.doc}
+                              </MenuItem>
+                            );
+                          })}
+                      </Select>
+                    </div>
+                    <div className="minddle_div_room_innear">
+                      <label htmlFor="idproffno">Id Proof Number</label>
+                      <CustomInput
+                        id="idproffno"
+                        type="text"
+                        name="idproffno"
+                        required
+                        placeholder="Enter the idproff no"
+                        value={idproffno}
+                        onChange={(e) => setidproffno(e.target.value)}
+                      />
+                    </div>
+                    <div className="minddle_div_room_innear">
+                      <label>Stay Days</label>
+                      <CustomInput
+                        id="staydays"
+                        type="text"
+                        name="staydays"
+                        required
+                        placeholder="Enter the stay days"
+                        value={staydays}
+                        onChange={(e) => setstaydays(e.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div>
-                <div className="number_inera_div">
-                  <label htmlFor="TotalMember">Total Member</label>
-                  <input
-                    id="TotalMember"
-                    type="text"
-                    name="TotalMember"
-                    required
-                    placeholder="Total members"
-                    value={TotalMember}
-                    onChange={(e) => setTotalMember(e.target.value)}
-                  />
+
+              <div className="main_div_checkin_div1">
+                <p>Member Details</p>
+                <div className="main_Btotn_check_div">
+                  <div className="main_ddsh_div">
+                    <div className="main_Btotn_check_div_input">
+                      <label htmlFor='"maleno'>Male</label>
+                      <input
+                        id="maleno"
+                        type="text"
+                        name="maleno"
+                        required
+                        placeholder="Male member "
+                        value={maleno}
+                        onChange={(e) => {
+                          setmaleno(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="main_Btotn_check_div_input">
+                      <label htmlFor="femaleno">Female</label>
+                      <input
+                        id="femaleno"
+                        type="text"
+                        name="femaleno"
+                        required
+                        placeholder="Female member"
+                        value={femaleno}
+                        onChange={(e) => setfemaleno(e.target.value)}
+                      />
+                    </div>
+                    <div className="main_Btotn_check_div_input">
+                      <label htmlFor="Children">Children</label>
+                      <input
+                        id="Children"
+                        type="text"
+                        name="Children"
+                        required
+                        placeholder="Children member"
+                        value={Children}
+                        onChange={(e) => setChildren(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="number_inera_div">
+                      <label htmlFor="TotalMember">Total Member</label>
+                      <input
+                        id="TotalMember"
+                        type="text"
+                        name="TotalMember"
+                        required
+                        placeholder="Total members"
+                        value={TotalMember}
+                        onChange={(e) => setTotalMember(e.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
+              </div>
+              <div className="save-div-btn">
+                <button
+                  onClick={() => setshowavailability(true)}
+                  className="save-div-btn-btn"
+                >
+                  Next
+                </button>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="save-div-btn-btn-cancel"
+                >
+                  Cancel
+                </button>
               </div>
             </div>
-          </div>
-          <div className="save-div-btn">
-            <button onClick={() => handleOepn1()} className="save-div-btn-btn">
-              Next
-            </button>
-            <button
-              onClick={() => setOpen(false)}
-              className="save-div-btn-btn-cancel"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </>
   );

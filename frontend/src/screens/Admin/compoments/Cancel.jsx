@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { backendApiUrl } from '../../../config/config';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 function Cancel({ handleClose, updateId, type }) {
   const [reasonmsg, setreasonmsg] = useState('');
-  console.log(reasonmsg);
   const handlesubmit = async () => {
     handleClose();
     axios.defaults.headers.post[
       'Authorization'
     ] = `Bearer ${sessionStorage.getItem('token')}`;
-
     const { data } = await axios.post(`${backendApiUrl}admin/change-elec`, {
       id: updateId,
       status: false,
@@ -18,19 +16,16 @@ function Cancel({ handleClose, updateId, type }) {
       type: type,
     });
 
-    console.log('cancel', data);
     if (data.status) {
       Swal.fire('Great!', data.msg, 'success');
     }
   };
 
-  useEffect(() => {}, []);
-
   return (
     <>
       <div>
         <div>
-          <div className="Status_main_div">
+          <form className="Status_main_div">
             <label htmlFor="reasonmsg">Are you sure to cancel</label>
             <input
               type="text"
@@ -42,7 +37,7 @@ function Cancel({ handleClose, updateId, type }) {
             />
 
             <button onClick={() => handlesubmit()}>Cancel</button>
-          </div>
+          </form>
         </div>
       </div>
     </>

@@ -15,26 +15,20 @@ import CloseIcon from '@mui/icons-material/Close';
 import exportFromJSON from 'export-from-json';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import Moment from 'moment-js';
-import CircularProgress from '@mui/material/CircularProgress';
-import { ExportPdfmanul } from '../../../Admin/compoments/ExportPdf';
 import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../assets/ExportExcel.png';
 import Edit from '../../../../assets/Edit.png';
 import eye from '../../../../assets/eye.png';
-import Delete from '../../../../assets/Delete.png';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import { backendApiUrl } from '../../../../config/config';
-import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
 import AddForm from './AddForm';
 import Updatedharmshala from './Updatedharmshala';
 import ViewDharamshala from './ViewDharamshala';
-
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -312,7 +306,7 @@ const AddDharamshala = ({ setopendashboard }) => {
           <Box sx={style1}>
             <div>
               <div className="add-div-close-div">
-                <div>
+                <div style={{ marginLeft: '1rem', marginBottom: '1rem' }}>
                   <h2 style={{ marginBottom: '0.5rem' }}>
                     Dharamshala details
                   </h2>

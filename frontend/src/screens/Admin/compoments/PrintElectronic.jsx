@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import ElectronicTotal from '../compoments/ElectronicTotal';
 import { useReactToPrint } from 'react-to-print';
 import Moment from 'moment-js';
-import TableContainer from '@mui/material/TableContainer';
+
 function PrintElectronic({ isData, handleClose }) {
   const componentRef = useRef();
 
@@ -11,16 +11,9 @@ function PrintElectronic({ isData, handleClose }) {
     content: () => componentRef.current,
   });
 
-  console.log('datxda', isData);
-
   return (
     <>
       <div style={{ maxHeight: 'calc(80vh - 4rem)', overflowY: 'auto' }}>
-        {/* <div className="button_div_print_download10">
-          <button onClick={() => navigation(-1)}>Back</button>
-
-          <div />
-        </div> */}
         <div ref={componentRef}>
           <div>
             <p style={{ textAlign: 'center', marginTop: '1rem' }}>

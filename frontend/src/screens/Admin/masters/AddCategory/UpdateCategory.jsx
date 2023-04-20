@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { serverInstance } from '../../../../API/ServerInstance';
 import InputBase from '@mui/material/InputBase';
-import InputLabel from '@mui/material/InputLabel';
 import { backendApiUrl } from '../../../../config/config';
 import { ReactTransliterate } from 'react-transliterate';
 import axios from 'axios';

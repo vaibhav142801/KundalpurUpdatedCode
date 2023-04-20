@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 import DashboardWrapper from '../sitebar/DashboardWrapper';
-const MainAdmin = ({ setopendashboard }) => {
+const MainAdmin = () => {
   const { pathname } = useLocation();
 
   console.log(pathname, 'this is header');

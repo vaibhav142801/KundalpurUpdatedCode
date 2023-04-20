@@ -40,10 +40,8 @@ const UpdateElec = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
   const [receiptNo, setReceiptNo] = useState('');
   const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
-  const [fetchuserdetail, setfetchuserdetail] = useState(true);
   const [newMember, setNewMember] = useState(false);
   const [mobileNo, setMobileNo] = useState('');
-  const [formerror, setFormerror] = useState({});
   const [genderp, setgenderp] = useState('श्री');
   const [genderp1, setgenderp1] = useState('SHRI');
   const [showloader, setshowloader] = useState(false);
@@ -99,7 +97,6 @@ const UpdateElec = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
     );
   }
 
-  console.log('donationItems', donationItems);
   function handleDonationItemUpdate(originalDonationItem, key, value) {
     setDonationItems(
       donationItems.map((donationItem) =>
@@ -137,8 +134,6 @@ const UpdateElec = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
         'Authorization'
       ] = `Bearer ${sessionStorage.getItem('token')}`;
 
-      console.log('upadte');
-
       const res = await axios.put(
         `${backendApiUrl}user/edit-manual-elec-donation`,
         {
@@ -175,12 +170,9 @@ const UpdateElec = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
       ]).then(([res, item]) => {
         if (res.status) {
           setDonationTypes(res.data);
-          console.log(res.data);
         } else {
           Swal.fire('Error', 'somthing went  wrong', 'error');
         }
-
-        console.log('sss', res, item);
       });
     } catch (error) {
       Swal.fire('Error!', error, 'error');

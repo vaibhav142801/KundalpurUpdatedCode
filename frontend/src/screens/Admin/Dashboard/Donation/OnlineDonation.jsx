@@ -16,7 +16,7 @@ import Tooltip from '@mui/material/Tooltip';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
-const OnlineDonation = ({ setopendashboard }) => {
+const OnlineDonation = () => {
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);

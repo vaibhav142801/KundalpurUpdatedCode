@@ -108,7 +108,6 @@ const UpdateChe = ({
     );
   }
 
-  console.log('donationItems', donationItems);
   function handleDonationItemUpdate(originalDonationItem, key, value) {
     setDonationItems(
       donationItems.map((donationItem) =>
@@ -145,8 +144,6 @@ const UpdateChe = ({
       e.preventDefault();
 
       if (showUpdateBtn) {
-        console.log('upadte');
-
         if (
           fullName &&
           donationItems[0].amount &&
@@ -198,12 +195,9 @@ const UpdateChe = ({
       ]).then(([res, item]) => {
         if (res.status) {
           setDonationTypes(res.data);
-          console.log(res.data);
         } else {
           Swal.fire('Error', 'somthing went  wrong', 'error');
         }
-
-        console.log('sss', res, item);
       });
     } catch (error) {
       Swal.fire('Error!', error, 'error');

@@ -50,6 +50,7 @@ const CheckIn = ({ setopendashboard }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [userrole, setuserrole] = useState('');
   const [open, setOpen] = React.useState(false);
+  const [optionss, setoptionss] = useState('Please select');
   const handleClose = () => setOpen(false);
   const handleOepn = () => setOpen(true);
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
@@ -132,7 +133,7 @@ const CheckIn = ({ setopendashboard }) => {
           <Box sx={style}>
             <div>
               <div className="add-div-close-div">
-                <div>
+                <div style={{ marginLeft: '1rem', marginBottom: '1rem' }}>
                   <h2 style={{ marginBottom: '0.5rem' }}>Check In</h2>
                   <Typography variant="body2" color="primary">
                     {currDate} / {currTime}
@@ -165,18 +166,17 @@ const CheckIn = ({ setopendashboard }) => {
                 background: '#fff',
               },
             }}
-            // value={isoffline}
-            // name="isoffline"
-            // onChange={(e) => setisoffline(e.target.value)}
-            // displayEmpty
+            value={optionss}
+            name="optionss"
+            onChange={(e) => setoptionss(e.target.value)}
           >
             <MenuItem
               sx={{
                 fontSize: 14,
               }}
-              value={'Currently Stay'}
+              value="Please select"
             >
-              Currently Stay
+              Please select
             </MenuItem>
             <MenuItem
               sx={{
@@ -184,8 +184,9 @@ const CheckIn = ({ setopendashboard }) => {
               }}
               value={true}
             >
-              Please select
+              Currently Stay
             </MenuItem>
+
             <MenuItem
               sx={{
                 fontSize: 14,

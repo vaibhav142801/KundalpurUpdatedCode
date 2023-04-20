@@ -310,7 +310,7 @@ const AllConsolidated = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   Online{' '}
                   <i
                     style={{ marginLeft: '0.5rem' }}
@@ -325,7 +325,7 @@ const AllConsolidated = ({ setopendashboard }) => {
                     onClick={() => sortData('CHEQUE_TOTAL_AMOUNT')}
                     class={`fa fa-sort`}
                   />
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   Amount Cheque{' '}
                   <i
@@ -389,43 +389,48 @@ const AllConsolidated = ({ setopendashboard }) => {
                           ? 'Manual Donation'
                           : 'Donation'}
                       </TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         {row.ONLINE_TOTAL_AMOUNT ? row.ONLINE_TOTAL_AMOUNT : ''}
                       </TableCell>
                       <TableCell>
                         {row.CHEQUE_TOTAL_AMOUNT ? row.CHEQUE_TOTAL_AMOUNT : ''}
+                      </TableCell> */}
+                      <TableCell>
+                        {row?.electric_cheque_TOTAL_AMOUNT &&
+                          row?.electric_cheque_TOTAL_AMOUNT}
+                        {row?.manual_cheque_TOTAL_AMOUNT &&
+                          row?.manual_cheque_TOTAL_AMOUNT}
+                        {row?.manual_cheque_TOTAL_AMOUNT === '' &&
+                          row?.manual_cheque_TOTAL_AMOUNT === '' &&
+                          '0'}
                       </TableCell>
                       <TableCell>
-                        {row?.electric_cheque_TOTAL_AMOUNT
-                          ? row?.electric_cheque_TOTAL_AMOUNT
-                          : ''}
-                        {row?.manual_cheque_TOTAL_AMOUNT
-                          ? row?.manual_cheque_TOTAL_AMOUNT
-                          : ''}
+                        {row?.manual_bank_TOTAL_AMOUNT &&
+                          row?.manual_bank_TOTAL_AMOUNT}
+                        {row?.electric_bank_TOTAL_AMOUNT &&
+                          row?.electric_bank_TOTAL_AMOUNT}
+
+                        {row?.electric_bank_TOTAL_AMOUNT === '' &&
+                          row?.electric_bank_TOTAL_AMOUNT === '' &&
+                          '0'}
                       </TableCell>
                       <TableCell>
-                        {row?.manual_bank_TOTAL_AMOUNT
-                          ? row?.manual_bank_TOTAL_AMOUNT
-                          : ''}
-                        {row?.electric_bank_TOTAL_AMOUNT
-                          ? row?.electric_bank_TOTAL_AMOUNT
-                          : ''}
+                        {row?.manual_item_TOTAL_AMOUNT &&
+                          row?.manual_item_TOTAL_AMOUNT}
+                        {row?.electric_item_TOTAL_AMOUNT &&
+                          row?.electric_item_TOTAL_AMOUNT}
+                        {row?.electric_item_TOTAL_AMOUNT === '' &&
+                          row?.electric_item_TOTAL_AMOUNT === '' &&
+                          '0'}
                       </TableCell>
                       <TableCell>
-                        {row?.manual_item_TOTAL_AMOUNT
-                          ? row?.manual_item_TOTAL_AMOUNT
-                          : ''}
-                        {row?.electric_item_TOTAL_AMOUNT
-                          ? row?.electric_item_TOTAL_AMOUNT
-                          : ''}
-                      </TableCell>
-                      <TableCell>
-                        {row?.manual_cash_TOTAL_AMOUNT
-                          ? row?.manual_cash_TOTAL_AMOUNT
-                          : ''}
-                        {row?.electric_cash_TOTAL_AMOUNT
-                          ? row?.electric_cash_TOTAL_AMOUNT
-                          : ''}
+                        {row?.manual_cash_TOTAL_AMOUNT &&
+                          row?.manual_cash_TOTAL_AMOUNT}
+                        {row?.electric_cash_TOTAL_AMOUNT &&
+                          row?.electric_cash_TOTAL_AMOUNT}
+                        {row?.electric_cash_TOTAL_AMOUNT === '' &&
+                          row?.electric_cash_TOTAL_AMOUNT === '' &&
+                          '0'}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -437,12 +442,12 @@ const AllConsolidated = ({ setopendashboard }) => {
                 <TableCell> &nbsp;</TableCell>
                 <TableCell> &nbsp;</TableCell>
                 <TableCell style={{ fontWeight: 700 }}>Total</TableCell>
-                <TableCell style={{ fontWeight: 700 }}>
+                {/* <TableCell style={{ fontWeight: 700 }}>
                   {<OnlineTotal data={isData} />}
                 </TableCell>
                 <TableCell style={{ fontWeight: 700 }}>
                   {<OnlineCHeque data={isData} />}
-                </TableCell>
+                </TableCell> */}
                 <TableCell style={{ fontWeight: 700 }}>
                   {<Chequestotal data={isData} />}
                 </TableCell>

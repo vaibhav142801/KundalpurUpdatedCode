@@ -18,7 +18,7 @@ function Itemtotal({ data }) {
 
   return (
     <>
-      <span>{totalAmount}</span>
+      <>{totalAmount}</>
     </>
   );
 }

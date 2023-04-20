@@ -21,7 +21,6 @@ import ItemDonation from './ItemDonation';
 import ChequeDonation from './ChequeDonation';
 import UnderlinedTab from './common/UnderlinedTab';
 import DownloadIcon from '@mui/icons-material/Download';
-import DonationSuccessfull from './DonationSuccessfull';
 import ClearIcon from '@mui/icons-material/Clear';
 import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
@@ -29,13 +28,12 @@ import ExportExcel from '../../../../assets/ExportExcel.png';
 import exportFromJSON from 'export-from-json';
 import CircularProgress from '@mui/material/CircularProgress';
 import ElectronicTotal from '../../compoments/ElectronicTotal';
-import { styled, alpha } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import PrintElectronic from '../../compoments/PrintElectronic';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
 import axios from 'axios';
 import { backendApiUrl } from '../../../../config/config';
 import { ExportPdfmanul } from '../../compoments/ExportPdf';
@@ -138,7 +136,6 @@ const Donation = ({ setopendashboard }) => {
   const [open, setOpen] = React.useState(true);
   const [open3, setOpen3] = React.useState(false);
   const [donationTypes, setDonationTypes] = useState([]);
-  const [rowData, setrowData] = useState('');
   const [open4, setOpen4] = useState(false);
   const [datefrom, setdatefrom] = useState('');
   const [dateto, setdateto] = useState('');
@@ -159,11 +156,9 @@ const Donation = ({ setopendashboard }) => {
   const handleOpen5 = () => setOpen5(true);
   const handleClose5 = () => setOpen5(false);
 
-  console.log('role name id', emproleid, roleid);
   const handleOpen4 = () => {
     setOpen4(true);
   };
-  const handleClose4 = () => setOpen4(false);
 
   const handleOpen3 = () => setOpen3(true);
   const handleClose3 = () => setOpen3(false);
@@ -180,7 +175,6 @@ const Donation = ({ setopendashboard }) => {
           if (res.status === true) {
             if (emproleid && roleid) {
               setOpen(true);
-              console.log('chek voucehr res', res);
             }
           }
         });
@@ -516,12 +510,6 @@ const Donation = ({ setopendashboard }) => {
 
     if (amount) {
       filtered = filtered?.map((item) => {
-        console.log(
-          item.elecItemDetails.reduce(
-            (n, { amount }) => parseFloat(n) + parseFloat(amount),
-            0,
-          ),
-        );
         if (
           item.elecItemDetails.reduce(
             (n, { amount }) => parseFloat(n) + parseFloat(amount),
@@ -665,20 +653,6 @@ const Donation = ({ setopendashboard }) => {
         <Fade in={open5}>
           <Box sx={style5}>
             <PrintElectronic isData={isData} handleClose={handleClose5} />
-          </Box>
-        </Fade>
-      </Modal>
-
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open4}
-        onClose={handleClose4}
-        closeAfterTransition
-      >
-        <Fade in={open4}>
-          <Box sx={style}>
-            <DonationSuccessfull handleClose={handleClose4} isData={rowData} />
           </Box>
         </Fade>
       </Modal>

@@ -62,8 +62,7 @@ const ElectronicDonation = ({
   });
 
   const navigation = useNavigate();
-  const [empid, setempid] = useState('');
-  const [emproleid, setemproleid] = useState('');
+
   const [userrole, setuserrole] = useState('');
   const [hindiremark, sethindiremark] = useState('');
   const [donationTypes, setDonationTypes] = useState([]);
@@ -98,31 +97,7 @@ const ElectronicDonation = ({
       },
     ]);
   }
-  const genderoptiins = [
-    {
-      id: 2,
-      gender: 'श्रीमति',
-    },
-    {
-      id: 3,
-      gender: 'मे.',
-    },
-    {
-      id: 4,
-      gender: 'कु.',
-    },
-  ];
 
-  const genderoptiins1 = [
-    {
-      id: 2,
-      gender: 'SMT',
-    },
-    {
-      id: 3,
-      gender: 'M/s',
-    },
-  ];
   function removeDonationItem(item) {
     setDonationItems(
       donationItems.filter((donationItem) => donationItem !== item),
@@ -199,8 +174,6 @@ const ElectronicDonation = ({
       ] = `Bearer ${sessionStorage.getItem('token')}`;
 
       if (showUpdateBtn) {
-        console.log('upadte');
-
         if (fullName && donationItems[0].amount && donationItems[0].type) {
           const res = await axios.put(`${backendApiUrl}user/add-elecDonation`, {
             id: updateData?.id,
@@ -247,7 +220,6 @@ const ElectronicDonation = ({
                 0,
               );
 
-          console.log('rr', res);
           if (res.data.status === true) {
             handleClose();
             setshowloader(false);
@@ -276,15 +248,12 @@ const ElectronicDonation = ({
       ]).then(([res, item]) => {
         if (res.status) {
           setDonationTypes(res.data);
-          console.log(res.data);
         } else {
           Swal.fire('Error', 'somthing went  wrong', 'error');
         }
         if (item.status) {
           setReceiptNo(item.voucher);
         }
-
-        console.log('sss', res, item);
       });
     } catch (error) {
       Swal.fire('Error!', error, 'error');
@@ -314,13 +283,11 @@ const ElectronicDonation = ({
       setDonationTime(updateData?.donation_time);
       var today = new Date(updateData?.donation_date);
       var date = today.toISOString().substring(0, 10);
-      // setgenderp(updateData?.gender);
-      // setgenderp1(updateData?.gender);
+
       setDonationDate(date);
     }
-    setemproleid(Number(sessionStorage.getItem('empRoleid')));
+
     setuserrole(Number(sessionStorage.getItem('userrole')));
-    setempid(Number(sessionStorage.getItem('empid')));
   }, []);
   return (
     <Box>
@@ -422,83 +389,6 @@ const ElectronicDonation = ({
             </Grid>
 
             <Grid item xs={12} md={6}>
-              {/* <CustomInputLabel required htmlFor="full-name">
-                {!newMember ? (
-                  <>
-                    <Select
-                      sx={{
-                        width: '20%',
-                        fontSize: 14,
-                        '& .MuiSelect-select': {
-                          padding: '1px',
-                        },
-                      }}
-                      value={genderp}
-                      onChange={(e) => setgenderp(e.target.value)}
-                    >
-                      <MenuItem
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={'श्री'}
-                      >
-                        श्री
-                      </MenuItem>
-                      {genderoptiins.map((item, idx) => {
-                        return (
-                          <MenuItem
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            key={item.id}
-                            value={item.gender}
-                          >
-                            {item.gender}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </>
-                ) : (
-                  <>
-                    <Select
-                      required
-                      sx={{
-                        width: '20%',
-                        fontSize: 14,
-                        '& .MuiSelect-select': {
-                          padding: '1px',
-                        },
-                      }}
-                      value={genderp1}
-                      onChange={(e) => setgenderp1(e.target.value)}
-                    >
-                      <MenuItem
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={'SHRI'}
-                      >
-                        SHRI
-                      </MenuItem>
-                      {genderoptiins1.map((item, idx) => {
-                        return (
-                          <MenuItem
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            key={item.id}
-                            value={item.gender}
-                          >
-                            {item.gender}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </>
-                )}
-                Full Name
-              </CustomInputLabel> */}
               {!newMember ? (
                 <>
                   Full Name

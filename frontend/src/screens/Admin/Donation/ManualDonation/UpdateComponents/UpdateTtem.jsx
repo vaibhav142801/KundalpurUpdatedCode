@@ -44,7 +44,6 @@ const UpdateTtem = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
   const [mobileNo, setMobileNo] = useState('');
   const [genderp, setgenderp] = useState('श्री');
   const [genderp1, setgenderp1] = useState('SHRI');
-  const [fetchuserdetail, setfetchuserdetail] = useState(true);
   const [showloader, setshowloader] = useState(false);
   const [donationItems, setDonationItems] = useState([
     {
@@ -116,7 +115,7 @@ const UpdateTtem = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
       unit: 'UG',
     },
   ];
-  console.log('donationItems', donationItems);
+
   function handleDonationItemUpdate(originalDonationItem, key, value) {
     setDonationItems(
       donationItems &&
@@ -184,7 +183,6 @@ const UpdateTtem = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
           },
         );
 
-        console.log('update Item', res.data.status);
         if (res.data.status === true) {
           setshowloader(false);
           handleClose();
@@ -212,7 +210,6 @@ const UpdateTtem = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
       ]).then(([res, item]) => {
         if (res.status) {
           setDonationTypes(res.data);
-          console.log(res.data);
         } else {
           Swal.fire('Error', 'somthing went  wrong', 'error');
         }
@@ -247,8 +244,6 @@ const UpdateTtem = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
       setgenderp1(updateData?.gender);
       setDonationDate(date);
     }
-
-    console.log('data', updateData);
   }, []);
 
   return (

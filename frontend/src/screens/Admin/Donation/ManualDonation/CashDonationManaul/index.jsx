@@ -9,7 +9,6 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
-import { alpha } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Table from '@mui/material/Table';
@@ -46,15 +45,12 @@ const custommStyleInputTable = {
   padding: 9.5,
 };
 const CashDonation = ({
-  setshowalert,
   handleClose,
   themeColor,
   updateData,
   showUpdateBtn,
-  handleOpen4,
   setopendashboard,
 }) => {
-  console.log('upadte data is', updateData);
   const theme = createTheme({
     typography: {
       fontFamily: 'Poppins',
@@ -91,7 +87,7 @@ const CashDonation = ({
       remark: '',
     },
   ]);
-  console.log('this is gender', genderp);
+
   const genderoptiins = [
     {
       id: 2,
@@ -132,7 +128,6 @@ const CashDonation = ({
     );
   }
 
-  console.log('donationItems', donationItems);
   function handleDonationItemUpdate(originalDonationItem, key, value) {
     setDonationItems(
       donationItems.map((donationItem) =>
@@ -216,7 +211,6 @@ const CashDonation = ({
               0,
             );
 
-        console.log('added', res);
         if (res.data.status === true) {
           setshowloader(false);
           navigation('/manualreceipt', {
@@ -245,7 +239,6 @@ const CashDonation = ({
         amount: totalamount,
         rno: ReceiptNo,
       });
-      console.log('sent sms ', res);
     } catch (error) {}
   };
 
@@ -257,7 +250,6 @@ const CashDonation = ({
       ]).then(([res, item]) => {
         if (res.status) {
           setDonationTypes(res.data);
-          console.log(res.data);
         } else {
           Swal.fire('Error', 'somthing went  wrong', 'error');
         }
@@ -268,7 +260,6 @@ const CashDonation = ({
 
     serverInstance('admin/voucher-get', 'get').then((res) => {
       if (res.status) {
-        console.log('voucher data', res);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
       }

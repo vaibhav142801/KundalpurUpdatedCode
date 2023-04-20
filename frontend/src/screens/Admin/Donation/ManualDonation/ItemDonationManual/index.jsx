@@ -64,18 +64,13 @@ const ItemDonation = ({
     },
   });
   const navigation = useNavigate();
-  const [text, setText] = useState('');
-  const [addText, setaddText] = useState('');
   const [hindiremark, sethindiremark] = useState('');
   const [donationTypes, setDonationTypes] = useState([]);
   const [receiptNo, setReceiptNo] = useState('');
   const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
-  const [transactionNo, setTransactionNo] = useState('');
-  const [bankName, setBankName] = useState('');
   const [newMember, setNewMember] = useState(false);
   const [mobileNo, setMobileNo] = useState('');
-  const [formerror, setFormerror] = useState({});
   const [genderp, setgenderp] = useState('श्री');
   const [genderp1, setgenderp1] = useState('SHRI');
   const [showloader, setshowloader] = useState(false);
@@ -150,7 +145,7 @@ const ItemDonation = ({
       unit: 'UG',
     },
   ];
-  console.log('donationItems', donationItems);
+
   function handleDonationItemUpdate(originalDonationItem, key, value) {
     setDonationItems(
       donationItems.map((donationItem) =>
@@ -245,7 +240,6 @@ const ItemDonation = ({
               0,
             );
 
-        console.log('item', res);
         if (res.data.status === true) {
           setshowalert(true);
           handleClose();
@@ -282,7 +276,6 @@ const ItemDonation = ({
       ]).then(([res, item]) => {
         if (res.status) {
           setDonationTypes(res.data);
-          console.log(res.data);
         } else {
           Swal.fire('Error', 'somthing went  wrong', 'error');
         }

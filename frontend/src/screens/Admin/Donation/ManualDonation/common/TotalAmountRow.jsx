@@ -7,24 +7,11 @@ export const tableTotalCellStyles = {
   paddingInline: '10px',
   paddingBlock: '4px',
   outline: '1px solid #C4C4C4',
-
-  // top:{
-
-  //   paddingInline:'4px',
-  //   paddingBlock:'4px',
-  //   outline: '1px solid #C4C4C4'
-  // },
-  // bottom:{
-  //   paddingInline:'4px',
-  //   paddingBlock:'4px',
-  //   outline: '1px solid #C4C4C4',
-  //   outlineTop:'none'
-  // }
 };
 
 const TotalAmountRow = ({ donationItems }) => {
   let totalAmount = 0;
-  console.log(donationItems[0].quantity, donationItems[0].approxValue);
+
   if (donationItems[0].quantity && donationItems[0].approxValue) {
     totalAmount = Array.isArray(donationItems)
       ? donationItems.reduce((acc, item) => {
@@ -44,7 +31,7 @@ const TotalAmountRow = ({ donationItems }) => {
         }, 0)
       : 0;
   }
-  console.log(totalAmount);
+
   const converter = new Converter(hiIN);
   return (
     <>

@@ -154,21 +154,6 @@ const AllHead = ({ setopendashboard }) => {
     }
   };
 
-  const filterHead = async (type) => {
-    axios.defaults.headers.get[
-      'Authorization'
-    ] = `Bearer ${sessionStorage.getItem('token')}`;
-
-    const res = await axios.get(
-      `${backendApiUrl}user/searchAllDonation?employeeid=${empId}&type=${type}&fromDate=${datefrom}&toDate=${dateto}`,
-    );
-
-    if (res.data.status) {
-      setloader(false);
-      setSearchHead(res.data.data);
-    }
-  };
-
   useEffect(() => {
     filterdata();
     setopendashboard(true);
@@ -363,6 +348,7 @@ const AllHead = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
+                <TableCell>Total Amount</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -387,57 +373,66 @@ const AllHead = ({ setopendashboard }) => {
                         {row.type ? row.type : row.TYPE}
                       </TableCell>
                       <TableCell>
-                        {row?.donationType == 'manual'
-                          ? 'Manual Donation'
-                          : 'Donation'}
+                        {row?.donationType == 'manual' && 'Manual Donation'}
+                        {row?.donationType == 'electric' && 'Donation'}
+                        {row?.donationType == 'online' && 'online'}
+                      </TableCell>
+                      <TableCell>{row?.cheque ? row?.cheque : '0'}</TableCell>
+                      <TableCell>{row?.online ? row?.online : '0'}</TableCell>
+                      <TableCell>
+                        {row?.electric_cheque_TOTAL_AMOUNT &&
+                          row?.electric_cheque_TOTAL_AMOUNT}
+                        {row?.manual_cheque_TOTAL_AMOUNT &&
+                          row?.manual_cheque_TOTAL_AMOUNT}
+
+                        {row?.manual_cheque_TOTAL_AMOUNT === '' &&
+                          row?.manual_cheque_TOTAL_AMOUNT == '' &&
+                          '0'}
                       </TableCell>
                       <TableCell>
-                        {row.ONLINE_TOTAL_AMOUNT ? row.ONLINE_TOTAL_AMOUNT : ''}
+                        {row?.manual_bank_TOTAL_AMOUNT &&
+                          row?.manual_bank_TOTAL_AMOUNT}
+                        {row?.electric_bank_TOTAL_AMOUNT &&
+                          row?.electric_bank_TOTAL_AMOUNT}
+                        {row?.electric_bank_TOTAL_AMOUNT === '' &&
+                          row?.electric_bank_TOTAL_AMOUNT === '' &&
+                          '0'}
                       </TableCell>
                       <TableCell>
-                        {row.CHEQUE_TOTAL_AMOUNT ? row.CHEQUE_TOTAL_AMOUNT : ''}
+                        {row?.manual_item_TOTAL_AMOUNT &&
+                          row?.manual_item_TOTAL_AMOUNT}
+                        {row?.electric_item_TOTAL_AMOUNT &&
+                          row?.electric_item_TOTAL_AMOUNT}
                       </TableCell>
                       <TableCell>
-                        {row?.electric_cheque_TOTAL_AMOUNT
-                          ? row?.electric_cheque_TOTAL_AMOUNT
-                          : ''}
-                        {row?.manual_cheque_TOTAL_AMOUNT
-                          ? row?.manual_cheque_TOTAL_AMOUNT
-                          : ''}
+                        {row?.manual_cash_TOTAL_AMOUNT &&
+                          row?.manual_cash_TOTAL_AMOUNT}
+                        {row?.electric_cash_TOTAL_AMOUNT &&
+                          row?.electric_cash_TOTAL_AMOUNT}
+                        {row?.electric_cash_TOTAL_AMOUNT === '' &&
+                          row?.electric_cash_TOTAL_AMOUNT === '' &&
+                          '0'}
                       </TableCell>
+
                       <TableCell>
-                        {row?.manual_bank_TOTAL_AMOUNT
-                          ? row?.manual_bank_TOTAL_AMOUNT
-                          : ''}
-                        {row?.electric_bank_TOTAL_AMOUNT
-                          ? row?.electric_bank_TOTAL_AMOUNT
-                          : ''}
-                      </TableCell>
-                      <TableCell>
-                        {row?.manual_item_TOTAL_AMOUNT
-                          ? row?.manual_item_TOTAL_AMOUNT
-                          : ''}
-                        {row?.electric_item_TOTAL_AMOUNT
-                          ? row?.electric_item_TOTAL_AMOUNT
-                          : ''}
-                      </TableCell>
-                      <TableCell>
-                        {row?.manual_cash_TOTAL_AMOUNT
-                          ? row?.manual_cash_TOTAL_AMOUNT
-                          : ''}
-                        {row?.electric_cash_TOTAL_AMOUNT
-                          ? row?.electric_cash_TOTAL_AMOUNT
-                          : ''}
+                        {row?.donationType == 'electric' &&
+                          parseFloat(row?.electric_cheque_TOTAL_AMOUNT) +
+                            parseFloat(row?.electric_bank_TOTAL_AMOUNT) +
+                            parseFloat(row?.electric_item_TOTAL_AMOUNT) +
+                            parseFloat(row?.electric_cash_TOTAL_AMOUNT)}
+                        {row?.donationType == 'manual' &&
+                          parseFloat(row?.manual_cheque_TOTAL_AMOUNT) +
+                            parseFloat(row?.manual_item_TOTAL_AMOUNT) +
+                            parseFloat(row?.manual_item_TOTAL_AMOUNT) +
+                            parseFloat(row?.manual_cash_TOTAL_AMOUNT)}
+                        {row?.donationType == 'online' &&
+                          parseFloat(row?.cheque) + parseFloat(row?.online)}
                       </TableCell>
                     </TableRow>
                   ))}
                 </>
               ) : (
-                <>
-                  {/* <TableCell colSpan={8} align="center">
-                      <CircularProgress />
-                    </TableCell> */}
-                </>
+                <></>
               )}
               <TableRow>
                 <TableCell> &nbsp;</TableCell>
@@ -457,6 +452,10 @@ const AllHead = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell style={{ fontWeight: 700 }}>
                   {<Itemtotal data={isData} />}
+                </TableCell>
+
+                <TableCell style={{ fontWeight: 700 }}>
+                  {<Cashtotal data={isData} />}
                 </TableCell>
 
                 <TableCell style={{ fontWeight: 700 }}>
@@ -491,141 +490,6 @@ const AllHead = ({ setopendashboard }) => {
             </TableFooter>
           </Table>
         </div>
-
-        {SearchHead && (
-          <>
-            <div>
-              <p className="Cheque_text">Head Report</p>
-              <img
-                src={Print}
-                onClick={() => handlePrint3()}
-                alt="jj"
-                style={{ width: '25px', marginRight: '2rem' }}
-              />
-              <img
-                onClick={() => ExportToExcel1()}
-                src={ExportExcel}
-                alt="jj"
-                style={{ width: '25px', marginRight: '2rem' }}
-              />
-              <img
-                onClick={() => ExportPdfmanul(isData, 'HeadReport')}
-                src={ExportPdf}
-                alt="jj"
-                style={{ width: '25px', marginRight: '1rem' }}
-              />
-            </div>
-            <div className="table-div-" ref={componentRef3}>
-              <Table
-                sx={{ minWidth: 650, width: '100%' }}
-                aria-label="simple table"
-              >
-                <TableHead style={{ background: '#FFEEE0' }}>
-                  <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>ReceiptNo</TableCell>
-
-                    <TableCell>VoucherNo</TableCell>
-                    <TableCell>Phone No</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Address</TableCell>
-                    <TableCell>Head/Item</TableCell>
-                    <TableCell>Amount</TableCell>
-
-                    <TableCell>Remark</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {SearchHead ? (
-                    <>
-                      {(rowsPerPage > 0
-                        ? SearchHead.slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage,
-                          )
-                        : SearchHead
-                      ).map((row, index) => (
-                        <TableRow
-                          key={row.id}
-                          sx={{
-                            '&:last-child td, &:last-child th': { border: 0 },
-                          }}
-                        >
-                          <TableCell>
-                            {Moment(row.donation_date).format('DD/MM/YYYY')}
-                          </TableCell>
-                          <TableCell>{row.ReceiptNo}</TableCell>
-
-                          <TableCell>{row.voucherNo}</TableCell>
-                          <TableCell>{row.phoneNo}</TableCell>
-                          <TableCell>{row.name}</TableCell>
-                          <TableCell> {row.address}</TableCell>
-                          <TableCell>
-                            {row.elecItemDetails.map((row) => {
-                              return (
-                                <li style={{ listStyle: 'none' }}>
-                                  {row.type}
-                                </li>
-                              );
-                            })}
-                          </TableCell>
-                          <TableCell>
-                            {row.elecItemDetails.reduce(
-                              (n, { amount }) =>
-                                parseFloat(n) + parseFloat(amount),
-                              0,
-                            )}
-                          </TableCell>
-
-                          <TableCell>
-                            {row.elecItemDetails.map((row) => {
-                              return (
-                                <li style={{ listStyle: 'none' }}>
-                                  {row.remark}{' '}
-                                </li>
-                              );
-                            })}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </>
-                  ) : (
-                    <>
-                      <TableCell colSpan={8} align="center">
-                        <ReactSpinner />
-                      </TableCell>
-                    </>
-                  )}
-                </TableBody>
-                <TableFooter>
-                  <TableRow>
-                    <TablePagination
-                      count={SearchHead.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                      rowsPerPageOptions={[50, 100, 150]}
-                      labelRowsPerPage={<span>Rows:</span>}
-                      labelDisplayedRows={({ page }) => {
-                        return `Page: ${page}`;
-                      }}
-                      backIconButtonProps={{
-                        color: 'secondary',
-                      }}
-                      nextIconButtonProps={{ color: 'secondary' }}
-                      SelectProps={{
-                        inputProps: {
-                          'aria-label': 'page number',
-                        },
-                      }}
-                    />
-                  </TableRow>
-                </TableFooter>
-              </Table>
-            </div>
-          </>
-        )}
       </div>
 
       {loader && <LoadingSpinner1 />}

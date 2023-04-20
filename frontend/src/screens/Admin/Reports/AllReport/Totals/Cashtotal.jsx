@@ -18,7 +18,7 @@ function Cashtotal({ data }) {
 
   return (
     <>
-      <span>{totalAmount}</span>
+      <>{totalAmount}</>
     </>
   );
 }

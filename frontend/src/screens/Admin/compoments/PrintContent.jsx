@@ -2,8 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import { Converter, hiIN } from 'any-number-to-words';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 import Moment from 'moment-js';
 import moment from 'moment';
 import './PrintContent.css';
@@ -19,7 +17,6 @@ function PrintContent({ setopendashboard, setshowreciept }) {
     content: () => componentRef.current,
   });
 
-  console.log(isData);
   useEffect(() => {
     setopendashboard(true);
 

@@ -18,7 +18,7 @@ function ElecTotal({ data }) {
 
   return (
     <>
-      <span>{totalAmount}</span>
+      <>{totalAmount}</>
     </>
   );
 }
