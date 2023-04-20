@@ -245,7 +245,7 @@ const ManualItem = ({ setopendashboard }) => {
   };
 
   const ExportToExcel = () => {
-    const fileName = 'ManaulAllDonationReport';
+    const fileName = 'ManaulItem';
     const exportType = 'xls';
     var data = [];
     isData.map((item, index) => {

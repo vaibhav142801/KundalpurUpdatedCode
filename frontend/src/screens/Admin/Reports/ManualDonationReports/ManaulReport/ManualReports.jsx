@@ -239,7 +239,7 @@ const ManualReports = ({ setopendashboard }) => {
   };
 
   const ExportToExcel = () => {
-    const fileName = 'ManaulAllDonationReport';
+    const fileName = 'ManaulCheque';
     const exportType = 'xls';
     var data = [];
     isData.map((item, index) => {

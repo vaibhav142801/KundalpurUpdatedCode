@@ -506,7 +506,7 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           }
         />
         <Route
-          path="/admin-panel/room/checkin "
+          path="/admin-panel/room/checkin"
           element={
             <Adminprivateroute>
               <CheckIn setopendashboard={setopendashboard} />

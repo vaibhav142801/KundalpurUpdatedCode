@@ -226,7 +226,7 @@ const Electornic = ({ setopendashboard }) => {
   };
 
   const ExportToExcel = () => {
-    const fileName = 'ManualElectronicReport';
+    const fileName = 'DonationElectronicReport';
     const exportType = 'xls';
     var data = [];
     isData.map((item, index) => {
@@ -247,6 +247,7 @@ const Electornic = ({ setopendashboard }) => {
         remark: item?.elecItemDetails.map((row) => {
           return row.remark;
         }),
+        Staff: item?.createdBy,
         'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
       });
     });

@@ -216,7 +216,7 @@ const Itemdonation = ({ setopendashboard }) => {
   };
 
   const ExportToExcel = () => {
-    const fileName = 'ManualItemReport';
+    const fileName = 'DonationItemReport';
     const exportType = 'xls';
     console.log('click');
     var data = [];
@@ -238,6 +238,7 @@ const Itemdonation = ({ setopendashboard }) => {
         remark: item?.elecItemDetails.map((row) => {
           return row.remark;
         }),
+        Staff: item?.createdBy,
         'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
       });
     });

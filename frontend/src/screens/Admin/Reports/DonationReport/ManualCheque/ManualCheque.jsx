@@ -216,7 +216,7 @@ const ManualCheque = ({ setopendashboard }) => {
   };
 
   const ExportToExcel = () => {
-    const fileName = 'ManualChequeReport';
+    const fileName = 'DonationChequeReport';
     const exportType = 'xls';
     var data = [];
     isData.map((item, index) => {
@@ -237,6 +237,7 @@ const ManualCheque = ({ setopendashboard }) => {
         remark: item?.elecItemDetails.map((row) => {
           return row.remark;
         }),
+        Staff: item?.createdBy,
         'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
       });
     });

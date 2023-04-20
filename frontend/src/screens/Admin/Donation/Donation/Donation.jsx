@@ -229,6 +229,7 @@ const Donation = ({ setopendashboard }) => {
               return row.remark;
             })
           : item?.remark,
+        Staff: item?.createdBy,
         'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
       });
     });

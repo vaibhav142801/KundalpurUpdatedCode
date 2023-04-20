@@ -214,7 +214,7 @@ const ManualCash = ({ setopendashboard }) => {
   };
 
   const ExportToExcel = () => {
-    const fileName = 'ManualCashReport';
+    const fileName = 'DonationCashReport';
     const exportType = 'xls';
     var data = [];
     isData.map((item, index) => {
@@ -235,6 +235,7 @@ const ManualCash = ({ setopendashboard }) => {
         remark: item?.elecItemDetails.map((row) => {
           return row.remark;
         }),
+        Staff: item?.createdBy,
         'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
       });
     });

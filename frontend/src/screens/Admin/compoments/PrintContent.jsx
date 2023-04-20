@@ -13,10 +13,6 @@ function PrintContent({ setopendashboard, setshowreciept }) {
   const location = useLocation();
   const componentRef = useRef();
   const navigation = useNavigate();
-  const adminName = sessionStorage.getItem('adminName');
-
-  const empName = sessionStorage.getItem('empName');
-
   const [isData, setisData] = useState(null);
 
   const handlePrint = useReactToPrint({

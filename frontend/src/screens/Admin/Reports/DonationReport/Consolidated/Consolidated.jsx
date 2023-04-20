@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { serverInstance } from '../../../../../API/ServerInstance';
 import Swal from 'sweetalert2';
@@ -11,20 +11,23 @@ import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
 import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
-import { ExportPdfmanul } from '../../../compoments/ExportPdf';
+import { DonationConsolated } from '../../../compoments/ExportPdf';
 import Print from '../../../../../assets/Print.png';
 import ExportPdf from '../../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../../assets/ExportExcel.png';
 import DonationReportTap from '../DonationReportTap';
 import LoadingSpinner1 from '../../../../../components/Loading/LoadingSpinner1';
 import Button from '@mui/material/Button';
-
+import { useReactToPrint } from 'react-to-print';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 const Consolidated = ({ setopendashboard }) => {
   let filterData;
+
   const [loader, setloader] = useState(false);
   const [empid, setempid] = useState('');
   const [emproleid, setemproleid] = useState('');
-  const [isData, setisData] = React.useState('');
+  const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [showalert, setshowalert] = useState(false);
@@ -36,7 +39,11 @@ const Consolidated = ({ setopendashboard }) => {
   const [empylist1, setempylist1] = useState('');
   const [userrole, setuserrole] = useState('');
   const [empId, setempId] = useState('');
+  const componentRef = useRef();
 
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -47,27 +54,14 @@ const Consolidated = ({ setopendashboard }) => {
   };
 
   const ExportToExcel = () => {
-    const fileName = 'ManualCashReport';
+    const fileName = 'Consolidated';
     const exportType = 'xls';
     var data = [];
-    isData.map((item, index) => {
+    empylist.map((item, index) => {
       data.push({
         Date: Moment(item.donation_date).format('DD-MM-YYYY'),
-        'Receipt No': item?.ReceiptNo,
-        'Voucher No': item?.voucherNo,
-        'Phone No': item?.phoneNo,
-        name: item?.name,
-        Address: item?.address,
-        'Head/Item': item?.elecItemDetails.map((row) => {
-          return row.type;
-        }),
-        Amount: item?.elecItemDetails.reduce(
-          (n, { amount }) => parseFloat(n) + parseFloat(amount),
-          0,
-        ),
-        remark: item?.elecItemDetails.map((row) => {
-          return row.remark;
-        }),
+        Staff: item?.name,
+        Total: item?.totalDonationAmount,
         'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
       });
     });
@@ -154,32 +148,14 @@ const Consolidated = ({ setopendashboard }) => {
       <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
         <div className="search-header">
           <div className="search-inner-div-reports">
-            {/* <input type="date" />
-            <input type="date" />
-            <select
-              name="cars"
-              id="cars"
-              onChange={(e) => settypeid(e.target.value)}
-            >
-              <option
-                value={empId}
-                name="empId"
-                onChange={(e) => setempId(e.target.value)}
-              >
-                Select User
-              </option>
-              {empylist1 &&
-                empylist1.map((item, index) => (
-                  <option key={index} value={item.id}>
-                    {item.Username}
-                  </option>
-                ))}
-            </select>
-            <button onClick={() => filterdata()}>Search</button>
-            <button onClick={() => getall_donation()}>Reset</button> */}
             <div style={{ width: '80%' }} />
             <Tooltip title="Print">
-              <img src={Print} alt="ss" style={{ width: '30px' }} />
+              <img
+                onClick={() => handlePrint()}
+                src={Print}
+                alt="ss"
+                style={{ width: '30px' }}
+              />
             </Tooltip>
 
             <Tooltip title="Export excel">
@@ -193,7 +169,9 @@ const Consolidated = ({ setopendashboard }) => {
 
             <Tooltip title="Export pdf">
               <img
-                onClick={() => ExportPdfmanul(isData, 'ManualCashReport')}
+                onClick={() =>
+                  DonationConsolated(empylist, 'DonationConsolited')
+                }
                 src={ExportPdf}
                 alt="ss"
                 style={{ width: '30px' }}
@@ -203,11 +181,15 @@ const Consolidated = ({ setopendashboard }) => {
           <div></div>
         </div>
 
-        <h2 style={{ marginBottom: '1rem' }}>Donation Detials</h2>
+        <h2 style={{ marginBottom: '1rem' }}>Donation Details</h2>
       </div>
 
       <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
-        <Table sx={{ width: '100%' }} aria-label="simple table">
+        <Table
+          sx={{ width: '100%' }}
+          aria-label="simple table"
+          ref={componentRef}
+        >
           <TableHead style={{ background: '#FFEEE0' }}>
             <TableRow>
               <TableCell>

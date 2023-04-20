@@ -1,18 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import f1 from '../../../assets/f1.png';
-import Dashbord from './Dashbord/Dashbord';
-import CheckIn from './CheckIn/CheckIn';
-import Hold from './Hold/Hold';
-import RoomShift from './RoomShift/RoomShift';
-import RoomBooking from './RoomBooking';
+
 import { NavLink, useNavigate } from 'react-router-dom';
 const RoomBookingTap = ({ setopendashboard }) => {
-  const [toggleState, setToggleState] = useState(1);
-
-  const toggleTab = (index) => {
-    setToggleState(index);
-  };
-
   useEffect(() => {
     setopendashboard(true);
   }, []);
@@ -34,7 +24,7 @@ const RoomBookingTap = ({ setopendashboard }) => {
               Dashbord
             </NavLink>
             <NavLink
-              to="/admin-panel/room/roombooking"
+              to="/admin-panel/room/checkin"
               className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
             >
               <img

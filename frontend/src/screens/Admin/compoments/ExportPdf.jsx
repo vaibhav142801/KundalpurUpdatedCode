@@ -14,6 +14,7 @@ const ExportPdfmanul = (isData, fileName) => {
     'Address',
     'type',
     'amout',
+    'staff',
   ];
 
   const tableRows = [];
@@ -33,8 +34,37 @@ const ExportPdfmanul = (isData, fileName) => {
         (n, { amount }) => parseFloat(n) + parseFloat(amount),
         0,
       ),
-
+      item?.address,
       format(new Date(item.createdAt), 'yyyy-MM-dd'),
+    ];
+
+    tableRows.push(ticketData);
+  });
+
+  doc.autoTable(tableColumn, tableRows, { startY: 20 });
+  const date = Date().split(' ');
+
+  const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
+
+  doc.text(`Report of ${fileName}`, 8, 9);
+  doc.setFont('Lato-Regular', 'normal');
+  doc.setFontSize(28);
+  doc.save(`${fileName}_${dateStr}.pdf`);
+};
+
+const DonationConsolated = (isData, fileName) => {
+  const doc = new jsPDF();
+
+  const tableColumn = ['staff', 'total'];
+
+  const tableRows = [];
+
+  isData.forEach((item) => {
+    const ticketData = [
+      // Moment(item?.donation_date).format('DD/MM/YYYY'),
+      item?.name,
+      item?.totalDonationAmount,
+      format(new Date(item.createdAt), 'DD/MM/YYYY'),
     ];
 
     tableRows.push(ticketData);
@@ -63,6 +93,7 @@ const ExportPdfmanulElectronic = (isData, fileName) => {
     'Address',
     'type',
     'amout',
+    'staff',
   ];
 
   const tableRows = [];
@@ -82,7 +113,7 @@ const ExportPdfmanulElectronic = (isData, fileName) => {
         (n, { amount }) => parseFloat(n) + parseFloat(amount),
         0,
       ),
-
+      item?.CreatedBy,
       format(new Date(item.createdAt), 'yyyy-MM-dd'),
     ];
 
@@ -106,7 +137,6 @@ const ExportPdfUser = (isData, fileName) => {
   const tableColumn = [
     'Date',
     'Receipt',
-
     'Phone',
     'Name',
     'Address',
@@ -243,4 +273,5 @@ export {
   ExportPdfUser,
   ExportPdfUserCheque,
   ExportPdfmanulElectronic,
+  DonationConsolated,
 };

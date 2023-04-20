@@ -29,6 +29,7 @@ import axios from 'axios';
 import Typography from '@mui/material/Typography';
 import CheckinForm from './CheckinForm';
 import { Select, MenuItem } from '@mui/material';
+import RoomBookingTap from '../RoomBookingTap';
 import './Checkin.css';
 const style = {
   position: 'absolute',
@@ -147,8 +148,8 @@ const CheckIn = ({ setopendashboard }) => {
           </Box>
         </Fade>
       </Modal>
-
-      <div>
+      <RoomBookingTap setopendashboard={setopendashboard} />
+      <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
         <div className="main_amin_gain">
           <div className="main_amin_gain1">Total Guest : 265</div>
           <div className="main_amin_gain2">Total Advance : 112050</div>
