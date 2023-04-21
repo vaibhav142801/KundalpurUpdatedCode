@@ -4,46 +4,21 @@ import './PaymentStatusPage.css';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { serverInstance } from '../../../API/ServerInstance';
-import Modal from '@mui/material/Modal';
-import Swal from 'sweetalert2';
-import Fade from '@mui/material/Fade';
+import { useSelector, useDispatch } from 'react-redux';
+import { loadUser } from '../../../Redux/redux/action/AuthAction';
+import { backendApiUrl } from '../../../config/config';
+import axios from 'axios';
 
-import {
-  Box,
-  Button,
-  ButtonBase,
-  FormControlLabel,
-  Grid,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
-  Typography,
-} from '@mui/material';
-import PaymentSuccessfull from '../donation/PaymentSuccessfull/PaymentSuccessfull';
-
-const style = {
-  position: 'absolute',
-  top: '40%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  borderRadius: '12px',
-  bgcolor: 'background.paper',
-
-  boxShadow: 24,
-  p: 2,
-};
 export default function PaymentStatusPage({ setHeaderFooter, setpaymentId }) {
+  const dispatch = useDispatch();
   const [transactionID, setTransactionID] = useState(false);
   const [donationDeatils, setDonationDetails] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [isData, setisData] = useState('');
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const { user } = useSelector((state) => state.userReducer);
   const { search } = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
     setHeaderFooter(true);
+    dispatch(loadUser());
   }, []);
 
   useEffect(() => {
@@ -63,22 +38,29 @@ export default function PaymentStatusPage({ setHeaderFooter, setpaymentId }) {
       }
     });
   }, [search]);
+
+  const sendsms = async (amount, recieptno) => {
+    try {
+      axios.defaults.headers.post[
+        'Authorization'
+      ] = `Bearer ${sessionStorage.getItem('token')}`;
+      await axios.post(`${backendApiUrl}user/sms`, {
+        mobile: user?.mobileNo,
+        amount: amount,
+        rno: recieptno,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  if (transactionID) {
+    if (user) {
+      sendsms(donationDeatils?.AMOUNT, donationDeatils?.RECEIPT_NO);
+    }
+  }
   return (
     <>
-      {' '}
-      {/* <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-      >
-        <Fade in={open}>
-          <Box sx={style}>
-            <PaymentSuccessfull handleClose={handleClose} isData={isData} />
-          </Box>
-        </Fade>
-      </Modal> */}
       <div className="payment-status-page">
         <div className="payment-status-container">
           {transactionID ? (

@@ -256,6 +256,13 @@ const ManualReports = ({ setopendashboard }) => {
           (n, { amount }) => parseFloat(n) + parseFloat(amount),
           0,
         ),
+        Bank: item?.manualItemDetails.map((row) => {
+          return row?.BankName;
+        }),
+        ChequeNo: item?.manualItemDetails.map((row) => {
+          return row?.ChequeNo;
+        }),
+        Staff: item?.CreatedBy,
         remark: item?.manualItemDetails.map((row) => {
           return row.remark;
         }),

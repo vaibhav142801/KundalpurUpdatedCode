@@ -269,7 +269,7 @@ const ChequeDonation = ({
       Swal.fire('Error!', error, 'error');
     }
   };
-  const sendsms = async (totalamount) => {
+  const sendsms = async (totalamount, ReceiptNo) => {
     try {
       axios.defaults.headers.post[
         'Authorization'

@@ -263,9 +263,16 @@ const ManualElectronic = ({ setopendashboard }) => {
           (n, { amount }) => parseFloat(n) + parseFloat(amount),
           0,
         ),
+        Bank: item?.manualItemDetails.map((row) => {
+          return row.BankName;
+        }),
+        transactionNo: item?.manualItemDetails.map((row) => {
+          return row.transactionNo;
+        }),
         remark: item?.manualItemDetails.map((row) => {
           return row.remark;
         }),
+        Staff: item?.CreatedBy,
         'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
       });
     });

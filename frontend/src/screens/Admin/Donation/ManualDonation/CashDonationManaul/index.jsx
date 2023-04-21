@@ -234,7 +234,7 @@ const CashDonation = ({
       axios.defaults.headers.post[
         'Authorization'
       ] = `Bearer ${sessionStorage.getItem('token')}`;
-      const res = await axios.post(`${backendApiUrl}user/sms`, {
+      const res = await axios.post(``, {
         mobile: mobileNo,
         amount: totalamount,
         rno: ReceiptNo,

@@ -221,7 +221,8 @@ const CashDonation = ({
               userdata: res.data.data.message.data,
             },
           });
-          sendsms(totalamount, res.data.data.message.data);
+          console.log(res.data.data.message.data.ReceiptNo);
+          sendsms(totalamount, res.data.data.message.data.ReceiptNo);
         } else {
           Swal.fire('Error!', 'Somthing went wrong!!', 'error');
         }
@@ -229,7 +230,7 @@ const CashDonation = ({
     }
   };
 
-  const sendsms = async (totalamount) => {
+  const sendsms = async (totalamount, ReceiptNo) => {
     try {
       axios.defaults.headers.post[
         'Authorization'

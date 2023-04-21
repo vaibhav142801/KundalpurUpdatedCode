@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100vh;
+    height: 70vh;
 }
 .payment-status-page .payment-status-container{
     max-width: 700px;
@@ -49,9 +49,7 @@
 }
 
 @media only screen and (max-width:500px) {
-    .payment-status-page{
-        padding: 1rem;
-    }
+   
     .payment-status-page .payment-status-container{
         padding: 1rem;
     }
@@ -60,6 +58,15 @@
     }
     .payment-status-container p{
         font-size: 0.9rem;
+    }
+
+    .payment-status-page{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 50vh;
+        padding: 1rem;
     }
 }
 

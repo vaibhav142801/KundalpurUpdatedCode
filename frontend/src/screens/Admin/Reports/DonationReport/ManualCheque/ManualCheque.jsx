@@ -234,8 +234,14 @@ const ManualCheque = ({ setopendashboard }) => {
           (n, { amount }) => parseFloat(n) + parseFloat(amount),
           0,
         ),
+        Bank: item?.elecItemDetails.map((row) => {
+          return row?.BankName;
+        }),
+        ChequeNo: item?.elecItemDetails.map((row) => {
+          return row?.ChequeNo;
+        }),
         remark: item?.elecItemDetails.map((row) => {
-          return row.remark;
+          return row?.remark;
         }),
         Staff: item?.createdBy,
         'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),

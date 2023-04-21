@@ -32,7 +32,7 @@ import ElectronicTotal from '../../../compoments/ElectronicTotal';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-import PrintElectronic from '../../../compoments/PrintElectronic';
+import PrintElectronic from '../../../compoments/PrintElectronicEle';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
@@ -87,7 +87,7 @@ const style5 = {
   position: 'absolute',
   top: '50%',
   left: '50%',
-  width: '70%',
+  width: 'auto',
   transform: 'translate(-50%, -50%)',
   bgcolor: 'background.paper',
   p: 2,
@@ -244,6 +244,12 @@ const Electornic = ({ setopendashboard }) => {
           (n, { amount }) => parseFloat(n) + parseFloat(amount),
           0,
         ),
+        Bank: item?.elecItemDetails.map((row) => {
+          return row.BankName;
+        }),
+        transactionNo: item?.elecItemDetails.map((row) => {
+          return row.transactionNo;
+        }),
         remark: item?.elecItemDetails.map((row) => {
           return row.remark;
         }),

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { serverInstance } from '../../../API/ServerInstance';
-import badebaba from '../../../assets/badebaba.jpg';
-import { displayRazorpay } from '../../../RazorPay/RazorPay';
 import PaymentSuccessfull from './PaymentSuccessfull/PaymentSuccessfull';
 import ChequeSuccessfull from './chequeSuccessfull/ChequeSuccessfull';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +10,7 @@ import donationRight from '../../../assets/donation-right.png';
 import { backendApiUrl } from '../../../config/config';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
+
 import {
   Box,
   Button,
@@ -205,7 +204,6 @@ function Donation({ setshowreciept, paymentId, setonlineId }) {
   const handleClose1 = () => setOpen1(false);
   const auth = useAuth();
   const { user } = useSelector((state) => state.userReducer);
-  console.log(user);
 
   if (donationdata.selected === 'yes1' && !user.name) {
     nagivate('/profile');
@@ -279,15 +277,12 @@ function Donation({ setshowreciept, paymentId, setonlineId }) {
         MobileNo: user?.mobileNo,
         TIME_OF_DAAN: currTime,
       }).then((res) => {
-        console.log('rers of online', res);
-        sendsms();
         if (res.status === true) {
           setshowloader(false);
           window.location.href =
             'https://paymentkundalpur.techjainsupport.co.in/about?order_id=' +
             res.data.id;
-          // handleOpen();
-          // sendsms();
+
           setonlineId(res.data.id);
         } else {
           Swal.fire('Error!', 'Somthing went wrong!!', 'error');
@@ -312,12 +307,11 @@ function Donation({ setshowreciept, paymentId, setonlineId }) {
 
         formData,
       );
-      console.log(donationdata);
 
       if (res.data.status === true) {
         handleOpen1();
         setshowloader(false);
-        sendsms();
+        sendsms(res?.data?.data?.RECEIPT_NO);
       } else {
         Swal.fire('Error!', 'Mobile number already exist!!', 'error');
       }
@@ -394,7 +388,7 @@ function Donation({ setshowreciept, paymentId, setonlineId }) {
     setshowreciept(false);
   }, []);
 
-  const sendsms = async (totalamount) => {
+  const sendsms = async (RECEIPT_NO) => {
     try {
       axios.defaults.headers.post[
         'Authorization'
@@ -402,12 +396,11 @@ function Donation({ setshowreciept, paymentId, setonlineId }) {
       const res = await axios.post(`${backendApiUrl}user/sms`, {
         mobile: user?.mobileNo,
         amount: amount,
-        // url: 'https://shreebadebaba-562bd.web.app/receipt/id=1',
+        rno: RECEIPT_NO,
       });
-      console.log('sent sms ', res);
-      if (res.data.status === true) {
-      }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   return auth.verify ? (
     <>

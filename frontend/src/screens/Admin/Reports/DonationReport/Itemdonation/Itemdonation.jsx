@@ -235,8 +235,14 @@ const Itemdonation = ({ setopendashboard }) => {
           (n, { amount }) => parseFloat(n) + parseFloat(amount),
           0,
         ),
+        ItemType: item?.elecItemDetails.map((row) => {
+          return row?.itemType;
+        }),
+        Size: item?.elecItemDetails[0].size,
+        unit: item?.elecItemDetails[0]?.unit,
+        Quantity: item?.elecItemDetails[0]?.quantity,
         remark: item?.elecItemDetails.map((row) => {
-          return row.remark;
+          return row?.remark;
         }),
         Staff: item?.createdBy,
         'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),

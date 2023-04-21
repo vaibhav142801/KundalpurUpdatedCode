@@ -4,7 +4,7 @@ import ElectronicTotal from '../compoments/ElectronicTotal';
 import { useReactToPrint } from 'react-to-print';
 import Moment from 'moment-js';
 
-function PrintElectronic({ isData, handleClose }) {
+function PrintElectronicEle({ isData, handleClose }) {
   const componentRef = useRef();
 
   const handlePrint = useReactToPrint({
@@ -54,6 +54,8 @@ function PrintElectronic({ isData, handleClose }) {
               <th>Address</th>
               <th>Head/Item</th>
               <th>Amount</th>
+              <th>Bank</th>
+              <th>Transaction</th>
               <th>Remark</th>
             </tr>
             {isData &&
@@ -84,6 +86,8 @@ function PrintElectronic({ isData, handleClose }) {
                         0,
                       )}
                     </td>
+                    <td>{row?.elecItemDetails[0]?.BankName}</td>
+                    <td>{row.elecItemDetails[0]?.transactionNo}</td>
                     <td>
                       {row.elecItemDetails.map((row) => {
                         return (
@@ -128,4 +132,4 @@ function PrintElectronic({ isData, handleClose }) {
   );
 }
 
-export default PrintElectronic;
+export default PrintElectronicEle;

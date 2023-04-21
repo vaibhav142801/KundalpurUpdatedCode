@@ -10,11 +10,13 @@ import ManaulTotal from '../../TotalDashboardFun/ManaulTotal';
 import OnlineTotal from '../../TotalDashboardFun/OnlineTotal';
 import EmpelecTotal from '../../TotalDashboardFun/EmpelecTotal';
 import EmpmanulTotal from '../../TotalDashboardFun/EmpmanulTotal';
-
+import Typography from '@mui/material/Typography';
+import Moment from 'moment-js';
 function PrintAlladmin({ handleClose }) {
   const componentRef = useRef();
   const [userrole, setuserrole] = useState('');
   const [emproleid, setemproleid] = useState('');
+  const [userName, setuserName] = useState('');
   const [isData1, setisData1] = useState('');
   const [isData2, setisData2] = useState('');
   const [isData3, setisData3] = useState('');
@@ -60,20 +62,44 @@ function PrintAlladmin({ handleClose }) {
   useEffect(() => {
     setuserrole(Number(sessionStorage.getItem('userrole')));
     setemproleid(Number(sessionStorage.getItem('empRoleid')));
+    setuserName(sessionStorage.getItem('empName'));
     getallelec(),
       getallmanual(),
       getallonline(),
       getallempelec(),
       getallempmanual();
   }, []);
+
+  var options = { year: 'numeric', month: 'short', day: '2-digit' };
+  var today = new Date();
+  const currDate = today
+    .toLocaleDateString('en-IN', options)
+    .replace(/-/g, ' ');
+  const currTime = today.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
   return (
     <>
       <div style={{ maxHeight: 'calc(80vh - 4rem)', overflowY: 'auto' }}>
         <div ref={componentRef} style={{ padding: '1rem' }}>
-          <div>
-            <p style={{ textAlign: 'center', marginTop: '1rem' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column',
+            }}
+          >
+            <p>
               श्री दिगम्बर जैन सिद्धक्षेत्र कुण्डलगिरि कुण्डलपुर दमोह (म.प्र.)
             </p>
+
+            <Typography variant="body2" color="primary" align="right">
+              {Moment(today).format('DD-MM-YYYY')}/ {currTime}
+              {userName && <>({userName})</>}
+            </Typography>
           </div>
           <div style={{ width: '100%' }}>
             <div

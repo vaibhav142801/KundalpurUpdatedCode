@@ -86,7 +86,7 @@ const style5 = {
   position: 'absolute',
   top: '50%',
   left: '50%',
-  width: '70%',
+  width: 'auto',
   transform: 'translate(-50%, -50%)',
   bgcolor: 'background.paper',
   p: 2,
