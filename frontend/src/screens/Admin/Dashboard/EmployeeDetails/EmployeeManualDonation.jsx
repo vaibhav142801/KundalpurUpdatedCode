@@ -10,16 +10,35 @@ import TablePagination from '@mui/material/TablePagination';
 import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../assets/ExportExcel.png';
+import { Box } from '@mui/material';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import PrintElectronic from './Printdata/PrintElectronic';
 import exportFromJSON from 'export-from-json';
 import Tooltip from '@mui/material/Tooltip';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { useReactToPrint } from 'react-to-print';
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  width: '70%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  p: 2,
+
+  boxShadow: 24,
+  borderRadius: '15px',
+};
 const EmployeeManualDonation = () => {
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [emproleid, setemproleid] = useState('');
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const componentRef = useRef();
 
   const handlePrint = useReactToPrint({
@@ -91,6 +110,19 @@ const EmployeeManualDonation = () => {
   }, []);
   return (
     <>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <PrintElectronic handleClose={handleClose} isData={isData} />
+          </Box>
+        </Fade>
+      </Modal>
       <div className="main_dash_daily_main">
         <div
           className="search-header-print"
@@ -119,7 +151,7 @@ const EmployeeManualDonation = () => {
           </Tooltip>
           <Tooltip title="Print">
             <img
-              onClick={() => handlePrint()}
+              onClick={() => handleOpen()}
               src={Print}
               alt="cc"
               style={{ width: '30px', marginRight: '2rem' }}
@@ -139,7 +171,6 @@ const EmployeeManualDonation = () => {
         </div>
 
         <div className="table-div-maai" ref={componentRef}>
-          {/* <TableContainer component={Paper}> */}
           <Table sx={{ width: '100%' }} aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -182,48 +213,6 @@ const EmployeeManualDonation = () => {
               )}
             </TableBody>
             <TableFooter>
-              {/* <TableRow>
-                <TableCell
-                  style={{
-                    fontSize: '15px',
-                    color: '#05313C',
-                  }}
-                >
-                  Total
-                </TableCell>
-                <TableCell
-                  style={{
-                    fontSize: '15px',
-                    color: '#05313C',
-                  }}
-                >
-                  0
-                </TableCell>
-                <TableCell
-                  style={{
-                    fontSize: '15px',
-                    color: '#05313C',
-                  }}
-                >
-                  0
-                </TableCell>
-                <TableCell
-                  style={{
-                    fontSize: '15px',
-                    color: '#05313C',
-                  }}
-                >
-                  0
-                </TableCell>
-                <TableCell
-                  style={{
-                    fontSize: '15px',
-                    color: '#05313C',
-                  }}
-                >
-                  0
-                </TableCell>
-              </TableRow> */}
               <TableRow>
                 <TablePagination
                   count={isData.length}
@@ -245,16 +234,10 @@ const EmployeeManualDonation = () => {
                       'aria-label': 'page number',
                     },
                   }}
-                  // showFirstButton={true}
-                  // showLastButton={true}
-                  //ActionsComponent={TablePaginationActions}
-                  //component={Box}
-                  //sx and classes prop discussed in styling section
                 />
               </TableRow>
             </TableFooter>
           </Table>
-          {/* </TableContainer> */}
         </div>
       </div>
     </>

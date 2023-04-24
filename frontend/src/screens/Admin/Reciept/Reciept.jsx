@@ -23,7 +23,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
       },
     });
   }
-
+  console.log(isData);
   function down() {
     console.log('cliii');
     const input = document.getElementById('receipt');
@@ -95,6 +95,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                 <span className="leftitems">
                   <h2>दान रसीद नं : </h2>
                   <h2 className="font_bold_in_donation">
+                    &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
                     {isData?.RECEIPT_NO
                       ? isData?.RECEIPT_NO
                       : isData?.ReceiptNo}
@@ -128,6 +129,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                     <span className="rightitems">
                       <h2>विवरण :</h2>
                       <h2 className="font_bold_in_donation">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {isData && isData?.REMARK}
                       </h2>
                     </span>
@@ -138,6 +140,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                     <span className="rightitems">
                       <h2>विवरण :</h2>
                       <h2 className="font_bold_in_donation">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {isData && isData?.REMARK}
                       </h2>
                     </span>
@@ -162,6 +165,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                   ? isData && isData?.gender
                   : isData && isData?.GENDER}{' '}
                 &nbsp; */}
+                &nbsp; &nbsp; &nbsp;
                 {isData?.NAME ? isData?.NAME : isData?.name}{' '}
                 <span className="rightitems">
                   {isData?.phoneNo && <>({isData?.phoneNo})</>}
@@ -174,6 +178,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                 <h2>स्थान :</h2>
               </div>
               <h2 className="center_receipt_format font_bold_in_donation">
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 {isData?.ADDRESS ? isData?.ADDRESS : isData?.address}
               </h2>
             </span>
@@ -187,6 +192,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                     {isData.elecItemDetails.map((item) => {
                       return (
                         <h2>
+                          &nbsp; &nbsp; &nbsp;
                           <b>{item.type}</b>
                           {item?.itemType ? <></> : <> -₹{item.amount} /- </>}
                         </h2>
@@ -207,6 +213,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                       <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                     </div>
                     <h2 className="center_receipt_format font_bold_in_donation">
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       {isData && isData?.TYPE
                         ? isData?.TYPE
                         : isData &&
@@ -238,6 +245,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                       <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                     </div>
                     <h2 className="center_receipt_format font_bold_in_donation">
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       {isData && isData?.TYPE
                         ? isData?.TYPE
                         : isData &&
@@ -265,6 +273,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                   <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                 </div>
                 <h2 className="center_receipt_format font_bold_in_donation">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   {isData &&
                     isData.elecItemDetails &&
                     isData.elecItemDetails.map((item) => {
@@ -280,6 +289,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                   <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                 </div>
                 <h2 className="center_receipt_format  font_bold_in_donation">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   {isData &&
                     isData.elecItemDetails &&
                     isData.elecItemDetails.map((item) => {
@@ -294,6 +304,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                   <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                 </div>
                 <h2 className="center_receipt_format  font_bold_in_donation">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   {isData && isData?.REMARK
                     ? isData?.REMARK
                     : isData &&
@@ -314,6 +325,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                   <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                 </div>
                 <h2 className="center_receipt_format  font_bold_in_donation">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   {isData && isData?.REMARK
                     ? isData?.REMARK
                     : isData &&
@@ -340,6 +352,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                   <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                 </div>
                 <h2 className="center_receipt_format  font_bold_in_donation">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   {isData && isData?.REMARK
                     ? isData?.REMARK
                     : isData &&
@@ -360,6 +373,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                   <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                 </div>
                 <h2 className="center_receipt_format  font_bold_in_donation">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   {isData && isData?.REMARK
                     ? isData?.REMARK
                     : isData &&

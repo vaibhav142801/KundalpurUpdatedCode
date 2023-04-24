@@ -578,9 +578,10 @@ const DashboardWrapper = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
+              onMouseEnter={handleClick1}
+              // onMouseLeave={() => setAnchorEl1(null)}
             >
               <Avatar
-                onClick={handleClick1}
                 alt={empName ? empName : adminName}
                 src={`${backendUrl}uploads/images/${profileimg}`}
                 sx={{

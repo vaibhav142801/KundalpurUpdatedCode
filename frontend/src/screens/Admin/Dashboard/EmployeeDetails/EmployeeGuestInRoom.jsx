@@ -10,11 +10,29 @@ import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../assets/ExportExcel.png';
 import Tooltip from '@mui/material/Tooltip';
+import { Box } from '@mui/material';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import Printguest from './Printdata/Printguest';
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  width: '70%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  p: 2,
+
+  boxShadow: 24,
+  borderRadius: '15px',
+};
 const EmployeeGuestInRoom = () => {
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
-
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -25,6 +43,19 @@ const EmployeeGuestInRoom = () => {
   };
   return (
     <>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <Printguest handleClose={handleClose} isData={isData} />
+          </Box>
+        </Fade>
+      </Modal>
       <div className="main_dash_daily_main">
         <div
           className="search-header-print"
@@ -53,7 +84,7 @@ const EmployeeGuestInRoom = () => {
           </Tooltip>
           <Tooltip title="Print">
             <img
-              // onClick={() => ExportPdfmanul(isData, 'ManualCashReport')}
+              onClick={() => handleOpen()}
               src={Print}
               alt="cc"
               style={{ width: '30px', marginRight: '2rem' }}

@@ -30,6 +30,19 @@ import 'jspdf-autotable';
 import { format } from 'date-fns';
 import f1 from '../../../../assets/f4.png';
 import IconButton from '@mui/material/IconButton';
+import PrintRoom from './Printdata/PrintRoom';
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  width: '70%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  p: 2,
+
+  boxShadow: 24,
+  borderRadius: '15px',
+};
 const EmployeeRoombooking = ({ setopendashboard }) => {
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
@@ -51,6 +64,19 @@ const EmployeeRoombooking = ({ setopendashboard }) => {
   };
   return (
     <>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <PrintRoom handleClose={handleClose} isData={isData} />
+          </Box>
+        </Fade>
+      </Modal>
       <div className="main_dash_daily_main">
         <div
           className="search-header-print"
@@ -79,7 +105,7 @@ const EmployeeRoombooking = ({ setopendashboard }) => {
           </Tooltip>
           <Tooltip title="Print">
             <img
-              // onClick={() => ExportPdfmanul(isData, 'ManualCashReport')}
+              onClick={() => handleOpen()}
               src={Print}
               alt="cc"
               style={{ width: '30px', marginRight: '2rem' }}
@@ -107,12 +133,11 @@ const EmployeeRoombooking = ({ setopendashboard }) => {
             <TableHead>
               <TableRow>
                 <TableCell>Cash</TableCell>
-                <TableCell>Bank</TableCell>
+
                 <TableCell>Total</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableCell>0</TableCell>
               <TableCell>0</TableCell>
               <TableCell>0</TableCell>
 

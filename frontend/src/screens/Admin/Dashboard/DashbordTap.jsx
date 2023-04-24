@@ -105,7 +105,12 @@ const DashbordTap = ({ setopendashboard }) => {
               <></>
             ) : (
               <>
-                <div style={{ marginBottom: '2rem', marginTop: '11.5rem' }}>
+                <div
+                  style={{
+                    marginBottom: '1rem',
+                    marginTop: '11rem',
+                  }}
+                >
                   <div className="print_all_today">
                     <div
                       onClick={() => handleOpen5()}

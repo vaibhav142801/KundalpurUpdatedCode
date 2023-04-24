@@ -43,7 +43,6 @@ const OnlineadminRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
     }
   }, []);
 
-  console.log('dddd', isData);
   return (
     <>
       <div>
@@ -85,6 +84,7 @@ const OnlineadminRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                 <span className="leftitems">
                   <h2>दान रसीद नं : </h2>
                   <h2 className="font_bold_in_donation">
+                    &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
                     {isData?.RECEIPT_NO
                       ? isData?.RECEIPT_NO
                       : isData?.ReceiptNo}
@@ -417,6 +417,7 @@ const OnlineadminRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                     </h2>
                   </div>
                   <h2 className="center_receipt_format font_bold_in_donation">
+                    &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
                     {isData && isData?.gender
                       ? isData && isData?.gender
                       : isData && isData?.GENDER}{' '}
@@ -431,6 +432,7 @@ const OnlineadminRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                     <h2>स्थान :</h2>
                   </div>
                   <h2 className="center_receipt_format font_bold_in_donation">
+                    &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
                     {isData?.ADDRESS ? isData?.ADDRESS : isData?.address}{' '}
                   </h2>
                 </span>
@@ -445,6 +447,7 @@ const OnlineadminRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                         {isData && (
                           <>
                             <h2>
+                              &nbsp; &nbsp;&nbsp;&nbsp;
                               <b>{isData.TYPE}</b>
                             </h2>
                           </>
@@ -464,6 +467,7 @@ const OnlineadminRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                         {isData && (
                           <>
                             <h2>
+                              &nbsp; &nbsp;&nbsp;&nbsp;
                               <b>{isData.TYPE}</b>
                             </h2>
                           </>
@@ -585,6 +589,7 @@ const OnlineadminRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                         <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                       </div>
                       <h2 className="center_receipt_format font_bold_in_donation">
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
                         {isData && isData?.REMARK}{' '}
                         {isData && isData?.NAME_OF_BANK && (
                           <>
@@ -603,6 +608,7 @@ const OnlineadminRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                         <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
                       </div>
                       <h2 className="center_receipt_format  font_bold_in_donation">
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
                         {isData && isData?.REMARK}
                       </h2>
                     </span>

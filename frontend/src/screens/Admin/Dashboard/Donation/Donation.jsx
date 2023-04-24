@@ -10,17 +10,36 @@ import TablePagination from '@mui/material/TablePagination';
 import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../assets/ExportExcel.png';
+import PrintDonation from './Printdata/PrintDonation';
+import { Box } from '@mui/material';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
 import exportFromJSON from 'export-from-json';
 import Tooltip from '@mui/material/Tooltip';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { useReactToPrint } from 'react-to-print';
 import './DonationStyle.css';
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  width: '70%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  p: 2,
+
+  boxShadow: 24,
+  borderRadius: '15px',
+};
 const Donation = ({ setloader }) => {
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [showacres, setshowacres] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const componentRef = useRef();
 
   const handlePrint = useReactToPrint({
@@ -98,6 +117,19 @@ const Donation = ({ setloader }) => {
 
   return (
     <>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <PrintDonation handleClose={handleClose} isData={isData} />
+          </Box>
+        </Fade>
+      </Modal>
       <div className="main_dash_daily_main">
         <div className="main_dash_daily">
           <Tooltip title="Export Excel File">
@@ -120,9 +152,7 @@ const Donation = ({ setloader }) => {
           <Tooltip title="Print">
             <img
               onClick={() => {
-                setshowacres(true);
-                handlePrint();
-                setshowacres(false);
+                handleOpen();
               }}
               src={Print}
               alt="cc"

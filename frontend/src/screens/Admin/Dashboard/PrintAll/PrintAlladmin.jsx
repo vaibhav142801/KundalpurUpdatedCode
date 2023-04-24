@@ -463,6 +463,86 @@ function PrintAlladmin({ handleClose }) {
                           />
                         </div>
                       </div>
+                      <div
+                        className="main_card_amount"
+                        style={{
+                          background: '#FECE00',
+                          color: 'white',
+                          width: '23%',
+                        }}
+                      >
+                        <p style={{ fontSize: '14px' }}>Manual Donation</p>
+                        <div className="main_repue_img">
+                          <p
+                            style={{
+                              fontSize: '14px',
+                            }}
+                          >
+                            <EmpmanulTotal data={isData5} />
+                          </p>
+
+                          <img
+                            style={{
+                              width: '20px',
+                            }}
+                            src={Group225}
+                            alt="dd"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className="main_card_amount"
+                        style={{
+                          background: '#3C5FFE',
+                          color: 'white',
+                          width: '23%',
+                        }}
+                      >
+                        <p style={{ fontSize: '14px' }}>Room Booking</p>
+                        <div className="main_repue_img">
+                          <p
+                            style={{
+                              fontSize: '14px',
+                            }}
+                          >
+                            ₹ 0
+                          </p>
+                          <img
+                            style={{
+                              width: '20px',
+                            }}
+                            src={Group227}
+                            alt="dd"
+                          />
+                        </div>
+                      </div>
+
+                      <div
+                        className="main_card_amount"
+                        style={{
+                          background: '#808080',
+                          color: 'white',
+                          width: '23%',
+                        }}
+                      >
+                        <p style={{ fontSize: '14px' }}>Guest in Room</p>
+                        <div className="main_repue_img">
+                          <p
+                            style={{
+                              fontSize: '14px',
+                            }}
+                          >
+                            0
+                          </p>
+                          <img
+                            style={{
+                              width: '20px',
+                            }}
+                            src={Group228}
+                            alt="dd"
+                          />
+                        </div>
+                      </div>
                     </>
                   )}
                 </>

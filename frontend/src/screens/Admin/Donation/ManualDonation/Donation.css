@@ -326,3 +326,33 @@ td {
   display: contents;
   padding-right: 1rem;
 }
+
+
+.search-inner-div-reports-div {
+  display: contents;
+  padding-right: 1rem;
+}
+input#donation-date{
+  position:relative;
+  overflow:hidden;
+}
+input#donation-date::-webkit-calendar-picker-indicator{
+  display:block;
+  top:0;
+  left:0;
+  background: #0000;
+  position:absolute;
+  transform: scale(100)
+}
+input#donation-time{
+  position:relative;
+  overflow:hidden;
+}
+input#donation-time::-webkit-calendar-picker-indicator{
+  display:block;
+  top:0;
+  left:0;
+  background: #0000;
+  position:absolute;
+  transform: scale(100)
+}
