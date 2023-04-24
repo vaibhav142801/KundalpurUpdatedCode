@@ -621,8 +621,9 @@ const ManualDonation = ({ setopendashboard }) => {
             <div className="search-inner-div-reports">
               <form className="search-inner-div-reports" onSubmit={filterdata}>
                 <div className="Center_main_dic_filetr">
-                  <label>From Date</label>
+                  <label htmlFor="donation-date">From Date</label>
                   <input
+                    id="donation-date"
                     style={{ width: '100%' }}
                     type="date"
                     placeholder="From"
@@ -635,8 +636,9 @@ const ManualDonation = ({ setopendashboard }) => {
                 </div>
 
                 <div className="Center_main_dic_filetr">
-                  <label>To Date</label>
+                  <label htmlFor="donation-date">To Date</label>
                   <input
+                    id="donation-date"
                     style={{ width: '100%' }}
                     type="date"
                     placeholder="From"

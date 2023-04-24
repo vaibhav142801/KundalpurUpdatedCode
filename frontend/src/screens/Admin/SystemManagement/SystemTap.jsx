@@ -60,7 +60,7 @@ const SystemTap = ({ setopendashboard }) => {
                 src={f1}
                 alt="fast"
               />
-              Assing voucher
+              Assign voucher
             </NavLink>
           </div>
         </div>

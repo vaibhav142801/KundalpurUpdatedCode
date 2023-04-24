@@ -202,6 +202,7 @@ const AllHead = ({ setopendashboard }) => {
           <div className="search-header">
             <div className="search-inner-div-reports">
               <input
+                id="donation-date"
                 type="date"
                 placeholder="From"
                 value={datefrom}
@@ -211,6 +212,7 @@ const AllHead = ({ setopendashboard }) => {
                 }}
               />
               <input
+                id="donation-date"
                 type="date"
                 placeholder="From"
                 value={dateto}
@@ -301,22 +303,7 @@ const AllHead = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
-                  Online{' '}
-                  <i
-                    style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('ONLINE_TOTAL_AMOUNT')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  Cheque{' '}
-                  <i
-                    style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('CHEQUE_TOTAL_AMOUNT')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
+
                 <TableCell>
                   Amount Cheque{' '}
                   <i
@@ -376,10 +363,8 @@ const AllHead = ({ setopendashboard }) => {
                       <TableCell>
                         {row?.donationType == 'manual' && 'Manual Donation'}
                         {row?.donationType == 'electric' && 'Donation'}
-                        {row?.donationType == 'online' && 'online'}
                       </TableCell>
-                      <TableCell>{row?.cheque ? row?.cheque : '0'}</TableCell>
-                      <TableCell>{row?.online ? row?.online : '0'}</TableCell>
+
                       <TableCell>
                         {row?.electric_cheque_TOTAL_AMOUNT &&
                           row?.electric_cheque_TOTAL_AMOUNT}
@@ -428,8 +413,6 @@ const AllHead = ({ setopendashboard }) => {
                             parseFloat(row?.manual_bank_TOTAL_AMOUNT) +
                             parseFloat(row?.manual_item_TOTAL_AMOUNT) +
                             parseFloat(row?.manual_cash_TOTAL_AMOUNT)}
-                        {row?.donationType == 'online' &&
-                          parseFloat(row?.cheque) + parseFloat(row?.online)}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -440,12 +423,7 @@ const AllHead = ({ setopendashboard }) => {
               <TableRow>
                 <TableCell> &nbsp;</TableCell>
                 <TableCell style={{ fontWeight: 700 }}>Total</TableCell>
-                <TableCell style={{ fontWeight: 700 }}>
-                  {<OnlineCHeque data={isData} />}
-                </TableCell>
-                <TableCell style={{ fontWeight: 700 }}>
-                  {<OnlineTotal data={isData} />}
-                </TableCell>
+
                 <TableCell style={{ fontWeight: 700 }}>
                   {<Chequestotal data={isData} />}
                 </TableCell>

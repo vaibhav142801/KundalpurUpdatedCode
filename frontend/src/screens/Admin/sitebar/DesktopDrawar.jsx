@@ -311,6 +311,14 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
           icon: <img src={f2} alt="f2" style={{ width: '25px' }} />,
           subTabs: [
             {
+              id: 4.6,
+              name: 'All Reports',
+              link: 'allreport/allhead',
+              active: false,
+              icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+              subTabs: [],
+            },
+            {
               id: 4.1,
               name: 'Donation',
               link: 'electronic/report/elec',
@@ -334,6 +342,14 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
           icon: <img src={f2} alt="f2" style={{ width: '25px' }} />,
           subTabs: [
             {
+              id: 4.6,
+              name: 'All Reports',
+              link: 'allreport/allhead',
+              active: false,
+              icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+              subTabs: [],
+            },
+            {
               id: 4.1,
               name: 'Manual Donation',
               link: 'manual/report/cash',
@@ -356,6 +372,14 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
           active: false,
           icon: <img src={f2} alt="f2" style={{ width: '25px' }} />,
           subTabs: [
+            {
+              id: 4.6,
+              name: 'All Reports',
+              link: 'allreport/allhead',
+              active: false,
+              icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+              subTabs: [],
+            },
             {
               id: 4.5,
               name: 'Donation',

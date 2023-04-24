@@ -48,10 +48,10 @@ import Cheque from '../screens/Admin/Reports/OnlineDonations/Cheque/Cheque';
 import Online from '../screens/Admin/Reports/OnlineDonations/Online/Online';
 import OnlinepaymentFail from '../screens/Admin/Reports/OnlineDonations/OnlinepaymentFail/OnlinepaymentFail';
 /// all report routes
-import AllReportTap from '../screens/Admin/Reports/AllReport/AllReportTap';
+
 import AllHead from '../screens/Admin/Reports/AllReport/AllHead';
 import AllConsolidated from '../screens/Admin/Reports/AllReport/AllConsolidated';
-
+import AllOnline from '../screens/Admin/Reports/AllReport/AllOnline';
 //dharamshala
 import DharamDetails from '../screens/Admin/RoomBooking/DharamDetails/DharamDetails';
 
@@ -451,6 +451,14 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <AllHead setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/allreport/allonline"
+          element={
+            <Adminprivateroute>
+              <AllOnline setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />

@@ -45,13 +45,13 @@ function AllTotal({ data }) {
             totalAmount + parseFloat(item?.electric_item_TOTAL_AMOUNT);
         }
 
-        if (item?.cheque) {
-          totalAmount = totalAmount + parseFloat(item?.cheque);
-        }
+        // if (item?.cheque) {
+        //   totalAmount = totalAmount + parseFloat(item?.cheque);
+        // }
 
-        if (item?.online) {
-          totalAmount = totalAmount + parseFloat(item?.online);
-        }
+        // if (item?.online) {
+        //   totalAmount = totalAmount + parseFloat(item?.online);
+        // }
       });
   }
 

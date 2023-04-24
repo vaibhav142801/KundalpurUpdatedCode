@@ -5,7 +5,7 @@ import { Converter, hiIN } from 'any-number-to-words';
 import Moment from 'moment-js';
 import moment from 'moment';
 import './PrintContent.css';
-
+import { backendUrl } from '../../../config/config';
 const converter = new Converter(hiIN);
 function PrintContent({ setopendashboard, setshowreciept }) {
   const location = useLocation();
@@ -34,6 +34,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
     }, 100);
   }, []);
 
+  console.log(isData);
   return (
     <>
       <div style={{ paddingLeft: '4rem', paddingRight: '4rem' }}>
@@ -256,7 +257,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                         <>
                           <div
                             className="gray-text_div"
-                            style={{ width: '9rem' }}
+                            style={{ width: '6rem' }}
                           >
                             <p>दान का मद -</p>
                           </div>
@@ -570,7 +571,24 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                     : '15%',
               }}
             >
-              <p>({isData?.CreatedBy})</p>
+              <div className="main_div_signature">
+                {isData?.createdBySignature && (
+                  <>
+                    <img
+                      style={{ height: '20px' }}
+                      src={`${backendUrl}uploads/images/${isData?.createdBySignature}`}
+                      alt="signature"
+                    />
+                  </>
+                )}
+                <p>
+                  (
+                  {isData?.CreatedBy
+                    ? isData?.CreatedBy
+                    : isData?.Creator_name?.Username}
+                  )
+                </p>
+              </div>
             </div>
             <div>
               {isData?.active === '0' && (
@@ -781,7 +799,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                         <>
                           <div
                             className="gray-text_div"
-                            style={{ width: '9rem' }}
+                            style={{ width: '6rem' }}
                           >
                             <p>दान का मद -</p>
                           </div>
@@ -1125,7 +1143,26 @@ function PrintContent({ setopendashboard, setshowreciept }) {
               </>
             )}
 
-            <p className="text_alijdshfhd">({isData?.CreatedBy})</p>
+            <div className="text_alijdshfhd ">
+              {isData?.createdBySignature ? (
+                <>
+                  <img
+                    style={{ height: '20px', width: '80px' }}
+                    src={`${backendUrl}uploads/images/${isData?.createdBySignature}`}
+                    alt="signature"
+                  />
+                </>
+              ) : (
+                ''
+              )}
+              <p className="text_alijdshfhd">
+                (
+                {isData?.CreatedBy
+                  ? isData?.CreatedBy
+                  : isData?.Creator_name?.Username}
+                )
+              </p>
+            </div>
           </div>
         </div>
       </div>

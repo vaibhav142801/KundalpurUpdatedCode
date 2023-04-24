@@ -191,6 +191,7 @@ const HeadReport = ({ setopendashboard }) => {
           <div className="search-header">
             <div className="search-inner-div-reports">
               <input
+                id="donation-date"
                 type="date"
                 placeholder="From"
                 value={datefrom}
@@ -200,6 +201,7 @@ const HeadReport = ({ setopendashboard }) => {
                 }}
               />
               <input
+                id="donation-date"
                 type="date"
                 placeholder="From"
                 value={dateto}

@@ -17,7 +17,6 @@ import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../assets/ExportExcel.png';
 import AllReportTap from '../AllReport/AllReportTap';
-import { ReactSpinner } from 'react-spinning-wheel';
 import 'react-spinning-wheel/dist/style.css';
 import { useReactToPrint } from 'react-to-print';
 import OnlineTotal from '../AllReport/Totals/OnlineTotal';
@@ -31,7 +30,7 @@ import AllTotal from '../AllReport/Totals/AllTotal';
 import Tooltip from '@mui/material/Tooltip';
 import { Button } from '@mui/material';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
-const AllConsolidated = ({ setopendashboard }) => {
+const AllOnline = ({ setopendashboard }) => {
   const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [page, setPage] = useState(0);
@@ -48,6 +47,12 @@ const AllConsolidated = ({ setopendashboard }) => {
 
   const handlePrint2 = useReactToPrint({
     content: () => componentRef2.current,
+  });
+
+  const componentRef3 = useRef();
+
+  const handlePrint3 = useReactToPrint({
+    content: () => componentRef3.current,
   });
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -140,7 +145,7 @@ const AllConsolidated = ({ setopendashboard }) => {
     ] = `Bearer ${sessionStorage.getItem('token')}`;
 
     const res = await axios.get(
-      `${backendApiUrl}admin/get-cons-report?user=${empId}&fromDate=${datefrom}&toDate=${dateto}&type=${type}`,
+      `${backendApiUrl}admin/centralized-report?user=${empId}&fromDate=${datefrom}&toDate=${dateto}&type=${type}`,
     );
 
     if (res.data.data) {
@@ -148,22 +153,6 @@ const AllConsolidated = ({ setopendashboard }) => {
       setisData(res.data.data);
     }
   };
-
-  // const filterHead = async (type) => {
-  //   setloader(true);
-  //   axios.defaults.headers.get[
-  //     'Authorization'
-  //   ] = `Bearer ${sessionStorage.getItem('token')}`;
-
-  //   const res = await axios.get(
-  //     `${backendApiUrl}user/searchAllDonation?employeeid=${empId}&type=${type}&fromDate=${datefrom}&toDate=${dateto}`,
-  //   );
-
-  //   if (res.data.status) {
-  //     setloader(false);
-  //     setSearchHead(res.data.data);
-  //   }
-  // };
 
   useEffect(() => {
     filterdata();
@@ -179,6 +168,7 @@ const AllConsolidated = ({ setopendashboard }) => {
     setempId('');
     setisData('');
     setSearchHead('');
+    settype('');
   };
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
@@ -206,7 +196,7 @@ const AllConsolidated = ({ setopendashboard }) => {
       <AllReportTap setopendashboard={setopendashboard} />
 
       <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
-        <p>All Consolidated Report</p>
+        <p>All Head Report</p>
         <div>
           <div className="search-header">
             <div className="search-inner-div-reports">
@@ -244,20 +234,7 @@ const AllConsolidated = ({ setopendashboard }) => {
                     </option>
                   ))}
               </select>
-              <select
-                style={{ width: '14%' }}
-                value={empId}
-                name="empId"
-                onChange={(e) => setempId(e.target.value)}
-              >
-                <option value="">All User</option>
-                {empylist &&
-                  empylist.map((item, index) => (
-                    <option key={index} value={item.id}>
-                      {item.Username}
-                    </option>
-                  ))}
-              </select>
+
               <button onClick={() => filterdata()}>Search</button>
               <button onClick={() => resetbutn()}>Reset</button>
               <Tooltip title="Print">
@@ -296,12 +273,11 @@ const AllConsolidated = ({ setopendashboard }) => {
           >
             <TableHead style={{ background: '#FFEEE0' }}>
               <TableRow>
-                <TableCell>&nbsp; </TableCell>
                 <TableCell>
-                  Employee Name
+                  Head Name
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('employeeName')}
+                    onClick={() => sortData('TYPE')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -313,7 +289,7 @@ const AllConsolidated = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                {/* <TableCell>
+                <TableCell>
                   Online{' '}
                   <i
                     style={{ marginLeft: '0.5rem' }}
@@ -326,38 +302,6 @@ const AllConsolidated = ({ setopendashboard }) => {
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('CHEQUE_TOTAL_AMOUNT')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell> */}
-                <TableCell>
-                  Amount Cheque{' '}
-                  <i
-                    style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('manual_cheque_TOTAL_AMOUNT')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  Amount Electronic{' '}
-                  <i
-                    style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('manual_bank_TOTAL_AMOUNT')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  Amount Item{' '}
-                  <i
-                    style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('manual_item_TOTAL_AMOUNT')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  Amount Cash
-                  <i
-                    style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('manual_cash_TOTAL_AMOUNT')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -383,72 +327,17 @@ const AllConsolidated = ({ setopendashboard }) => {
                         '&:last-child td, &:last-child th': { border: 0 },
                       }}
                     >
-                      {' '}
-                      <TableCell>&nbsp;</TableCell>
-                      {/* <TableCell onClick={() => filterHead(row.type)}> */}
-                      <TableCell>
-                        {row.employeeName ? row.employeeName : '-'}
-                      </TableCell>
-                      <TableCell style={{ width: '9rem' }}>
-                        {row?.donationType == 'manual'
-                          ? 'Manual Donation'
-                          : 'Donation'}
-                      </TableCell>
-                      {/* <TableCell>
-                        {row.ONLINE_TOTAL_AMOUNT ? row.ONLINE_TOTAL_AMOUNT : ''}
+                      <TableCell onClick={() => filterHead(row.type)}>
+                        {row.type ? row.type : row.TYPE}
                       </TableCell>
                       <TableCell>
-                        {row.CHEQUE_TOTAL_AMOUNT ? row.CHEQUE_TOTAL_AMOUNT : ''}
-                      </TableCell> */}
-                      <TableCell>
-                        {row?.electric_cheque_TOTAL_AMOUNT &&
-                          row?.electric_cheque_TOTAL_AMOUNT}
-                        {row?.manual_cheque_TOTAL_AMOUNT &&
-                          row?.manual_cheque_TOTAL_AMOUNT}
-                        {row?.manual_cheque_TOTAL_AMOUNT === '' &&
-                          row?.manual_cheque_TOTAL_AMOUNT === '' &&
-                          '0'}
+                        {row?.donationType == 'manual' && 'Manual Donation'}
+                        {row?.donationType == 'electric' && 'Donation'}
+                        {row?.donationType == 'online' && 'online'}
                       </TableCell>
-                      <TableCell>
-                        {row?.manual_bank_TOTAL_AMOUNT &&
-                          row?.manual_bank_TOTAL_AMOUNT}
-                        {row?.electric_bank_TOTAL_AMOUNT &&
-                          row?.electric_bank_TOTAL_AMOUNT}
-
-                        {row?.electric_bank_TOTAL_AMOUNT === '' &&
-                          row?.electric_bank_TOTAL_AMOUNT === '' &&
-                          '0'}
-                      </TableCell>
-                      <TableCell>
-                        {row?.manual_item_TOTAL_AMOUNT &&
-                          row?.manual_item_TOTAL_AMOUNT}
-                        {row?.electric_item_TOTAL_AMOUNT &&
-                          row?.electric_item_TOTAL_AMOUNT}
-                        {row?.electric_item_TOTAL_AMOUNT === '' &&
-                          row?.electric_item_TOTAL_AMOUNT === '' &&
-                          '0'}
-                      </TableCell>
-                      <TableCell>
-                        {row?.manual_cash_TOTAL_AMOUNT &&
-                          row?.manual_cash_TOTAL_AMOUNT}
-                        {row?.electric_cash_TOTAL_AMOUNT &&
-                          row?.electric_cash_TOTAL_AMOUNT}
-                        {row?.electric_cash_TOTAL_AMOUNT === '' &&
-                          row?.electric_cash_TOTAL_AMOUNT === '' &&
-                          '0'}
-                      </TableCell>
-                      <TableCell>
-                        {row?.donationType == 'electric' &&
-                          parseFloat(row?.electric_cheque_TOTAL_AMOUNT) +
-                            parseFloat(row?.electric_bank_TOTAL_AMOUNT) +
-                            parseFloat(row?.electric_item_TOTAL_AMOUNT) +
-                            parseFloat(row?.electric_cash_TOTAL_AMOUNT)}
-                        {row?.donationType == 'manual' &&
-                          parseFloat(row?.manual_cheque_TOTAL_AMOUNT) +
-                            parseFloat(row?.manual_bank_TOTAL_AMOUNT) +
-                            parseFloat(row?.manual_item_TOTAL_AMOUNT) +
-                            parseFloat(row?.manual_cash_TOTAL_AMOUNT)}
-                      </TableCell>
+                      <TableCell>{row?.cheque ? row?.cheque : '0'}</TableCell>
+                      <TableCell>{row?.online ? row?.online : '0'}</TableCell>
+                      <TableCell>{row?.online ? row?.online : '0'}</TableCell>
                     </TableRow>
                   ))}
                 </>
@@ -457,27 +346,12 @@ const AllConsolidated = ({ setopendashboard }) => {
               )}
               <TableRow>
                 <TableCell> &nbsp;</TableCell>
-                <TableCell> &nbsp;</TableCell>
                 <TableCell style={{ fontWeight: 700 }}>Total</TableCell>
-                {/* <TableCell style={{ fontWeight: 700 }}>
-                  {<OnlineTotal data={isData} />}
-                </TableCell>
                 <TableCell style={{ fontWeight: 700 }}>
                   {<OnlineCHeque data={isData} />}
-                </TableCell> */}
-                <TableCell style={{ fontWeight: 700 }}>
-                  {<Chequestotal data={isData} />}
-                </TableCell>
-
-                <TableCell style={{ fontWeight: 700 }}>
-                  {<ElecTotal data={isData} />}
                 </TableCell>
                 <TableCell style={{ fontWeight: 700 }}>
-                  {<Itemtotal data={isData} />}
-                </TableCell>
-
-                <TableCell style={{ fontWeight: 700 }}>
-                  {<Cashtotal data={isData} />}
+                  {<OnlineTotal data={isData} />}
                 </TableCell>
 
                 <TableCell style={{ fontWeight: 700 }}>
@@ -493,7 +367,7 @@ const AllConsolidated = ({ setopendashboard }) => {
                   page={page}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
-                  rowsPerPageOptions={[5, 10, 25]}
+                  rowsPerPageOptions={[100, 200, 30000]}
                   labelRowsPerPage={<span>Rows:</span>}
                   labelDisplayedRows={({ page }) => {
                     return `Page: ${page}`;
@@ -512,140 +386,6 @@ const AllConsolidated = ({ setopendashboard }) => {
             </TableFooter>
           </Table>
         </div>
-
-        {SearchHead && (
-          <>
-            <div>
-              <p className="Cheque_text">Head Report</p>
-              <img
-                src={Print}
-                alt="jj"
-                style={{ width: '25px', marginRight: '2rem' }}
-              />
-              <img
-                onClick={() => ExportToExcel1()}
-                src={ExportExcel}
-                alt="jj"
-                style={{ width: '25px', marginRight: '2rem' }}
-              />
-              <img
-                onClick={() => ExportPdfmanul(isData, 'HeadReport')}
-                src={ExportPdf}
-                alt="jj"
-                style={{ width: '25px', marginRight: '1rem' }}
-              />
-            </div>
-            <div className="table-div-">
-              <Table
-                sx={{ minWidth: 650, width: '100%' }}
-                aria-label="simple table"
-              >
-                <TableHead style={{ background: '#FFEEE0' }}>
-                  <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>ReceiptNo</TableCell>
-
-                    <TableCell>VoucherNo</TableCell>
-                    <TableCell>Phone No</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Address</TableCell>
-                    <TableCell>Head/Item</TableCell>
-                    <TableCell>Amount</TableCell>
-
-                    <TableCell>Remark</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {SearchHead ? (
-                    <>
-                      {(rowsPerPage > 0
-                        ? SearchHead.slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage,
-                          )
-                        : SearchHead
-                      ).map((row, index) => (
-                        <TableRow
-                          key={row.id}
-                          sx={{
-                            '&:last-child td, &:last-child th': { border: 0 },
-                          }}
-                        >
-                          <TableCell>
-                            {Moment(row.donation_date).format('DD/MM/YYYY')}
-                          </TableCell>
-                          <TableCell>{row.ReceiptNo}</TableCell>
-
-                          <TableCell>{row.voucherNo}</TableCell>
-                          <TableCell>{row.phoneNo}</TableCell>
-                          <TableCell>{row.name}</TableCell>
-                          <TableCell> {row.address}</TableCell>
-                          <TableCell>
-                            {row.elecItemDetails.map((row) => {
-                              return (
-                                <li style={{ listStyle: 'none' }}>
-                                  {row.type}
-                                </li>
-                              );
-                            })}
-                          </TableCell>
-                          <TableCell>
-                            {row.elecItemDetails.reduce(
-                              (n, { amount }) =>
-                                parseFloat(n) + parseFloat(amount),
-                              0,
-                            )}
-                          </TableCell>
-
-                          <TableCell>
-                            {row.elecItemDetails.map((row) => {
-                              return (
-                                <li style={{ listStyle: 'none' }}>
-                                  {row.remark}{' '}
-                                </li>
-                              );
-                            })}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </>
-                  ) : (
-                    <>
-                      <TableCell colSpan={8} align="center">
-                        <ReactSpinner />
-                      </TableCell>
-                    </>
-                  )}
-                </TableBody>
-                <TableFooter>
-                  <TableRow>
-                    <TablePagination
-                      count={SearchHead.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                      rowsPerPageOptions={[100, 200, 300000]}
-                      labelRowsPerPage={<span>Rows:</span>}
-                      labelDisplayedRows={({ page }) => {
-                        return `Page: ${page}`;
-                      }}
-                      backIconButtonProps={{
-                        color: 'secondary',
-                      }}
-                      nextIconButtonProps={{ color: 'secondary' }}
-                      SelectProps={{
-                        inputProps: {
-                          'aria-label': 'page number',
-                        },
-                      }}
-                    />
-                  </TableRow>
-                </TableFooter>
-              </Table>
-            </div>
-          </>
-        )}
       </div>
 
       {loader && <LoadingSpinner1 />}
@@ -653,4 +393,4 @@ const AllConsolidated = ({ setopendashboard }) => {
   );
 };
 
-export default AllConsolidated;
+export default AllOnline;

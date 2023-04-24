@@ -89,6 +89,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
               </span>
             </div>
           </div>
+
           <div className="reciptimg">
             <div className="reciptbody">
               <div className="leftdata">
