@@ -124,6 +124,7 @@ const donationColorTheme = {
 
 const ManualCash = ({ setopendashboard }) => {
   const navigation = useNavigate();
+  const [emproleid, setemproleid] = useState('');
   const [loader, setloader] = useState(false);
   const [emplist, setemplist] = useState('');
   const [isData, setisData] = React.useState('');
@@ -321,6 +322,7 @@ const ManualCash = ({ setopendashboard }) => {
     setopendashboard(true);
     get_donation_tyeps();
     setuserrole(Number(sessionStorage.getItem('userrole')));
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
   }, [showalert, openupdate, open]);
   const onSearchByOther = (e, type) => {
     if (type === 'Date') {
@@ -959,7 +961,7 @@ const ManualCash = ({ setopendashboard }) => {
                           />
                         </Tooltip>
 
-                        {userrole === 1 && (
+                        {userrole === 1 || emproleid === 0 ? (
                           <Tooltip title="Edit Donation">
                             <img
                               onClick={() => upadteOpen(row)}
@@ -968,6 +970,8 @@ const ManualCash = ({ setopendashboard }) => {
                               style={{ width: '20px', marginRight: '2px' }}
                             />
                           </Tooltip>
+                        ) : (
+                          ''
                         )}
 
                         <Tooltip title="Print Certificate">
@@ -993,10 +997,12 @@ const ManualCash = ({ setopendashboard }) => {
                         ) : (
                           <ClearIcon />
                         )}
-                        {userrole === 1 && (
+                        {userrole === 1 || emproleid === 0 ? (
                           <Tooltip title="Cancel Certificate">
                             <CancelIcon onClick={() => handleOpen(row?.id)} />
                           </Tooltip>
+                        ) : (
+                          ''
                         )}
                       </TableCell>
                     </TableRow>

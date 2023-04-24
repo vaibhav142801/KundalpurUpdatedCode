@@ -124,6 +124,7 @@ const donationColorTheme = {
 };
 const Electornic = ({ setopendashboard }) => {
   let filterData;
+
   const [loader, setloader] = useState(false);
   const [empid, setempid] = useState('');
   const [emproleid, setemproleid] = useState('');
@@ -1093,7 +1094,7 @@ const Electornic = ({ setopendashboard }) => {
                           style={{ width: '20px', marginRight: '2px' }}
                         />
 
-                        {userrole === 1 && (
+                        {userrole === 1 || emproleid === 0 ? (
                           <Tooltip title="Edit Donation">
                             <img
                               onClick={() => upadteOpen(row)}
@@ -1102,6 +1103,8 @@ const Electornic = ({ setopendashboard }) => {
                               style={{ width: '20px', marginRight: '2px' }}
                             />
                           </Tooltip>
+                        ) : (
+                          ''
                         )}
                         {emproleid === 7 && (
                           <Tooltip title="Edit Donation">
@@ -1136,10 +1139,12 @@ const Electornic = ({ setopendashboard }) => {
                         ) : (
                           <ClearIcon />
                         )}
-                        {userrole === 1 && (
+                        {userrole === 1 || emproleid === 0 ? (
                           <Tooltip title="Cancel Certificate">
                             <CancelIcon onClick={() => handleOpen(row?.id)} />
                           </Tooltip>
+                        ) : (
+                          ''
                         )}
                       </TableCell>
                     </TableRow>

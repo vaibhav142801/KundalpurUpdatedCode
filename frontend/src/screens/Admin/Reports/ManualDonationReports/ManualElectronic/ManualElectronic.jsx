@@ -133,6 +133,7 @@ const donationColorTheme = {
 const ManualElectronic = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const [loader, setloader] = useState(false);
+  const [emproleid, setemproleid] = useState('');
   const [emplist, setemplist] = useState('');
   const [isData, setisData] = React.useState('');
   const [isDataDummy, setisDataDummy] = React.useState([]);
@@ -345,6 +346,7 @@ const ManualElectronic = ({ setopendashboard }) => {
     setopendashboard(true);
     get_donation_tyeps();
     setuserrole(Number(sessionStorage.getItem('userrole')));
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
   }, [showalert, openupdate, open]);
 
   const onSearchByOther = (e, type) => {
@@ -1105,7 +1107,7 @@ const ManualElectronic = ({ setopendashboard }) => {
                         })}
                       </TableCell>
                       <TableCell>
-                        {userrole === 1 && (
+                        {userrole === 1 || emproleid === 0 ? (
                           <Tooltip title="Edit">
                             <img
                               onClick={() => upadteOpen(row)}
@@ -1114,6 +1116,8 @@ const ManualElectronic = ({ setopendashboard }) => {
                               style={{ width: '20px', marginRight: '2px' }}
                             />
                           </Tooltip>
+                        ) : (
+                          ''
                         )}
                         <Tooltip title="Print">
                           <img
@@ -1141,7 +1145,7 @@ const ManualElectronic = ({ setopendashboard }) => {
                         ) : (
                           <ClearIcon />
                         )}
-                        {userrole === 1 && (
+                        {userrole === 1 || emproleid === 0 ? (
                           <Tooltip title="Delete">
                             <img
                               src={Delete}
@@ -1150,6 +1154,8 @@ const ManualElectronic = ({ setopendashboard }) => {
                               alt="dd"
                             />
                           </Tooltip>
+                        ) : (
+                          ''
                         )}
                       </TableCell>
                     </TableRow>

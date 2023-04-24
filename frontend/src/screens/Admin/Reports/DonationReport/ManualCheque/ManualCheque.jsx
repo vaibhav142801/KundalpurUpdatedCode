@@ -123,6 +123,7 @@ const donationColorTheme = {
   cheque: '#1C82AD',
 };
 const ManualCheque = ({ setopendashboard }) => {
+  const [emproleid, setemproleid] = useState('');
   const [loader, setloader] = useState(false);
   const [emplist, setemplist] = useState('');
   const [isData, setisData] = React.useState('');
@@ -327,6 +328,7 @@ const ManualCheque = ({ setopendashboard }) => {
     setopendashboard(true);
     get_donation_tyeps();
     setuserrole(Number(sessionStorage.getItem('userrole')));
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
   }, [showalert, open, openupdate]);
   const onSearchByOther = (e, type) => {
     if (type === 'Date') {
@@ -1055,13 +1057,15 @@ const ManualCheque = ({ setopendashboard }) => {
                           style={{ width: '20px', marginRight: '2px' }}
                         />
 
-                        {userrole === 1 && (
+                        {userrole === 1 || emproleid === 0 ? (
                           <img
                             onClick={() => upadteOpen(row)}
                             src={Edit}
                             alt="print"
                             style={{ width: '20px', marginRight: '2px' }}
                           />
+                        ) : (
+                          ''
                         )}
 
                         <img
@@ -1085,8 +1089,10 @@ const ManualCheque = ({ setopendashboard }) => {
                         ) : (
                           <ClearIcon />
                         )}
-                        {userrole === 1 && (
+                        {userrole === 1 || emproleid === 0 ? (
                           <CancelIcon onClick={() => handleOpen(row?.id)} />
+                        ) : (
+                          ''
                         )}
                       </TableCell>
                     </TableRow>

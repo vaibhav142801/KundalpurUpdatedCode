@@ -125,6 +125,7 @@ const donationColorTheme = {
 };
 const Itemdonation = ({ setopendashboard }) => {
   const [loader, setloader] = useState(false);
+  const [emproleid, setemproleid] = useState('');
   const [emplist, setemplist] = useState('');
   const [isData, setisData] = React.useState('');
   const [isDataDummy, setisDataDummy] = React.useState([]);
@@ -327,6 +328,7 @@ const Itemdonation = ({ setopendashboard }) => {
     setopendashboard(true);
     get_donation_tyeps();
     setuserrole(Number(sessionStorage.getItem('userrole')));
+    setemproleid(Number(sessionStorage.getItem('empRoleid')));
   }, [showalert, open, openupdate]);
 
   const onSearchByOther = (e, type) => {
@@ -1192,13 +1194,15 @@ const Itemdonation = ({ setopendashboard }) => {
                           style={{ width: '20px', marginRight: '2px' }}
                         />
 
-                        {userrole === 1 && (
+                        {userrole === 1 || emproleid === 0 ? (
                           <img
                             onClick={() => upadteOpen(row)}
                             src={Edit}
                             alt="print"
                             style={{ width: '20px', marginRight: '2px' }}
                           />
+                        ) : (
+                          ''
                         )}
 
                         <img
@@ -1222,8 +1226,10 @@ const Itemdonation = ({ setopendashboard }) => {
                         ) : (
                           <ClearIcon />
                         )}
-                        {userrole === 1 && (
+                        {userrole === 1 || emproleid === 0 ? (
                           <CancelIcon onClick={() => handleOpen(row?.id)} />
+                        ) : (
+                          ''
                         )}
                       </TableCell>
                     </TableRow>
