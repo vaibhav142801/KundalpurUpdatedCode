@@ -132,7 +132,7 @@ function Holdfrom({ setOpen }) {
   const checkavailability = async () => {
     setshowloader1(true);
     serverInstance(
-      `room/check-room-catg?hotelName=${dharamshalaname}&category=${categoryname}`,
+      `room/check-room-catg?hotelName=${dharamshalaname}&category=${categoryname}& Hold_since=${holdsince}&hold_remain=${holdremain}`,
       'get',
     ).then((res) => {
       console.log('roooms list', res.data);
@@ -191,174 +191,6 @@ function Holdfrom({ setOpen }) {
       </Box>
       <div className="cash-donation-div">
         <div className="cash-donation-container-innser">
-          <div className="form-div" style={{ marginBottom: '1rem' }}>
-            <div className="form-input-div_add_user">
-              <div className="inner-input-div2">
-                <label style={{ marginBottom: '0.3rem' }} htmlFor="rate">
-                  Dharamshala
-                </label>
-                <Select
-                  id="donation-type"
-                  required
-                  sx={{
-                    width: '280px',
-                    fontSize: 14,
-                    '& .MuiSelect-select': {
-                      // borderColor: !!formerror.donationtype ? 'red' : '',
-                      padding: '10px 0px 10px 10px',
-                      background: '#fff',
-                    },
-                  }}
-                  value={dharamshalaname}
-                  name="dharamshalaname"
-                  onChange={(e) => setdharamshalaname(e.target.value)}
-                  displayEmpty
-                >
-                  <MenuItem
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={''}
-                  >
-                    Please select
-                  </MenuItem>
-                  {Dharamshala
-                    ? Dharamshala.map((item, index) => {
-                        return (
-                          <MenuItem
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            key={item?.dharmasala_id}
-                            value={item?.dharmasala_id}
-                          >
-                            {item?.name}
-                          </MenuItem>
-                        );
-                      })
-                    : ''}
-                </Select>
-              </div>
-
-              <div className="inner-input-div2">
-                <label style={{ marginBottom: '0.3rem' }} htmlFor="advncerate">
-                  Category
-                </label>
-                <Select
-                  id="donation-type"
-                  required
-                  sx={{
-                    width: '280px',
-                    fontSize: 14,
-                    '& .MuiSelect-select': {
-                      // borderColor: !!formerror.donationtype ? 'red' : '',
-                      padding: '10px 0px 10px 10px',
-                      background: '#fff',
-                    },
-                  }}
-                  value={categoryname}
-                  name="categoryname"
-                  onChange={(e) => setcategoryname(e.target.value)}
-                  displayEmpty
-                >
-                  <MenuItem
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={''}
-                  >
-                    Please select
-                  </MenuItem>
-                  {category &&
-                    category.map((item) => {
-                      return (
-                        <MenuItem
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          key={item?.category_id}
-                          value={item?.category_id}
-                        >
-                          {item?.name}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
-              </div>
-
-              <div className="inner-input-div2">
-                <label style={{ marginBottom: '0.3rem' }} htmlFor="toNo">
-                  &nbsp;
-                </label>
-                <button
-                  onClick={() => checkavailability()}
-                  className="check_babbs_btn"
-                >
-                  {showloader1 ? (
-                    <CircularProgress
-                      style={{ width: '21px', height: '21px' }}
-                    />
-                  ) : (
-                    ' Check Availability'
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-          {roomlist ? (
-            <>
-              <div className="tablescrollbarss">
-                <table className="table_ddd">
-                  <tbody>
-                    <tr>
-                      <td className="table_tddd">Booked</td>
-                      <td className="table_tddd">Room No</td>
-                      <td className="table_tddd">Room Rent</td>
-                      <td className="table_tddd">Advance Deposit</td>
-                      <td className="table_tddd">Dharamshala</td>
-                      <td className="table_tddd">Category</td>
-                      <td className="table_tddd">Facility</td>
-                      <td className="table_tddd">Time</td>
-                    </tr>
-                    {roomlist &&
-                      roomlist.map((item, index) => {
-                        return (
-                          <tr>
-                            <td className="table_tddd">
-                              <input
-                                type="radio"
-                                name="anil"
-                                onClick={() => setroomnumber(item?.RoomNo)}
-                              />
-                            </td>
-                            <td className="table_tddd">{item?.RoomNo}</td>
-                            <td className="table_tddd">{item?.Rate}</td>
-                            <td className="table_tddd">{item?.advance}</td>
-                            <td className="table_tddd">
-                              {item?.dharmasala && item?.dharmasala.name}
-                            </td>
-                            <td className="table_tddd">
-                              {item?.category_name}
-                            </td>
-                            <td className="table_tddd">
-                              {item?.facility_name.map((element) => (
-                                <span style={{ marginRight: '5px' }}>
-                                  {element}
-                                </span>
-                              ))}
-                            </td>
-                            <td className="table_tddd">Auto</td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </table>
-              </div>
-            </>
-          ) : (
-            ''
-          )}
-
           <div className="form-div" style={{ marginBottom: '1rem' }}>
             <div className="form-input-div_add_user">
               {lan ? (
@@ -538,7 +370,173 @@ function Holdfrom({ setOpen }) {
               )}
             </div>
           </div>
+          <div className="form-div" style={{ marginBottom: '1rem' }}>
+            <div className="form-input-div_add_user">
+              <div className="inner-input-div2">
+                <label style={{ marginBottom: '0.3rem' }} htmlFor="rate">
+                  Dharamshala
+                </label>
+                <Select
+                  id="donation-type"
+                  required
+                  sx={{
+                    width: '280px',
+                    fontSize: 14,
+                    '& .MuiSelect-select': {
+                      // borderColor: !!formerror.donationtype ? 'red' : '',
+                      padding: '10px 0px 10px 10px',
+                      background: '#fff',
+                    },
+                  }}
+                  value={dharamshalaname}
+                  name="dharamshalaname"
+                  onChange={(e) => setdharamshalaname(e.target.value)}
+                  displayEmpty
+                >
+                  <MenuItem
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={''}
+                  >
+                    Please select
+                  </MenuItem>
+                  {Dharamshala
+                    ? Dharamshala.map((item, index) => {
+                        return (
+                          <MenuItem
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            key={item?.dharmasala_id}
+                            value={item?.dharmasala_id}
+                          >
+                            {item?.name}
+                          </MenuItem>
+                        );
+                      })
+                    : ''}
+                </Select>
+              </div>
 
+              <div className="inner-input-div2">
+                <label style={{ marginBottom: '0.3rem' }} htmlFor="advncerate">
+                  Category
+                </label>
+                <Select
+                  id="donation-type"
+                  required
+                  sx={{
+                    width: '280px',
+                    fontSize: 14,
+                    '& .MuiSelect-select': {
+                      // borderColor: !!formerror.donationtype ? 'red' : '',
+                      padding: '10px 0px 10px 10px',
+                      background: '#fff',
+                    },
+                  }}
+                  value={categoryname}
+                  name="categoryname"
+                  onChange={(e) => setcategoryname(e.target.value)}
+                  displayEmpty
+                >
+                  <MenuItem
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={''}
+                  >
+                    Please select
+                  </MenuItem>
+                  {category &&
+                    category.map((item) => {
+                      return (
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          key={item?.category_id}
+                          value={item?.category_id}
+                        >
+                          {item?.name}
+                        </MenuItem>
+                      );
+                    })}
+                </Select>
+              </div>
+
+              <div className="inner-input-div2">
+                <label style={{ marginBottom: '0.3rem' }} htmlFor="toNo">
+                  &nbsp;
+                </label>
+                <button
+                  onClick={() => checkavailability()}
+                  className="check_babbs_btn"
+                >
+                  {showloader1 ? (
+                    <CircularProgress
+                      style={{ width: '21px', height: '21px' }}
+                    />
+                  ) : (
+                    ' Check Availability'
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+          {roomlist ? (
+            <>
+              <div className="tablescrollbarss">
+                <table className="table_ddd">
+                  <tbody>
+                    <tr>
+                      <td className="table_tddd">Booked</td>
+                      <td className="table_tddd">Room No</td>
+                      <td className="table_tddd">Room Rent</td>
+                      <td className="table_tddd">Advance Deposit</td>
+                      <td className="table_tddd">Dharamshala</td>
+                      <td className="table_tddd">Category</td>
+                      <td className="table_tddd">Facility</td>
+                      <td className="table_tddd">Time</td>
+                    </tr>
+                    {roomlist &&
+                      roomlist.map((item, index) => {
+                        return (
+                          <tr>
+                            <td className="table_tddd">
+                              <input
+                                type="radio"
+                                name="anil"
+                                onClick={() => setroomnumber(item?.RoomNo)}
+                              />
+                            </td>
+                            <td className="table_tddd">{item?.RoomNo}</td>
+                            <td className="table_tddd">{item?.Rate}</td>
+                            <td className="table_tddd">{item?.advance}</td>
+                            <td className="table_tddd">
+                              {item?.dharmasala && item?.dharmasala.name}
+                            </td>
+                            <td className="table_tddd">
+                              {item?.category_name}
+                            </td>
+                            <td className="table_tddd">
+                              {item?.facility_name.map((element) => (
+                                <span style={{ marginRight: '5px' }}>
+                                  {element}
+                                </span>
+                              ))}
+                            </td>
+                            <td className="table_tddd">Auto</td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          ) : (
+            ''
+          )}
           <div className="save-div-btn">
             <button onClick={() => handlesubmit()} className="save-div-btn-btn">
               {showloader ? (
