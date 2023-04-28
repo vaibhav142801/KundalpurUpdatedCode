@@ -26,7 +26,7 @@ const AllReportTap = ({ setopendashboard }) => {
                     src={f1}
                     alt="fast"
                   />
-                  Consolidated(Electronic)
+                  Consolidated
                 </NavLink>
               </>
             ) : (
@@ -41,7 +41,7 @@ const AllReportTap = ({ setopendashboard }) => {
                     src={f1}
                     alt="fast"
                   />
-                  Head Report(Electronic)
+                  Head Report
                 </NavLink>
 
                 <NavLink
@@ -54,7 +54,7 @@ const AllReportTap = ({ setopendashboard }) => {
                     src={f1}
                     alt="fast"
                   />
-                  Consolidated(Electronic)
+                  Consolidated
                 </NavLink>
                 <NavLink
                   style={{ width: '20rem' }}

@@ -306,8 +306,8 @@ const AddRoom = ({ setopendashboard }) => {
             </Tooltip>
             &nbsp;&nbsp;
           </div>
-        </div>{' '}
-        mobile name roomNo since remain approvedBy remarks
+        </div>
+
         <div className="table-div-maain">
           <Table
             sx={{ minWidth: 650, width: '100%' }}

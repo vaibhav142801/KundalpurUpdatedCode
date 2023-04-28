@@ -243,15 +243,6 @@ function RoomBookingscreen() {
       errors.state = 'Sate is required';
     }
 
-    if (!maleno) {
-      errors.maleno = 'Required';
-    }
-    if (!femaleno) {
-      errors.femaleno = 'Required';
-    }
-    if (!childrenno) {
-      errors.childrenno = 'Required';
-    }
     if (!roomno) {
       errors.roomno = 'No of rooms is required';
     }

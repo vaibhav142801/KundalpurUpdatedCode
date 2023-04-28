@@ -63,6 +63,7 @@ const ChequeDonation = ({
     },
   });
   const navigation = useNavigate();
+  const [receipterror, setreceipterror] = useState('');
   const [hindiremark, sethindiremark] = useState('');
   const [donationTypes, setDonationTypes] = useState([]);
   const [receiptNo, setReceiptNo] = useState('');
@@ -225,13 +226,15 @@ const ChequeDonation = ({
             },
           });
         } else {
+          handleClose();
           setshowloader(false);
           Swal.fire('Error!', 'Somthing went wrong!!', 'error');
         }
       }
     } catch (error) {
+      console.log(error.response.data.message);
+      setreceipterror(error.response.data.message);
       setshowloader(false);
-      Swal.fire('Error!', 'Somthing went wrong!!', 'error');
     }
   };
 
@@ -339,6 +342,12 @@ const ChequeDonation = ({
                   setReceiptNo(event.target.value);
                 }}
               />
+            </Grid>
+            <Grid item xs={6} md={3}>
+              <CustomInputLabel htmlFor="receiptNo">&nbsp;</CustomInputLabel>
+              <Typography variant="body2" style={{ color: 'red' }} align="left">
+                {receipterror && receipterror}
+              </Typography>
             </Grid>
           </Grid>
           <Grid container rowSpacing={2} columnSpacing={5}>

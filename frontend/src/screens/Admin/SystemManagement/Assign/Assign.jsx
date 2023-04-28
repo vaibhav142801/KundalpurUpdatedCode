@@ -16,6 +16,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import AcceptRequest from './AcceptRequest';
 import SystemTap from '../SystemTap';
 import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import './Assign.css';
 const style = {
   position: 'absolute',
@@ -29,18 +35,45 @@ const style = {
   borderRadius: '5px',
 };
 const Assign = ({ setopendashboard }) => {
+  const navigation = useNavigate();
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = React.useState(false);
   const [empdata, setempdata] = useState('');
+  const [deleteId, setdeleteId] = useState('');
+  const [open2, setOpen2] = React.useState(false);
   const handleOpen = (data) => {
     setOpen(true);
     setempdata(data);
   };
   const handleClose = () => setOpen(false);
-  const navigation = useNavigate();
-  console.log('ass', isData);
+
+  const handleClickOpen = (id) => {
+    setOpen2(true);
+    setdeleteId(id);
+  };
+
+  const handleClose2 = () => {
+    setOpen2(false);
+    serverInstance('admin/delete-voucher', 'DELETE', {
+      id: deleteId,
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.status) {
+          Swal.fire('Great!', res?.data, 'success');
+          getall_donation();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleClose3 = () => {
+    setOpen2(false);
+  };
 
   const getall_donation = () => {
     serverInstance('user/get-req-voucher', 'get').then((res) => {
@@ -87,6 +120,27 @@ const Assign = ({ setopendashboard }) => {
   };
   return (
     <>
+      <Dialog
+        open={open2}
+        onClose={handleClose2}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {'Do you want to delete'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            After delete you cannot get again
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose3}>Disagree</Button>
+          <Button onClick={handleClose2} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -164,7 +218,14 @@ const Assign = ({ setopendashboard }) => {
                       onClick={() => handleOpen(row)}
                       className="Accepted_btn"
                     >
-                      Accepted
+                      Accept
+                    </button>
+                    <button
+                      style={{ marginLeft: '1rem', background: 'red' }}
+                      onClick={() => handleClickOpen(row.id)}
+                      className="Accepted_btn"
+                    >
+                      Delete
                     </button>
                   </TableCell>
                 </TableRow>

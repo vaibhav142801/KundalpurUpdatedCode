@@ -973,10 +973,10 @@ function PrintAlladmin({ handleClose }) {
                       <th>Cheque</th>
                       <th>Total</th>
                     </tr>
-                    {isData4 && (
+                    {isData5 && (
                       <>
-                        {isData4 &&
-                          isData4.map((row, index) => (
+                        {isData5 &&
+                          isData5.map((row, index) => (
                             <tr
                               key={index}
                               className="margintop_add"

@@ -20,11 +20,7 @@ import AllReportTap from '../AllReport/AllReportTap';
 import 'react-spinning-wheel/dist/style.css';
 import { useReactToPrint } from 'react-to-print';
 import OnlineTotal from '../AllReport/Totals/OnlineTotal';
-import ChequeTotal from '../AllReport/Totals/ChequeTotal';
-import Chequestotal from '../AllReport/Totals/ChequeTotal';
-import Cashtotal from '../AllReport/Totals/Cashtotal';
-import ElecTotal from '../AllReport/Totals/ElecTotal';
-import Itemtotal from '../AllReport/Totals/Itemtotal';
+import OnlineAllTotal from '../AllReport/Totals/OnlineAllTotal';
 import OnlineCHeque from '../AllReport/Totals/OnlineCHeque';
 import AllTotal from '../AllReport/Totals/AllTotal';
 import Tooltip from '@mui/material/Tooltip';
@@ -138,6 +134,7 @@ const AllOnline = ({ setopendashboard }) => {
       });
     exportFromJSON({ data, fileName, exportType });
   };
+
   const filterdata = async () => {
     setloader(true);
     axios.defaults.headers.get[
@@ -145,7 +142,7 @@ const AllOnline = ({ setopendashboard }) => {
     ] = `Bearer ${sessionStorage.getItem('token')}`;
 
     const res = await axios.get(
-      `${backendApiUrl}admin/centralized-report?user=${empId}&fromDate=${datefrom}&toDate=${dateto}&type=${type}`,
+      `${backendApiUrl}admin/get-online-report?fromDate=${datefrom}&toDate=${dateto}&type=${type}`,
     );
 
     if (res.data.data) {
@@ -163,12 +160,12 @@ const AllOnline = ({ setopendashboard }) => {
   }, []);
 
   const resetbutn = () => {
-    setdatefrom('');
     setdateto('');
-    setempId('');
-    setisData('');
+
+    setdatefrom('');
     setSearchHead('');
     settype('');
+    filterdata();
   };
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
@@ -330,14 +327,12 @@ const AllOnline = ({ setopendashboard }) => {
                       <TableCell onClick={() => filterHead(row.type)}>
                         {row.type ? row.type : row.TYPE}
                       </TableCell>
-                      <TableCell>
-                        {row?.donationType == 'manual' && 'Manual Donation'}
-                        {row?.donationType == 'electric' && 'Donation'}
-                        {row?.donationType == 'online' && 'online'}
-                      </TableCell>
+                      <TableCell>{row?.donationType}</TableCell>
+                      <TableCell>{row?.online ? row?.online : '0'}</TableCell>
                       <TableCell>{row?.cheque ? row?.cheque : '0'}</TableCell>
-                      <TableCell>{row?.online ? row?.online : '0'}</TableCell>
-                      <TableCell>{row?.online ? row?.online : '0'}</TableCell>
+                      <TableCell>
+                        {Number(row?.online) + Number(row?.cheque)}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </>
@@ -355,7 +350,7 @@ const AllOnline = ({ setopendashboard }) => {
                 </TableCell>
 
                 <TableCell style={{ fontWeight: 700 }}>
-                  {<AllTotal data={isData} />}
+                  {<OnlineAllTotal data={isData} />}
                 </TableCell>
               </TableRow>
             </TableBody>

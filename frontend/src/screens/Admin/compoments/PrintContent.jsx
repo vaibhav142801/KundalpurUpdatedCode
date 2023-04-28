@@ -655,7 +655,7 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                   </div>
                 </>
               )}
-              <div className="main_print_div" style={{ marginTop: '6rem' }}>
+              <div className="main_print_div" style={{ marginTop: '8rem' }}>
                 <div>
                   <p className="common_margin_pp">
                     <span className="gray-tedxt">
@@ -1204,7 +1204,6 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                     <p> &nbsp;</p>
                     <p> &nbsp;</p>
                     <p> &nbsp;</p>
-
                     <p> &nbsp;</p>
                     <p> &nbsp;</p>
                     <p> &nbsp;</p>
@@ -1212,6 +1211,8 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                   </>
                 ) : (
                   <>
+                    <p> &nbsp;</p>
+                    <p> &nbsp;</p>
                     <p> &nbsp;</p>
                     <p> &nbsp;</p>
                     <p> &nbsp;</p>

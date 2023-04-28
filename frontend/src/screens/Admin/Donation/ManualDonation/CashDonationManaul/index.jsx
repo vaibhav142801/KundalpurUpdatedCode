@@ -62,21 +62,15 @@ const CashDonation = ({
     },
   });
   const navigation = useNavigate();
-
-  const [text, setText] = useState('');
-  const [addText, setaddText] = useState('');
+  const [receipterror, setreceipterror] = useState('');
   const [hindiremark, sethindiremark] = useState('');
   const [donationTypes, setDonationTypes] = useState([]);
   const [receiptNo, setReceiptNo] = useState('');
-  const [voucher, setvoucher] = useState('');
   const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
-  const [transactionNo, setTransactionNo] = useState('');
-  const [bankName, setBankName] = useState('');
   const [newMember, setNewMember] = useState(false);
   const [mobileNo, setMobileNo] = useState('');
   const [fetchuserdetail, setfetchuserdetail] = useState(true);
-  const [formerror, setFormerror] = useState({});
   const [genderp, setgenderp] = useState('श्री');
   const [genderp1, setgenderp1] = useState('SHRI');
   const [showloader, setshowloader] = useState(false);
@@ -206,27 +200,32 @@ const CashDonation = ({
         let totalamount = donationItems?.amount
           ? donationItems?.amount
           : donationItems &&
-            donationItems.reduce(
+            donationItems?.reduce(
               (n, { amount }) => parseFloat(n) + parseFloat(amount),
               0,
             );
 
+        console.log('res manual donation', res);
         if (res.data.status === true) {
           setshowloader(false);
           navigation('/manualreceipt', {
             state: {
-              userdata: res.data.data.data,
+              userdata: res?.data?.data?.data,
             },
           });
           handleClose();
 
-          sendsms(totalamount, res.data.data.data.ReceiptNo);
+          sendsms(totalamount, res?.data?.data?.data?.ReceiptNo);
         } else {
           setshowloader(false);
           Swal.fire('Error!', 'Somthing went wrong!!', 'error');
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error.response.data.message);
+      setreceipterror(error.response.data.message);
+      setshowloader(false);
+    }
   };
 
   const sendsms = async (totalamount, ReceiptNo) => {
@@ -345,6 +344,13 @@ const CashDonation = ({
                   setReceiptNo(event.target.value);
                 }}
               />
+            </Grid>
+
+            <Grid item xs={6} md={3}>
+              <CustomInputLabel htmlFor="receiptNo">&nbsp;</CustomInputLabel>
+              <Typography variant="body2" style={{ color: 'red' }} align="left">
+                {receipterror && receipterror}
+              </Typography>
             </Grid>
           </Grid>
 

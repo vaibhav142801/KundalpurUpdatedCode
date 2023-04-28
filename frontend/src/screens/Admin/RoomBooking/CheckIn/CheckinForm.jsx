@@ -89,6 +89,7 @@ const idproff = [
 ];
 
 function CheckinForm({ setOpen }) {
+  const [showpayOption, setshowpayOption] = useState(false);
   const [showloader1, setshowloader1] = useState(false);
   const [fullname, setfullname] = useState('');
   const [email, setemail] = useState('');
@@ -464,12 +465,12 @@ function CheckinForm({ setOpen }) {
                 <div>
                   <div className="date_and_time_div">
                     <div className="inpur_div_room">
-                      <label htmlFor="date">Date</label>
+                      <label htmlFor="donation-time">Date</label>
                       <CustomInput
                         style={{ width: '80%' }}
                         type="date"
                         required
-                        id="date"
+                        id="donation-time"
                         name="date"
                         value={date}
                         onChange={(e) => setdate(e.target.value)}
@@ -477,10 +478,10 @@ function CheckinForm({ setOpen }) {
                     </div>
 
                     <div className="inpur_div_room">
-                      <label htmlFor="time">Time</label>
+                      <label htmlFor="donation-time">Time</label>
                       <CustomInput
-                        style={{ width: '95%' }}
-                        id="time"
+                        style={{ width: '100%' }}
+                        id="donation-time"
                         type="time"
                         required
                         name="time"

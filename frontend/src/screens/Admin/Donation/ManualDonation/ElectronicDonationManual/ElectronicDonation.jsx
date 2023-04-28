@@ -66,6 +66,7 @@ const ElectronicDonation = ({
     },
   });
   const navigation = useNavigate();
+  const [receipterror, setreceipterror] = useState('');
   const [hindiremark, sethindiremark] = useState('');
   const [donationTypes, setDonationTypes] = useState([]);
   const [receiptNo, setReceiptNo] = useState('');
@@ -218,7 +219,7 @@ const ElectronicDonation = ({
         if (res.data.status === true) {
           setshowalert(true);
           handleClose();
-          sendsms(totalamount, res.data.data.data.ReceiptNo);
+          sendsms(totalamount, res?.data?.data?.data?.ReceiptNo);
           navigation('/manualreceipt', {
             state: {
               userdata: res.data.data.data,
@@ -227,7 +228,9 @@ const ElectronicDonation = ({
         }
       }
     } catch (error) {
-      Swal.fire('Error!', 'Somthing went wrong!!', 'error');
+      console.log(error.response.data.message);
+      setreceipterror(error.response.data.message);
+      setshowloader(false);
     }
   };
   const validate = (name, amount, phoneNo, donationtype) => {
@@ -351,6 +354,13 @@ const ElectronicDonation = ({
                   setReceiptNo(event.target.value);
                 }}
               />
+            </Grid>
+
+            <Grid item xs={6} md={3}>
+              <CustomInputLabel htmlFor="receiptNo">&nbsp;</CustomInputLabel>
+              <Typography variant="body2" style={{ color: 'red' }} align="left">
+                {receipterror && receipterror}
+              </Typography>
             </Grid>
           </Grid>
           <Grid container rowSpacing={2} columnSpacing={5}>
