@@ -132,7 +132,7 @@ function Holdfrom({ setOpen }) {
   const checkavailability = async () => {
     setshowloader1(true);
     serverInstance(
-      `room/check-room-catg?hotelName=${dharamshalaname}&category=${categoryname}& fromDate=${holdsince}&hold_remain=${toDate}`,
+      `room/check-room-catg?hotelName=${dharamshalaname}&category=${categoryname}&fromDate=${holdsince}&hold_remain=${holdremain}`,
       'get',
     ).then((res) => {
       console.log('roooms list', res.data);
