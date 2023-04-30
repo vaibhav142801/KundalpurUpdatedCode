@@ -127,9 +127,11 @@ const idproff = [
 function RoomBookingscreen() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [Paymode, setPaymode] = useState('Cash');
   const [isLoading, setIsLoading] = useState(false);
   const [formerror, setFormerror] = useState({});
   const [isData, setisData] = useState('');
+  const [dharamshala, setdharamshala] = useState('');
   const [checkindata, setcheckindata] = useState('');
   const [showdata, setshowdata] = useState(false);
   const [fullname, setfullname] = useState('');
@@ -151,9 +153,12 @@ function RoomBookingscreen() {
   let totalRoomAmount = roomno * isData?.Rate;
   let alltotalamount = totalRoomAmount + totalofmattress;
   let totalmember = femaleno;
-
+  let result = [];
   const savedataIntodb = async () => {
-    setIsLoading(true);
+    setIsLoading(false);
+    isData?.available_room_numbers
+      .slice(0, roomno)
+      .forEach((val) => result.push(val));
     serverInstance('room/checkin', 'post', {
       date: checkindata.checkintime,
       time: checkindata.checkincurrTime,
@@ -175,14 +180,18 @@ function RoomBookingscreen() {
       coutDate: checkindata.checkouttime,
       coutTime: checkindata.checkoutcurrTime,
       nRoom: roomno,
+      roomList: result,
       extraM: extraMattress,
     }).then((res) => {
       console.log('booking responce', res.data);
       if (res.data && res.data.status === true) {
         setIsLoading(false);
+
         navigate('/room/paymentsuccessfuly', {
           state: {
-            data: res.data,
+            data: res.data.data,
+            dharamshala: dharamshala,
+            checkindata: checkindata,
           },
         });
 
@@ -211,16 +220,7 @@ function RoomBookingscreen() {
 
   const handleclick = async () => {
     setFormerror(validate());
-    if (
-      fullname &&
-      mobile &&
-      city &&
-      state &&
-      maleno &&
-      femaleno &&
-      childrenno &&
-      roomno
-    ) {
+    if (fullname && mobile && city && state && roomno) {
       setshowdata(true);
     }
   };
@@ -252,8 +252,9 @@ function RoomBookingscreen() {
 
   useEffect(() => {
     if (location.state) {
-      setisData(location.state?.roomdata);
-      setcheckindata(location.state?.checkindata);
+      setisData(location?.state?.roomdata);
+      setcheckindata(location?.state?.checkindata);
+      setdharamshala(location?.state?.dhramshalaname);
     }
   }, []);
 
@@ -266,13 +267,14 @@ function RoomBookingscreen() {
           <div className="main_details_bro">
             <div>
               <p className="main_details_bro_text"> Dharamshala </p>
-              <p className="main_details_bro_text1">{isData?.name}</p>
+              <p className="main_details_bro_text1">
+                {checkindata?.dharamshala}
+              </p>
             </div>
             <div>
               <p className="main_details_bro_text">Room type </p>
               <p className="main_details_bro_text1">
-                {isData &&
-                  isData?.category_name.map((element) => <> {element},</>)}
+                {isData && isData?.category_name}
               </p>
             </div>
             <div>

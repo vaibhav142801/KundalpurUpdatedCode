@@ -12,6 +12,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import CheckAvalability from './CheckAvalability';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { ReactTransliterate } from 'react-transliterate';
+import { useNavigate } from 'react-router-dom';
 const style = {
   position: 'absolute',
   top: '47%',
@@ -89,7 +91,11 @@ const idproff = [
 ];
 
 function CheckinForm({ setOpen }) {
-  const [showpayOption, setshowpayOption] = useState(false);
+  const navigate = useNavigate();
+  const [showPayDetails, setshowPayDetails] = useState(false);
+  const [Paymode, setPaymode] = useState('Cash');
+  const [roomno, setroomno] = useState('');
+  const [fathers, setfathers] = useState('');
   const [showloader1, setshowloader1] = useState(false);
   const [fullname, setfullname] = useState('');
   const [email, setemail] = useState('');
@@ -130,45 +136,135 @@ function CheckinForm({ setOpen }) {
     }),
   );
 
+  let result = [];
   const handlesubmit = async () => {
     try {
-      console.log('click');
-
-      const data = {
-        date: date,
-        time: time,
-        contactNo: phoneno,
-        name: fullname,
-        // Fname: Fname,
-        email: email,
-        address: address,
-        city: city,
-        state: state,
-        pin: pincode,
-        stayD: staydays,
-        proof: idproffname,
-        idNumber: idproffno,
-        male: maleno,
-        female: femaleno,
-        child: Children,
-        // img: upload,
+      let dataa = {
+        dharamshalaname: dharamshalaname,
+        chlidremc: Children,
+        roomcount: roomno,
+        memale: maleno,
+        checkincurrDate: date,
+        checkincurrTime: time,
+        checkindate: new Date(today.getTime() + staydays * 24 * 60 * 60 * 1000),
+        checkouttime: new Date(
+          today.getTime() + staydays * 24 * 60 * 60 * 1000,
+        ).toLocaleTimeString('it-IT', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        }),
+        dharamshala: roomlist,
+        nRoom: result.length,
+        roomList: result,
       };
-      axios.defaults.headers.post[
-        'Authorization'
-      ] = `Bearer ${sessionStorage.getItem('token')}`;
 
-      const res = await axios.post(`${backendApiUrl}room/checkin`, data);
+      if (Paymode === 'Cash') {
+        const data = {
+          date: date,
+          time: time,
+          contactNo: phoneno,
+          name: fullname,
+          Fname: fathers,
+          email: email,
+          address: address,
+          city: city,
+          state: state,
+          proof: idproffname,
+          idNumber: idproffno,
+          male: maleno,
+          female: femaleno,
+          child: Children,
+          dharmasala: dharamshalaname,
+          modeOfBooking: 1,
+          coutDate: new Date(today.getTime() + staydays * 24 * 60 * 60 * 1000),
+          coutTime: new Date(
+            today.getTime() + staydays * 24 * 60 * 60 * 1000,
+          ).toLocaleTimeString('it-IT', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+          }),
+          nRoom: roomno.length,
+          roomList: roomno,
+          extraM: '',
+        };
+        axios.defaults.headers.post[
+          'Authorization'
+        ] = `Bearer ${sessionStorage.getItem('token')}`;
 
-      console.log('checkin', res);
-      // if (res.data.data.status) {
-      //   setOpen(false);
+        const res = await axios.post(`${backendApiUrl}room/checkin`, data);
 
-      //   Swal.fire('Great!', res.data.data.message, 'success');
-      // }
+        console.log('checkin', res.data.data, dataa);
+
+        if (res.status === 200) {
+          setOpen(false);
+          getalldharamshala();
+          navigate('/admin-panel/room/paymentsuccess', {
+            state: {
+              data: res.data.data,
+              checkindata: dataa,
+            },
+          });
+        }
+      }
+      if (Paymode === 'Online') {
+        const data = {
+          date: date,
+          time: time,
+          contactNo: phoneno,
+          name: fullname,
+          Fname: fathers,
+          email: email,
+          address: address,
+          city: city,
+          state: state,
+          proof: idproffname,
+          idNumber: idproffno,
+          male: maleno,
+          female: femaleno,
+          child: Children,
+          dharmasala: dharamshalaname,
+          modeOfBooking: 1,
+          coutDate: new Date(today.getTime() + staydays * 24 * 60 * 60 * 1000),
+          coutTime: new Date(
+            today.getTime() + staydays * 24 * 60 * 60 * 1000,
+          ).toLocaleTimeString('it-IT', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+          }),
+          nRoom: roomno.length,
+          roomList: roomno,
+          extraM: '',
+        };
+        axios.defaults.headers.post[
+          'Authorization'
+        ] = `Bearer ${sessionStorage.getItem('token')}`;
+
+        const res = await axios.post(`${backendApiUrl}room/checkin`, data);
+
+        console.log('checkin', res);
+
+        if (res.status === 200) {
+          setOpen(false);
+          getalldharamshala();
+          navigate('/room/paymentsuccessfuly', {
+            state: {
+              data: res.data.data,
+              checkindata: dataa,
+            },
+          });
+        }
+      }
     } catch (error) {
       // Swal.fire('Error!', error, 'error');
     }
   };
+
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
   var today = new Date();
   const currDate = today
@@ -208,7 +304,9 @@ function CheckinForm({ setOpen }) {
   const checkavailability = async () => {
     setshowloader1(true);
     serverInstance(
-      `room/check-room-catg?hotelName=${dharamshalaname}&category=${categoryname}`,
+      `room/check-room-catg?hotelName=${dharamshalaname}&category=${categoryname}&fromDate=${today}&ToDate=${new Date(
+        today.getTime() + staydays * 24 * 60 * 60 * 1000,
+      )}`,
       'get',
     ).then((res) => {
       console.log('roooms list', res.data);
@@ -261,188 +359,330 @@ function CheckinForm({ setOpen }) {
         {showavailability ? (
           <>
             <div className="cash-donation-container-innser10">
-              <div className="form-div" style={{ marginBottom: '1rem' }}>
-                <div className="form-input-div_add_user">
-                  <div className="inner-input-div2">
-                    <label style={{ marginBottom: '0.3rem' }} htmlFor="rate">
-                      Dharamshala
-                    </label>
-                    <Select
-                      id="donation-type"
-                      required
-                      sx={{
-                        width: '266px',
-                        fontSize: 14,
-                        '& .MuiSelect-select': {
-                          // borderColor: !!formerror.donationtype ? 'red' : '',
-                          padding: '10px 0px 10px 10px',
-                          background: '#fff',
-                        },
-                      }}
-                      value={dharamshalaname}
-                      name="dharamshalaname"
-                      onChange={(e) => setdharamshalaname(e.target.value)}
-                      displayEmpty
-                    >
-                      <MenuItem
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={''}
-                      >
-                        Please select
-                      </MenuItem>
-                      {Dharamshala
-                        ? Dharamshala.map((item, index) => {
-                            return (
-                              <MenuItem
-                                sx={{
-                                  fontSize: 14,
-                                }}
-                                key={item?.dharmasala_id}
-                                value={item?.dharmasala_id}
-                              >
-                                {item?.name}
-                              </MenuItem>
-                            );
-                          })
-                        : ''}
-                    </Select>
-                  </div>
-
-                  <div className="inner-input-div2">
-                    <label
-                      style={{ marginBottom: '0.3rem' }}
-                      htmlFor="advncerate"
-                    >
-                      Category
-                    </label>
-                    <Select
-                      id="donation-type"
-                      required
-                      sx={{
-                        width: '266px',
-                        fontSize: 14,
-                        '& .MuiSelect-select': {
-                          // borderColor: !!formerror.donationtype ? 'red' : '',
-                          padding: '10px 0px 10px 10px',
-                          background: '#fff',
-                        },
-                      }}
-                      value={categoryname}
-                      name="categoryname"
-                      onChange={(e) => setcategoryname(e.target.value)}
-                      displayEmpty
-                    >
-                      <MenuItem
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={''}
-                      >
-                        Please select
-                      </MenuItem>
-                      {category &&
-                        category.map((item) => {
-                          return (
-                            <MenuItem
-                              sx={{
-                                fontSize: 14,
-                              }}
-                              key={item?.category_id}
-                              value={item?.category_id}
-                            >
-                              {item?.name}
-                            </MenuItem>
-                          );
-                        })}
-                    </Select>
-                  </div>
-
-                  <div className="inner-input-div2">
-                    <label style={{ marginBottom: '0.3rem' }} htmlFor="toNo">
-                      &nbsp;
-                    </label>
-                    <button
-                      onClick={() => checkavailability()}
-                      className="check_babbs_btn"
-                    >
-                      {showloader1 ? (
-                        <CircularProgress
-                          style={{ width: '21px', height: '21px' }}
-                        />
-                      ) : (
-                        ' Check Availability'
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {roomlist ? (
+              {showPayDetails ? (
                 <>
-                  <div className="tablescrollbarss">
-                    <table className="table_ddd">
-                      <tbody>
-                        <tr>
-                          <td className="table_tddd">Booked</td>
-                          <td className="table_tddd">Room No</td>
-                          <td className="table_tddd">Room Rent</td>
-                          <td className="table_tddd">Advance Deposit</td>
-                          <td className="table_tddd">Dharamshala</td>
-                          <td className="table_tddd">Category</td>
-                          <td className="table_tddd">Facility</td>
-                          <td className="table_tddd">Time</td>
-                        </tr>
-                        {roomlist &&
-                          roomlist.map((item, index) => {
-                            return (
-                              <tr key={item?.id}>
-                                <td className="table_tddd">
-                                  <input
-                                    type="checkbox"
-                                    onClick={() => {
-                                      setroomnumber(item?.RoomNo);
-                                      // setdharamshalanameroom(item?.name);
-                                      // setcategoryroom(item?.category_name);
-                                      // setfacilityname(item?.facility_name);
-                                      // setrate(item?.Rate);
-                                      // setadvancerate(item?.advance);
-                                      // setdharamshalid(item?.dharmasala_id);
-                                    }}
-                                  />
-                                </td>
-                                <td className="table_tddd">{item?.RoomNo}</td>
-                                <td className="table_tddd">{item?.Rate}</td>
-                                <td className="table_tddd">{item?.advance}</td>
-                                <td className="table_tddd">
-                                  {item?.dharmasala && item?.dharmasala.name}
-                                </td>
+                  <h2>Note:</h2>
+                  <p>
+                    Rate for (online) Room Booking and Advance rate for
+                    (offline) room booking and amount not refundable
+                  </p>
+                  <div className="main_show_details_divs">
+                    <div className="main_show_details_divs_inear">
+                      <h2>Guest Details</h2>
+                      <p>
+                        Full
+                        Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :
+                        &nbsp;&nbsp;
+                        <span className="main_show_details_divs_inear_text">
+                          {fullname}
+                        </span>
+                      </p>
+                      {/* <p>
+                        Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+                        <span className="main_show_details_divs_inear_text">
+                          {email}
+                        </span>
+                      </p> */}
+                      <p>
+                        Mobile
+                        number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+                        <span className="main_show_details_divs_inear_text">
+                          {phoneno}
+                        </span>
+                      </p>
+                      <p>
+                        ID
+                        Proof&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;:&nbsp;&nbsp;{' '}
+                        <span className="main_show_details_divs_inear_text">
+                          {idproffname}
+                        </span>
+                      </p>
+                      <p>
+                        No of
+                        room&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+                        <span className="main_show_details_divs_inear_text">
+                          {roomno.length}
+                        </span>
+                      </p>
+                      <p>
+                        Total
+                        Member&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+                        <span className="main_show_details_divs_inear_text">
+                          {Number(Children) + Number(maleno) + Number(femaleno)}
+                        </span>
+                      </p>
+                    </div>
+                    <div className="main_show_details_divs_inear10">
+                      <h2>Price Summary</h2>
+                      <div className="main_div_test22222">
+                        <p>Rate</p>
+                        <p>₹ {roomlist[0]?.Rate}</p>
+                      </div>
+                      <div className="main_div_test22222">
+                        <p>Advance rate</p>
+                        <p>₹ {roomlist[0]?.advance}</p>
+                      </div>
+                      <div className="main_div_test22222">
+                        <p>
+                          {roomno.length} Room x {staydays} Days
+                        </p>
+                        <p>₹ {roomno.length * Number(roomlist[0]?.advance)}</p>
+                        {console.log(roomlist)}
+                      </div>
+                      <div className="main_div_test22222">
+                        <p>GST</p>
+                        <p>₹ 0.00</p>
+                      </div>
+                      {/* <div className="main_div_test22222">
+                        <p>Mattress {extraMattress} x ₹150</p>
+                        <p>₹ {extraMattress * 150}</p>
+                      </div> */}
+                      <div className="main_div_test22222">
+                        <p>Total Amount </p>
+                        <p>₹ {roomno.length * Number(roomlist[0]?.advance)}</p>
+                      </div>
 
-                                <td className="table_tddd">
-                                  {item?.category_name}
-                                </td>
-                                <td className="table_tddd">
-                                  {item?.facility_name.map((element) => (
-                                    <span style={{ marginRight: '5px' }}>
-                                      {element}
-                                    </span>
-                                  ))}
-                                </td>
-                                <td className="table_tddd">Auto</td>
-                              </tr>
-                            );
-                          })}
-                      </tbody>
-                    </table>
+                      <div>
+                        <button
+                          onClick={() => handlesubmit()}
+                          className="main_div_btn_continues"
+                        >
+                          Continue
+                        </button>
+                      </div>
+                    </div>
                   </div>
+                </>
+              ) : (
+                <>
+                  <div className="form-div" style={{ marginBottom: '1rem' }}>
+                    <div className="form-input-div_add_user">
+                      <div className="inner-input-div2">
+                        <label
+                          style={{ marginBottom: '0.3rem' }}
+                          htmlFor="rate"
+                        >
+                          Dharamshala
+                        </label>
+                        <Select
+                          id="donation-type"
+                          required
+                          sx={{
+                            width: '266px',
+                            fontSize: 14,
+                            '& .MuiSelect-select': {
+                              // borderColor: !!formerror.donationtype ? 'red' : '',
+                              padding: '10px 0px 10px 10px',
+                              background: '#fff',
+                            },
+                          }}
+                          value={dharamshalaname}
+                          name="dharamshalaname"
+                          onChange={(e) => setdharamshalaname(e.target.value)}
+                          displayEmpty
+                        >
+                          <MenuItem
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            value={''}
+                          >
+                            Please select
+                          </MenuItem>
+                          {Dharamshala
+                            ? Dharamshala.map((item, index) => {
+                                return (
+                                  <MenuItem
+                                    sx={{
+                                      fontSize: 14,
+                                    }}
+                                    key={item?.dharmasala_id}
+                                    value={item?.dharmasala_id}
+                                  >
+                                    {item?.name}
+                                  </MenuItem>
+                                );
+                              })
+                            : ''}
+                        </Select>
+                      </div>
+
+                      <div className="inner-input-div2">
+                        <label
+                          style={{ marginBottom: '0.3rem' }}
+                          htmlFor="advncerate"
+                        >
+                          Category
+                        </label>
+                        <Select
+                          id="donation-type"
+                          required
+                          sx={{
+                            width: '266px',
+                            fontSize: 14,
+                            '& .MuiSelect-select': {
+                              // borderColor: !!formerror.donationtype ? 'red' : '',
+                              padding: '10px 0px 10px 10px',
+                              background: '#fff',
+                            },
+                          }}
+                          value={categoryname}
+                          name="categoryname"
+                          onChange={(e) => setcategoryname(e.target.value)}
+                          displayEmpty
+                        >
+                          <MenuItem
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            value={''}
+                          >
+                            Please select
+                          </MenuItem>
+                          {category &&
+                            category.map((item) => {
+                              return (
+                                <MenuItem
+                                  sx={{
+                                    fontSize: 14,
+                                  }}
+                                  key={item?.category_id}
+                                  value={item?.category_id}
+                                >
+                                  {item?.name}
+                                </MenuItem>
+                              );
+                            })}
+                        </Select>
+                      </div>
+
+                      <div className="inner-input-div2">
+                        <label
+                          style={{ marginBottom: '0.3rem' }}
+                          htmlFor="toNo"
+                        >
+                          &nbsp;
+                        </label>
+                        <button
+                          onClick={() => checkavailability()}
+                          className="check_babbs_btn"
+                        >
+                          {showloader1 ? (
+                            <CircularProgress
+                              style={{ width: '21px', height: '21px' }}
+                            />
+                          ) : (
+                            ' Check Availability'
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {roomlist ? (
+                    <>
+                      <div className="tablescrollbarss">
+                        <table className="table_ddd">
+                          <tbody>
+                            <tr>
+                              <td className="table_tddd">Booked</td>
+                              <td className="table_tddd">Room No</td>
+                              <td className="table_tddd">Room Rent</td>
+                              <td className="table_tddd">Advance Deposit</td>
+                              <td className="table_tddd">Dharamshala</td>
+                              <td className="table_tddd">Category</td>
+                              <td className="table_tddd">Facility</td>
+                              <td className="table_tddd">Time</td>
+                            </tr>
+                            {roomlist &&
+                              roomlist.map((item, index) => {
+                                return (
+                                  <tr key={item?.id}>
+                                    <td className="table_tddd">
+                                      <input
+                                        type="checkbox"
+                                        onClick={() => {
+                                          result.push(item?.RoomNo);
+                                          console.log(result);
+
+                                          // setdharamshalanameroom(item?.name);
+                                          // setcategoryroom(item?.category_name);
+                                          // setfacilityname(item?.facility_name);
+                                          // setrate(item?.Rate);
+                                          // setadvancerate(item?.advance);
+                                          // setdharamshalid(item?.dharmasala_id);
+                                        }}
+                                      />
+                                    </td>
+                                    <td className="table_tddd">
+                                      {item?.RoomNo}
+                                    </td>
+                                    <td className="table_tddd">{item?.Rate}</td>
+                                    <td className="table_tddd">
+                                      {item?.advance}
+                                    </td>
+                                    <td className="table_tddd">
+                                      {item?.dharmasala &&
+                                        item?.dharmasala.name}
+                                    </td>
+
+                                    <td className="table_tddd">
+                                      {item?.category_name}
+                                    </td>
+                                    <td className="table_tddd">
+                                      {item?.facility_name.map((element) => (
+                                        <span style={{ marginRight: '5px' }}>
+                                          {element}
+                                        </span>
+                                      ))}
+                                    </td>
+                                    <td className="table_tddd">Auto</td>
+                                  </tr>
+                                );
+                              })}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
+                  ) : (
+                    ''
+                  )}
+                  <button
+                    className={
+                      Paymode === 'Cash'
+                        ? 'cash_div_room_book'
+                        : 'cash_div_room_book_disable '
+                    }
+                    onClick={() => setPaymode('Cash')}
+                  >
+                    Cash
+                  </button>
+
+                  <button
+                    className={
+                      Paymode === 'Online'
+                        ? 'online_div_room_book'
+                        : 'cash_div_room_book_disable '
+                    }
+                    onClick={() => setPaymode('Online')}
+                  >
+                    online
+                  </button>
 
                   <div className="save-div-btn">
                     <button
-                      // onClick={() => handlesubmit()}
+                      onClick={() => {
+                        setshowPayDetails(true);
+                        setroomno(result);
+                      }}
                       className="save-div-btn-btn"
                     >
-                      Save
+                      Next
                     </button>
                     <button
                       onClick={() => setshowavailability(false)}
@@ -452,8 +692,6 @@ function CheckinForm({ setOpen }) {
                     </button>
                   </div>
                 </>
-              ) : (
-                ''
               )}
             </div>
           </>
@@ -505,15 +743,15 @@ function CheckinForm({ setOpen }) {
                       />
                     </div>
                     <div className="minddle_div_room_innear">
-                      <label htmlFor="email">Father's Name</label>
+                      <label htmlFor="fathers">Father's Name</label>
                       <CustomInput
-                        id="email"
-                        type="email"
-                        name="email"
+                        id="fathers"
+                        type="fathers"
+                        name="fathers"
                         required
                         placeholder="Enter the Father's Name"
-                        value={email}
-                        onChange={(e) => setemail(e.target.value)}
+                        value={fathers}
+                        onChange={(e) => setfathers(e.target.value)}
                       />
                     </div>
                     <div className="minddle_div_room_innear">
@@ -657,6 +895,7 @@ function CheckinForm({ setOpen }) {
                         onChange={(e) => setidproffno(e.target.value)}
                       />
                     </div>
+
                     <div className="minddle_div_room_innear">
                       <label>Stay Days</label>
                       <CustomInput
@@ -666,7 +905,9 @@ function CheckinForm({ setOpen }) {
                         required
                         placeholder="Enter the stay days"
                         value={staydays}
-                        onChange={(e) => setstaydays(e.target.value)}
+                        onChange={(e) => {
+                          setstaydays(e.target.value);
+                        }}
                       />
                     </div>
                   </div>
@@ -725,8 +966,16 @@ function CheckinForm({ setOpen }) {
                         name="TotalMember"
                         required
                         placeholder="Total members"
-                        value={TotalMember}
-                        onChange={(e) => setTotalMember(e.target.value)}
+                        value={
+                          Number(Children) + Number(maleno) + Number(femaleno)
+                        }
+                        onChange={(e) =>
+                          setTotalMember(
+                            Number(Children) +
+                              Number(maleno) +
+                              Number(femaleno),
+                          )
+                        }
                       />
                     </div>
                   </div>

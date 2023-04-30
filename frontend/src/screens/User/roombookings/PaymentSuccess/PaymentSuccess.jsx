@@ -8,14 +8,22 @@ function PaymentSuccess() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isData, setisData] = useState('');
+  const [dharamshalaname, setdharamshalaname] = useState('');
+  const [checkinda, setcheckinda] = useState('');
+
+  console.log('data from ducc', checkinda, isData, dharamshalaname);
   useEffect(() => {
     if (location.state) {
-      serverInstance(
-        `room/checkin-id?id=${location.state?.data.data.id}`,
-        'get',
-      ).then((res) => {
-        setisData(res.data);
-      });
+      // serverInstance(
+      //   `room/checkin-id?id=${location.state?.data.data.id}`,
+      //   'get',
+      // ).then((res) => {
+      //   setisData(res.data);
+      // });
+
+      setisData(location?.state?.data);
+      setcheckinda(location?.state?.checkindata);
+      setdharamshalaname(location?.state?.categoryname);
     }
   }, []);
   return (
@@ -51,6 +59,8 @@ function PaymentSuccess() {
                 navigate('/room/booking/receipt', {
                   state: {
                     data: isData,
+                    dharamshalaname: dharamshalaname,
+                    checkindata: checkinda,
                   },
                 })
               }

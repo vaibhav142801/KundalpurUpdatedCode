@@ -508,13 +508,13 @@ function AddRoomForm({ setOpen }) {
                   <div className="inner-input-div2">
                     <label
                       style={{ marginBottom: '0.3rem' }}
-                      htmlFor="checkout"
+                      htmlFor="donation-time"
                     >
                       Check Out Time
                     </label>
                     <CustomInput
                       type="time"
-                      id="checkout"
+                      id="donation-time"
                       name="checkout"
                       placeholder="Enter the rate"
                       value={checkout}

@@ -116,6 +116,7 @@ const Hold = ({ setopendashboard }) => {
     minute: 'numeric',
     hour12: true,
   });
+
   const ExportToExcel = () => {
     const fileName = 'ManualCashReport';
     const exportType = 'xls';

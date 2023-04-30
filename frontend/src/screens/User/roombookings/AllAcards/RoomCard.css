@@ -12,8 +12,8 @@
 }
 
 .room_card_main_divimg {
-  width: 48.3%!important;
-  height: 100%!important;
+  width: 48.3%;
+  height: 100%;
 }
 
 .main_room_div_deell {
@@ -57,6 +57,10 @@ color: #FFFFFF;
   margin-right: 0.5rem;
 }
 
+.titleText{
+  color: #ffa75c;
+  margin-right: '10rem'!important;
+}
 
 @media screen and (max-width: 780px) {
   .room_card_main_div {
@@ -69,5 +73,9 @@ color: #FFFFFF;
     padding: 0.8rem;
     display: flex;
     justify-content: space-between;
+}
+.room_card_main_divimg {
+  width: 48.3%;
+  height: 50%;
 }
 }

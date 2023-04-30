@@ -148,8 +148,10 @@ function RoomBooking({ setroomfilterdata }) {
       numChildren: chlidremc,
     };
     const res = await axios.post(`${backendApiUrl}room/check-room`, data);
-    if (res.data.data) {
+
+    if (res.status === 200) {
       setfilterdata(res.data.data);
+      console.log(res.data.data);
       setshowresuilt(true);
       setIsLoading(false);
     }
@@ -178,6 +180,9 @@ function RoomBooking({ setroomfilterdata }) {
     checkincurrTime: checkincurrTime,
     checkintime: checkintime,
     checkouttime: checkouttime,
+    dharamshala: filterdata?.dharamshala_name,
+    category: filterdata?.availableRooms,
+    facility: filterdata?.availableRooms,
   };
   const yesterday = moment().subtract(1, 'day');
   const disablePastDt = (current) => {
@@ -407,7 +412,7 @@ function RoomBooking({ setroomfilterdata }) {
               </Select>
             </div>
             <div className="main_div_select_div">
-              <label className="labbelddd" htmlFor="checkintime">
+              <label className="labbelddd" htmlFor="donation-time">
                 <img
                   style={{ width: '8%', marginRight: '1%' }}
                   src={homee}
@@ -418,7 +423,7 @@ function RoomBooking({ setroomfilterdata }) {
               <input
                 className="checkindateandtime"
                 min={minDateTime}
-                id="checkintime"
+                id="donation-time"
                 name="checkintime"
                 type="datetime-local"
                 onChange={(e) => setcheckintime(e.target.value)}
@@ -426,7 +431,7 @@ function RoomBooking({ setroomfilterdata }) {
               />
             </div>
             <div className="main_div_select_div">
-              <label className="labbelddd" htmlFor="checkouttime">
+              <label className="labbelddd" htmlFor="donation-time">
                 <img
                   style={{ width: '8%', marginRight: '1%' }}
                   src={homee}
@@ -438,7 +443,7 @@ function RoomBooking({ setroomfilterdata }) {
                 className="checkindateandtime"
                 disabled={checkintime ? false : true}
                 min={checkintime}
-                id="checkouttime"
+                id="donation-time"
                 name="checkouttime"
                 type="datetime-local"
                 onChange={(e) => setcheckouttime(e.target.value)}
@@ -483,29 +488,19 @@ function RoomBooking({ setroomfilterdata }) {
         </div>
       </div>
 
-      {filterdata.length > 0 ? (
+      {filterdata ? (
         <>
           <div className="details-div_dhar">
             <img
               src={`${backendUrl}uploads/images/${
-                filterdata &&
-                filterdata[0].dharmasala &&
-                filterdata[0].dharmasala?.image
+                filterdata && filterdata?.dharamshala_img
               }`}
               alt=" dharam1"
             />
             <div className="right_div_deta_dhram">
-              <h2>
-                {filterdata &&
-                  filterdata[0].dharmasala &&
-                  filterdata[0].dharmasala?.name}
-              </h2>
+              <h2>{filterdata && filterdata?.dharamshala_name}</h2>
               <h2 className="main_text_deltails">Description</h2>
-              <p>
-                {filterdata &&
-                  filterdata[0].dharmasala &&
-                  filterdata[0].dharmasala?.desc}
-              </p>
+              <p>{filterdata && filterdata?.dharamshala_desciption}</p>
               <div className="dharamshal_arc_main_name_div10">
                 <img src={homee} alt="dd" />
                 <p>Kundalpur</p>
@@ -515,7 +510,7 @@ function RoomBooking({ setroomfilterdata }) {
 
           <div className="details-div_dhar10">
             {filterdata &&
-              filterdata.map((item) => {
+              filterdata?.availableRooms.map((item) => {
                 return <RoomCard1 data={item} isData={data} />;
               })}
           </div>

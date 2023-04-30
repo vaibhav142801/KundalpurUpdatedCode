@@ -630,6 +630,13 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                     />
                   </>
                 )}
+                {isData?.creator_name?.signature && (
+                  <img
+                    style={{ height: '20px' }}
+                    src={`${backendUrl}uploads/images/${isData?.creator_name?.signature}`}
+                    alt="signature"
+                  />
+                )}
                 <p>
                   (
                   {isData?.createdBy
@@ -1226,21 +1233,26 @@ function PrintContent({ setopendashboard, setshowreciept }) {
                 <p> &nbsp;</p>
                 <p> &nbsp;</p>
                 <p> &nbsp;</p>
-                <p> &nbsp;</p>
-                <p> &nbsp;</p>
               </>
             )}
             <div className="text_alijdshfhd ">
               {isData?.createdBySignature ? (
                 <>
                   <img
-                    style={{ height: '20px', width: '80px' }}
+                    style={{ height: '20px', width: '140px' }}
                     src={`${backendUrl}uploads/images/${isData?.createdBySignature}`}
                     alt="signature"
                   />
                 </>
               ) : (
                 ''
+              )}
+              {isData?.creator_name?.signature && (
+                <img
+                  style={{ height: '20px', width: '140px' }}
+                  src={`${backendUrl}uploads/images/${isData?.creator_name?.signature}`}
+                  alt="signature"
+                />
               )}
               <p className="text_alijdshfhd">
                 (

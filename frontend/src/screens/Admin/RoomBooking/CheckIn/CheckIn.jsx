@@ -30,6 +30,7 @@ import Typography from '@mui/material/Typography';
 import CheckinForm from './CheckinForm';
 import { Select, MenuItem } from '@mui/material';
 import RoomBookingTap from '../RoomBookingTap';
+import moment from 'moment';
 import './Checkin.css';
 const style = {
   position: 'absolute',
@@ -45,9 +46,10 @@ const style = {
 
 const CheckIn = ({ setopendashboard }) => {
   const navigation = useNavigate();
+  const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(50);
   const [userrole, setuserrole] = useState('');
   const [open, setOpen] = React.useState(false);
   const [optionss, setoptionss] = useState('Please select');
@@ -64,15 +66,13 @@ const CheckIn = ({ setopendashboard }) => {
     hour12: true,
   });
   const getall_donation = () => {
-    serverInstance('user/add-elecDonation', 'get').then((res) => {
-      if (res.status) {
-        let filterData = res.data.filter((item) => item.modeOfDonation === '2');
-
+    setloader(true);
+    serverInstance('room/checkin', 'get').then((res) => {
+      if (res.data) {
+        setloader(false);
+        let filterData = res.data.filter((item) => item.modeOfBooking === 1);
         setisData(filterData);
-      } else {
-        Swal('Error', 'somthing went  wrong', 'error');
       }
-      console.log(res);
     });
   };
 
@@ -257,11 +257,70 @@ const CheckIn = ({ setopendashboard }) => {
             <TableHead style={{ background: '#F1F0F0' }}>
               <TableRow>
                 <TableCell>S.No</TableCell>
-                <TableCell>Booking Date</TableCell>
-                <TableCell>Dharamshala - Category (Room No) </TableCell>
-                <TableCell>Customer name</TableCell>
-                <TableCell>Address</TableCell>
-                <TableCell>Stay Days</TableCell>
+                <TableCell>
+                  Booking Id
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('booking_id')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Mobile
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('contactNo')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Customer Name
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('holderName')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Checkin Date
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('date')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Checkin Time
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('time')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Checkout Date
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('coutDate')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Checkout Time
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('coutTime')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Room No
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('RoomNo')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
@@ -281,48 +340,37 @@ const CheckIn = ({ setopendashboard }) => {
                         '&:last-child td, &:last-child th': { border: 0 },
                       }}
                     >
-                      <TableCell>{row.ReceiptNo}</TableCell>
-                      <TableCell>{row.voucherNo}</TableCell>
-                      <TableCell>{row.phoneNo}</TableCell>
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell> {row.address}</TableCell>
-                      <TableCell> {row.address}</TableCell>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>{row?.booking_id}</TableCell>
+                      <TableCell>{row?.contactNo}</TableCell>
+                      <TableCell>{row?.holderName}</TableCell>
                       <TableCell>
-                        <Tooltip title="View">
-                          <img
-                            src={eye}
-                            alt="eye"
-                            style={{ width: '20px', marginRight: '0.5rem' }}
-                          />
-                        </Tooltip>
+                        {Moment(row?.date).format('YYYY-MM-DD')}
+                      </TableCell>
+                      <TableCell>
+                        {moment(row?.time, 'HH:mm').format('hh:mm')}
+                      </TableCell>
+                      <TableCell>
+                        {Moment(row?.coutDate).format('YYYY-MM-DD')}
+                      </TableCell>
+                      <TableCell>
+                        {moment(row?.coutTime, 'HH:mm').format('hh:mm')}
+                      </TableCell>
 
-                        <Tooltip title="Edit">
-                          <img
-                            src={Edit}
-                            alt="eye"
-                            style={{ width: '20px', marginRight: '0.5rem' }}
-                          />
-                        </Tooltip>
-
-                        <Tooltip title="Delete">
-                          <img
-                            src={Delete}
-                            alt="eye"
-                            style={{ width: '20px' }}
-                          />
-                        </Tooltip>
+                      <TableCell> {row?.RoomNo}</TableCell>
+                      <TableCell>
+                        <button
+                          onClick={() => handleOepn(row)}
+                          className="chaneRoom"
+                        >
+                          Change Room
+                        </button>
                       </TableCell>
                     </TableRow>
                   ))}
                 </>
               ) : (
-                <>
-                  <TableRow>
-                    <TableCell colSpan={12} align="center">
-                      <CircularProgress />
-                    </TableCell>
-                  </TableRow>
-                </>
+                <></>
               )}
             </TableBody>
             <TableFooter>
@@ -333,7 +381,7 @@ const CheckIn = ({ setopendashboard }) => {
                   page={page}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
-                  rowsPerPageOptions={[5, 10, 25]}
+                  rowsPerPageOptions={[50, 100, 250]}
                   labelRowsPerPage={<span>Rows:</span>}
                   labelDisplayedRows={({ page }) => {
                     return `Page: ${page}`;

@@ -380,8 +380,7 @@ function RoomBookingscreen({ setopendashboard }) {
               <div>
                 <p className="main_details_bro_text">Room type </p>
                 <p className="main_details_bro_text1">
-                  {isData &&
-                    isData?.category_name.map((element) => <> {element},</>)}
+                  {isData && isData?.category}
                 </p>
               </div>
               <div>
@@ -502,6 +501,7 @@ function RoomBookingscreen({ setopendashboard }) {
                     >
                       online
                     </button>
+
                     <div>
                       <button
                         onClick={() => showpaymentoption()}

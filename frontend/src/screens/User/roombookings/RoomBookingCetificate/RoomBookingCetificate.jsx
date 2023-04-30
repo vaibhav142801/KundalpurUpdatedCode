@@ -10,8 +10,9 @@ function RoomBookingCetificate() {
   const location = useLocation();
   const componentRef = useRef();
   const [isData, setisData] = useState('');
-
-  console.log('data from certifucate', isData);
+  const [dharamshalaname, setdharamshalaname] = useState('');
+  const [checkinda, setcheckinda] = useState('');
+  console.log('data from certifucate', isData, dharamshalaname, checkinda);
 
   function down() {
     console.log('cliii');
@@ -25,12 +26,14 @@ function RoomBookingCetificate() {
   }
   useEffect(() => {
     if (location.state) {
-      setisData(location.state?.data);
+      setisData(location?.state?.data);
+      setcheckinda(location?.state?.checkindata);
+      setdharamshalaname(location?.state?.categoryname);
     }
   }, []);
   const shareUrl = 'dddd';
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
-  var today = new Date(isData?.date);
+  var today = new Date(isData[0]?.coutDate);
   const currDate = today
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -54,9 +57,14 @@ function RoomBookingCetificate() {
                   <p>पिता/पति श्री-</p>
                 </div>
                 <div>
-                  <p>{isData?.RoomNo}</p>
-                  <p>{isData?.holderName}</p>
-                  <p>{isData?.Fname}</p>
+                  <p>
+                    {isData &&
+                      isData.map((item) => {
+                        return <span> {item?.RoomNo}</span>;
+                      })}
+                  </p>
+                  <p>{isData[0]?.name}</p>
+                  <p>{isData[0]?.Fname}</p>
                 </div>
               </div>
               <div className="innear_div_texx_dd">
@@ -69,21 +77,21 @@ function RoomBookingCetificate() {
                   <p>
                     {currDate} / {currTime}
                   </p>
-                  <p>{isData?.contactNo}</p>
-                  <p>{isData?.city}</p>
+                  <p>{isData[0]?.contactNo}</p>
+                  <p>{isData[0]?.city}</p>
                 </div>
               </div>
             </div>
             <div className="yyy_text_div">
               <p>यात्री संख्या</p>
-              <p>Male: {isData?.male}</p>
-              <p>Female: {isData?.female}</p>
-              <p>Child: {isData?.child}</p>
+              <p>Male: {isData[0]?.male}</p>
+              <p>Female: {isData[0]?.female}</p>
+              <p>Child: {isData[0]?.child}</p>
               <p>
                 Total:{' '}
-                {Number(isData?.male) +
-                  Number(isData?.female) +
-                  Number(isData?.child)}
+                {Number(isData[0]?.male) +
+                  Number(isData[0]?.female) +
+                  Number(isData[0]?.child)}
               </p>
             </div>
 
@@ -104,18 +112,27 @@ function RoomBookingCetificate() {
                     </td>
                   </tr>
                   <tr>
-                    <td className="table_tddd">{isData?.name}</td>
-                    <td className="table_tddd">{isData?.category_name}</td>
+                    <td className="table_tddd">{checkinda?.dharamshala}</td>
+                    <td className="table_tddd">
+                      {checkinda?.category[0]?.category_name}
+                    </td>
+                    <td className="table_tddd">
+                      {checkinda &&
+                        checkinda?.category[0]?.facilities.map(
+                          (element, index) => (
+                            <span key={index}> {element}</span>
+                          ),
+                        )}
+                    </td>
                     <td className="table_tddd">
                       {isData &&
-                        isData?.facility_name.map((element, index) => (
-                          <span key={index}> {element}</span>
-                        ))}
+                        isData.map((item) => {
+                          return <span> {item?.RoomNo}</span>;
+                        })}
                     </td>
-                    <td className="table_tddd">{isData?.RoomNo}</td>
-                    <td className="table_tddd">{isData?.nRoom}</td>
+                    <td className="table_tddd">{isData[0]?.nRoom}</td>
                     <td className="table_tddd">
-                      {Number(isData?.Rate) * Number(isData?.nRoom)}
+                      {Number(isData?.Rate) * Number(isData[0]?.nRoom)}
                     </td>
                   </tr>
                 </tbody>

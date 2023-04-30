@@ -198,16 +198,17 @@ function Holdfrom({ setOpen }) {
                   <div className="inner-input-div2">
                     <label
                       style={{ marginBottom: '0.3rem' }}
-                      htmlFor="holdername"
+                      htmlFor="donation-time"
                     >
-                      Room holder Name
+                      Hold Since
                     </label>
                     <CustomInput
-                      id="holdername"
-                      name="holdername"
-                      placeholder="Enter Room holder Name"
-                      value={holdername}
-                      onChange={(e) => setholdername(e.target.value)}
+                      type="datetime-local"
+                      id="donation-time"
+                      name="holdsince"
+                      placeholder="Enter  Hold Since"
+                      value={holdsince}
+                      onChange={(e) => setholdsince(e.target.value)}
                     />
                   </div>
                 </>
@@ -253,16 +254,15 @@ function Holdfrom({ setOpen }) {
               </div>
 
               <div className="inner-input-div2">
-                <label style={{ marginBottom: '0.3rem' }} htmlFor="holdsince">
-                  Hold Since
+                <label style={{ marginBottom: '0.3rem' }} htmlFor="holdername">
+                  Room holder Name
                 </label>
                 <CustomInput
-                  type="datetime-local"
-                  id="holdsince"
-                  name="holdsince"
-                  placeholder="Enter  Hold Since"
-                  value={holdsince}
-                  onChange={(e) => setholdsince(e.target.value)}
+                  id="holdername"
+                  name="holdername"
+                  placeholder="Enter Room holder Name"
+                  value={holdername}
+                  onChange={(e) => setholdername(e.target.value)}
                 />
               </div>
             </div>
@@ -271,11 +271,14 @@ function Holdfrom({ setOpen }) {
           <div className="form-div" style={{ marginBottom: '1rem' }}>
             <div className="form-input-div_add_user">
               <div className="inner-input-div2">
-                <label style={{ marginBottom: '0.3rem' }} htmlFor="holdremain">
+                <label
+                  style={{ marginBottom: '0.3rem' }}
+                  htmlFor="donation-time"
+                >
                   Hold Remain
                 </label>
                 <CustomInput
-                  id="address"
+                  id="donation-time"
                   name="holdremain"
                   type="datetime-local"
                   placeholder="Hold Remain"

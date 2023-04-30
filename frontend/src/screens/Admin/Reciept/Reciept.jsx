@@ -556,13 +556,23 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
             <div className="main_div_signature">
               {isData?.createdBySignature && (
                 <>
-                  <img
-                    src={`${backendUrl}uploads/images/${isData?.createdBySignature}`}
-                    alt="signature"
-                  />
+                  {isData?.createdBySignature && (
+                    <>
+                      <img
+                        src={`${backendUrl}uploads/images/${isData?.createdBySignature}`}
+                        alt="signature"
+                      />
+                    </>
+                  )}
                 </>
               )}
 
+              {isData?.creator_name?.signature && (
+                <img
+                  src={`${backendUrl}uploads/images/${isData?.creator_name?.signature}`}
+                  alt="signature"
+                />
+              )}
               <p>
                 हस्ताक्षर प्राप्तकर्ता,(
                 {isData?.createdBy
