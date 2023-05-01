@@ -14,6 +14,27 @@ import CheckAvalability from './CheckAvalability';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { ReactTransliterate } from 'react-transliterate';
 import { useNavigate } from 'react-router-dom';
+const addressinput = {
+  width: '635px',
+  height: '35px',
+  fontSize: '15px',
+  background: '#ffffff',
+  border: '1px solid #c4bfbf',
+  borderRadius: '7px',
+  color: '#B8B8B8',
+  paddingLeft: '0.8rem',
+};
+const custominput = {
+  width: '280px',
+  padding: '10px 0px 10px 10px',
+  background: '#fff',
+  border: '1px solid #B8B8B8',
+  height: '39px',
+  borderRadius: '5px',
+  fontSize: '15px',
+  paddingLeft: '0.5rem',
+  color: 'gray',
+};
 const style = {
   position: 'absolute',
   top: '47%',
@@ -781,43 +802,104 @@ function CheckinForm({ setOpen }) {
                       />
                     </div>
                     <div className="minddle_div_room_innear">
-                      <label htmlFor="fathers">Father's Name</label>
-                      <CustomInput
-                        id="fathers"
-                        type="fathers"
-                        name="fathers"
-                        required
-                        placeholder="Enter the Father's Name"
-                        value={fathers}
-                        onChange={(e) => setfathers(e.target.value)}
-                      />
+                      {lan ? (
+                        <>
+                          <label htmlFor="fathers">Father's Name</label>
+                          <CustomInput
+                            id="fathers"
+                            type="fathers"
+                            name="fathers"
+                            required
+                            placeholder="Enter the Father's Name"
+                            value={fathers}
+                            onChange={(e) => setfathers(e.target.value)}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <label htmlFor="fathers">Father's Name</label>
+                          <ReactTransliterate
+                            placeholder="Enter the Father's Name"
+                            style={custominput}
+                            id="full-name"
+                            required
+                            value={fathers}
+                            onChangeText={(fathers) => {
+                              setfathers(fathers);
+                            }}
+                            onChange={(e) => setfathers(e.target.value)}
+                            lang="hi"
+                          />
+                        </>
+                      )}
                     </div>
                     <div className="minddle_div_room_innear">
-                      <label htmlFor="fullname">Full Name</label>
-                      <CustomInput
-                        id="fullname"
-                        type="text"
-                        name="fullname"
-                        required
-                        placeholder="Enter the full name"
-                        value={fullname}
-                        onChange={(e) => setfullname(e.target.value)}
-                      />
+                      {lan ? (
+                        <>
+                          <label htmlFor="fullname">Full Name</label>
+                          <CustomInput
+                            id="fullname"
+                            type="text"
+                            name="fullname"
+                            required
+                            placeholder="Enter the full name"
+                            value={fullname}
+                            onChange={(e) => setfullname(e.target.value)}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <label htmlFor="fullname">Full Name</label>
+                          <ReactTransliterate
+                            placeholder="Enter the full name"
+                            style={custominput}
+                            id="full-name"
+                            required
+                            value={fullname}
+                            onChangeText={(fullname) => {
+                              setfullname(fullname);
+                            }}
+                            onChange={(e) => setfullname(e.target.value)}
+                            lang="hi"
+                          />
+                        </>
+                      )}
                     </div>
                   </div>
 
                   <div className="minddle_div_room">
                     <div className="minddle_div_room_innear_adddress">
-                      <label htmlFor="address">Address</label>
-                      <input
-                        type="text"
-                        id="address"
-                        name="address"
-                        required
-                        placeholder="Enter the Address"
-                        value={address}
-                        onChange={(e) => setaddress(e.target.value)}
-                      />
+                      {lan ? (
+                        <>
+                          <label htmlFor="address">Address</label>
+                          <input
+                            type="text"
+                            id="address"
+                            name="address"
+                            required
+                            placeholder="Enter the Address"
+                            value={address}
+                            onChange={(e) => setaddress(e.target.value)}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <label htmlFor="address">Address</label>
+
+                          <ReactTransliterate
+                            placeholder="Enter the Address"
+                            style={addressinput}
+                            id="full-name"
+                            required
+                            value={address}
+                            onChangeText={(address) => {
+                              setaddress(address);
+                            }}
+                            onChange={(e) => setaddress(e.target.value)}
+                            lang="hi"
+                          />
+                        </>
+                      )}
                     </div>
 
                     <div className="date_and_time_div_add">
