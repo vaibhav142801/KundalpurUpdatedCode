@@ -12,7 +12,7 @@ function RoomCard1({ data, isData, dhramshalaname }) {
   console.log('data is ', data);
 
   useEffect(() => {
-    setmainimg(data?.roomImages?.roomImage1);
+    setmainimg(data?.roomDetails?.roomImage1);
   }, []);
 
   return (

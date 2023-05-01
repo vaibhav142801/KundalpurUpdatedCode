@@ -186,10 +186,11 @@ function RoomBookingscreen() {
       console.log('booking responce', res.data);
       if (res.data && res.data.status === true) {
         setIsLoading(false);
+        console.log(res);
 
         navigate('/room/paymentsuccessfuly', {
           state: {
-            data: res.data.data,
+            data: res.data,
             dharamshala: dharamshala,
             checkindata: checkindata,
           },
@@ -357,20 +358,24 @@ function RoomBookingscreen() {
                 <div className="main_show_details_divs_inear10">
                   <h2>Price Summary</h2>
                   <div className="main_div_test22222">
+                    <p>rate</p>
+                    <p> ₹ {isData?.roomDetails?.Rate} </p>
+                  </div>
+                  <div className="main_div_test22222">
                     <p>{roomno} Room x 1 Night</p>
-                    <p> ₹ {roomno * isData?.Rate} </p>
+                    <p> ₹ {roomno * isData?.roomDetails?.Rate} </p>
                   </div>
                   <div className="main_div_test22222">
                     <p>GST</p>
                     <p>₹ 0.00</p>
                   </div>
-                  <div className="main_div_test22222">
+                  {/* <div className="main_div_test22222">
                     <p>Mattress {extraMattress} x ₹150</p>
                     <p>₹ {extraMattress * 150}</p>
-                  </div>
+                  </div> */}
                   <div className="main_div_test22222">
                     <p>Total Amount </p>
-                    <p>₹ {alltotalamount}</p>
+                    <p>₹ {roomno * isData?.roomDetails?.Rate}</p>
                   </div>
                   <div className="now_payment_gateway_div">
                     <button onClick={() => savedataIntodb()}>

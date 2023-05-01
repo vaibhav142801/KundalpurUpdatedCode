@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import './RoomBookingCetificate.css';
+
 function RoomBookingCetificate({ setopendashboard }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -113,7 +114,9 @@ function RoomBookingCetificate({ setopendashboard }) {
                       सहयोग राशि
                       <p>
                         {isData[0]?.nRoom} X
-                        {checkindata && checkindata?.dharamshala[0]?.advance}
+                        {checkindata &&
+                          checkindata?.dharamshala &&
+                          checkindata?.dharamshala[0]?.advance}
                       </p>
                     </td>
                   </tr>

@@ -4,7 +4,7 @@ import InputBase from '@mui/material/InputBase';
 import { backendApiUrl } from '../../../../config/config';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { MenuItem, Select, Box, Typography } from '@mui/material';
+import { MenuItem, Select, Box, Typography, Button } from '@mui/material';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
@@ -92,6 +92,7 @@ const idproff = [
 
 function CheckinForm({ setOpen }) {
   const navigate = useNavigate();
+  const [lan, setlan] = useState(false);
   const [showPayDetails, setshowPayDetails] = useState(false);
   const [Paymode, setPaymode] = useState('Cash');
   const [roomno, setroomno] = useState('');
@@ -355,6 +356,43 @@ function CheckinForm({ setOpen }) {
           </Box>
         </Fade>
       </Modal>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 2,
+          my: 2,
+          ml: 2,
+        }}
+      >
+        <Typography variant="body1">Change language:</Typography>
+        <Button
+          variant={lan ? 'outlined' : 'contained'}
+          sx={{
+            borderColor: '#C8C8C8',
+            fontSize: 12,
+            minWidth: 100,
+            padding: 0.5,
+            color: lan ? '#656565' : '#fff',
+          }}
+          onClick={() => setlan(false)}
+        >
+          Hindi
+        </Button>
+        <Button
+          onClick={() => setlan(true)}
+          variant={lan ? 'contained' : 'outlined'}
+          sx={{
+            borderColor: '#C8C8C8',
+            fontSize: 12,
+            minWidth: 100,
+            padding: 0.5,
+            color: lan ? '#fff' : '#656565',
+          }}
+        >
+          English
+        </Button>
+      </Box>
       <div className="cash-donation-div">
         {showavailability ? (
           <>

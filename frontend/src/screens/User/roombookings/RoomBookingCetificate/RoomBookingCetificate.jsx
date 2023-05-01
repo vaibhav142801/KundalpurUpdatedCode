@@ -5,6 +5,7 @@ import jsPDF from 'jspdf';
 import Moment from 'moment-js';
 import moment from 'moment';
 import './RoomBookingCetificate.css';
+
 function RoomBookingCetificate() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,7 +34,7 @@ function RoomBookingCetificate() {
   }, []);
   const shareUrl = 'dddd';
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
-  var today = new Date(isData[0]?.coutDate);
+  var today = new Date(isData && isData[0]?.coutDate);
   const currDate = today
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -63,8 +64,8 @@ function RoomBookingCetificate() {
                         return <span> {item?.RoomNo}</span>;
                       })}
                   </p>
-                  <p>{isData[0]?.name}</p>
-                  <p>{isData[0]?.Fname}</p>
+                  <p>{isData && isData[0]?.name}</p>
+                  <p>{isData && isData[0]?.Fname}</p>
                 </div>
               </div>
               <div className="innear_div_texx_dd">
@@ -77,21 +78,21 @@ function RoomBookingCetificate() {
                   <p>
                     {currDate} / {currTime}
                   </p>
-                  <p>{isData[0]?.contactNo}</p>
-                  <p>{isData[0]?.city}</p>
+                  <p>{isData && isData[0]?.contactNo}</p>
+                  <p>{isData && isData[0]?.city}</p>
                 </div>
               </div>
             </div>
             <div className="yyy_text_div">
               <p>यात्री संख्या</p>
-              <p>Male: {isData[0]?.male}</p>
-              <p>Female: {isData[0]?.female}</p>
-              <p>Child: {isData[0]?.child}</p>
+              <p>Male: {isData && isData[0]?.male}</p>
+              <p>Female: {isData && isData[0]?.female}</p>
+              <p>Child: {isData && isData[0]?.child}</p>
               <p>
                 Total:{' '}
-                {Number(isData[0]?.male) +
-                  Number(isData[0]?.female) +
-                  Number(isData[0]?.child)}
+                {Number(isData && isData[0]?.male) +
+                  Number(isData && isData[0]?.female) +
+                  Number(isData && isData[0]?.child)}
               </p>
             </div>
 
@@ -105,19 +106,25 @@ function RoomBookingCetificate() {
                     <td className="table_tddd">रुम न.</td>
                     <td className="table_tddd">रूम की संख्या</td>
                     <td className="table_tddd">
-                      सहयोग राशि{' '}
+                      सहयोग राशि
                       <p>
-                        {isData?.nRoom} X {isData?.Rate}
+                        {isData && isData[0]?.nRoom && isData[0]?.nRoom} X
+                        {isData &&
+                          isData[0]?.roomAmount &&
+                          isData[0]?.roomAmount}
                       </p>
                     </td>
                   </tr>
                   <tr>
-                    <td className="table_tddd">{checkinda?.dharamshala}</td>
                     <td className="table_tddd">
-                      {checkinda?.category[0]?.category_name}
+                      {checkinda && checkinda?.dharamshala}
+                    </td>
+                    <td className="table_tddd">
+                      {checkinda && checkinda?.category[0]?.category_name}
                     </td>
                     <td className="table_tddd">
                       {checkinda &&
+                        checkinda?.category[0]?.facilities &&
                         checkinda?.category[0]?.facilities.map(
                           (element, index) => (
                             <span key={index}> {element}</span>
@@ -130,9 +137,10 @@ function RoomBookingCetificate() {
                           return <span> {item?.RoomNo}</span>;
                         })}
                     </td>
-                    <td className="table_tddd">{isData[0]?.nRoom}</td>
+                    <td className="table_tddd">{isData && isData[0]?.nRoom}</td>
                     <td className="table_tddd">
-                      {Number(isData?.Rate) * Number(isData[0]?.nRoom)}
+                      {Number(isData && isData[0]?.roomAmount) *
+                        Number(isData && isData[0]?.nRoom)}
                     </td>
                   </tr>
                 </tbody>
@@ -143,7 +151,9 @@ function RoomBookingCetificate() {
       </div>
       <div className="button_div_print_download">
         <button onClick={() => down()}>Download</button>
-        <button onClick={() => navigate('/')}>Cancel</button>
+        <button onClick={() => navigate('/bookinghistory')}>
+          Booking History
+        </button>
       </div>
     </>
   );

@@ -125,6 +125,9 @@ function RoomShiftForm({ setOpen, changedata }) {
   const [open1, setOpen1] = React.useState(false);
   const handleClose1 = () => setOpen1(false);
   const handleOepn1 = () => setOpen1(true);
+
+  console.log('changes data', changedata);
+
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
   var today = new Date();
 
@@ -218,7 +221,7 @@ function RoomShiftForm({ setOpen, changedata }) {
   const checkavailability = async () => {
     setshowloader1(true);
     serverInstance(
-      `room/check-room-catg?hotelName=${dharamshalaname}&category=${categoryname}`,
+      `room/check-room-catg?hotelName=${dharamshalaname}&category=${categoryname}&fromDate=${changedata?.date}&ToDate=${changedata?.coutDate}`,
       'get',
     ).then((res) => {
       console.log('roooms list', res.data);
@@ -236,7 +239,7 @@ function RoomShiftForm({ setOpen, changedata }) {
     if (changedata) {
       setbookingid(changedata?.booking_id);
       setphoneno(changedata?.contactNo);
-      setfullname(changedata?.holderName);
+      setfullname(changedata?.name);
       setemail(changedata?.email);
       setidproffnumber(changedata?.idNumber);
       setaddress(changedata?.address);
@@ -246,8 +249,8 @@ function RoomShiftForm({ setOpen, changedata }) {
       setdharamshalanameroom(changedata?.name);
       setcategoryroom(changedata?.category_name);
       setfacilityname(changedata?.facility_name);
-      setrate(changedata?.Rate);
-      setadvancerate(changedata?.advance);
+      setrate(changedata?.roomAmount);
+      setadvancerate(changedata?.advanceAmount);
     }
   }, []);
 

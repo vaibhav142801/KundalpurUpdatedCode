@@ -325,7 +325,7 @@ const RoomShift = ({ setopendashboard }) => {
                       <TableCell>{index + 1}</TableCell>
                       <TableCell>{row?.booking_id}</TableCell>
                       <TableCell>{row?.contactNo}</TableCell>
-                      <TableCell>{row?.holderName}</TableCell>
+                      <TableCell>{row?.name}</TableCell>
                       <TableCell>
                         {Moment(row?.date).format('YYYY-MM-DD')}
                       </TableCell>

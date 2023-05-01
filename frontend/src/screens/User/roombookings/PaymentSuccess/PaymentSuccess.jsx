@@ -21,7 +21,7 @@ function PaymentSuccess() {
       //   setisData(res.data);
       // });
 
-      setisData(location?.state?.data);
+      setisData(location?.state?.data?.data);
       setcheckinda(location?.state?.checkindata);
       setdharamshalaname(location?.state?.categoryname);
     }
@@ -46,9 +46,9 @@ function PaymentSuccess() {
             <div className="name_of_divvsssssv10">
               <p>UPI</p>
               <p>HDFC</p>
-              <p>{isData?.contactNo}</p>
-              <p>{isData?.email}</p>
-              <p>{Number(isData?.Rate) * Number(isData?.nRoom)}</p>
+              <p>{isData[0]?.contactNo}</p>
+              <p>{isData[0]?.email}</p>
+              <p>{Number(isData[0]?.roomAmount) * Number(isData[0]?.nRoom)}</p>
               <p>125362547859</p>
             </div>
           </div>

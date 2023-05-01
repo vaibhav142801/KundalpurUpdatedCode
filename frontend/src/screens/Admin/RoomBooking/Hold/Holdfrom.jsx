@@ -198,17 +198,16 @@ function Holdfrom({ setOpen }) {
                   <div className="inner-input-div2">
                     <label
                       style={{ marginBottom: '0.3rem' }}
-                      htmlFor="donation-time"
+                      htmlFor="holdername"
                     >
-                      Hold Since
+                      Room holder Name
                     </label>
                     <CustomInput
-                      type="datetime-local"
-                      id="donation-time"
-                      name="holdsince"
-                      placeholder="Enter  Hold Since"
-                      value={holdsince}
-                      onChange={(e) => setholdsince(e.target.value)}
+                      id="holdername"
+                      name="holdername"
+                      placeholder="Enter Room holder Name"
+                      value={holdername}
+                      onChange={(e) => setholdername(e.target.value)}
                     />
                   </div>
                 </>
@@ -254,15 +253,19 @@ function Holdfrom({ setOpen }) {
               </div>
 
               <div className="inner-input-div2">
-                <label style={{ marginBottom: '0.3rem' }} htmlFor="holdername">
-                  Room holder Name
+                <label
+                  style={{ marginBottom: '0.3rem' }}
+                  htmlFor="donation-time"
+                >
+                  Hold Since
                 </label>
                 <CustomInput
-                  id="holdername"
-                  name="holdername"
-                  placeholder="Enter Room holder Name"
-                  value={holdername}
-                  onChange={(e) => setholdername(e.target.value)}
+                  id="donation-time"
+                  name="holdsince"
+                  type="datetime-local"
+                  placeholder="Hold Remain"
+                  value={holdsince}
+                  onChange={(e) => setholdsince(e.target.value)}
                 />
               </div>
             </div>
