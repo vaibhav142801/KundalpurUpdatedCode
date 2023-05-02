@@ -386,6 +386,94 @@ const Hold = ({ setopendashboard }) => {
               </TableRow>
             </TableHead>
             <TableBody>
+              <TableRow>
+                <TableCell>&nbsp;</TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    placeholder="Holder Mobile No"
+                    // value={voucherfrom}
+                    name="voucherfrom"
+                    // onChange={(e) => {
+                    //   setvoucherfrom(e.target.value);
+                    // }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    placeholder="Room holder Name"
+                    // value={voucherfrom}
+                    name="voucherfrom"
+                    // onChange={(e) => {
+                    //   setvoucherfrom(e.target.value);
+                    // }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    placeholder="Room No"
+                    // value={voucherfrom}
+                    name="voucherfrom"
+                    // onChange={(e) => {
+                    //   setvoucherfrom(e.target.value);
+                    // }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    placeholder="Hold Since"
+                    // value={voucherfrom}
+                    name="voucherfrom"
+                    // onChange={(e) => {
+                    //   setvoucherfrom(e.target.value);
+                    // }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    placeholder="Hold Remain"
+                    // value={voucherfrom}
+                    name="voucherfrom"
+                    // onChange={(e) => {
+                    //   setvoucherfrom(e.target.value);
+                    // }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    placeholder="Hold Approved By"
+                    // value={voucherfrom}
+                    name="voucherfrom"
+                    // onChange={(e) => {
+                    //   setvoucherfrom(e.target.value);
+                    // }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    placeholder="Remarks"
+                    // value={voucherfrom}
+                    name="voucherfrom"
+                    // onChange={(e) => {
+                    //   setvoucherfrom(e.target.value);
+                    // }}
+                  />
+                </TableCell>
+                <TableCell>&nbsp;</TableCell>
+              </TableRow>
               {isData ? (
                 <>
                   {(rowsPerPage > 0
@@ -417,21 +505,13 @@ const Hold = ({ setopendashboard }) => {
                       <TableCell> {row?.remarks}</TableCell>
                       <TableCell>
                         <Tooltip title="Edit">
-                          <img
-                            onClick={() => handleOepn1(row)}
-                            src={Edit}
-                            alt="eye"
-                            style={{ width: '20px', marginRight: '0.5rem' }}
-                          />
-                        </Tooltip>
-
-                        <Tooltip title="Delete">
-                          <img
-                            onClick={() => handleClickOpen3(row.id)}
-                            src={Delete}
-                            alt="eye"
-                            style={{ width: '20px' }}
-                          />
+                          <button
+                            style={{ backgroundColor: '#FA7401' }}
+                            // onClick={() => handleOepn(row)}
+                            className="chaneRoom"
+                          >
+                            RoomRelease
+                          </button>
                         </Tooltip>
                       </TableCell>
                     </TableRow>

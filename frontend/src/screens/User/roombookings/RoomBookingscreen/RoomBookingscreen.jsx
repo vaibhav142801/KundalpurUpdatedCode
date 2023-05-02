@@ -154,6 +154,7 @@ function RoomBookingscreen() {
   let alltotalamount = totalRoomAmount + totalofmattress;
   let totalmember = femaleno;
   let result = [];
+
   const savedataIntodb = async () => {
     setIsLoading(false);
     isData?.available_room_numbers
@@ -189,7 +190,7 @@ function RoomBookingscreen() {
         setIsLoading(false);
         console.log(res);
 
-        navigate('/room/paymentsuccessfuly', {
+        navigate('/room/ReceiptBookingy', {
           state: {
             data: res.data,
             dharamshala: dharamshala,

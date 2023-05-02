@@ -23,6 +23,7 @@ import PaymentSuccess from '../screens/User/roombookings/PaymentSuccess/PaymentS
 import DownloadReceipt from '../screens/Admin/Reciept/DownloadReceipt';
 import BookingHistory from '../screens/User/roombookings/BookingHistory/BookingHistory';
 import RoomBookingCetificate from '../screens/User/roombookings/RoomBookingCetificate/RoomBookingCetificate';
+import ReceiptBooking from '../screens/User/roombookings/Receipt/ReceiptBooking';
 function MainRoutes({
   setopendashboard,
   setshowreciept,
@@ -148,6 +149,14 @@ function MainRoutes({
           }
         />
 
+        <Route
+          path="/room/ReceiptBookingy"
+          element={
+            <PrivateRoutes>
+              <ReceiptBooking setroomfilterdata={setroomfilterdata} />
+            </PrivateRoutes>
+          }
+        />
         <Route
           path="/Dharamshala/Details/:id"
           element={

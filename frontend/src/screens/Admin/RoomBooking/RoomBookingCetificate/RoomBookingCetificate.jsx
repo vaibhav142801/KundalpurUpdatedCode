@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { useReactToPrint } from 'react-to-print';
 import './RoomBookingCetificate.css';
 
 function RoomBookingCetificate({ setopendashboard }) {
@@ -22,6 +23,9 @@ function RoomBookingCetificate({ setopendashboard }) {
       pdf.save('download.pdf');
     });
   }
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   useEffect(() => {
     if (location.state) {
       setisData(location.state?.data?.data);
@@ -54,8 +58,12 @@ function RoomBookingCetificate({ setopendashboard }) {
         <div />
       </div>
       <div className="main_room_receipt">
-        <div className="print_ddd" id="receipt" ref={componentRef}>
-          <div className="main_room_receipt_innear">
+        <div className="print_ddd" id="receipt">
+          <div
+            className="main_room_receipt_innear"
+            ref={componentRef}
+            style={{ marginLeft: '1.3rem', marginTop: '7rem' }}
+          >
             <p className="yadda_text">यात्री आगमन रसीद</p>
             <div className="innear_div_texx">
               <div className="innear_div_texx_dd">
@@ -91,7 +99,7 @@ function RoomBookingCetificate({ setopendashboard }) {
               </div>
             </div>
             <div className="yyy_text_div">
-              <p>यात्री संख्या</p>
+              <p>यात्री संख्या </p>
               <p>Male: {isData[0]?.male}</p>
               <p>Female: {isData[0]?.female}</p>
               <p>Child: {isData[0]?.child}</p>
@@ -109,13 +117,22 @@ function RoomBookingCetificate({ setopendashboard }) {
                   <tr>
                     <td className="table_tddd">धर्मशाला नाम</td>
                     <td className="table_tddd">रूम टाईप</td>
-                    <td className="table_tddd">रूम सुंविधाएं</td>
+                    {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
                     <td className="table_tddd">रुम न.</td>
-                    <td className="table_tddd">रूम की संख्या</td>
+                    {/* <td className="table_tddd">रूम की संख्या</td> */}
                     <td className="table_tddd">
                       सहयोग राशि
                       <p>
                         {isData[0]?.nRoom} X
+                        {checkindata &&
+                          checkindata?.dharamshala &&
+                          checkindata?.dharamshala[0]?.advance}
+                      </p>
+                    </td>
+                    <td className="table_tddd">
+                      अमानत राशि
+                      <p>
+                        {isData[0]?.nRoom}+{isData[0]?.nRoom} X
                         {checkindata &&
                           checkindata?.dharamshala &&
                           checkindata?.dharamshala[0]?.advance}
@@ -128,20 +145,38 @@ function RoomBookingCetificate({ setopendashboard }) {
                         checkindata?.dharamshala[0]?.dharmasala?.name}
                     </td>
                     <td className="table_tddd">
-                      {checkindata && checkindata?.dharamshalaname}
+                      {checkindata &&
+                        checkindata?.dharamshala[0]?.facility_name?.map(
+                          (element, index) => (
+                            <span key={index}> {element},</span>
+                          ),
+                        )}
+                      {checkindata &&
+                        checkindata?.dharamshala[0]?.category_name}
                     </td>
-                    <td className="table_tddd">
-                      {checkindata && checkindata?.dharamshalaname}
-                    </td>
+                    {/* <td className="table_tddd">
+                      {checkindata &&
+                        checkindata?.dharamshala[0]?.facility_name?.map(
+                          (element, index) => (
+                            <span key={index}> {element},</span>
+                          ),
+                        )}
+                    </td> */}
                     <td className="table_tddd">
                       {isData &&
                         isData.map((item) => {
                           return <span> {item?.RoomNo}</span>;
                         })}
                     </td>
-                    <td className="table_tddd">{isData[0]?.nRoom}</td>
+                    {/* <td className="table_tddd">{isData[0]?.nRoom}</td> */}
                     <td className="table_tddd">
                       {Number(isData[0]?.nRoom) *
+                        Number(
+                          checkindata && checkindata?.dharamshala[0]?.advance,
+                        )}
+                    </td>
+                    <td className="table_tddd">
+                      {Number(isData[0]?.nRoom + isData[0]?.nRoom) *
                         Number(
                           checkindata && checkindata?.dharamshala[0]?.advance,
                         )}
@@ -154,7 +189,7 @@ function RoomBookingCetificate({ setopendashboard }) {
         </div>
       </div>
       <div className="button_div_print_download">
-        <button onClick={() => down()}>Download</button>
+        <button onClick={() => handlePrint()}>Print</button>
       </div>
     </>
   );

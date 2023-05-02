@@ -31,6 +31,7 @@ import RoomShiftForm from './RoomShiftForm';
 import Typography from '@mui/material/Typography';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import moment from 'moment';
+import Checkoutform from './Checkoutform';
 import './RoomShift.css';
 import RoomBookingTap from '../RoomBookingTap';
 const style = {
@@ -57,6 +58,13 @@ const RoomShift = ({ setopendashboard }) => {
   const handleClose = () => setOpen(false);
   const handleOepn = (data) => {
     setOpen(true);
+    setchangedata(data);
+  };
+
+  const [open1, setOpen1] = React.useState(false);
+  const handleClose1 = () => setOpen1(false);
+  const handleOepn1 = (data) => {
+    setOpen1(true);
     setchangedata(data);
   };
 
@@ -177,6 +185,39 @@ const RoomShift = ({ setopendashboard }) => {
         </Fade>
       </Modal>
 
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open1}
+        onClose={handleClose1}
+        closeAfterTransition
+      >
+        <Fade in={open1}>
+          <Box sx={style}>
+            <div>
+              <div className="add-div-close-div">
+                <div>
+                  <h2 style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
+                    Room Checkout
+                  </h2>
+                  <Typography
+                    style={{ marginLeft: '1rem' }}
+                    variant="body2"
+                    color="primary"
+                  >
+                    {currDate} / {currTime}
+                  </Typography>
+                </div>
+                <IconButton>
+                  <CloseIcon onClick={() => handleClose1()} />
+                </IconButton>
+              </div>
+              <Checkoutform setOpen={setOpen1} empdata={changedata} />
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
+
       <RoomBookingTap setopendashboard={setopendashboard} />
       <div style={{ marginLeft: '5rem', marginRight: '1.2rem' }}>
         <div className="search-header-print">
@@ -256,7 +297,7 @@ const RoomShift = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Customer Name
+                  CustomerName
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('holderName')}
@@ -264,7 +305,7 @@ const RoomShift = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Checkin Date
+                  CheckinDate
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('date')}
@@ -272,7 +313,7 @@ const RoomShift = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Checkin Time
+                  CheckinTime
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('time')}
@@ -280,7 +321,7 @@ const RoomShift = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Checkout Date
+                  CheckoutDate
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('coutDate')}
@@ -288,7 +329,7 @@ const RoomShift = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Checkout Time
+                  CheckoutTime
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('coutTime')}
@@ -307,6 +348,106 @@ const RoomShift = ({ setopendashboard }) => {
               </TableRow>
             </TableHead>
             <TableBody>
+              <TableRow>
+                <TableCell>&nbsp;</TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    placeholder="id"
+                    // value={voucherfrom}
+                    name="voucherfrom"
+                    // onChange={(e) => {
+                    //   setvoucherfrom(e.target.value);
+                    // }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    placeholder="Number"
+                    // value={voucherfrom}
+                    name="voucherfrom"
+                    // onChange={(e) => {
+                    //   setvoucherfrom(e.target.value);
+                    // }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    placeholder="name"
+                    // value={voucherfrom}
+                    name="voucherfrom"
+                    // onChange={(e) => {
+                    //   setvoucherfrom(e.target.value);
+                    // }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    placeholder="Check in date"
+                    // value={voucherfrom}
+                    name="voucherfrom"
+                    // onChange={(e) => {
+                    //   setvoucherfrom(e.target.value);
+                    // }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    placeholder="Check in time"
+                    // value={voucherfrom}
+                    name="voucherfrom"
+                    // onChange={(e) => {
+                    //   setvoucherfrom(e.target.value);
+                    // }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    placeholder="Check out date"
+                    // value={voucherfrom}
+                    name="voucherfrom"
+                    // onChange={(e) => {
+                    //   setvoucherfrom(e.target.value);
+                    // }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    placeholder="Check out time"
+                    // value={voucherfrom}
+                    name="voucherfrom"
+                    // onChange={(e) => {
+                    //   setvoucherfrom(e.target.value);
+                    // }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    placeholder="Room No"
+                    // value={voucherfrom}
+                    name="voucherfrom"
+                    // onChange={(e) => {
+                    //   setvoucherfrom(e.target.value);
+                    // }}
+                  />
+                </TableCell>
+                <TableCell>&nbsp;</TableCell>
+              </TableRow>
               {isData ? (
                 <>
                   {(rowsPerPage > 0
@@ -340,12 +481,22 @@ const RoomShift = ({ setopendashboard }) => {
                       </TableCell>
 
                       <TableCell> {row?.RoomNo}</TableCell>
-                      <TableCell>
+                      <TableCell style={{ display: 'flex' }}>
                         <button
                           onClick={() => handleOepn(row)}
                           className="chaneRoom"
                         >
-                          Change Room
+                          ChangeRoom
+                        </button>
+                        <button
+                          style={{
+                            marginLeft: '1rem',
+                            backgroundColor: '#FA7401',
+                          }}
+                          onClick={() => handleOepn1(row)}
+                          className="chaneRoom"
+                        >
+                          checkout
                         </button>
                       </TableCell>
                     </TableRow>
