@@ -5,22 +5,21 @@ import { serverInstance } from '../../../../API/ServerInstance';
 import './PaymentSuccess.css';
 function PaymentSuccess({ setopendashboard }) {
   const navigate = useNavigate();
-
   const location = useLocation();
   const [isData, setisData] = useState('');
   const [paymentmode, setpaymentmode] = useState('');
   const [checkindata, setcheckindata] = useState('');
   useEffect(() => {
     if (location.state) {
-      setisData(location?.state?.data);
+      setisData(location?.state?.data?.data);
       setcheckindata(location?.state?.checkindata);
+      console.log('Payment details payment', location?.state?.checkindata);
     }
     setopendashboard(true);
   }, []);
-  console.log('Payment details', isData.data, checkindata);
 
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
-  var today = new Date(isData.data[0]?.date);
+  var today = new Date(isData && isData.data[0]?.date);
   const currDate = today
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -30,7 +29,7 @@ function PaymentSuccess({ setopendashboard }) {
     hour12: true,
   });
 
-  var today1 = new Date(isData.data[0]?.coutDate);
+  var today1 = new Date(isData && isData.data[0]?.coutDate);
   const currDate1 = today1
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -80,6 +79,7 @@ function PaymentSuccess({ setopendashboard }) {
                 <p>{isData.data && isData.data[0]?.booking_id}</p>
                 <p>
                   {isData &&
+                    isData?.data &&
                     isData?.data?.map((item) => {
                       return <span> {item?.RoomNo}</span>;
                     })}

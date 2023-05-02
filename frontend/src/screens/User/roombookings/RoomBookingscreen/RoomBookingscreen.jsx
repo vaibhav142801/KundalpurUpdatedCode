@@ -171,6 +171,7 @@ function RoomBookingscreen() {
       state: state,
       proof: idproffname,
       idNumber: idproffnumber,
+      paymentMode: 0,
       male: maleno,
       female: femaleno,
       child: childrenno,

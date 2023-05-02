@@ -351,7 +351,7 @@ const CheckIn = ({ setopendashboard }) => {
                         {moment(row?.time, 'HH:mm').format('hh:mm')}
                       </TableCell>
                       <TableCell>
-                        {Moment(row?.coutDate).format('YYYY-MM-DD')}
+                        {Moment(row?.coutDate).format('DD-MM-YYYY')}
                       </TableCell>
                       <TableCell>
                         {moment(row?.coutTime, 'HH:mm').format('hh:mm')}

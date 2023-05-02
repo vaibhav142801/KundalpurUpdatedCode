@@ -184,7 +184,7 @@ function CheckinForm({ setOpen }) {
 
       if (Paymode === 'Cash') {
         const data = {
-          date: date,
+          date: today,
           time: time,
           contactNo: phoneno,
           name: fullname,
@@ -199,6 +199,7 @@ function CheckinForm({ setOpen }) {
           female: femaleno,
           child: Children,
           dharmasala: dharamshalaname,
+          paymentMode: 0,
           modeOfBooking: 1,
           coutDate: new Date(today.getTime() + staydays * 24 * 60 * 60 * 1000),
           coutTime: new Date(
@@ -219,14 +220,14 @@ function CheckinForm({ setOpen }) {
 
         const res = await axios.post(`${backendApiUrl}room/checkin`, data);
 
-        console.log('checkin', res.data.data, dataa);
+        console.log('checkin', res, dataa);
 
         if (res.status === 200) {
           setOpen(false);
           getalldharamshala();
           navigate('/admin-panel/room/paymentsuccess', {
             state: {
-              data: res.data.data,
+              data: res?.data,
               checkindata: dataa,
             },
           });
@@ -234,7 +235,7 @@ function CheckinForm({ setOpen }) {
       }
       if (Paymode === 'Online') {
         const data = {
-          date: date,
+          date: today,
           time: time,
           contactNo: phoneno,
           name: fullname,
@@ -247,6 +248,7 @@ function CheckinForm({ setOpen }) {
           idNumber: idproffno,
           male: maleno,
           female: femaleno,
+          paymentMode: 1,
           child: Children,
           dharmasala: dharamshalaname,
           modeOfBooking: 1,
@@ -274,7 +276,7 @@ function CheckinForm({ setOpen }) {
         if (res.status === 200) {
           setOpen(false);
           getalldharamshala();
-          navigate('/room/paymentsuccessfuly', {
+          navigate('/admin-panel/room/paymentsuccess', {
             state: {
               data: res.data.data,
               checkindata: dataa,

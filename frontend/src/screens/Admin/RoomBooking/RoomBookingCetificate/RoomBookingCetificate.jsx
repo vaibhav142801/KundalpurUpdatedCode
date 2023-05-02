@@ -47,7 +47,9 @@ function RoomBookingCetificate({ setopendashboard }) {
         className="button_div_print_download10"
         style={{ marginBottom: '-10rem' }}
       >
-        <button onClick={() => navigate(-1)}>Back</button>
+        <button onClick={() => navigate('/admin-panel/room/checkin')}>
+          Back
+        </button>
 
         <div />
       </div>
