@@ -79,8 +79,8 @@ const Hold = ({ setopendashboard }) => {
   const handleClose4 = () => {
     setOpen3(false);
 
-    serverInstance('room/update-holdin', 'POST', {
-      id: data?.id,
+    serverInstance('room/update-holdin', 'PUT', {
+      id: deleteId,
     }).then((res) => {
       // setOpen(false);
       console.log(res);
@@ -185,12 +185,10 @@ const Hold = ({ setopendashboard }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {'Do you want to delete'}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{'Release'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            After delete you cannot get again
+            Are you want to release this room
           </DialogContentText>
         </DialogContent>
         <DialogActions>

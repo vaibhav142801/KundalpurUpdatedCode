@@ -9,7 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
-import { Box, Button } from '@mui/material';
+import { Box, Button, useStepperContext } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
@@ -50,6 +50,7 @@ const CheckIn = ({ setopendashboard }) => {
   const [changedata, setchangedata] = useState('');
   const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
+  const [isDataDummy, setisDataDummy] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [userrole, setuserrole] = useState('');
@@ -80,8 +81,9 @@ const CheckIn = ({ setopendashboard }) => {
     serverInstance('room/checkin', 'get').then((res) => {
       if (res.data) {
         setloader(false);
-        let filterData = res.data.filter((item) => item.modeOfBooking === 1);
-        setisData(filterData);
+        // let filterData = res.data.filter((item) => item.modeOfBooking === 1);
+        setisData(res.data);
+        setisDataDummy(res.data);
       }
     });
   };
@@ -129,6 +131,67 @@ const CheckIn = ({ setopendashboard }) => {
 
     setuserrole(Number(sessionStorage.getItem('userrole')));
   }, [open]);
+
+  const [bookid, setbookid] = useState('');
+  const [mobileno, setmobileno] = useState('');
+  const [customername, setcustomername] = useState('');
+  const [checkindate, setcheckindate] = useState('');
+  const [checkintime, setcheckintime] = useState('');
+  const [checkoutdate, setcheckoutdate] = useState('');
+  const [checkouttime, setcheckouttime] = useState();
+  const [roomNo, setroomNo] = useState('');
+
+  const onSearchByOther = (e, type) => {
+    if (type === 'bookid') {
+      setbookid(e.target.value.toLowerCase());
+    }
+    if (type === 'mobileno') {
+      setmobileno(e.target.value.toLowerCase());
+    }
+    if (type === 'customername') {
+      setcustomername(e.target.value.toLowerCase());
+    }
+    if (type === 'checkindate') {
+      setcheckindate(e.target.value.toLowerCase());
+    }
+    if (type === 'checkintime') {
+      setcheckintime(e.target.value.toLowerCase());
+    }
+    if (type === 'checkoutdate') {
+      setcheckoutdate(e.target.value.toLowerCase());
+    }
+    if (type === 'checkouttime') {
+      setcheckouttime(e.target.value);
+    }
+    if (type === 'roomNo') {
+      setroomNo(e.target.value);
+    }
+  };
+
+  useEffect(() => {
+    var filtered = isDataDummy?.filter(
+      (dt) =>
+        dt?.booking_id?.toLowerCase().indexOf(bookid) > -1 &&
+        dt?.contactNo?.toLowerCase().indexOf(mobileno) > -1 &&
+        Moment(dt?.date).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
+        Moment(dt?.coutDate).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
+        dt?.name?.toLowerCase().indexOf(customername) > -1 &&
+        dt?.time?.toLowerCase().indexOf(checkintime) > -1 &&
+        dt?.coutTime?.toLowerCase().indexOf(checkouttime) > -1 &&
+        dt?.RoomNo?.indexOf(roomNo) > -1,
+    );
+
+    setisData(filtered);
+  }, [
+    bookid,
+    checkindate,
+    checkintime,
+    checkoutdate,
+    checkouttime,
+    roomNo,
+    mobileno,
+    customername,
+  ]);
 
   return (
     <>
@@ -193,7 +256,7 @@ const CheckIn = ({ setopendashboard }) => {
       </Modal>
       <RoomBookingTap setopendashboard={setopendashboard} />
       <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
-        <div className="main_amin_gain">
+        {/* <div className="main_amin_gain">
           <div className="main_amin_gain1">Total Guest : 265</div>
           <div className="main_amin_gain2">Total Advance : 112050</div>
           <Select
@@ -238,7 +301,8 @@ const CheckIn = ({ setopendashboard }) => {
               No
             </MenuItem>
           </Select>
-        </div>
+        </div> */}
+
         <div className="search-header-print">
           <div
             className="search-header-print"
@@ -373,96 +437,64 @@ const CheckIn = ({ setopendashboard }) => {
                   <input
                     className="cuolms_search"
                     type="text"
-                    placeholder="id"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => onSearchByOther(e, 'bookid')}
+                    placeholder="Search bookid"
                   />
                 </TableCell>
                 <TableCell>
                   <input
                     className="cuolms_search"
                     type="text"
-                    placeholder="Number"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => onSearchByOther(e, 'mobileno')}
+                    placeholder="Search  mobileno"
                   />
                 </TableCell>
                 <TableCell>
                   <input
                     className="cuolms_search"
                     type="text"
-                    placeholder="name"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => onSearchByOther(e, 'customername')}
+                    placeholder="Search  name"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'checkindate')}
+                    placeholder="Search  checkin date"
                   />
                 </TableCell>
                 <TableCell>
                   <input
                     className="cuolms_search"
                     type="text"
-                    placeholder="Check in date"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => onSearchByOther(e, 'checkintime')}
+                    placeholder="Search checkin time"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'checkoutdate')}
+                    placeholder="Search checkout date"
                   />
                 </TableCell>
                 <TableCell>
                   <input
                     className="cuolms_search"
                     type="text"
-                    placeholder="Check in time"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => onSearchByOther(e, 'checkouttime')}
+                    placeholder="Search checkout time"
                   />
                 </TableCell>
                 <TableCell>
                   <input
                     className="cuolms_search"
                     type="text"
-                    placeholder="Check out date"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
-                  />
-                </TableCell>
-                <TableCell>
-                  <input
-                    className="cuolms_search"
-                    type="text"
-                    placeholder="Check out time"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
-                  />
-                </TableCell>
-                <TableCell>
-                  <input
-                    className="cuolms_search"
-                    type="text"
-                    placeholder="Room No"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => onSearchByOther(e, 'roomNo')}
+                    placeholder="Search  roomNo"
                   />
                 </TableCell>
                 <TableCell>&nbsp;</TableCell>
