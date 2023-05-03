@@ -89,10 +89,10 @@ function Holdfrom({ setOpen }) {
       const data = {
         name: holdername,
         mobile: holdermobile,
-        since: holdremain,
+        since: holdsince,
         sinceTime: sinceTime,
         remainTime: remainTime,
-        remain: holdsince,
+        remain: holdremain,
         dharmasala: dharamshalaname,
         category: categoryname,
         roomNo: roomnumber,

@@ -246,7 +246,7 @@ function RoomShiftForm({ setOpen, changedata }) {
       setstate(changedata?.state);
       setcity(changedata?.city);
       setroomnumber(changedata?.RoomNo);
-      setdharamshalanameroom(changedata?.name);
+      setdharamshalanameroom(changedata?.dharmasala?.name);
       setcategoryroom(changedata?.category_name);
       setfacilityname(changedata?.facility_name);
       setrate(changedata?.roomAmount);

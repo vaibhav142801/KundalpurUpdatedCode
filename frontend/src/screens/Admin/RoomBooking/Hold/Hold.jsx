@@ -75,17 +75,19 @@ const Hold = ({ setopendashboard }) => {
     setdeleteId(id);
   };
   const handleClose5 = () => setOpen3(false);
+
   const handleClose4 = () => {
     setOpen3(false);
-    serverInstance(`room/hold?id=${deleteId}`, 'delete').then((res) => {
-      if (res.data.status === true) {
-        setOpen(false);
-        Swal.fire('Great!', res.data.message, 'success');
-      }
-      if (res.data.status === false) {
-        setOpen(false);
-        Swal.fire('Great!', res.data.message, 'success');
-      }
+
+    serverInstance('room/update-holdin', 'POST', {
+      id: data?.id,
+    }).then((res) => {
+      // setOpen(false);
+      console.log(res);
+      // if (res.data) {
+      //   setisData(res.data);
+      //   setloader(false);
+      // }
     });
   };
   const getall_donation = () => {
@@ -497,17 +499,16 @@ const Hold = ({ setopendashboard }) => {
                         {Moment(row?.since).format('DD-MM-YYYY')}
                       </TableCell>
                       <TableCell>
-                        {' '}
                         {Moment(row?.remain).format('DD-MM-YYYY')}
                       </TableCell>
 
                       <TableCell>{row?.approvedBy}</TableCell>
                       <TableCell> {row?.remarks}</TableCell>
                       <TableCell>
-                        <Tooltip title="Edit">
+                        <Tooltip title="Room Release">
                           <button
                             style={{ backgroundColor: '#FA7401' }}
-                            // onClick={() => handleOepn(row)}
+                            onClick={() => handleClickOpen3(row?.id)}
                             className="chaneRoom"
                           >
                             RoomRelease
