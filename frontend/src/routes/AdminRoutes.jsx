@@ -65,7 +65,7 @@ import CheckIn from '../screens/Admin/RoomBooking/CheckIn/CheckIn';
 import Hold from '../screens/Admin/RoomBooking/Hold/Hold';
 import RoomShift from '../screens/Admin/RoomBooking/RoomShift/RoomShift';
 import RoomBooking from '../screens/Admin/RoomBooking/RoomBooking';
-
+import PrintRoomBooking from '../screens/Admin/RoomBooking/RoomBookingCetificate/PrintRoomBooking';
 //online receipt
 import OnlineadminRecipt from '../screens/Admin/Reciept/OnlineadminRecipt';
 function AdminRoutes({ setopendashboard, setshowreciept }) {
@@ -551,6 +551,15 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <OnlineadminRecipt setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/room/Print/Room/Booking"
+          element={
+            <Adminprivateroute>
+              <PrintRoomBooking setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />

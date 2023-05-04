@@ -130,7 +130,15 @@ const CheckIn = ({ setopendashboard }) => {
     setopendashboard(true);
 
     setuserrole(Number(sessionStorage.getItem('userrole')));
-  }, [open]);
+  }, [open, open1]);
+
+  const downloadrecept = (row) => {
+    navigation('/admin-panel/room/Print/Room/Booking', {
+      state: {
+        data: row,
+      },
+    });
+  };
 
   const [bookid, setbookid] = useState('');
   const [mobileno, setmobileno] = useState('');
@@ -172,15 +180,34 @@ const CheckIn = ({ setopendashboard }) => {
     var filtered = isDataDummy?.filter(
       (dt) =>
         dt?.booking_id?.toLowerCase().indexOf(bookid) > -1 &&
-        dt?.contactNo?.toLowerCase().indexOf(mobileno) > -1 &&
         Moment(dt?.date).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
         Moment(dt?.coutDate).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
-        dt?.name?.toLowerCase().indexOf(customername) > -1 &&
-        dt?.time?.toLowerCase().indexOf(checkintime) > -1 &&
-        dt?.coutTime?.toLowerCase().indexOf(checkouttime) > -1 &&
-        dt?.RoomNo?.indexOf(roomNo) > -1,
+        dt?.name?.toLowerCase().indexOf(customername) > -1,
+      // dt?.time?.toLowerCase().indexOf(checkintime) > -1 &&
+      // dt?.coutTime?.toLowerCase().indexOf(checkouttime) > -1 &&
     );
 
+    if (roomNo) {
+      filtered = filtered?.map((item) => {
+        if (item.RoomNo == Number(roomNo)) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+
+    if (mobileno) {
+      filtered = filtered?.map((item) => {
+        if (item.contactNo == mobileno) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
     setisData(filtered);
   }, [
     bookid,
@@ -491,13 +518,23 @@ const CheckIn = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
+                    style={{ width: '70px' }}
                     className="cuolms_search"
                     type="text"
-                    onChange={(e) => onSearchByOther(e, 'roomNo')}
-                    placeholder="Search  roomNo"
+                    onChange={(e) => {
+                      onSearchByOther(e, 'roomNo');
+                    }}
+                    placeholder="roomNo"
                   />
                 </TableCell>
-                <TableCell>&nbsp;</TableCell>
+                <TableCell>
+                  <button
+                    className="chaneRoom"
+                    onClick={() => getall_donation()}
+                  >
+                    Reset
+                  </button>
+                </TableCell>
               </TableRow>
               {isData ? (
                 <>
@@ -522,23 +559,23 @@ const CheckIn = ({ setopendashboard }) => {
                         {Moment(row?.date).format('YYYY-MM-DD')}
                       </TableCell>
                       <TableCell>
-                        {moment(row?.time, 'HH:mm').format('hh:mm')}
+                        {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
                       </TableCell>
                       <TableCell>
                         {Moment(row?.coutDate).format('DD-MM-YYYY')}
                       </TableCell>
                       <TableCell>
-                        {moment(row?.coutTime, 'HH:mm').format('hh:mm')}
+                        {moment(row?.coutTime, 'HH:mm:ss').format('hh:mm:ss')}
                       </TableCell>
 
                       <TableCell> {row?.RoomNo}</TableCell>
                       <TableCell style={{ display: 'flex' }}>
-                        {/* <button
-                          onClick={() => handleOepn(row)}
+                        <button
+                          onClick={() => downloadrecept(row)}
                           className="chaneRoom"
                         >
-                          ChangeRoom
-                        </button> */}
+                          Print
+                        </button>
                         <button
                           style={{
                             marginLeft: '1rem',

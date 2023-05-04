@@ -35,9 +35,10 @@
     width: 50%;
     display: flex;
     justify-content: space-around;
+    align-items: center;
 }
 .innear_div_texx_dd p{
-    margin-bottom: 10%;
+  
 }
 .yyy_text_div{
     display: flex;

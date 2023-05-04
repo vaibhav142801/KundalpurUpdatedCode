@@ -18,7 +18,7 @@
     position: relative;
 }
 .main-certificatenote p{
-    line-height: 33px;
+    line-height: 36.1px;
     font-size: 15px;
 }
 .reciept-footer-style{
@@ -64,4 +64,7 @@
     padding-right: 2px;
     font-weight: 600;
     margin-right: 1rem;
+}
+.lineheight{
+    line-height: 23px;
 }

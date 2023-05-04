@@ -98,46 +98,62 @@ const ReceiptBooking = ({}) => {
                       style={{ width: '100%' }}
                     >
                       <div className="maxxin_room_receipt_innear">
-                        <p className="yadda_text">यात्री आगमन रसीद</p>
+                        <p className="yadda_text lineheight">
+                          यात्री आगमन रसीद
+                        </p>
                         <div className="innear_div_texx">
                           <div className="innear_div_texx_dd">
                             <div>
-                              <p>आवास क्र</p>
-                              <p>यात्री का नाम-</p>
-                              <p>पिता/पति श्री-</p>
+                              <p className="lineheight">आवास क्र</p>
+                              <p className="lineheight">यात्री का नाम-</p>
+                              <p className="lineheight">पिता/पति श्री-</p>
                             </div>
                             <div>
-                              <p>
+                              <p className="lineheight">
                                 {isData &&
                                   isData.map((item) => {
                                     return <span> {item?.RoomNo}</span>;
                                   })}
                               </p>
-                              <p>{isData && isData[0]?.name}</p>
-                              <p>{isData && isData[0]?.Fname}</p>
+                              <p className="lineheight">
+                                {isData && isData[0]?.name}
+                              </p>
+                              <p className="lineheight">
+                                {isData && isData[0]?.Fname}
+                              </p>
                             </div>
                           </div>
                           <div className="innear_div_texx_dd">
                             <div>
-                              <p>आगमन दिनांक</p>
-                              <p>मोबाईल न.-</p>
-                              <p>पता-</p>
+                              <p className="lineheight">आगमन दिनांक</p>
+                              <p className="lineheight">मोबाईल न.-</p>
+                              <p className="lineheight">पता-</p>
                             </div>
                             <div>
-                              <p>
+                              <p className="lineheight">
                                 {currDate} / {currTime}
                               </p>
-                              <p>{isData && isData[0]?.contactNo}</p>
-                              <p>{isData && isData[0]?.city}</p>
+                              <p className="lineheight">
+                                {isData && isData[0]?.contactNo}
+                              </p>
+                              <p className="lineheight">
+                                {isData && isData[0]?.city}
+                              </p>
                             </div>
                           </div>
                         </div>
                         <div className="yyy_text_div">
-                          <p>यात्री संख्या</p>
-                          <p>Male: {isData && isData[0]?.male}</p>
-                          <p>Female: {isData && isData[0]?.female}</p>
-                          <p>Child: {isData && isData[0]?.child}</p>
-                          <p>
+                          <p className="lineheight">यात्री संख्या</p>
+                          <p className="lineheight">
+                            Male: {isData && isData[0]?.male}
+                          </p>
+                          <p className="lineheight">
+                            Female: {isData && isData[0]?.female}
+                          </p>
+                          <p className="lineheight">
+                            Child: {isData && isData[0]?.child}
+                          </p>
+                          <p className="lineheight">
                             Total:{' '}
                             {Number(isData && isData[0]?.male) +
                               Number(isData && isData[0]?.female) +
@@ -149,14 +165,20 @@ const ReceiptBooking = ({}) => {
                           <table className="table_ddd">
                             <tbody>
                               <tr>
-                                <td className="table_tddd">धर्मशाला नाम</td>
-                                <td className="table_tddd">रूम टाईप</td>
+                                <td className="table_tddd lineheight">
+                                  धर्मशाला नाम
+                                </td>
+                                <td className="table_tddd lineheight">
+                                  रूम टाईप
+                                </td>
                                 {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
-                                <td className="table_tddd">रुम न.</td>
+                                <td className="table_tddd lineheight">
+                                  रुम न.
+                                </td>
                                 {/* <td className="table_tddd">रूम की संख्या</td> */}
-                                <td className="table_tddd">
+                                <td className="table_tddd lineheight">
                                   सहयोग राशि
-                                  <p>
+                                  <p className="lineheight">
                                     {isData &&
                                       isData[0]?.nRoom &&
                                       isData[0]?.nRoom}{' '}
@@ -177,10 +199,10 @@ const ReceiptBooking = ({}) => {
                           </td> */}
                               </tr>
                               <tr>
-                                <td className="table_tddd">
+                                <td className="table_tddd lineheight">
                                   {checkinda && checkinda?.dharamshala}
                                 </td>
-                                <td className="table_tddd">
+                                <td className="table_tddd lineheight">
                                   {checkinda &&
                                     checkinda?.category[0]?.facilities &&
                                     checkinda?.category[0]?.facilities.map(
@@ -201,7 +223,7 @@ const ReceiptBooking = ({}) => {
                                     ),
                                   )}
                               </td> */}
-                                <td className="table_tddd">
+                                <td className="table_tddd lineheight">
                                   (
                                   {isData &&
                                     isData.map((item) => {
@@ -212,7 +234,7 @@ const ReceiptBooking = ({}) => {
                                 {/* <td className="table_tddd">
                                 {isData && isData[0]?.nRoom}
                               </td> */}
-                                <td className="table_tddd">
+                                <td className="table_tddd lineheight">
                                   {Number(isData && isData[0]?.roomAmount) *
                                     Number(isData && isData[0]?.nRoom)}
                                 </td>

@@ -5,10 +5,22 @@ import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Checkoutform = ({ setOpen, empdata }) => {
-  const [checkoutdate, setcheckoutdate] = useState('');
   const [returnamount, setreturnamount] = useState('');
   const [showloader, setshowloader] = useState(false);
+  var options = { year: 'numeric', month: 'short', day: '2-digit' };
+  var today = new Date();
+  const currDate = today
+    .toLocaleDateString('en-IN', options)
+    .replace(/-/g, ' ');
+  const currTime = today.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
 
+  var date = today.toISOString().substring(0, 10);
+
+  const [checkoutdate, setcheckoutdate] = useState(date);
   const handlesubmit = async () => {
     try {
       setshowloader(true);
@@ -19,7 +31,7 @@ const Checkoutform = ({ setOpen, empdata }) => {
       const res = await axios.post(`${backendApiUrl}room/checkOut`, {
         id: empdata?.id,
         checkoutDate: checkoutdate,
-        advanceAmount: returnamount,
+        advanceAmount: returnamount ? returnamount : 0,
       });
 
       console.log(res.data.data);
@@ -65,11 +77,17 @@ const Checkoutform = ({ setOpen, empdata }) => {
                   required
                   id="donation-date"
                   className="forminput_add_user"
-                  type="datetime-local"
+                  type="date"
                   placeholder="To VC"
                   value={checkoutdate}
                   name="checkoutdate"
-                  onChange={(e) => setcheckoutdate(e.target.value)}
+                  onChange={(e) =>
+                    setcheckoutdate(
+                      new Date(event.target.value)
+                        .toISOString()
+                        .substring(0, 10),
+                    )
+                  }
                 />
               </div>
             </div>

@@ -51,6 +51,7 @@ const style = {
 const Hold = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const [isData, setisData] = React.useState('');
+  const [isDataDummy, setisDataDummy] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [userrole, setuserrole] = useState('');
@@ -95,6 +96,7 @@ const Hold = ({ setopendashboard }) => {
     serverInstance('room/hold', 'get').then((res) => {
       if (res.data) {
         setisData(res.data);
+        setisDataDummy(res.data);
         setloader(false);
       }
     });
@@ -177,6 +179,101 @@ const Hold = ({ setopendashboard }) => {
     );
     setSortConfig({ key: key, direction: direction });
   };
+
+  const [mobileno, setmobileno] = useState('');
+  const [customername, setcustomername] = useState('');
+  const [checkindate, setcheckindate] = useState('');
+  const [checkoutdate, setcheckoutdate] = useState('');
+  const [roomNo, setroomNo] = useState('');
+  const [holdsince, setholdsince] = useState('');
+  const [holdremain, setholdremain] = useState('');
+  const [holdby, setholdby] = useState('');
+  const [remark, setremark] = useState('');
+
+  const onSearchByOther = (e, type) => {
+    if (type === 'mobile') {
+      setmobileno(e.target.value.toLowerCase());
+    }
+    if (type === 'name') {
+      setcustomername(e.target.value.toLowerCase());
+    }
+    if (type === 'roomNo') {
+      setroomNo(e.target.value);
+    }
+    if (type === 'since') {
+      setcheckindate(e.target.value.toLowerCase());
+    }
+    if (type === 'remain') {
+      setcheckoutdate(e.target.value.toLowerCase());
+    }
+    if (type === 'approvedBy') {
+      setholdby(e.target.value.toLowerCase());
+    }
+    if (type === 'remarks') {
+      setremark(e.target.value.toLowerCase());
+    }
+  };
+
+  useEffect(() => {
+    var filtered = isDataDummy?.filter(
+      (dt) =>
+        Moment(dt?.since).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
+        Moment(dt?.remain).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
+        dt?.name?.toLowerCase().indexOf(customername) > -1,
+    );
+
+    if (remark) {
+      filtered = filtered?.map((item) => {
+        if (item.remarks == remark) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+    if (holdby) {
+      filtered = filtered?.map((item) => {
+        if (item.approvedBy == holdby) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+    if (roomNo) {
+      filtered = filtered?.map((item) => {
+        if (item.roomNo == Number(roomNo)) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+    if (mobileno) {
+      filtered = filtered?.map((item) => {
+        if (item.mobile == mobileno) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+    setisData(filtered);
+  }, [
+    mobileno,
+    checkindate,
+    checkoutdate,
+    customername,
+    roomNo,
+    holdby,
+    holdremain,
+    holdsince,
+    remark,
+  ]);
   return (
     <>
       <Dialog
@@ -392,87 +489,66 @@ const Hold = ({ setopendashboard }) => {
                   <input
                     className="cuolms_search"
                     type="text"
-                    placeholder="Holder Mobile No"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => onSearchByOther(e, 'mobile')}
+                    placeholder="Search mobile"
                   />
                 </TableCell>
                 <TableCell>
                   <input
                     className="cuolms_search"
                     type="text"
-                    placeholder="Room holder Name"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => onSearchByOther(e, 'name')}
+                    placeholder="Search name"
                   />
                 </TableCell>
                 <TableCell>
                   <input
                     className="cuolms_search"
                     type="text"
-                    placeholder="Room No"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => onSearchByOther(e, 'roomNo')}
+                    placeholder="Search roomNo"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'since')}
+                    placeholder="Search since"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'remain')}
+                    placeholder="Search remain"
                   />
                 </TableCell>
                 <TableCell>
                   <input
                     className="cuolms_search"
                     type="text"
-                    placeholder="Hold Since"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => onSearchByOther(e, 'approvedBy')}
+                    placeholder="Search approvedBy"
                   />
                 </TableCell>
                 <TableCell>
                   <input
                     className="cuolms_search"
                     type="text"
-                    placeholder="Hold Remain"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => onSearchByOther(e, 'remarks')}
+                    placeholder="Search remarks"
                   />
                 </TableCell>
                 <TableCell>
-                  <input
-                    className="cuolms_search"
-                    type="text"
-                    placeholder="Hold Approved By"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
-                  />
+                  <button
+                    onClick={() => getall_donation()}
+                    className="chaneRoom"
+                  >
+                    Reset
+                  </button>
                 </TableCell>
-                <TableCell>
-                  <input
-                    className="cuolms_search"
-                    type="text"
-                    placeholder="Remarks"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
-                  />
-                </TableCell>
-                <TableCell>&nbsp;</TableCell>
               </TableRow>
               {isData ? (
                 <>

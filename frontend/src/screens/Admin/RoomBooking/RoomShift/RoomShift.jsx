@@ -50,6 +50,7 @@ const RoomShift = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
+  const [isDataDummy, setisDataDummy] = React.useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [userrole, setuserrole] = useState('');
@@ -74,6 +75,7 @@ const RoomShift = ({ setopendashboard }) => {
       if (res.data) {
         setloader(false);
         setisData(res.data);
+        setisDataDummy(res.data);
       }
     });
   };
@@ -96,6 +98,7 @@ const RoomShift = ({ setopendashboard }) => {
     minute: 'numeric',
     hour12: true,
   });
+
   const ExportToExcel = () => {
     const fileName = 'ManualCashReport';
     const exportType = 'xls';
@@ -129,7 +132,7 @@ const RoomShift = ({ setopendashboard }) => {
     setopendashboard(true);
 
     setuserrole(Number(sessionStorage.getItem('userrole')));
-  }, [open]);
+  }, [open, open1]);
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const sortData = (key) => {
@@ -150,6 +153,86 @@ const RoomShift = ({ setopendashboard }) => {
     );
     setSortConfig({ key: key, direction: direction });
   };
+
+  const [bookid, setbookid] = useState('');
+  const [mobileno, setmobileno] = useState('');
+  const [customername, setcustomername] = useState('');
+  const [checkindate, setcheckindate] = useState('');
+  const [checkintime, setcheckintime] = useState('');
+  const [checkoutdate, setcheckoutdate] = useState('');
+  const [checkouttime, setcheckouttime] = useState();
+  const [roomNo, setroomNo] = useState('');
+
+  const onSearchByOther = (e, type) => {
+    if (type === 'bookid') {
+      setbookid(e.target.value.toLowerCase());
+    }
+    if (type === 'mobileno') {
+      setmobileno(e.target.value.toLowerCase());
+    }
+    if (type === 'customername') {
+      setcustomername(e.target.value.toLowerCase());
+    }
+    if (type === 'checkindate') {
+      setcheckindate(e.target.value.toLowerCase());
+    }
+    if (type === 'checkintime') {
+      setcheckintime(e.target.value.toLowerCase());
+    }
+    if (type === 'checkoutdate') {
+      setcheckoutdate(e.target.value.toLowerCase());
+    }
+    if (type === 'checkouttime') {
+      setcheckouttime(e.target.value);
+    }
+    if (type === 'roomNo') {
+      setroomNo(e.target.value);
+    }
+  };
+
+  useEffect(() => {
+    var filtered = isDataDummy?.filter(
+      (dt) =>
+        dt?.booking_id?.toLowerCase().indexOf(bookid) > -1 &&
+        Moment(dt?.date).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
+        Moment(dt?.coutDate).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
+        dt?.name?.toLowerCase().indexOf(customername) > -1,
+      // dt?.time?.toLowerCase().indexOf(checkintime) > -1 &&
+      // dt?.coutTime?.toLowerCase().indexOf(checkouttime) > -1 &&
+    );
+
+    if (roomNo) {
+      filtered = filtered?.map((item) => {
+        if (item.RoomNo == Number(roomNo)) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+
+    if (mobileno) {
+      filtered = filtered?.map((item) => {
+        if (item.contactNo == mobileno) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+    setisData(filtered);
+  }, [
+    bookid,
+    checkindate,
+    checkintime,
+    checkoutdate,
+    checkouttime,
+    roomNo,
+    mobileno,
+    customername,
+  ]);
   return (
     <>
       <Modal
@@ -337,9 +420,9 @@ const RoomShift = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Room No
+                  RoomNo
                   <i
-                    style={{ marginLeft: '0.5rem' }}
+                    style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('RoomNo')}
                     class={`fa fa-sort`}
                   />
@@ -354,99 +437,77 @@ const RoomShift = ({ setopendashboard }) => {
                   <input
                     className="cuolms_search"
                     type="text"
-                    placeholder="id"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => onSearchByOther(e, 'bookid')}
+                    placeholder="Search bookid"
                   />
                 </TableCell>
                 <TableCell>
                   <input
                     className="cuolms_search"
                     type="text"
-                    placeholder="Number"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => onSearchByOther(e, 'mobileno')}
+                    placeholder="Search  mobileno"
                   />
                 </TableCell>
                 <TableCell>
                   <input
                     className="cuolms_search"
                     type="text"
-                    placeholder="name"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => onSearchByOther(e, 'customername')}
+                    placeholder="Search  name"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'checkindate')}
+                    placeholder="Search  checkin date"
                   />
                 </TableCell>
                 <TableCell>
                   <input
                     className="cuolms_search"
                     type="text"
-                    placeholder="Check in date"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => onSearchByOther(e, 'checkintime')}
+                    placeholder="Search checkin time"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'checkoutdate')}
+                    placeholder="Search checkout date"
                   />
                 </TableCell>
                 <TableCell>
                   <input
                     className="cuolms_search"
                     type="text"
-                    placeholder="Check in time"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => onSearchByOther(e, 'checkouttime')}
+                    placeholder="Search checkout time"
                   />
                 </TableCell>
                 <TableCell>
                   <input
+                    style={{ width: '70px' }}
                     className="cuolms_search"
                     type="text"
-                    placeholder="Check out date"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
+                    onChange={(e) => {
+                      onSearchByOther(e, 'roomNo');
+                    }}
+                    placeholder="roomNo"
                   />
                 </TableCell>
                 <TableCell>
-                  <input
-                    className="cuolms_search"
-                    type="text"
-                    placeholder="Check out time"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
-                  />
+                  <button
+                    className="chaneRoom"
+                    onClick={() => getall_donation()}
+                  >
+                    Reset
+                  </button>
                 </TableCell>
-                <TableCell>
-                  <input
-                    className="cuolms_search"
-                    type="text"
-                    placeholder="Room No"
-                    // value={voucherfrom}
-                    name="voucherfrom"
-                    // onChange={(e) => {
-                    //   setvoucherfrom(e.target.value);
-                    // }}
-                  />
-                </TableCell>
-                <TableCell>&nbsp;</TableCell>
               </TableRow>
               {isData ? (
                 <>
