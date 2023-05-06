@@ -98,7 +98,7 @@ const RoomShift = ({ setopendashboard }) => {
   };
 
   const downloadrecept = (row) => {
-    navigation('/admin-panel/room/Print/Room/Booking', {
+    navigation('/admin-panel/Room/printReceipt', {
       state: {
         data: row,
       },
@@ -699,7 +699,7 @@ const RoomShift = ({ setopendashboard }) => {
                     onChange={(e) => {
                       onSearchByOther(e, 'rate');
                     }}
-                    placeholder="roomNo"
+                    placeholder="Rate"
                   />
                 </TableCell>
                 <TableCell>
@@ -710,7 +710,7 @@ const RoomShift = ({ setopendashboard }) => {
                     onChange={(e) => {
                       onSearchByOther(e, 'advanceRate');
                     }}
-                    placeholder="roomNo"
+                    placeholder="Advance"
                   />
                 </TableCell>
                 <TableCell>
@@ -775,67 +775,88 @@ const RoomShift = ({ setopendashboard }) => {
                       <TableCell
                         style={{ display: 'flex', flexDirection: 'column' }}
                       >
-                        <button
-                          style={{
-                            width: '6rem',
-                            marginBottom: '4px',
-                            backgroundColor: '#000080',
-                          }}
-                          className="chaneRoom"
-                          onClick={() => downloadrecept(row)}
-                        >
-                          Print
-                        </button>
-                        <button
-                          style={{
-                            width: '6rem',
-                            marginBottom: '4px',
-                            backgroundColor: '#800000',
-                          }}
-                          onClick={() => handleClickOpen4(row?.id)}
-                          className="chaneRoom"
-                        >
-                          Forcecheckout
-                        </button>
-                        <button
-                          style={{
-                            width: '6rem',
-                            marginBottom: '4px',
-                            backgroundColor: '#FF0000',
-                          }}
-                          onClick={() => handleClickOpen3(row?.id)}
-                          className="chaneRoom"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          style={{
-                            width: '6rem',
-                            marginBottom: '4px',
-                            backgroundColor: '#800080',
-                          }}
-                          onClick={() => handleOepn(row)}
-                          className="chaneRoom"
-                        >
-                          RoomChange
-                        </button>
-                        <button
-                          style={{
-                            backgroundColor: '#FA7401',
-                            width: '6rem',
-                            marginBottom: '4px',
-                          }}
-                          onClick={() =>
-                            navigation('/admin-panel/Room/CheckoutReceipt', {
-                              state: {
-                                data: row,
-                              },
-                            })
-                          }
-                          className="chaneRoom"
-                        >
-                          checkout
-                        </button>
+                        {optionss === 'History' ? (
+                          <>
+                            <button
+                              style={{
+                                width: '6rem',
+                                marginBottom: '4px',
+                                backgroundColor: '#000080',
+                              }}
+                              className="chaneRoom"
+                              onClick={() => downloadrecept(row)}
+                            >
+                              Print
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              style={{
+                                width: '6rem',
+                                marginBottom: '4px',
+                                backgroundColor: '#000080',
+                              }}
+                              className="chaneRoom"
+                              onClick={() => downloadrecept(row)}
+                            >
+                              Print
+                            </button>
+                            <button
+                              style={{
+                                width: '6rem',
+                                marginBottom: '4px',
+                                backgroundColor: '#800000',
+                              }}
+                              onClick={() => handleClickOpen4(row?.id)}
+                              className="chaneRoom"
+                            >
+                              Forcecheckout
+                            </button>
+                            <button
+                              style={{
+                                width: '6rem',
+                                marginBottom: '4px',
+                                backgroundColor: '#FF0000',
+                              }}
+                              onClick={() => handleClickOpen3(row?.id)}
+                              className="chaneRoom"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              style={{
+                                width: '6rem',
+                                marginBottom: '4px',
+                                backgroundColor: '#800080',
+                              }}
+                              onClick={() => handleOepn(row)}
+                              className="chaneRoom"
+                            >
+                              RoomChange
+                            </button>
+                            <button
+                              style={{
+                                backgroundColor: '#FA7401',
+                                width: '6rem',
+                                marginBottom: '4px',
+                              }}
+                              onClick={() =>
+                                navigation(
+                                  '/admin-panel/Room/CheckoutReceipt',
+                                  {
+                                    state: {
+                                      data: row,
+                                    },
+                                  },
+                                )
+                              }
+                              className="chaneRoom"
+                            >
+                              checkout
+                            </button>
+                          </>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}

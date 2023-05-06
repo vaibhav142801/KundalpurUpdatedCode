@@ -176,7 +176,6 @@ const CheckIn = ({ setopendashboard }) => {
 
   const handleClose7 = () => {
     setOpen4(false);
-
     serverInstance('/room/force-checkout', 'POST', {
       id: checkforceid,
     }).then((res) => {
@@ -199,7 +198,7 @@ const CheckIn = ({ setopendashboard }) => {
   }, [open, open1, open3, open4, open8, optionss]);
 
   const downloadrecept = (row) => {
-    navigation('/admin-panel/room/Print/Room/Booking', {
+    navigation('/admin-panel/Room/printReceipt', {
       state: {
         data: row,
       },
@@ -711,7 +710,7 @@ const CheckIn = ({ setopendashboard }) => {
                     onChange={(e) => {
                       onSearchByOther(e, 'rate');
                     }}
-                    placeholder="roomNo"
+                    placeholder="Rate"
                   />
                 </TableCell>
                 <TableCell>
@@ -722,7 +721,7 @@ const CheckIn = ({ setopendashboard }) => {
                     onChange={(e) => {
                       onSearchByOther(e, 'advanceRate');
                     }}
-                    placeholder="roomNo"
+                    placeholder="Advance"
                   />
                 </TableCell>
                 <TableCell>
@@ -821,7 +820,16 @@ const CheckIn = ({ setopendashboard }) => {
                                 marginBottom: '4px',
                                 backgroundColor: '#800000',
                               }}
-                              onClick={() => handleClickOpen4(row?.id)}
+                              onClick={() =>
+                                navigation(
+                                  '/admin-panel/Room/ForceRoomChequeOut',
+                                  {
+                                    state: {
+                                      data: row,
+                                    },
+                                  },
+                                )
+                              }
                               className="chaneRoom"
                             >
                               Forcecheckout

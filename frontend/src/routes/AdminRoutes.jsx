@@ -53,7 +53,6 @@ import AllHead from '../screens/Admin/Reports/AllReport/AllHead';
 import AllConsolidated from '../screens/Admin/Reports/AllReport/AllConsolidated';
 import AllOnline from '../screens/Admin/Reports/AllReport/AllOnline';
 //dharamshala
-import DharamDetails from '../screens/Admin/RoomBooking/DharamDetails/DharamDetails';
 
 import RoomBookingscreen from '../screens/Admin/RoomBooking/RoomBookingscreen/RoomBookingscreen';
 import PaymentSuccess from '../screens/Admin/RoomBooking/PaymentSuccess/PaymentSuccess';
@@ -69,6 +68,9 @@ import PrintRoomBooking from '../screens/Admin/RoomBooking/RoomBookingCetificate
 //online receipt
 import OnlineadminRecipt from '../screens/Admin/Reciept/OnlineadminRecipt';
 import CheckoutReceipt from '../screens/Admin/RoomBooking/RoomBookingCetificate/CheckoutReceipt';
+import ForceRoomChequeOut from '../screens/Admin/RoomBooking/RoomBookingCetificate/ForceRoomChequeOut';
+import ForcePrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/ForcePrint';
+import Onlyprint from '../screens/Admin/RoomBooking/RoomBookingCetificate/Onlyprint';
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -471,14 +473,6 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
             </Adminprivateroute>
           }
         />
-        <Route
-          path="/admin-panel/Dharamshala/Details/:id"
-          element={
-            <Adminprivateroute>
-              <DharamDetails setopendashboard={setopendashboard} />
-            </Adminprivateroute>
-          }
-        />
 
         <Route
           path="/admin-panel/room/booking"
@@ -570,6 +564,32 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <CheckoutReceipt setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/Room/ForceRoomChequeOut"
+          element={
+            <Adminprivateroute>
+              <ForceRoomChequeOut setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/Room/ForcePrint"
+          element={
+            <Adminprivateroute>
+              <ForcePrint setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Room/printReceipt"
+          element={
+            <Adminprivateroute>
+              <Onlyprint setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />

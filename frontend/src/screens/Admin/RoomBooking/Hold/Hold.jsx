@@ -403,7 +403,7 @@ const Hold = ({ setopendashboard }) => {
                 />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Add Dharamshala">
+            <Tooltip title="Hold Room">
               <Button
                 onClick={() => handleOepn()}
                 className="add_btn_main_dhara"
