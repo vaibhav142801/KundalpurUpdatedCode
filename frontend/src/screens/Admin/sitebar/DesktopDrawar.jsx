@@ -977,7 +977,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
       {userrole === 3 && emproleid === 0 && (
         <>
           <ListItem disablePadding sx={{ display: 'block' }}>
-            <Tooltip title="Masters" placement="left-end">
+            <Tooltip title="Room Booking" placement="left-end">
               <StyledListItemButton
                 selected={activeTabId === 11}
                 onClick={() => {
@@ -1009,11 +1009,11 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
             </Tooltip>
           </ListItem>
           <ListItem disablePadding sx={{ display: 'block' }}>
-            <Tooltip title="Masters" placement="left-end">
+            <Tooltip title="Room Booking" placement="left-end">
               <StyledListItemButton
                 selected={activeTabId === 55}
                 onClick={() => {
-                  setActiveTabId(11);
+                  setActiveTabId(55);
                   handleDrawerClose();
                   navigate('/admin-panel/Room/checkinreports');
                 }}
@@ -1046,7 +1046,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
       {userrole === 3 && emproleid === 1 && (
         <>
           <ListItem disablePadding sx={{ display: 'block' }}>
-            <Tooltip title="Masters" placement="left-end">
+            <Tooltip title="Room Booking" placement="left-end">
               <StyledListItemButton
                 selected={activeTabId === 11}
                 onClick={() => {
@@ -1078,11 +1078,11 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
             </Tooltip>
           </ListItem>
           <ListItem disablePadding sx={{ display: 'block' }}>
-            <Tooltip title="Masters" placement="left-end">
+            <Tooltip title="Room Booking" placement="left-end">
               <StyledListItemButton
                 selected={activeTabId === 55}
                 onClick={() => {
-                  setActiveTabId(11);
+                  setActiveTabId(55);
                   handleDrawerClose();
                   navigate('/admin-panel/Room/checkinreports');
                 }}
@@ -1115,7 +1115,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
       {userrole === 3 && emproleid === 2 && (
         <>
           <ListItem disablePadding sx={{ display: 'block' }}>
-            <Tooltip title="Masters" placement="left-end">
+            <Tooltip title="Room Booking" placement="left-end">
               <StyledListItemButton
                 selected={activeTabId === 11}
                 onClick={() => {
@@ -1147,11 +1147,11 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
             </Tooltip>
           </ListItem>
           <ListItem disablePadding sx={{ display: 'block' }}>
-            <Tooltip title="Masters" placement="left-end">
+            <Tooltip title="Room Booking" placement="left-end">
               <StyledListItemButton
                 selected={activeTabId === 55}
                 onClick={() => {
-                  setActiveTabId(11);
+                  setActiveTabId(55);
                   handleDrawerClose();
                   navigate('/admin-panel/Room/checkinreports');
                 }}
@@ -1184,7 +1184,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
       {userrole === 1 && (
         <>
           <ListItem disablePadding sx={{ display: 'block' }}>
-            <Tooltip title="Masters" placement="left-end">
+            <Tooltip title="Room Booking" placement="left-end">
               <StyledListItemButton
                 selected={activeTabId === 11}
                 onClick={() => {
@@ -1216,11 +1216,11 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
             </Tooltip>
           </ListItem>
           <ListItem disablePadding sx={{ display: 'block' }}>
-            <Tooltip title="Masters" placement="left-end">
+            <Tooltip title="Room Booking Reports" placement="left-end">
               <StyledListItemButton
                 selected={activeTabId === 55}
                 onClick={() => {
-                  setActiveTabId(11);
+                  setActiveTabId(55);
                   handleDrawerClose();
                   navigate('/admin-panel/Room/checkinreports');
                 }}
