@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { serverInstance } from '../../../../API/ServerInstance';
 import Swal from 'sweetalert2';
-import { useNavigate, Link } from 'react-router-dom';
+import { serverInstance } from '../../../../API/ServerInstance';
+import { useNavigate } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -15,43 +15,32 @@ import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
 import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
+import moment from 'moment';
 import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../assets/ExportExcel.png';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import RoomShiftForm from './RoomShiftForm';
-import Typography from '@mui/material/Typography';
-import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
-import moment from 'moment';
-import Checkoutform from './Checkoutform';
 import { Select, MenuItem } from '@mui/material';
-import RoomBookingTap from '../RoomBookingTap';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import TotalAdvance from '../CheckIn/TotalAdvance';
-import Totalguest from '../CheckIn/Totalguest';
-import Printcheckin from '../CheckIn/Printcheckin';
+import RoomBookingReportsTab from './RoomBookingReportsTab';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
-import './RoomShift.css';
+import Printcheckin from '../CheckIn/Printcheckin';
+
 const style = {
   position: 'absolute',
-  top: '50%',
+  top: '47%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 'auto',
   bgcolor: 'background.paper',
-  p: 3,
+  p: 2,
   boxShadow: 24,
   borderRadius: '5px',
 };
 
-const RoomShift = ({ setopendashboard }) => {
+const Onlinecheckin = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
@@ -61,60 +50,19 @@ const RoomShift = ({ setopendashboard }) => {
   const [userrole, setuserrole] = useState('');
   const [open, setOpen] = React.useState(false);
   const [optionss, setoptionss] = useState('Currently Stay');
-  const [changedata, setchangedata] = useState('');
   const handleClose = () => setOpen(false);
-  const handleOepn = (data) => {
-    setOpen(true);
-    setchangedata(data);
-  };
-
+  const handleOepn = () => setOpen(true);
   const [open1, setOpen1] = React.useState(false);
   const handleClose1 = () => setOpen1(false);
   const handleOepn1 = () => {
     setOpen1(true);
   };
-
-  const getall_donation = () => {
-    setloader(true);
-
-    if (optionss === 'Currently Stay') {
-      serverInstance('room/checkin', 'get').then((res) => {
-        if (res.data) {
-          setloader(false);
-          // let filterData = res.data.filter((item) => item.modeOfBooking === 1);
-          setisData(res.data);
-          setisDataDummy(res.daat);
-        }
-      });
-    }
-    if (optionss === 'History') {
-      serverInstance('room/get-room-history-admin', 'post').then((res) => {
-        console.log(res);
-        if (res.data) {
-          setloader(false);
-          // let filterData = res.data.filter((item) => item.modeOfBooking === 1);
-          setisData(res.data);
-          setisDataDummy(res.data);
-        }
-      });
-    }
-  };
-
-  const downloadrecept = (row) => {
-    navigation('/admin-panel/Room/printReceipt', {
-      state: {
-        data: row,
-      },
-    });
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+  const [open8, setOpen8] = React.useState(false);
+  const [changedata8, setchangedata8] = useState('');
+  const handleClose8 = () => setOpen8(false);
+  const handleOepn8 = (data) => {
+    setOpen8(true);
+    setchangedata8(data);
   };
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
   var today = new Date();
@@ -126,27 +74,18 @@ const RoomShift = ({ setopendashboard }) => {
     minute: 'numeric',
     hour12: true,
   });
+  const getall_donation = () => {
+    setloader(true);
 
-  const ExportToExcel = () => {
-    const fileName = 'CheckinGuest';
-    const exportType = 'xls';
-    var data = [];
-
-    isData.map((item, index) => {
-      data.push({
-        bookingid: item?.booking_id,
-        contactNo: item?.contactNo,
-        Customer: item?.name,
-        CheckinDate: Moment(item?.date).format('DD-MM-YYYY'),
-        CheckinTime: moment(item?.time, 'HH:mm:ss').format('hh:mm:ss'),
-        CheckinDate: Moment(item?.coutDate).format('DD-MM-YYYY'),
-        CheckinTime: moment(item?.coutTime, 'HH:mm:ss').format('hh:mm:ss'),
-        Rate: item?.roomAmount,
-        Advance: item?.advanceAmount,
-        RoomNo: item?.RoomNo,
-      });
+    serverInstance('room/get-room-history-admin', 'post').then((res) => {
+      console.log(res);
+      if (res.data) {
+        setloader(false);
+        // let filterData = res.data.filter((item) => item.modeOfBooking === 1);
+        setisData(res.data);
+        setisDataDummy(res.data);
+      }
     });
-    exportFromJSON({ data, fileName, exportType });
   };
   const ExportPdfmanul = (isData, fileName) => {
     const doc = new jsPDF();
@@ -193,6 +132,36 @@ const RoomShift = ({ setopendashboard }) => {
     doc.setFontSize(28);
     doc.save(`${fileName}_${dateStr}.pdf`);
   };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const ExportToExcel = () => {
+    const fileName = 'CheckinGuest';
+    const exportType = 'xls';
+    var data = [];
+
+    isData.map((item, index) => {
+      data.push({
+        bookingid: item?.booking_id,
+        contactNo: item?.contactNo,
+        Customer: item?.name,
+        CheckinDate: Moment(item?.date).format('DD-MM-YYYY'),
+        CheckinTime: moment(item?.time, 'HH:mm:ss').format('hh:mm:ss'),
+        CheckOutDate: Moment(item?.coutDate).format('DD-MM-YYYY'),
+        CheckOutTime: moment(item?.coutTime, 'HH:mm:ss').format('hh:mm:ss'),
+        Rate: item?.roomAmount,
+        Advance: item?.advanceAmount,
+        RoomNo: item?.RoomNo,
+      });
+    });
+    exportFromJSON({ data, fileName, exportType });
+  };
   const [cancelid, setcancelid] = useState('');
   const [open3, setOpen3] = React.useState(false);
 
@@ -205,15 +174,11 @@ const RoomShift = ({ setopendashboard }) => {
   const handleClose4 = () => {
     setOpen3(false);
 
-    // serverInstance('room/update-holdin', 'PUT', {
+    // serverInstance('/room/force-checkout', 'POST', {
     //   id: deleteId,
     // }).then((res) => {
-    //   // setOpen(false);
     //   console.log(res);
-    //   // if (res.data) {
-    //   //   setisData(res.data);
-    //   //   setloader(false);
-    //   // }
+    //   // setOpen(false);
     // });
   };
 
@@ -228,7 +193,6 @@ const RoomShift = ({ setopendashboard }) => {
 
   const handleClose7 = () => {
     setOpen4(false);
-
     serverInstance('/room/force-checkout', 'POST', {
       id: checkforceid,
     }).then((res) => {
@@ -240,30 +204,22 @@ const RoomShift = ({ setopendashboard }) => {
     });
   };
 
+  const handledisable = (date) => {
+    console.log('date daisble', date);
+  };
+
   useEffect(() => {
     getall_donation();
     setopendashboard(true);
     setuserrole(Number(sessionStorage.getItem('userrole')));
-  }, [open, open1, open3, open4, optionss]);
+  }, [open, open1, open3, open4, open8, optionss]);
 
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  const sortData = (key) => {
-    let direction = 'ascending';
-    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
-    }
-    setisData(
-      [...isData].sort((a, b) => {
-        if (a[key] < b[key]) {
-          return direction === 'ascending' ? -1 : 1;
-        }
-        if (a[key] > b[key]) {
-          return direction === 'ascending' ? 1 : -1;
-        }
-        return 0;
-      }),
-    );
-    setSortConfig({ key: key, direction: direction });
+  const downloadrecept = (row) => {
+    navigation('/admin-panel/Room/printReceipt', {
+      state: {
+        data: row,
+      },
+    });
   };
 
   const [bookid, setbookid] = useState('');
@@ -316,8 +272,6 @@ const RoomShift = ({ setopendashboard }) => {
         Moment(dt?.date).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
         Moment(dt?.coutDate).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
         dt?.name?.toLowerCase().indexOf(customername) > -1,
-      // dt?.time?.toLowerCase().indexOf(checkintime) > -1 &&
-      // dt?.coutTime?.toLowerCase().indexOf(checkouttime) > -1 &&
     );
 
     if (roomNo) {
@@ -330,6 +284,7 @@ const RoomShift = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
+
     if (rate) {
       filtered = filtered?.map((item) => {
         if (item.roomAmount == Number(rate)) {
@@ -351,6 +306,7 @@ const RoomShift = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
+
     if (mobileno) {
       filtered = filtered?.map((item) => {
         if (item.contactNo == mobileno) {
@@ -374,79 +330,9 @@ const RoomShift = ({ setopendashboard }) => {
     rate,
     advanceRate,
   ]);
+
   return (
     <>
-      <Dialog
-        open={open3}
-        onClose={handleClose5}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{'Cancel'}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you want to cancel
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose5}>Disagree</Button>
-          <Button onClick={handleClose4} autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog
-        open={open4}
-        onClose={handleClose6}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{'Force check out'}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you want to force check out
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose6}>Disagree</Button>
-          <Button onClick={handleClose7} autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-      >
-        <Fade in={open}>
-          <Box sx={style}>
-            <div>
-              <div className="add-div-close-div">
-                <div>
-                  <h2 style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
-                    Room Shift
-                  </h2>
-                  <Typography
-                    style={{ marginLeft: '1rem' }}
-                    variant="body2"
-                    color="primary"
-                  >
-                    {currDate} / {currTime}
-                  </Typography>
-                </div>
-                <IconButton>
-                  <CloseIcon onClick={() => handleClose()} />
-                </IconButton>
-              </div>
-              <RoomShiftForm setOpen={setOpen} changedata={changedata} />
-            </div>
-          </Box>
-        </Fade>
-      </Modal>
-
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -457,7 +343,13 @@ const RoomShift = ({ setopendashboard }) => {
         <Fade in={open1}>
           <Box sx={style}>
             <div>
-              <div className="add-div-close-div">
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <div style={{ width: '100%' }} />
                 <IconButton>
                   <CloseIcon onClick={() => handleClose1()} />
                 </IconButton>
@@ -467,52 +359,8 @@ const RoomShift = ({ setopendashboard }) => {
           </Box>
         </Fade>
       </Modal>
-
-      <RoomBookingTap setopendashboard={setopendashboard} />
-      <div style={{ marginLeft: '5rem', marginRight: '1.2rem' }}>
-        <div className="main_amin_gain">
-          <div className="main_amin_gain1">
-            Total Guest : <Totalguest data={isData} />
-          </div>
-          <div className="main_amin_gain2">
-            Total Advance : <TotalAdvance data={isData} />
-          </div>
-          <Select
-            id="donation-type"
-            required
-            sx={{
-              width: '280px',
-              fontSize: 14,
-              '& .MuiSelect-select': {
-                // borderColor: !!formerror.donationtype ? 'red' : '',
-                padding: '10px 0px 10px 10px',
-                background: '#fff',
-              },
-            }}
-            value={optionss}
-            name="optionss"
-            onChange={(e) => setoptionss(e.target.value)}
-          >
-            <MenuItem
-              sx={{
-                fontSize: 14,
-              }}
-              value={'Currently Stay'}
-            >
-              Currently Stay
-            </MenuItem>
-
-            <MenuItem
-              sx={{
-                fontSize: 14,
-              }}
-              value={'History'}
-            >
-              History
-            </MenuItem>
-          </Select>
-        </div>
-
+      <RoomBookingReportsTab setopendashboard={setopendashboard} />
+      <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
         <div className="search-header-print">
           <div
             className="search-header-print"
@@ -536,7 +384,7 @@ const RoomShift = ({ setopendashboard }) => {
             <Tooltip title="Export Pdf File">
               <IconButton>
                 <img
-                  onClick={() => ExportPdfmanul(isData, 'OnlineCheckinData')}
+                  onClick={() => ExportPdfmanul(isData, 'CheckinData')}
                   src={ExportPdf}
                   alt="cc"
                   style={{ width: '30px' }}
@@ -552,6 +400,14 @@ const RoomShift = ({ setopendashboard }) => {
                   alt=" Print"
                 />
               </IconButton>
+            </Tooltip>
+            <Tooltip title="Add Dharamshala">
+              <Button
+                onClick={() => handleOepn()}
+                className="add_btn_main_dhara"
+              >
+                + Add
+              </Button>
             </Tooltip>
             &nbsp;&nbsp;
           </div>
@@ -749,116 +605,33 @@ const RoomShift = ({ setopendashboard }) => {
                       <TableCell>{row?.contactNo}</TableCell>
                       <TableCell>{row?.name}</TableCell>
                       <TableCell>
+                        {handledisable(row?.date)}
                         {Moment(row?.date).format('YYYY-MM-DD')}&nbsp;&nbsp;
                         {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
                       </TableCell>
-                      {/* <TableCell>
-                        {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
-                      </TableCell> */}
+
                       <TableCell>
                         {Moment(row?.coutDate).format('DD-MM-YYYY')}&nbsp;&nbsp;
                         {moment(row?.coutTime, 'HH:mm:ss').format('hh:mm:ss')}
                       </TableCell>
-                      {/* <TableCell>
-                        {moment(row?.coutTime, 'HH:mm:ss').format('hh:mm:ss')}
-                      </TableCell> */}
+
                       <TableCell> {row?.roomAmount}</TableCell>
                       <TableCell> {row?.advanceAmount}</TableCell>
                       <TableCell> {row?.RoomNo}</TableCell>
                       <TableCell
                         style={{ display: 'flex', flexDirection: 'column' }}
                       >
-                        {optionss === 'History' ? (
-                          <>
-                            <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#000080',
-                              }}
-                              className="chaneRoom"
-                              onClick={() => downloadrecept(row)}
-                            >
-                              Print
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#000080',
-                              }}
-                              className="chaneRoom"
-                              onClick={() => downloadrecept(row)}
-                            >
-                              Print
-                            </button>
-                            <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#800000',
-                              }}
-                              onClick={() =>
-                                navigation(
-                                  '/admin-panel/Room/ForceRoomChequeOut',
-                                  {
-                                    state: {
-                                      data: row,
-                                    },
-                                  },
-                                )
-                              }
-                              className="chaneRoom"
-                            >
-                              Forcecheckout
-                            </button>
-                            <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#FF0000',
-                              }}
-                              onClick={() => handleClickOpen3(row?.id)}
-                              className="chaneRoom"
-                            >
-                              Cancel
-                            </button>
-                            <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#800080',
-                              }}
-                              onClick={() => handleOepn(row)}
-                              className="chaneRoom"
-                            >
-                              RoomChange
-                            </button>
-                            <button
-                              style={{
-                                backgroundColor: '#FA7401',
-                                width: '6rem',
-                                marginBottom: '4px',
-                              }}
-                              onClick={() =>
-                                navigation(
-                                  '/admin-panel/Room/CheckoutReceipt',
-                                  {
-                                    state: {
-                                      data: row,
-                                    },
-                                  },
-                                )
-                              }
-                              className="chaneRoom"
-                            >
-                              checkout
-                            </button>
-                          </>
-                        )}
+                        <button
+                          style={{
+                            width: '6rem',
+                            marginBottom: '4px',
+                            backgroundColor: '#000080',
+                          }}
+                          className="chaneRoom"
+                          onClick={() => downloadrecept(row)}
+                        >
+                          Print
+                        </button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -895,9 +668,8 @@ const RoomShift = ({ setopendashboard }) => {
           </Table>
         </div>
       </div>
-      {loader && <LoadingSpinner1 />}
     </>
   );
 };
 
-export default RoomShift;
+export default Onlinecheckin;

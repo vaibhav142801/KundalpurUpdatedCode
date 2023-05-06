@@ -63,7 +63,7 @@ import Dashbords from '../screens/Admin/RoomBooking/Dashbord/Dashbord';
 import CheckIn from '../screens/Admin/RoomBooking/CheckIn/CheckIn';
 import Hold from '../screens/Admin/RoomBooking/Hold/Hold';
 import RoomShift from '../screens/Admin/RoomBooking/RoomShift/RoomShift';
-import RoomBooking from '../screens/Admin/RoomBooking/RoomBooking';
+
 import PrintRoomBooking from '../screens/Admin/RoomBooking/RoomBookingCetificate/PrintRoomBooking';
 //online receipt
 import OnlineadminRecipt from '../screens/Admin/Reciept/OnlineadminRecipt';
@@ -71,6 +71,9 @@ import CheckoutReceipt from '../screens/Admin/RoomBooking/RoomBookingCetificate/
 import ForceRoomChequeOut from '../screens/Admin/RoomBooking/RoomBookingCetificate/ForceRoomChequeOut';
 import ForcePrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/ForcePrint';
 import Onlyprint from '../screens/Admin/RoomBooking/RoomBookingCetificate/Onlyprint';
+
+import CheckinReports from '../screens/Admin/RoomBooking/RoomBookingReports/CheckinReports';
+import Onlinecheckin from '../screens/Admin/RoomBooking/RoomBookingReports/Onlinecheckin';
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -532,14 +535,6 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
             </Adminprivateroute>
           }
         />
-        <Route
-          path="/admin-panel/room/roombooking"
-          element={
-            <Adminprivateroute>
-              <RoomBooking setopendashboard={setopendashboard} />
-            </Adminprivateroute>
-          }
-        />
 
         <Route
           path="/admin-panel/room/online/recipt"
@@ -590,6 +585,22 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <Onlyprint setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Room/checkinreports"
+          element={
+            <Adminprivateroute>
+              <CheckinReports setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Room/onlinecheckin"
+          element={
+            <Adminprivateroute>
+              <Onlinecheckin setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />

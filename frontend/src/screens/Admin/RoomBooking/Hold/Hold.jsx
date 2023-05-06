@@ -15,19 +15,12 @@ import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
 import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
-import { ExportPdfmanul } from '../../../Admin/compoments/ExportPdf';
 import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../assets/ExportExcel.png';
-import Edit from '../../../../assets/Edit.png';
-import eye from '../../../../assets/eye.png';
-import Delete from '../../../../assets/Delete.png';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import { backendApiUrl } from '../../../../config/config';
-import axios from 'axios';
 import Holdfrom from './Holdfrom';
-import UpdateHold from './UpdateHold';
 import Typography from '@mui/material/Typography';
 import RoomBookingTap from '../RoomBookingTap';
 import Dialog from '@mui/material/Dialog';
@@ -84,12 +77,9 @@ const Hold = ({ setopendashboard }) => {
     serverInstance('room/update-holdin', 'PUT', {
       id: deleteId,
     }).then((res) => {
-      // setOpen(false);
-      console.log(res);
-      // if (res.data) {
-      //   setisData(res.data);
-      //   setloader(false);
-      // }
+      if (res.data) {
+        getall_donation();
+      }
     });
   };
   const getall_donation = () => {

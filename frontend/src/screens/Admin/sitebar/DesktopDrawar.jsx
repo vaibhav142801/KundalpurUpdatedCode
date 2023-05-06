@@ -1008,6 +1008,38 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
               </StyledListItemButton>
             </Tooltip>
           </ListItem>
+          <ListItem disablePadding sx={{ display: 'block' }}>
+            <Tooltip title="Masters" placement="left-end">
+              <StyledListItemButton
+                selected={activeTabId === 55}
+                onClick={() => {
+                  setActiveTabId(11);
+                  handleDrawerClose();
+                  navigate('/admin-panel/Room/checkinreports');
+                }}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.2,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <img src={f1} alt="f5" style={{ width: '25px' }} />
+                </ListItemIcon>
+                <ListItemText
+                  classes={{ root: stylesag.ListText }}
+                  primary="Room Booking Reports"
+                  sx={{ opacity: open ? 1 : 0, ml: 0.8 }}
+                />
+              </StyledListItemButton>
+            </Tooltip>
+          </ListItem>
         </>
       )}
 
@@ -1040,6 +1072,38 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                 <ListItemText
                   classes={{ root: stylesag.ListText }}
                   primary="Room Booking"
+                  sx={{ opacity: open ? 1 : 0, ml: 0.8 }}
+                />
+              </StyledListItemButton>
+            </Tooltip>
+          </ListItem>
+          <ListItem disablePadding sx={{ display: 'block' }}>
+            <Tooltip title="Masters" placement="left-end">
+              <StyledListItemButton
+                selected={activeTabId === 55}
+                onClick={() => {
+                  setActiveTabId(11);
+                  handleDrawerClose();
+                  navigate('/admin-panel/Room/checkinreports');
+                }}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.2,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <img src={f1} alt="f5" style={{ width: '25px' }} />
+                </ListItemIcon>
+                <ListItemText
+                  classes={{ root: stylesag.ListText }}
+                  primary="Room Booking Report"
                   sx={{ opacity: open ? 1 : 0, ml: 0.8 }}
                 />
               </StyledListItemButton>
@@ -1082,6 +1146,38 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
               </StyledListItemButton>
             </Tooltip>
           </ListItem>
+          <ListItem disablePadding sx={{ display: 'block' }}>
+            <Tooltip title="Masters" placement="left-end">
+              <StyledListItemButton
+                selected={activeTabId === 55}
+                onClick={() => {
+                  setActiveTabId(11);
+                  handleDrawerClose();
+                  navigate('/admin-panel/Room/checkinreports');
+                }}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.2,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <img src={f1} alt="f5" style={{ width: '25px' }} />
+                </ListItemIcon>
+                <ListItemText
+                  classes={{ root: stylesag.ListText }}
+                  primary="Room Booking Report"
+                  sx={{ opacity: open ? 1 : 0, ml: 0.8 }}
+                />
+              </StyledListItemButton>
+            </Tooltip>
+          </ListItem>
         </>
       )}
 
@@ -1114,6 +1210,38 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                 <ListItemText
                   classes={{ root: stylesag.ListText }}
                   primary="Room Booking"
+                  sx={{ opacity: open ? 1 : 0, ml: 0.8 }}
+                />
+              </StyledListItemButton>
+            </Tooltip>
+          </ListItem>
+          <ListItem disablePadding sx={{ display: 'block' }}>
+            <Tooltip title="Masters" placement="left-end">
+              <StyledListItemButton
+                selected={activeTabId === 55}
+                onClick={() => {
+                  setActiveTabId(11);
+                  handleDrawerClose();
+                  navigate('/admin-panel/Room/checkinreports');
+                }}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.2,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <img src={f1} alt="f5" style={{ width: '25px' }} />
+                </ListItemIcon>
+                <ListItemText
+                  classes={{ root: stylesag.ListText }}
+                  primary="Room Booking Reports"
                   sx={{ opacity: open ? 1 : 0, ml: 0.8 }}
                 />
               </StyledListItemButton>
