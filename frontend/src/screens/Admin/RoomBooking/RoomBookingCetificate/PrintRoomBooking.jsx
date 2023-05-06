@@ -35,7 +35,7 @@ function PrintRoomBooking({ setopendashboard }) {
   console.log('certificate', isData);
 
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
-  var today = new Date(isData[0]?.date);
+  var today = new Date(isData && isData?.date);
   const currDate = today
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -44,15 +44,26 @@ function PrintRoomBooking({ setopendashboard }) {
     minute: 'numeric',
     hour12: true,
   });
+
+  var today1 = new Date(isData && isData?.coutDate);
+  const currDatecheckout = today1
+    .toLocaleDateString('en-IN', options)
+    .replace(/-/g, ' ');
+  const currTimecheckout = today1.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
+
+  let difference = today1.getTime() - today.getTime();
+  let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
   return (
     <>
       <div
         className="button_div_print_download10"
         style={{ marginBottom: '-10rem' }}
       >
-        <button onClick={() => navigate('/admin-panel/room/checkin')}>
-          Back
-        </button>
+        <button onClick={() => navigate(-1)}>Back</button>
 
         <div />
       </div>
@@ -63,126 +74,190 @@ function PrintRoomBooking({ setopendashboard }) {
             ref={componentRef}
             style={{ marginLeft: '1.3rem', marginTop: '7rem' }}
           >
-            <p className="yadda_text">यात्री आगमन रसीद</p>
+            <p className="yadda_text"> यात्री प्रस्थान रसीद</p>
+
             <div className="innear_div_texx">
               <div className="innear_div_texx_dd">
                 <div>
-                  <p>आवास क्र</p>
-                  <p>यात्री का नाम-</p>
-                  <p>पिता/पति श्री-</p>
-                </div>
-                <div>
-                  <p>
-                    {/* {isData &&
-                      isData.map((item) => {
-                        return <span> {item?.RoomNo}</span>;
-                      })} */}
+                  <p className="lineheight" style={{ color: 'gray' }}>
+                    आवास क्र :
                   </p>
-                  <p>{isData?.name}</p>
-                  <p>{isData?.Fname}</p>
+                  <p style={{ color: 'gray' }} className="lineheight">
+                    मोबाईल न :
+                  </p>
+                  <p style={{ color: 'gray' }} className="lineheight">
+                    यात्री का नाम :
+                  </p>
+                  <p style={{ color: 'gray' }} className="lineheight">
+                    पिता/पति श्री :
+                  </p>
+                </div>
+                <div className="main_left">
+                  <p className="lineheight">{isData && isData?.RoomNo}</p>
+                  <p className="lineheight">{isData && isData?.contactNo}</p>
+                  <p className="lineheight">{isData && isData?.name}</p>
+                  <p className="lineheight">{isData && isData?.Fname}</p>
                 </div>
               </div>
-              <div className="innear_div_texx_dd">
+              <div className="innear_div_texx_dd" style={{ marginLeft: '0px' }}>
                 <div>
-                  <p>आगमन दिनांक</p>
-                  <p>मोबाईल न.-</p>
-                  <p>पता-</p>
+                  <p style={{ color: 'gray' }} className="lineheight">
+                    प्रस्थान दिनाँक :
+                  </p>
+                  <p style={{ color: 'gray' }} className="lineheight">
+                    आगमन दिनांक:
+                  </p>
+
+                  <p style={{ color: 'gray' }} className="lineheight">
+                    स्टे :
+                  </p>
+                  <p style={{ color: 'gray' }} className="lineheight">
+                    पता :
+                  </p>
                 </div>
-                <div>
-                  <p>
+                <div className="main_left">
+                  <p className="lineheight">
+                    {currDatecheckout} / {currTimecheckout}
+                  </p>
+                  <p className="lineheight">
                     {currDate} / {currTime}
                   </p>
-                  <p>{isData?.contactNo}</p>
-                  <p>{isData?.city}</p>
+
+                  <p className="lineheight">{TotalDays && TotalDays} Days</p>
+                  <p className="lineheight">{isData && isData?.city}</p>
                 </div>
               </div>
             </div>
-            <div className="yyy_text_div">
-              <p>यात्री संख्या </p>
-              <p>Male: {isData?.male}</p>
-              <p>Female: {isData?.female}</p>
-              <p>Child: {isData?.child}</p>
-              <p>
-                Total:{' '}
+
+            {/* <div className="yyy_text_div">
+              <p className="lineheight">यात्री संख्या </p>
+              <p className="lineheight">Male: {isData?.male}</p>
+              <p className="lineheight">Female: {isData?.female}</p>
+              <p className="lineheight">Child: {isData?.child}</p>
+              <p className="lineheight">
+                Total:
                 {Number(isData?.male) +
                   Number(isData?.female) +
                   Number(isData?.child)}
               </p>
-            </div>
+            </div> */}
 
             <div>
               <table className="table_ddd">
                 <tbody>
                   <tr>
-                    <td className="table_tddd">धर्मशाला नाम</td>
-                    <td className="table_tddd">रूम टाईप</td>
+                    <td className="table_tddd lineheight10">धर्मशाला नाम</td>
+                    <td className="table_tddd lineheight10">
+                      रूम टाईप & रूम न.
+                    </td>
                     {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
-                    <td className="table_tddd">रुम न.</td>
+                    {/* <td className="table_tddd lineheight10">
+                                  रुम न.
+                                </td> */}
                     {/* <td className="table_tddd">रूम की संख्या</td> */}
-                    <td className="table_tddd">
+                    <td className="table_tddd lineheight10">
                       सहयोग राशि
-                      <p>
-                        {isData?.nRoom} X
-                        {checkindata &&
-                          checkindata?.dharamshala &&
-                          checkindata?.dharamshala?.advance}
-                      </p>
+                      {/* <p className="lineheight10">
+                                    {isData && isData?.nRoom && isData?.nRoom}X
+                                    {isData &&
+                                      isData?.roomAmount &&
+                                      isData?.roomAmount}
+                                  </p> */}
                     </td>
-                    <td className="table_tddd">
+                    <td className="table_tddd lineheight10">
                       अमानत राशि
-                      <p>
-                        {isData?.nRoom}+{isData?.nRoom} X
-                        {checkindata &&
-                          checkindata?.dharamshala &&
-                          checkindata?.dharamshala?.advance}
-                      </p>
+                      {/* <p className="lineheight10">
+                                    {isData && isData?.nRoom && isData?.nRoom}+
+                                    {isData && isData?.nRoom && isData?.nRoom}X
+                                    {isData &&
+                                      isData?.roomAmount &&
+                                      isData?.roomAmount}
+                                  </p> */}
                     </td>
-                  </tr>
-                  <tr>
-                    <td className="table_tddd">
-                      {/* {checkindata &&
-                        checkindata?.dharamshala[0]?.dharmasala?.name} */}
-                    </td>
-                    <td className="table_tddd">
-                      {/* {checkindata &&
-                        checkindata?.dharamshala[0]?.facility_name?.map(
-                          (element, index) => (
-                            <span key={index}> {element},</span>
-                          ),
-                        )} */}
-                      {/* {checkindata &&
-                        checkindata?.dharamshala[0]?.category_name} */}
+
+                    <td className="table_tddd lineheight10">
+                      शेष राशि वापिसी
+                      {/* <p className="lineheight10">
+                                    {Number(isData && isData?.roomAmount) *
+                                      (Number(isData && isData?.nRoom) +
+                                        Number(isData && isData?.nRoom))}
+                                    -
+                                    {Number(isData && isData?.roomAmount) *
+                                      Number(isData && isData?.nRoom)}
+                                  </p> */}
                     </td>
                     {/* <td className="table_tddd">
-                      {checkindata &&
-                        checkindata?.dharamshala[0]?.facility_name?.map(
-                          (element, index) => (
-                            <span key={index}> {element},</span>
-                          ),
-                        )}
-                    </td> */}
-                    <td className="table_tddd">
-                      {/* {isData &&
-                        isData.map((item) => {
-                          return <span> {item?.RoomNo}</span>;
-                        })} */}
+                            अमानत राशि
+                            <p>
+                              {isData && isData[0]?.nRoom && isData[0]?.nRoom} X
+                              {isData &&
+                                isData[0]?.roomAmount &&
+                                isData[0]?.roomAmount}
+                            </p>
+                          </td> */}
+                  </tr>
+                  <tr>
+                    <td className="table_tddd lineheight10">
+                      {isData && isData?.dharmasala?.name}
                     </td>
-                    {/* <td className="table_tddd">{isData[0]?.nRoom}</td> */}
-                    <td className="table_tddd">
-                      {/* {Number(isData?.nRoom) *
-                        Number(
-                          checkindata && checkindata?.dharamshala?.advance,
-                        )} */}
+                    <td className="table_tddd lineheight10">
+                      ({' '}
+                      {isData &&
+                        isData?.facility_name &&
+                        isData?.facility_name.map((element, index) => (
+                          <span key={index}> {element}</span>
+                        ))}
+                      ,{isData && isData?.category_name})-
+                      {isData && isData?.booking_id}
                     </td>
-                    <td className="table_tddd">
-                      {/* {Number(isData?.nRoom + isData?.nRoom) *
-                        Number(
-                          checkindata && checkindata?.dharamshala?.advance,
-                        )} */}
+                    {/* <td className="table_tddd">
+                                {checkinda &&
+                                  checkinda?.category[0]?.facilities &&
+                                  checkinda?.category[0]?.facilities.map(
+                                    (element, index) => (
+                                      <span key={index}> {element},</span>
+                                    ),
+                                  )}
+                              </td> */}
+                    {/* <td className="table_tddd lineheight10">
+                                  ({isData && isData?.RoomNo})
+                                </td> */}
+                    {/* <td className="table_tddd">
+                                {isData && isData[0]?.nRoom}
+                              </td> */}
+                    <td className="table_tddd lineheight10">
+                      {Number(isData && isData?.roomAmount) *
+                        Number(isData && isData?.nRoom)}
                     </td>
+                    <td className="table_tddd lineheight10">
+                      {Number(isData && isData?.roomAmount) *
+                        (Number(isData && isData?.nRoom) +
+                          Number(isData && isData?.nRoom))}
+                    </td>
+                    <td className="table_tddd lineheight10">
+                      {Number(isData && isData?.roomAmount) *
+                        Number(isData && isData?.nRoom) -
+                        Number(isData && isData?.roomAmount) *
+                          (Number(isData && isData?.nRoom) +
+                            Number(isData && isData?.nRoom))}
+                    </td>
+                    {/* <td className="table_tddd">
+                            {Number(isData && isData[0]?.roomAmount) *
+                              Number(isData && isData[0]?.nRoom)}
+                          </td> */}
                   </tr>
                 </tbody>
               </table>
+              <p
+                style={{
+                  textAlign: 'right',
+                  marginRight: '2rem',
+                  marginTop: '0.5rem',
+                  marginBottom: '0.5rem',
+                }}
+              >
+                Admin
+              </p>
             </div>
           </div>
         </div>

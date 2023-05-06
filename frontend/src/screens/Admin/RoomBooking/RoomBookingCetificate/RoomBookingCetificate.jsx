@@ -66,35 +66,32 @@ function RoomBookingCetificate({ setopendashboard }) {
           >
             <p className="yadda_text">यात्री आगमन रसीद</p>
             <div className="innear_div_texx">
-              <div className="innear_div_texx_dd">
+              <div className="innear_div_texx_ddd">
                 <div>
-                  <p>आवास क्र</p>
-                  <p>यात्री का नाम-</p>
-                  <p>पिता/पति श्री-</p>
+                  <p className="lineheight">आवास क्र</p>
+                  <p className="lineheight">यात्री का नाम-</p>
+                  <p className="lineheight">पिता/पति श्री-</p>
                 </div>
-                <div>
-                  <p>
-                    {isData &&
-                      isData.map((item) => {
-                        return <span> {item?.RoomNo}</span>;
-                      })}
+                <div className="main_left">
+                  <p className="lineheight">
+                    {isData && isData[0]?.booking_id}
                   </p>
-                  <p>{isData[0]?.name}</p>
-                  <p>{isData[0]?.Fname}</p>
+                  <p className="lineheight">{isData[0]?.name}</p>
+                  <p className="lineheight">{isData[0]?.Fname}</p>
                 </div>
               </div>
-              <div className="innear_div_texx_dd">
+              <div className="innear_div_texx_ddd">
                 <div>
-                  <p>आगमन दिनांक</p>
-                  <p>मोबाईल न.-</p>
-                  <p>पता-</p>
+                  <p className="lineheight">आगमन दिनांक</p>
+                  <p className="lineheight">मोबाईल न.-</p>
+                  <p className="lineheight">पता-</p>
                 </div>
-                <div>
-                  <p>
+                <div className="main_left">
+                  <p className="lineheight">
                     {currDate} / {currTime}
                   </p>
-                  <p>{isData[0]?.contactNo}</p>
-                  <p>{isData[0]?.city}</p>
+                  <p className="lineheight">{isData[0]?.contactNo}</p>
+                  <p className="lineheight">{isData[0]?.city}</p>
                 </div>
               </div>
             </div>
@@ -116,27 +113,27 @@ function RoomBookingCetificate({ setopendashboard }) {
                 <tbody>
                   <tr>
                     <td className="table_tddd">धर्मशाला नाम</td>
-                    <td className="table_tddd">रूम टाईप</td>
+                    <td className="table_tddd">रूम टाईप & फेसिलिटी</td>
                     {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
                     <td className="table_tddd">रुम न.</td>
                     {/* <td className="table_tddd">रूम की संख्या</td> */}
                     <td className="table_tddd">
                       सहयोग राशि
-                      <p>
+                      {/* <p>
                         {isData[0]?.nRoom} X
                         {checkindata &&
                           checkindata?.dharamshala &&
                           checkindata?.dharamshala[0]?.advance}
-                      </p>
+                      </p> */}
                     </td>
                     <td className="table_tddd">
                       अमानत राशि
-                      <p>
+                      {/* <p>
                         {isData[0]?.nRoom}+{isData[0]?.nRoom} X
                         {checkindata &&
                           checkindata?.dharamshala &&
                           checkindata?.dharamshala[0]?.advance}
-                      </p>
+                      </p> */}
                     </td>
                   </tr>
                   <tr>
@@ -185,6 +182,16 @@ function RoomBookingCetificate({ setopendashboard }) {
                 </tbody>
               </table>
             </div>
+            <p
+              style={{
+                textAlign: 'right',
+                marginRight: '2rem',
+                marginTop: '0.5rem',
+                marginBottom: '0.5rem',
+              }}
+            >
+              Admin
+            </p>
           </div>
         </div>
       </div>

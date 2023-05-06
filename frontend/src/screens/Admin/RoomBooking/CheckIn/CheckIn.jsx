@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { serverInstance } from '../../../../API/ServerInstance';
 import Swal from 'sweetalert2';
+import { serverInstance } from '../../../../API/ServerInstance';
 import { useNavigate, Link } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,23 +15,25 @@ import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
 import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
-import CircularProgress from '@mui/material/CircularProgress';
 import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../assets/ExportExcel.png';
-import Edit from '../../../../assets/Edit.png';
-import eye from '../../../../assets/eye.png';
-import Delete from '../../../../assets/Delete.png';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import { backendApiUrl } from '../../../../config/config';
-import axios from 'axios';
 import Typography from '@mui/material/Typography';
 import CheckinForm from './CheckinForm';
 import { Select, MenuItem } from '@mui/material';
 import RoomBookingTap from '../RoomBookingTap';
 import moment from 'moment';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import Checkoutform from '../RoomShift/Checkoutform';
+import RoomShiftForm from '../RoomShift/RoomShiftForm';
+import TotalAdvance from './TotalAdvance';
+import Totalguest from './Totalguest';
 import './Checkin.css';
 const style = {
   position: 'absolute',
@@ -55,17 +57,22 @@ const CheckIn = ({ setopendashboard }) => {
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [userrole, setuserrole] = useState('');
   const [open, setOpen] = React.useState(false);
-  const [optionss, setoptionss] = useState('Please select');
+  const [optionss, setoptionss] = useState('Currently Stay');
   const handleClose = () => setOpen(false);
   const handleOepn = () => setOpen(true);
   const [open1, setOpen1] = React.useState(false);
   const handleClose1 = () => setOpen1(false);
   const handleOepn1 = (data) => {
     setOpen1(true);
-
     setchangedata(data);
   };
-
+  const [open8, setOpen8] = React.useState(false);
+  const [changedata8, setchangedata8] = useState('');
+  const handleClose8 = () => setOpen8(false);
+  const handleOepn8 = (data) => {
+    setOpen8(true);
+    setchangedata8(data);
+  };
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
   var today = new Date();
   const currDate = today
@@ -78,14 +85,28 @@ const CheckIn = ({ setopendashboard }) => {
   });
   const getall_donation = () => {
     setloader(true);
-    serverInstance('room/checkin', 'get').then((res) => {
-      if (res.data) {
-        setloader(false);
-        // let filterData = res.data.filter((item) => item.modeOfBooking === 1);
-        setisData(res.data);
-        setisDataDummy(res.data);
-      }
-    });
+
+    if (optionss === 'Currently Stay') {
+      serverInstance('room/checkin', 'get').then((res) => {
+        if (res.data) {
+          setloader(false);
+          // let filterData = res.data.filter((item) => item.modeOfBooking === 1);
+          setisData(res.data);
+          setisDataDummy(res.daat);
+        }
+      });
+    }
+    if (optionss === 'History') {
+      serverInstance('room/get-room-history-admin', 'post').then((res) => {
+        console.log(res);
+        if (res.data) {
+          setloader(false);
+          // let filterData = res.data.filter((item) => item.modeOfBooking === 1);
+          setisData(res.data);
+          setisDataDummy(res.data);
+        }
+      });
+    }
   };
 
   const handleChangePage = (event, newPage) => {
@@ -124,13 +145,58 @@ const CheckIn = ({ setopendashboard }) => {
     });
     exportFromJSON({ data, fileName, exportType });
   };
+  const [cancelid, setcancelid] = useState('');
+  const [open3, setOpen3] = React.useState(false);
+
+  const handleClickOpen3 = (id) => {
+    setOpen3(true);
+    setcancelid(id);
+  };
+  const handleClose5 = () => setOpen3(false);
+
+  const handleClose4 = () => {
+    setOpen3(false);
+
+    // serverInstance('/room/force-checkout', 'POST', {
+    //   id: deleteId,
+    // }).then((res) => {
+    //   console.log(res);
+    //   // setOpen(false);
+    // });
+  };
+
+  const [checkforceid, setcheckforceid] = useState('');
+  const [open4, setOpen4] = React.useState(false);
+
+  const handleClickOpen4 = (id) => {
+    setOpen4(true);
+    setcheckforceid(id);
+  };
+  const handleClose6 = () => setOpen4(false);
+
+  const handleClose7 = () => {
+    setOpen4(false);
+
+    serverInstance('/room/force-checkout', 'POST', {
+      id: checkforceid,
+    }).then((res) => {
+      console.log(res);
+      if (res.data?.status === true) {
+        getall_donation();
+        Swal.fire('Great!', res?.data?.message, 'success');
+      }
+    });
+  };
+
+  const handledisable = (date) => {
+    console.log('date daisble', date);
+  };
 
   useEffect(() => {
     getall_donation();
     setopendashboard(true);
-
     setuserrole(Number(sessionStorage.getItem('userrole')));
-  }, [open, open1]);
+  }, [open, open1, open3, open4, open8, optionss]);
 
   const downloadrecept = (row) => {
     navigation('/admin-panel/room/Print/Room/Booking', {
@@ -148,8 +214,15 @@ const CheckIn = ({ setopendashboard }) => {
   const [checkoutdate, setcheckoutdate] = useState('');
   const [checkouttime, setcheckouttime] = useState();
   const [roomNo, setroomNo] = useState('');
-
+  const [rate, setrate] = useState('');
+  const [advanceRate, setadvanceRate] = useState('');
   const onSearchByOther = (e, type) => {
+    if (type === 'rate') {
+      setrate(e.target.value);
+    }
+    if (type === 'advanceRate') {
+      setadvanceRate(e.target.value);
+    }
     if (type === 'bookid') {
       setbookid(e.target.value.toLowerCase());
     }
@@ -198,6 +271,28 @@ const CheckIn = ({ setopendashboard }) => {
       filtered = filtered?.filter((x) => x !== undefined);
     }
 
+    if (rate) {
+      filtered = filtered?.map((item) => {
+        if (item.roomAmount == Number(rate)) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+
+    if (advanceRate) {
+      filtered = filtered?.map((item) => {
+        if (item.advanceAmount == Number(advanceRate)) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+
     if (mobileno) {
       filtered = filtered?.map((item) => {
         if (item.contactNo == mobileno) {
@@ -218,10 +313,84 @@ const CheckIn = ({ setopendashboard }) => {
     roomNo,
     mobileno,
     customername,
+    rate,
+    advanceRate,
   ]);
 
   return (
     <>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open8}
+        onClose={handleClose8}
+        closeAfterTransition
+      >
+        <Fade in={open8}>
+          <Box sx={style}>
+            <div>
+              <div className="add-div-close-div">
+                <div>
+                  <h2 style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
+                    Room Shift
+                  </h2>
+                  <Typography
+                    style={{ marginLeft: '1rem' }}
+                    variant="body2"
+                    color="primary"
+                  >
+                    {currDate} / {currTime}
+                  </Typography>
+                </div>
+                <IconButton>
+                  <CloseIcon onClick={() => handleClose8()} />
+                </IconButton>
+              </div>
+              <RoomShiftForm setOpen={setOpen8} changedata={changedata8} />
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
+
+      <Dialog
+        open={open3}
+        onClose={handleClose5}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{'Cancel'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you want to cancel
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose5}>Disagree</Button>
+          <Button onClick={handleClose4} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={open4}
+        onClose={handleClose6}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{'Force check out'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you want to force check out
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose6}>Disagree</Button>
+          <Button onClick={handleClose7} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -283,9 +452,13 @@ const CheckIn = ({ setopendashboard }) => {
       </Modal>
       <RoomBookingTap setopendashboard={setopendashboard} />
       <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
-        {/* <div className="main_amin_gain">
-          <div className="main_amin_gain1">Total Guest : 265</div>
-          <div className="main_amin_gain2">Total Advance : 112050</div>
+        <div className="main_amin_gain">
+          <div className="main_amin_gain1">
+            Total Guest : <Totalguest data={isData} />
+          </div>
+          <div className="main_amin_gain2">
+            Total Advance : <TotalAdvance data={isData} />
+          </div>
           <Select
             id="donation-type"
             required
@@ -306,15 +479,7 @@ const CheckIn = ({ setopendashboard }) => {
               sx={{
                 fontSize: 14,
               }}
-              value="Please select"
-            >
-              Please select
-            </MenuItem>
-            <MenuItem
-              sx={{
-                fontSize: 14,
-              }}
-              value={true}
+              value={'Currently Stay'}
             >
               Currently Stay
             </MenuItem>
@@ -323,12 +488,12 @@ const CheckIn = ({ setopendashboard }) => {
               sx={{
                 fontSize: 14,
               }}
-              value={false}
+              value={'History'}
             >
-              No
+              History
             </MenuItem>
           </Select>
-        </div> */}
+        </div>
 
         <div className="search-header-print">
           <div
@@ -391,9 +556,9 @@ const CheckIn = ({ setopendashboard }) => {
               <TableRow>
                 <TableCell>S.No</TableCell>
                 <TableCell>
-                  Booking Id
+                  BookingId
                   <i
-                    style={{ marginLeft: '0.5rem' }}
+                    style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('booking_id')}
                     class={`fa fa-sort`}
                   />
@@ -401,55 +566,72 @@ const CheckIn = ({ setopendashboard }) => {
                 <TableCell>
                   Mobile
                   <i
-                    style={{ marginLeft: '0.5rem' }}
+                    style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('contactNo')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
                 <TableCell>
-                  Customer Name
+                  CustomerName
                   <i
-                    style={{ marginLeft: '0.5rem' }}
+                    style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('holderName')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
                 <TableCell>
-                  Checkin Date
+                  CheckinDate$Time
                   <i
-                    style={{ marginLeft: '0.5rem' }}
+                    style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('date')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
-                  Checkin Time
+                {/* <TableCell>
+                  CheckinTime
                   <i
-                    style={{ marginLeft: '0.5rem' }}
+                    style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('time')}
                     class={`fa fa-sort`}
                   />
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
-                  Checkout Date
+                  CheckoutDate$Time
                   <i
-                    style={{ marginLeft: '0.5rem' }}
+                    style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('coutDate')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
-                  Checkout Time
+                {/* <TableCell>
+                  CheckoutTime
                   <i
-                    style={{ marginLeft: '0.5rem' }}
+                    style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('coutTime')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell> */}
+
+                <TableCell>
+                  Rate
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('roomAmount')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
                 <TableCell>
-                  Room No
+                  AdvanceRate
                   <i
-                    style={{ marginLeft: '0.5rem' }}
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('advanceAmount')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  RoomNo
+                  <i
+                    style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('RoomNo')}
                     class={`fa fa-sort`}
                   />
@@ -462,6 +644,7 @@ const CheckIn = ({ setopendashboard }) => {
                 <TableCell>&nbsp;</TableCell>
                 <TableCell>
                   <input
+                    style={{ width: '5rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => onSearchByOther(e, 'bookid')}
@@ -470,6 +653,7 @@ const CheckIn = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
+                    style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => onSearchByOther(e, 'mobileno')}
@@ -478,6 +662,7 @@ const CheckIn = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
+                    style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => onSearchByOther(e, 'customername')}
@@ -486,39 +671,63 @@ const CheckIn = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
+                    style={{ width: '9rem' }}
                     className="cuolms_search"
                     type="date"
                     onChange={(e) => onSearchByOther(e, 'checkindate')}
                     placeholder="Search  checkin date"
                   />
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <input
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => onSearchByOther(e, 'checkintime')}
                     placeholder="Search checkin time"
                   />
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   <input
+                    style={{ width: '9rem' }}
                     className="cuolms_search"
                     type="date"
                     onChange={(e) => onSearchByOther(e, 'checkoutdate')}
                     placeholder="Search checkout date"
                   />
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <input
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => onSearchByOther(e, 'checkouttime')}
                     placeholder="Search checkout time"
                   />
+                </TableCell> */}
+                <TableCell>
+                  <input
+                    style={{ width: '7rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => {
+                      onSearchByOther(e, 'rate');
+                    }}
+                    placeholder="roomNo"
+                  />
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '70px' }}
+                    style={{ width: '7rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => {
+                      onSearchByOther(e, 'advanceRate');
+                    }}
+                    placeholder="roomNo"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
@@ -529,6 +738,9 @@ const CheckIn = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <button
+                    style={{
+                      width: '6rem',
+                    }}
                     className="chaneRoom"
                     onClick={() => getall_donation()}
                   >
@@ -556,36 +768,108 @@ const CheckIn = ({ setopendashboard }) => {
                       <TableCell>{row?.contactNo}</TableCell>
                       <TableCell>{row?.name}</TableCell>
                       <TableCell>
-                        {Moment(row?.date).format('YYYY-MM-DD')}
-                      </TableCell>
-                      <TableCell>
+                        {handledisable(row?.date)}
+                        {Moment(row?.date).format('YYYY-MM-DD')}&nbsp;&nbsp;
                         {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
                       </TableCell>
+                      {/* <TableCell>
+                        {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
+                      </TableCell> */}
                       <TableCell>
-                        {Moment(row?.coutDate).format('DD-MM-YYYY')}
-                      </TableCell>
-                      <TableCell>
+                        {Moment(row?.coutDate).format('DD-MM-YYYY')}&nbsp;&nbsp;
                         {moment(row?.coutTime, 'HH:mm:ss').format('hh:mm:ss')}
                       </TableCell>
-
+                      {/* <TableCell>
+                        {moment(row?.coutTime, 'HH:mm:ss').format('hh:mm:ss')}
+                      </TableCell> */}
+                      <TableCell> {row?.roomAmount}</TableCell>
+                      <TableCell> {row?.advanceAmount}</TableCell>
                       <TableCell> {row?.RoomNo}</TableCell>
-                      <TableCell style={{ display: 'flex' }}>
-                        <button
-                          onClick={() => downloadrecept(row)}
-                          className="chaneRoom"
-                        >
-                          Print
-                        </button>
-                        <button
-                          style={{
-                            marginLeft: '1rem',
-                            backgroundColor: '#FA7401',
-                          }}
-                          onClick={() => handleOepn1(row)}
-                          className="chaneRoom"
-                        >
-                          checkout
-                        </button>
+                      <TableCell
+                        style={{ display: 'flex', flexDirection: 'column' }}
+                      >
+                        {optionss === 'History' ? (
+                          <>
+                            <button
+                              style={{
+                                width: '6rem',
+                                marginBottom: '4px',
+                                backgroundColor: '#000080',
+                              }}
+                              className="chaneRoom"
+                              onClick={() => downloadrecept(row)}
+                            >
+                              Print
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              style={{
+                                width: '6rem',
+                                marginBottom: '4px',
+                                backgroundColor: '#000080',
+                              }}
+                              className="chaneRoom"
+                              onClick={() => downloadrecept(row)}
+                            >
+                              Print
+                            </button>
+                            <button
+                              style={{
+                                width: '6rem',
+                                marginBottom: '4px',
+                                backgroundColor: '#800000',
+                              }}
+                              onClick={() => handleClickOpen4(row?.id)}
+                              className="chaneRoom"
+                            >
+                              Forcecheckout
+                            </button>
+                            <button
+                              style={{
+                                width: '6rem',
+                                marginBottom: '4px',
+                                backgroundColor: '#FF0000',
+                              }}
+                              onClick={() => handleClickOpen3(row?.id)}
+                              className="chaneRoom"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              style={{
+                                width: '6rem',
+                                marginBottom: '4px',
+                                backgroundColor: '#800080',
+                              }}
+                              onClick={() => handleOepn8(row)}
+                              className="chaneRoom"
+                            >
+                              RoomChange
+                            </button>
+                            <button
+                              style={{
+                                backgroundColor: '#FA7401',
+                                width: '6rem',
+                                marginBottom: '4px',
+                              }}
+                              onClick={() =>
+                                navigation(
+                                  '/admin-panel/Room/CheckoutReceipt',
+                                  {
+                                    state: {
+                                      data: row,
+                                    },
+                                  },
+                                )
+                              }
+                              className="chaneRoom"
+                            >
+                              checkout
+                            </button>
+                          </>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -597,7 +881,7 @@ const CheckIn = ({ setopendashboard }) => {
             <TableFooter>
               <TableRow>
                 <TablePagination
-                  count={isData.length}
+                  count={isData && isData.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={handleChangePage}

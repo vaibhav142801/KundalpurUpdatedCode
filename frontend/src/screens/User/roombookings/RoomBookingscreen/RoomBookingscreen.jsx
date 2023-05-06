@@ -20,6 +20,14 @@ const roomCount = [
   { id: 7, type: 7 },
   { id: 8, type: 8 },
   { id: 9, type: 9 },
+  { id: 10, type: 10 },
+  { id: 11, type: 11 },
+  { id: 12, type: 12 },
+  { id: 13, type: 13 },
+  { id: 14, type: 14 },
+  { id: 15, type: 15 },
+  { id: 16, type: 16 },
+  { id: 17, type: 17 },
 ];
 
 const Childrencont = [
@@ -248,6 +256,11 @@ function RoomBookingscreen() {
 
     if (!roomno) {
       errors.roomno = 'No of rooms is required';
+    }
+
+    if (roomno <= Number(isData?.available_rooms)) {
+    } else {
+      errors.roomno = `no of rooms should be less than or equal to available rooms (${isData?.available_rooms})`;
     }
 
     return errors;

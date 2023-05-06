@@ -54,7 +54,7 @@ const RoomBookingTap = ({ setopendashboard }) => {
                 src={f1}
                 alt="fast"
               />
-              Room Shift
+              Online Checkin
             </NavLink>
           </div>
         </div>

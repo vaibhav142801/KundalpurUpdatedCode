@@ -46,10 +46,10 @@
   flex-direction: column;
 }
 
-.minddle_div_room_innear input {
+.minddle_div_room_innearinput {
   width: 280px;
   height: 20px;
-  color: #B8B8B8;
+  color:'black';
   background: #ffffff;
   border: 1px solid #c5bfbf;
   border-radius: 7px;
@@ -161,6 +161,7 @@ padding-left: 0.8rem;
   background: #ffffff;
   border: 1px solid #dedede;
   border-radius: 4px;
+  color: black;
 }
 .main_Btotn_check_div_input input:focus{
   outline: 0.3px solid blue;

@@ -21,7 +21,7 @@ const addressinput = {
   background: '#ffffff',
   border: '1px solid #c4bfbf',
   borderRadius: '7px',
-  color: '#B8B8B8',
+  // color: '',
   paddingLeft: '0.8rem',
 };
 const custominput = {
@@ -33,7 +33,7 @@ const custominput = {
   borderRadius: '5px',
   fontSize: '15px',
   paddingLeft: '0.5rem',
-  color: 'gray',
+  // color: 'g',
 };
 const style = {
   position: 'absolute',
@@ -52,6 +52,7 @@ export const CustomInput = styled(InputBase)(({ theme }) => ({
   fontFamily: 'Poppins',
   backgroundColor: '#fff',
   borderRadius: 6,
+
   '& .MuiInputBase-input': {
     border: '1px solid #B8B8B8',
     borderRadius: 6,
@@ -1043,6 +1044,7 @@ function CheckinForm({ setOpen }) {
                     <div className="main_Btotn_check_div_input">
                       <label htmlFor='"maleno'>Male</label>
                       <input
+                        style={{ color: 'black' }}
                         id="maleno"
                         type="text"
                         name="maleno"

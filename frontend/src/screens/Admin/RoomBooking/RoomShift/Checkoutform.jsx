@@ -36,8 +36,13 @@ const Checkoutform = ({ setOpen, empdata }) => {
 
       console.log(res.data.data);
       if (res.data.data.message) {
+        navigation('/admin-panel/room/Print/Room/Booking', {
+          state: {
+            data: row,
+          },
+        });
         setshowloader(false);
-        Swal.fire('Great!', res.data.data.message, 'success');
+        // Swal.fire('Great!', res.data.data.message, 'success');
         setOpen(false);
       }
     } catch (error) {

@@ -10,6 +10,15 @@
 }
 
 
+.innear_div_texx_ddd{
+    display: flex;
+    width: 50%;
+    padding-left: 2rem;
+}
+
+.main_left{
+    padding-left: 2rem;
+}
 .main-certificatenote {
     margin: 0;
     border: none;
@@ -18,7 +27,7 @@
     position: relative;
 }
 .main-certificatenote p{
-    line-height: 36.1px;
+    line-height: 38px;
     font-size: 15px;
 }
 .reciept-footer-style{
@@ -66,5 +75,9 @@
     margin-right: 1rem;
 }
 .lineheight{
+    line-height: 33px;
+}
+
+.lineheight10{
     line-height: 23px;
 }

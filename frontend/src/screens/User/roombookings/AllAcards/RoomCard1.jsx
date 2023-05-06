@@ -43,18 +43,27 @@ function RoomCard1({ data, isData, dhramshalaname }) {
               <> {element}</>
             ))}
           </p>
+
           <p className="main_text_deltails">
             <span className="titleText">Available rooms</span> &nbsp;: &nbsp;
             {data?.available_rooms}
           </p>
           <p className="main_text_deltails">
+            <span className="titleText">Rate</span> &nbsp;: &nbsp;
+            {data?.roomDetails?.Rate}
+          </p>
+          <p className="main_text_deltails">
+            <span className="titleText">Advance Rate</span> &nbsp;: &nbsp;
+            {data?.roomDetails?.advance}
+          </p>
+          {/* <p className="main_text_deltails">
             <span className="titleText">Already booked</span> &nbsp;: &nbsp;
             {data?.already_booked}
           </p>
           <p className="main_text_deltails">
             <span className="titleText">Total rooms</span> &nbsp;: &nbsp;
             {data?.total_rooms}
-          </p>
+          </p> */}
 
           {/* <p className="main_text_deltails">
             available_room_numbers

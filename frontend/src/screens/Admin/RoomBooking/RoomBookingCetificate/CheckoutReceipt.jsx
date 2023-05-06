@@ -1,29 +1,44 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Converter, hiIN } from 'any-number-to-words';
-import { useNavigation } from 'react-router-dom';
+import { backendApiUrl } from '../../../../config/config';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 import '../../../Admin/Reciept/cashrecipt.css';
-import './ReceiptBooking.css';
 const converter = new Converter(hiIN);
-const ReceiptBooking = ({}) => {
+const CheckoutReceipt = ({ setopendashboard }) => {
+  const navigation = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
   const [isData, setisData] = React.useState('');
-  const [dharamshalaname, setdharamshalaname] = useState('');
-  const [checkinda, setcheckinda] = useState('');
-  console.log('data from certifucate', isData, dharamshalaname, checkinda);
 
-  const navigation = useNavigate();
+  const handlesubmit = async () => {
+    try {
+      axios.defaults.headers.post[
+        'Authorization'
+      ] = `Bearer ${sessionStorage.getItem('token')}`;
 
-  function printDiv() {
-    navigation('/admin-panel/reports/printcontent', {
-      state: {
-        data: isData,
-      },
-    });
-  }
+      const res = await axios.post(`${backendApiUrl}room/checkOut`, {
+        id: isData?.id,
+        checkoutDate: new Date(),
+        advanceAmount: isData?.id,
+      });
+
+      console.log(res.data.data);
+      if (res.data.data.message) {
+        navigation('/admin-panel/room/Print/Room/Booking', {
+          state: {
+            data: isData,
+          },
+        });
+        Swal.fire('Great!', res.data.data.message, 'success');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   function down() {
     console.log('cliii');
@@ -37,7 +52,7 @@ const ReceiptBooking = ({}) => {
   }
 
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
-  var today = new Date(isData && isData[0]?.coutDate);
+  var today = new Date(isData && isData?.date);
   const currDate = today
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -47,12 +62,26 @@ const ReceiptBooking = ({}) => {
     hour12: true,
   });
 
+  var today1 = new Date(isData && isData?.coutDate);
+  const currDatecheckout = today1
+    .toLocaleDateString('en-IN', options)
+    .replace(/-/g, ' ');
+  const currTimecheckout = today1.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
+
+  let difference = today1.getTime() - today.getTime();
+  let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+
   useEffect(() => {
     if (location.state) {
-      setisData(location?.state?.data?.data);
-      setcheckinda(location?.state?.checkindata);
-      setdharamshalaname(location?.state?.categoryname);
+      setisData(location?.state?.data);
     }
+    console.log('data from certifucate', location?.state?.data);
+
+    setopendashboard(true);
   }, []);
 
   return (
@@ -60,12 +89,18 @@ const ReceiptBooking = ({}) => {
       <div>
         <div
           className="button_div_print_download"
-          style={{ marginBottom: '1rem' }}
+          style={{
+            marginBottom: '1rem',
+            marginTop: '5rem',
+            position: 'fixed',
+            width: '100%',
+          }}
         >
-          <button onClick={() => navigation('/')}>Back</button>
-
-          <div />
+          <button onClick={() => navigation(-1)}>Back</button>
+          <button onClick={() => down()}>Download</button>
+          <button onClick={() => handlesubmit()}>Checkout</button>
         </div>
+        <div style={{ height: '10rem' }} />
         <div style={{ padding: '1rem' }} ref={componentRef}>
           <div className="main-certificate" id="receipt">
             <div className="topinfo-flex">
@@ -100,69 +135,117 @@ const ReceiptBooking = ({}) => {
                       <div className="maxxin_room_receipt_innear">
                         <div className="tex_center">
                           <p className="yadda_text lineheight">
-                            यात्री आगमन रसीद (ओनलाईन)
+                            यात्री प्रस्थान रसीद
                           </p>
                         </div>
 
                         <div className="innear_div_texx">
                           <div className="innear_div_texx_ddd">
                             <div>
-                              <p className="lineheight">आवास क्र</p>
-                              <p className="lineheight">यात्री का नाम-</p>
-                              <p className="lineheight">पिता/पति श्री-</p>
+                              <p
+                                className="lineheight"
+                                style={{ color: 'gray' }}
+                              >
+                                आवास क्र :
+                              </p>
+                              <p
+                                style={{ color: 'gray' }}
+                                className="lineheight"
+                              >
+                                मोबाईल न :
+                              </p>
+                              <p
+                                style={{ color: 'gray' }}
+                                className="lineheight"
+                              >
+                                यात्री का नाम :
+                              </p>
+                              <p
+                                style={{ color: 'gray' }}
+                                className="lineheight"
+                              >
+                                पिता/पति श्री :
+                              </p>
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
-                                {isData &&
-                                  isData.map((item) => {
-                                    return <span> {item?.RoomNo}</span>;
-                                  })}
+                                {isData && isData?.RoomNo}
                               </p>
                               <p className="lineheight">
-                                {isData && isData[0]?.name}
+                                {isData && isData?.contactNo}
                               </p>
                               <p className="lineheight">
-                                {isData && isData[0]?.Fname}
+                                {isData && isData?.name}
+                              </p>
+                              <p className="lineheight">
+                                {isData && isData?.Fname}
                               </p>
                             </div>
                           </div>
                           <div className="innear_div_texx_ddd">
                             <div>
-                              <p className="lineheight">आगमन दिनांक</p>
-                              <p className="lineheight">मोबाईल न.-</p>
-                              <p className="lineheight">पता-</p>
+                              <p
+                                style={{ color: 'gray' }}
+                                className="lineheight"
+                              >
+                                प्रस्थान दिनाँक :
+                              </p>
+                              <p
+                                style={{ color: 'gray' }}
+                                className="lineheight"
+                              >
+                                आगमन दिनांक :
+                              </p>
+
+                              <p
+                                style={{ color: 'gray' }}
+                                className="lineheight"
+                              >
+                                स्टे :
+                              </p>
+                              <p
+                                style={{ color: 'gray' }}
+                                className="lineheight"
+                              >
+                                पता :
+                              </p>
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
+                                {currDatecheckout} / {currTimecheckout}
+                              </p>
+                              <p className="lineheight">
                                 {currDate} / {currTime}
                               </p>
+
                               <p className="lineheight">
-                                {isData && isData[0]?.contactNo}
+                                {TotalDays && TotalDays} Days
                               </p>
                               <p className="lineheight">
-                                {isData && isData[0]?.city}
+                                {isData && isData?.city}
                               </p>
                             </div>
                           </div>
                         </div>
-                        <div className="yyy_text_div">
+
+                        {/* <div className="yyy_text_div">
                           <p className="lineheight">यात्री संख्या</p>
                           <p className="lineheight">
-                            Male: {isData && isData[0]?.male}
+                            Male: {isData && isData?.male}
                           </p>
                           <p className="lineheight">
-                            Female: {isData && isData[0]?.female}
+                            Female: {isData && isData?.female}
                           </p>
                           <p className="lineheight">
-                            Child: {isData && isData[0]?.child}
+                            Child: {isData && isData?.child}
                           </p>
                           <p className="lineheight">
-                            Total:{' '}
-                            {Number(isData && isData[0]?.male) +
-                              Number(isData && isData[0]?.female) +
-                              Number(isData && isData[0]?.child)}
+                            Total:
+                            {Number(isData && isData?.male) +
+                              Number(isData && isData?.female) +
+                              Number(isData && isData?.child)}
                           </p>
-                        </div>
+                        </div> */}
 
                         <div>
                           <table className="table_ddd">
@@ -175,32 +258,39 @@ const ReceiptBooking = ({}) => {
                                   रूम टाईप & रूम न.
                                 </td>
                                 {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
-                                <td className="table_tddd lineheight10">
+                                {/* <td className="table_tddd lineheight10">
                                   रुम न.
-                                </td>
+                                </td> */}
                                 {/* <td className="table_tddd">रूम की संख्या</td> */}
                                 <td className="table_tddd lineheight10">
                                   सहयोग राशि
                                   {/* <p className="lineheight10">
+                                    {isData && isData?.nRoom && isData?.nRoom}X
                                     {isData &&
-                                      isData[0]?.nRoom &&
-                                      isData[0]?.nRoom}{' '}
-                                    X
-                                    {isData &&
-                                      isData[0]?.roomAmount &&
-                                      isData[0]?.roomAmount}
+                                      isData?.roomAmount &&
+                                      isData?.roomAmount}
                                   </p> */}
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   अमानत राशि
                                   {/* <p className="lineheight10">
+                                    {isData && isData?.nRoom && isData?.nRoom}+
+                                    {isData && isData?.nRoom && isData?.nRoom}X
                                     {isData &&
-                                      isData[0]?.nRoom &&
-                                      isData[0]?.nRoom}{' '}
-                                    X
-                                    {isData &&
-                                      isData[0]?.roomAmount &&
-                                      isData[0]?.roomAmount}
+                                      isData?.roomAmount &&
+                                      isData?.roomAmount}
+                                  </p> */}
+                                </td>
+
+                                <td className="table_tddd lineheight10">
+                                  शेष राशि वापिसी
+                                  {/* <p className="lineheight10">
+                                    {Number(isData && isData?.roomAmount) *
+                                      (Number(isData && isData?.nRoom) +
+                                        Number(isData && isData?.nRoom))}
+                                    -
+                                    {Number(isData && isData?.roomAmount) *
+                                      Number(isData && isData?.nRoom)}
                                   </p> */}
                                 </td>
                                 {/* <td className="table_tddd">
@@ -215,19 +305,19 @@ const ReceiptBooking = ({}) => {
                               </tr>
                               <tr>
                                 <td className="table_tddd lineheight10">
-                                  {checkinda && checkinda?.dharamshala}
+                                  {isData && isData?.dharmasala?.name}
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {checkinda &&
-                                    checkinda?.category[0]?.facilities &&
-                                    checkinda?.category[0]?.facilities.map(
+                                  ({' '}
+                                  {isData &&
+                                    isData?.facility_name &&
+                                    isData?.facility_name.map(
                                       (element, index) => (
                                         <span key={index}> {element}</span>
                                       ),
                                     )}
-                                  ,
-                                  {checkinda &&
-                                    checkinda?.category[0]?.category_name}
+                                  ,{isData && isData?.category_name})-
+                                  {isData && isData?.booking_id}
                                 </td>
                                 {/* <td className="table_tddd">
                                 {checkinda &&
@@ -238,26 +328,27 @@ const ReceiptBooking = ({}) => {
                                     ),
                                   )}
                               </td> */}
-                                <td className="table_tddd lineheight10">
-                                  (
-                                  {isData &&
-                                    isData.map((item) => {
-                                      return <span> {item?.RoomNo},</span>;
-                                    })}{' '}
-                                  )
-                                </td>
+                                {/* <td className="table_tddd lineheight10">
+                                  ({isData && isData?.RoomNo})
+                                </td> */}
                                 {/* <td className="table_tddd">
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData[0]?.roomAmount) *
-                                    Number(isData && isData[0]?.nRoom)}
+                                  {Number(isData && isData?.roomAmount) *
+                                    Number(isData && isData?.nRoom)}
                                 </td>
-
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData[0]?.roomAmount) *
-                                    (Number(isData && isData[0]?.nRoom) +
-                                      Number(isData && isData[0]?.nRoom))}
+                                  {Number(isData && isData?.roomAmount) *
+                                    (Number(isData && isData?.nRoom) +
+                                      Number(isData && isData?.nRoom))}
+                                </td>
+                                <td className="table_tddd lineheight10">
+                                  {Number(isData && isData?.roomAmount) *
+                                    Number(isData && isData?.nRoom) -
+                                    Number(isData && isData?.roomAmount) *
+                                      (Number(isData && isData?.nRoom) +
+                                        Number(isData && isData?.nRoom))}
                                 </td>
                                 {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *
@@ -266,6 +357,16 @@ const ReceiptBooking = ({}) => {
                               </tr>
                             </tbody>
                           </table>
+                          <p
+                            style={{
+                              textAlign: 'right',
+                              marginRight: '2rem',
+                              marginTop: '0.5rem',
+                              marginBottom: '0.5rem',
+                            }}
+                          >
+                            Admin
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -362,15 +463,8 @@ const ReceiptBooking = ({}) => {
           </div>
         </div>
       </div>
-
-      <div className="button_div_print_download">
-        <button onClick={() => down()}>Download</button>
-        <button onClick={() => navigation('/bookinghistory')}>
-          Booking History
-        </button>
-      </div>
     </>
   );
 };
 
-export default ReceiptBooking;
+export default CheckoutReceipt;

@@ -68,6 +68,7 @@ import RoomBooking from '../screens/Admin/RoomBooking/RoomBooking';
 import PrintRoomBooking from '../screens/Admin/RoomBooking/RoomBookingCetificate/PrintRoomBooking';
 //online receipt
 import OnlineadminRecipt from '../screens/Admin/Reciept/OnlineadminRecipt';
+import CheckoutReceipt from '../screens/Admin/RoomBooking/RoomBookingCetificate/CheckoutReceipt';
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -560,6 +561,15 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <PrintRoomBooking setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/Room/CheckoutReceipt"
+          element={
+            <Adminprivateroute>
+              <CheckoutReceipt setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />
