@@ -34,6 +34,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TotalAdvance from '../CheckIn/TotalAdvance';
 import Totalguest from '../CheckIn/Totalguest';
+import Printcheckin from '../CheckIn/Printcheckin';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { format } from 'date-fns';
 import './RoomShift.css';
 const style = {
   position: 'absolute',
@@ -66,9 +70,8 @@ const RoomShift = ({ setopendashboard }) => {
 
   const [open1, setOpen1] = React.useState(false);
   const handleClose1 = () => setOpen1(false);
-  const handleOepn1 = (data) => {
+  const handleOepn1 = () => {
     setOpen1(true);
-    setchangedata(data);
   };
 
   const getall_donation = () => {
@@ -125,31 +128,70 @@ const RoomShift = ({ setopendashboard }) => {
   });
 
   const ExportToExcel = () => {
-    const fileName = 'ManualCashReport';
+    const fileName = 'CheckinGuest';
     const exportType = 'xls';
     var data = [];
+
     isData.map((item, index) => {
       data.push({
-        Date: Moment(item.donation_date).format('DD-MM-YYYY'),
-        'Receipt No': item?.ReceiptNo,
-        'Voucher No': item?.voucherNo,
-        'Phone No': item?.phoneNo,
-        name: item?.name,
-        Address: item?.address,
-        'Head/Item': item?.elecItemDetails.map((row) => {
-          return row.type;
-        }),
-        Amount: item?.elecItemDetails.reduce(
-          (n, { amount }) => parseFloat(n) + parseFloat(amount),
-          0,
-        ),
-        remark: item?.elecItemDetails.map((row) => {
-          return row.remark;
-        }),
-        'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
+        bookingid: item?.booking_id,
+        contactNo: item?.contactNo,
+        Customer: item?.name,
+        CheckinDate: Moment(item?.date).format('DD-MM-YYYY'),
+        CheckinTime: moment(item?.time, 'HH:mm:ss').format('hh:mm:ss'),
+        CheckinDate: Moment(item?.coutDate).format('DD-MM-YYYY'),
+        CheckinTime: moment(item?.coutTime, 'HH:mm:ss').format('hh:mm:ss'),
+        Rate: item?.roomAmount,
+        Advance: item?.advanceAmount,
+        RoomNo: item?.RoomNo,
       });
     });
     exportFromJSON({ data, fileName, exportType });
+  };
+  const ExportPdfmanul = (isData, fileName) => {
+    const doc = new jsPDF();
+
+    const tableColumn = [
+      'booking_id',
+      'contactNo',
+      'name',
+      'date',
+      'time',
+      'coutDate',
+      'coutTime',
+      'roomAmount',
+      'advanceAmount',
+      'RoomNo',
+    ];
+
+    const tableRows = [];
+
+    isData.forEach((item) => {
+      const ticketData = [
+        item?.booking_id,
+        item?.contactNo,
+        item?.name,
+        Moment(item?.date).format('DD-MM-YYYY'),
+        moment(item?.time, 'HH:mm:ss').format('hh:mm:ss'),
+        Moment(item?.coutDate).format('DD-MM-YYYY'),
+        moment(item?.coutTime, 'HH:mm:ss').format('hh:mm:ss'),
+        item?.roomAmount,
+        item?.advanceAmount,
+        item?.RoomNo,
+      ];
+
+      tableRows.push(ticketData);
+    });
+
+    doc.autoTable(tableColumn, tableRows, { startY: 20 });
+    const date = Date().split(' ');
+
+    const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
+
+    doc.text(`Report of ${fileName}`, 8, 9);
+    doc.setFont('Lato-Regular', 'normal');
+    doc.setFontSize(28);
+    doc.save(`${fileName}_${dateStr}.pdf`);
   };
   const [cancelid, setcancelid] = useState('');
   const [open3, setOpen3] = React.useState(false);
@@ -416,23 +458,11 @@ const RoomShift = ({ setopendashboard }) => {
           <Box sx={style}>
             <div>
               <div className="add-div-close-div">
-                <div>
-                  <h2 style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
-                    Room Checkout
-                  </h2>
-                  <Typography
-                    style={{ marginLeft: '1rem' }}
-                    variant="body2"
-                    color="primary"
-                  >
-                    {currDate} / {currTime}
-                  </Typography>
-                </div>
                 <IconButton>
                   <CloseIcon onClick={() => handleClose1()} />
                 </IconButton>
               </div>
-              <Checkoutform setOpen={setOpen1} empdata={changedata} />
+              <Printcheckin isData={isData} setOpen1={setOpen1} />;
             </div>
           </Box>
         </Fade>
@@ -496,7 +526,7 @@ const RoomShift = ({ setopendashboard }) => {
             <Tooltip title="Export Excel File">
               <IconButton>
                 <img
-                  //   onClick={() => ExportToExcel()}
+                  onClick={() => ExportToExcel()}
                   src={ExportExcel}
                   alt="cc"
                   style={{ width: '30px', marginLeft: '0rem' }}
@@ -506,7 +536,7 @@ const RoomShift = ({ setopendashboard }) => {
             <Tooltip title="Export Pdf File">
               <IconButton>
                 <img
-                  //   onClick={() => ExportPdfmanul(isData, 'Report')}
+                  onClick={() => ExportPdfmanul(isData, 'OnlineCheckinData')}
                   src={ExportPdf}
                   alt="cc"
                   style={{ width: '30px' }}
@@ -517,20 +547,12 @@ const RoomShift = ({ setopendashboard }) => {
               <IconButton>
                 <img
                   style={{ width: '30px' }}
-                  //   onClick={() => handleOpen5()}
+                  onClick={() => handleOepn1()}
                   src={Print}
                   alt=" Print"
                 />
               </IconButton>
             </Tooltip>
-            {/* <Tooltip title="Add Dharamshala">
-              <Button
-                onClick={() => handleOepn()}
-                className="add_btn_main_dhara"
-              >
-                + Add
-              </Button>
-            </Tooltip> */}
             &nbsp;&nbsp;
           </div>
         </div>
@@ -575,14 +597,7 @@ const RoomShift = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                {/* <TableCell>
-                  CheckinTime
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('time')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell> */}
+
                 <TableCell>
                   CheckoutDate$Time
                   <i
@@ -591,14 +606,6 @@ const RoomShift = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                {/* <TableCell>
-                  CheckoutTime
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('coutTime')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell> */}
 
                 <TableCell>
                   Rate
@@ -666,14 +673,7 @@ const RoomShift = ({ setopendashboard }) => {
                     placeholder="Search  checkin date"
                   />
                 </TableCell>
-                {/* <TableCell>
-                  <input
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => onSearchByOther(e, 'checkintime')}
-                    placeholder="Search checkin time"
-                  />
-                </TableCell> */}
+
                 <TableCell>
                   <input
                     style={{ width: '9rem' }}
@@ -683,14 +683,7 @@ const RoomShift = ({ setopendashboard }) => {
                     placeholder="Search checkout date"
                   />
                 </TableCell>
-                {/* <TableCell>
-                  <input
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => onSearchByOther(e, 'checkouttime')}
-                    placeholder="Search checkout time"
-                  />
-                </TableCell> */}
+
                 <TableCell>
                   <input
                     style={{ width: '7rem' }}
@@ -868,7 +861,7 @@ const RoomShift = ({ setopendashboard }) => {
             <TableFooter>
               <TableRow>
                 <TablePagination
-                  count={isData.length}
+                  count={isData && isData.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={handleChangePage}

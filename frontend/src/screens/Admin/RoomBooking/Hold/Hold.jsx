@@ -36,6 +36,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { format } from 'date-fns';
+import PrintHold from './PrintHold';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -60,12 +64,9 @@ const Hold = ({ setopendashboard }) => {
   const handleOepn = () => setOpen(true);
   const [loader, setloader] = useState(false);
   const [open1, setOpen1] = React.useState(false);
-  const [updatedata, setupdatedata] = useState('');
   const handleClose1 = () => setOpen1(false);
-  const handleOepn1 = (data) => {
+  const handleOepn1 = () => {
     setOpen1(true);
-
-    setupdatedata(data);
   };
 
   const [deleteId, setdeleteId] = useState('');
@@ -120,35 +121,63 @@ const Hold = ({ setopendashboard }) => {
     minute: 'numeric',
     hour12: true,
   });
-
   const ExportToExcel = () => {
-    const fileName = 'ManualCashReport';
+    const fileName = 'CheckinGuest';
     const exportType = 'xls';
     var data = [];
+
     isData.map((item, index) => {
       data.push({
-        Date: Moment(item.donation_date).format('DD-MM-YYYY'),
-        'Receipt No': item?.ReceiptNo,
-        'Voucher No': item?.voucherNo,
-        'Phone No': item?.phoneNo,
-        name: item?.name,
-        Address: item?.address,
-        'Head/Item': item?.elecItemDetails.map((row) => {
-          return row.type;
-        }),
-        Amount: item?.elecItemDetails.reduce(
-          (n, { amount }) => parseFloat(n) + parseFloat(amount),
-          0,
-        ),
-        remark: item?.elecItemDetails.map((row) => {
-          return row.remark;
-        }),
-        'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
+        Mobile: item?.mobile,
+        Holdername: item?.name,
+        RoomNo: item?.roomNo,
+        Since: Moment(item?.since).format('DD-MM-YYYY'),
+        Remain: Moment(item?.remain).format('DD-MM-YYYY'),
+        approvedBy: item?.approvedBy,
+        remarks: item?.remarks,
       });
     });
     exportFromJSON({ data, fileName, exportType });
   };
+  const ExportPdfmanul = (isData, fileName) => {
+    const doc = new jsPDF();
 
+    const tableColumn = [
+      'Mobile',
+      'Name',
+      'RoomNo',
+      'Since',
+      'Remain',
+      'ApprovedBy',
+      'Remarks',
+    ];
+
+    const tableRows = [];
+
+    isData.forEach((item) => {
+      const ticketData = [
+        item?.mobile,
+        item?.name,
+        item?.roomNo,
+        Moment(item?.since).format('DD-MM-YYYY'),
+        Moment(item?.remain).format('DD-MM-YYYY'),
+        item?.approvedBy,
+        item?.remarks,
+      ];
+
+      tableRows.push(ticketData);
+    });
+
+    doc.autoTable(tableColumn, tableRows, { startY: 20 });
+    const date = Date().split(' ');
+
+    const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
+
+    doc.text(`Report of ${fileName}`, 8, 9);
+    doc.setFont('Lato-Regular', 'normal');
+    doc.setFontSize(28);
+    doc.save(`${fileName}_${dateStr}.pdf`);
+  };
   useEffect(() => {
     getall_donation();
     setopendashboard(true);
@@ -339,23 +368,11 @@ const Hold = ({ setopendashboard }) => {
           <Box sx={style}>
             <div>
               <div className="add-div-close-div">
-                <div>
-                  <h2 style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
-                    Update Hold Room
-                  </h2>
-                  <Typography
-                    style={{ marginLeft: '1rem' }}
-                    variant="body2"
-                    color="primary"
-                  >
-                    {currDate} / {currTime}
-                  </Typography>
-                </div>
                 <IconButton>
                   <CloseIcon onClick={() => handleClose1()} />
                 </IconButton>
               </div>
-              <UpdateHold setOpen={setOpen1} dataa={updatedata} />
+              <PrintHold setOpen1={setOpen1} isData={isData} />
             </div>
           </Box>
         </Fade>
@@ -376,7 +393,7 @@ const Hold = ({ setopendashboard }) => {
             <Tooltip title="Export Excel File">
               <IconButton>
                 <img
-                  //   onClick={() => ExportToExcel()}
+                  onClick={() => ExportToExcel()}
                   src={ExportExcel}
                   alt="cc"
                   style={{ width: '30px', marginLeft: '0rem' }}
@@ -386,7 +403,7 @@ const Hold = ({ setopendashboard }) => {
             <Tooltip title="Export Pdf File">
               <IconButton>
                 <img
-                  //   onClick={() => ExportPdfmanul(isData, 'Report')}
+                  onClick={() => ExportPdfmanul(isData, 'HoldRoomData')}
                   src={ExportPdf}
                   alt="cc"
                   style={{ width: '30px' }}
@@ -397,7 +414,7 @@ const Hold = ({ setopendashboard }) => {
               <IconButton>
                 <img
                   style={{ width: '30px' }}
-                  //   onClick={() => handleOpen5()}
+                  onClick={() => handleOepn1()}
                   src={Print}
                   alt=" Print"
                 />

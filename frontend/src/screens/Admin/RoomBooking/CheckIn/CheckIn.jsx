@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { serverInstance } from '../../../../API/ServerInstance';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,12 +9,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
-import { Box, Button, useStepperContext } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
 import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
+import moment from 'moment';
 import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../assets/ExportExcel.png';
@@ -24,16 +25,18 @@ import Typography from '@mui/material/Typography';
 import CheckinForm from './CheckinForm';
 import { Select, MenuItem } from '@mui/material';
 import RoomBookingTap from '../RoomBookingTap';
-import moment from 'moment';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Checkoutform from '../RoomShift/Checkoutform';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { format } from 'date-fns';
 import RoomShiftForm from '../RoomShift/RoomShiftForm';
 import TotalAdvance from './TotalAdvance';
 import Totalguest from './Totalguest';
+import Printcheckin from './Printcheckin';
 import './Checkin.css';
 const style = {
   position: 'absolute',
@@ -49,7 +52,6 @@ const style = {
 
 const CheckIn = ({ setopendashboard }) => {
   const navigation = useNavigate();
-  const [changedata, setchangedata] = useState('');
   const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [isDataDummy, setisDataDummy] = React.useState([]);
@@ -62,9 +64,8 @@ const CheckIn = ({ setopendashboard }) => {
   const handleOepn = () => setOpen(true);
   const [open1, setOpen1] = React.useState(false);
   const handleClose1 = () => setOpen1(false);
-  const handleOepn1 = (data) => {
+  const handleOepn1 = () => {
     setOpen1(true);
-    setchangedata(data);
   };
   const [open8, setOpen8] = React.useState(false);
   const [changedata8, setchangedata8] = useState('');
@@ -108,7 +109,51 @@ const CheckIn = ({ setopendashboard }) => {
       });
     }
   };
+  const ExportPdfmanul = (isData, fileName) => {
+    const doc = new jsPDF();
 
+    const tableColumn = [
+      'booking_id',
+      'contactNo',
+      'name',
+      'date',
+      'time',
+      'coutDate',
+      'coutTime',
+      'roomAmount',
+      'advanceAmount',
+      'RoomNo',
+    ];
+
+    const tableRows = [];
+
+    isData.forEach((item) => {
+      const ticketData = [
+        item?.booking_id,
+        item?.contactNo,
+        item?.name,
+        Moment(item?.date).format('DD-MM-YYYY'),
+        moment(item?.time, 'HH:mm:ss').format('hh:mm:ss'),
+        Moment(item?.coutDate).format('DD-MM-YYYY'),
+        moment(item?.coutTime, 'HH:mm:ss').format('hh:mm:ss'),
+        item?.roomAmount,
+        item?.advanceAmount,
+        item?.RoomNo,
+      ];
+
+      tableRows.push(ticketData);
+    });
+
+    doc.autoTable(tableColumn, tableRows, { startY: 20 });
+    const date = Date().split(' ');
+
+    const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
+
+    doc.text(`Report of ${fileName}`, 8, 9);
+    doc.setFont('Lato-Regular', 'normal');
+    doc.setFontSize(28);
+    doc.save(`${fileName}_${dateStr}.pdf`);
+  };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -119,28 +164,22 @@ const CheckIn = ({ setopendashboard }) => {
   };
 
   const ExportToExcel = () => {
-    const fileName = 'ManualCashReport';
+    const fileName = 'CheckinGuest';
     const exportType = 'xls';
     var data = [];
+
     isData.map((item, index) => {
       data.push({
-        Date: Moment(item.donation_date).format('DD-MM-YYYY'),
-        'Receipt No': item?.ReceiptNo,
-        'Voucher No': item?.voucherNo,
-        'Phone No': item?.phoneNo,
-        name: item?.name,
-        Address: item?.address,
-        'Head/Item': item?.elecItemDetails.map((row) => {
-          return row.type;
-        }),
-        Amount: item?.elecItemDetails.reduce(
-          (n, { amount }) => parseFloat(n) + parseFloat(amount),
-          0,
-        ),
-        remark: item?.elecItemDetails.map((row) => {
-          return row.remark;
-        }),
-        'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
+        bookingid: item?.booking_id,
+        contactNo: item?.contactNo,
+        Customer: item?.name,
+        CheckinDate: Moment(item?.date).format('DD-MM-YYYY'),
+        CheckinTime: moment(item?.time, 'HH:mm:ss').format('hh:mm:ss'),
+        CheckinDate: Moment(item?.coutDate).format('DD-MM-YYYY'),
+        CheckinTime: moment(item?.coutTime, 'HH:mm:ss').format('hh:mm:ss'),
+        Rate: item?.roomAmount,
+        Advance: item?.advanceAmount,
+        RoomNo: item?.RoomNo,
       });
     });
     exportFromJSON({ data, fileName, exportType });
@@ -255,8 +294,6 @@ const CheckIn = ({ setopendashboard }) => {
         Moment(dt?.date).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
         Moment(dt?.coutDate).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
         dt?.name?.toLowerCase().indexOf(customername) > -1,
-      // dt?.time?.toLowerCase().indexOf(checkintime) > -1 &&
-      // dt?.coutTime?.toLowerCase().indexOf(checkouttime) > -1 &&
     );
 
     if (roomNo) {
@@ -427,24 +464,18 @@ const CheckIn = ({ setopendashboard }) => {
         <Fade in={open1}>
           <Box sx={style}>
             <div>
-              <div className="add-div-close-div">
-                <div>
-                  <h2 style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
-                    Room Checkout
-                  </h2>
-                  <Typography
-                    style={{ marginLeft: '1rem' }}
-                    variant="body2"
-                    color="primary"
-                  >
-                    {currDate} / {currTime}
-                  </Typography>
-                </div>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <div style={{ width: '100%' }} />
                 <IconButton>
                   <CloseIcon onClick={() => handleClose1()} />
                 </IconButton>
               </div>
-              <Checkoutform setOpen={setOpen1} empdata={changedata} />
+              <Printcheckin isData={isData} setOpen1={setOpen1} />;
             </div>
           </Box>
         </Fade>
@@ -465,7 +496,6 @@ const CheckIn = ({ setopendashboard }) => {
               width: '280px',
               fontSize: 14,
               '& .MuiSelect-select': {
-                // borderColor: !!formerror.donationtype ? 'red' : '',
                 padding: '10px 0px 10px 10px',
                 background: '#fff',
               },
@@ -507,7 +537,7 @@ const CheckIn = ({ setopendashboard }) => {
             <Tooltip title="Export Excel File">
               <IconButton>
                 <img
-                  //   onClick={() => ExportToExcel()}
+                  onClick={() => ExportToExcel()}
                   src={ExportExcel}
                   alt="cc"
                   style={{ width: '30px', marginLeft: '0rem' }}
@@ -517,7 +547,7 @@ const CheckIn = ({ setopendashboard }) => {
             <Tooltip title="Export Pdf File">
               <IconButton>
                 <img
-                  //   onClick={() => ExportPdfmanul(isData, 'Report')}
+                  onClick={() => ExportPdfmanul(isData, 'CheckinData')}
                   src={ExportPdf}
                   alt="cc"
                   style={{ width: '30px' }}
@@ -528,7 +558,7 @@ const CheckIn = ({ setopendashboard }) => {
               <IconButton>
                 <img
                   style={{ width: '30px' }}
-                  //   onClick={() => handleOpen5()}
+                  onClick={() => handleOepn1()}
                   src={Print}
                   alt=" Print"
                 />
@@ -586,14 +616,7 @@ const CheckIn = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                {/* <TableCell>
-                  CheckinTime
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('time')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell> */}
+
                 <TableCell>
                   CheckoutDate$Time
                   <i
@@ -602,14 +625,6 @@ const CheckIn = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                {/* <TableCell>
-                  CheckoutTime
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('coutTime')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell> */}
 
                 <TableCell>
                   Rate
@@ -677,14 +692,7 @@ const CheckIn = ({ setopendashboard }) => {
                     placeholder="Search  checkin date"
                   />
                 </TableCell>
-                {/* <TableCell>
-                  <input
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => onSearchByOther(e, 'checkintime')}
-                    placeholder="Search checkin time"
-                  />
-                </TableCell> */}
+
                 <TableCell>
                   <input
                     style={{ width: '9rem' }}
@@ -694,14 +702,7 @@ const CheckIn = ({ setopendashboard }) => {
                     placeholder="Search checkout date"
                   />
                 </TableCell>
-                {/* <TableCell>
-                  <input
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => onSearchByOther(e, 'checkouttime')}
-                    placeholder="Search checkout time"
-                  />
-                </TableCell> */}
+
                 <TableCell>
                   <input
                     style={{ width: '7rem' }}
@@ -771,16 +772,12 @@ const CheckIn = ({ setopendashboard }) => {
                         {Moment(row?.date).format('YYYY-MM-DD')}&nbsp;&nbsp;
                         {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
                       </TableCell>
-                      {/* <TableCell>
-                        {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
-                      </TableCell> */}
+
                       <TableCell>
                         {Moment(row?.coutDate).format('DD-MM-YYYY')}&nbsp;&nbsp;
                         {moment(row?.coutTime, 'HH:mm:ss').format('hh:mm:ss')}
                       </TableCell>
-                      {/* <TableCell>
-                        {moment(row?.coutTime, 'HH:mm:ss').format('hh:mm:ss')}
-                      </TableCell> */}
+
                       <TableCell> {row?.roomAmount}</TableCell>
                       <TableCell> {row?.advanceAmount}</TableCell>
                       <TableCell> {row?.RoomNo}</TableCell>
