@@ -56,10 +56,10 @@ function PaymentSuccess() {
           <div className="payment_btn_duvvvvvv">
             <button
               onClick={() =>
-                navigate('/room/booking/receipt', {
+                navigate('/room/ReceiptBookingy', {
                   state: {
                     data: isData,
-                    dharamshalaname: dharamshalaname,
+                    dharamshala: dharamshalaname,
                     checkindata: checkinda,
                   },
                 })

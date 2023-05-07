@@ -51,7 +51,7 @@ const ReceiptBooking = ({}) => {
     if (location.state) {
       setisData(location?.state?.data?.data);
       setcheckinda(location?.state?.checkindata);
-      setdharamshalaname(location?.state?.categoryname);
+      console.log(location?.state?.data, location?.state?.checkindata);
     }
   }, []);
 

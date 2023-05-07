@@ -198,7 +198,7 @@ function RoomBookingscreen() {
         setIsLoading(false);
         console.log(res);
 
-        navigate('/room/ReceiptBookingy', {
+        navigate('/room/paymentsuccessfuly', {
           state: {
             data: res.data,
             dharamshala: dharamshala,
@@ -374,23 +374,35 @@ function RoomBookingscreen() {
                   <h2>Price Summary</h2>
                   <div className="main_div_test22222">
                     <p>rate</p>
-                    <p> ₹ {isData?.roomDetails?.Rate} </p>
+                    <p> ₹ {isData?.roomDetails?.advance} </p>
                   </div>
                   <div className="main_div_test22222">
                     <p>{roomno} Room x 1 Night</p>
-                    <p> ₹ {roomno * isData?.roomDetails?.Rate} </p>
+                    <p> ₹ {roomno * isData?.roomDetails?.advance} </p>
                   </div>
                   <div className="main_div_test22222">
+                    <p>Advance rate</p>
+                    <p>
+                      ₹
+                      {roomno * isData?.roomDetails?.advance +
+                        roomno * isData?.roomDetails?.advance}
+                    </p>
+                  </div>
+                  {/* <div className="main_div_test22222">
                     <p>GST</p>
                     <p>₹ 0.00</p>
-                  </div>
+                  </div> */}
                   {/* <div className="main_div_test22222">
                     <p>Mattress {extraMattress} x ₹150</p>
                     <p>₹ {extraMattress * 150}</p>
                   </div> */}
                   <div className="main_div_test22222">
                     <p>Total Amount </p>
-                    <p>₹ {roomno * isData?.roomDetails?.Rate}</p>
+                    <p>
+                      ₹
+                      {roomno * isData?.roomDetails?.advance +
+                        roomno * isData?.roomDetails?.advance}
+                    </p>
                   </div>
                   <div className="now_payment_gateway_div">
                     <button onClick={() => savedataIntodb()}>
