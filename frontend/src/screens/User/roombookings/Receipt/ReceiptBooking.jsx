@@ -49,7 +49,7 @@ const ReceiptBooking = ({}) => {
 
   useEffect(() => {
     if (location.state) {
-      setisData(location?.state?.data?.data);
+      setisData(location?.state?.data);
       setcheckinda(location?.state?.checkindata);
       console.log(location?.state?.data, location?.state?.checkindata);
     }
