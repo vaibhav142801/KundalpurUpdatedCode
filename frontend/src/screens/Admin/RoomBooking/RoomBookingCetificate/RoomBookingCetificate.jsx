@@ -159,24 +159,17 @@ function RoomBookingCetificate({ setopendashboard }) {
                           ),
                         )}
                     </td> */}
-                    <td className="table_tddd">
-                      {isData &&
-                        isData.map((item) => {
-                          return <span> {item?.RoomNo}</span>;
-                        })}
+                    <td className="table_tddd lineheight10">
+                      {Number(isData && isData?.roomAmount) * Number(1)}
                     </td>
-                    {/* <td className="table_tddd">{isData[0]?.nRoom}</td> */}
-                    <td className="table_tddd">
-                      {Number(isData[0]?.nRoom) *
-                        Number(
-                          checkindata && checkindata?.dharamshala[0]?.advance,
-                        )}
+                    <td className="table_tddd lineheight10">
+                      {Number(isData && isData?.roomAmount) *
+                        (Number(1) + Number(1))}
                     </td>
-                    <td className="table_tddd">
-                      {Number(isData[0]?.nRoom + isData[0]?.nRoom) *
-                        Number(
-                          checkindata && checkindata?.dharamshala[0]?.advance,
-                        )}
+                    <td className="table_tddd lineheight10">
+                      {Number(isData && isData?.roomAmount) * Number(1) -
+                        Number(isData && isData?.roomAmount) *
+                          (Number(1) + Number(1))}
                     </td>
                   </tr>
                 </tbody>

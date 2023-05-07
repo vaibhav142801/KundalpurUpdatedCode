@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Converter, hiIN } from 'any-number-to-words';
-import { backendApiUrl } from '../../../../config/config';
 import { serverInstance } from '../../../../API/ServerInstance';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../../../Admin/Reciept/cashrecipt.css';
 const converter = new Converter(hiIN);
@@ -22,6 +20,11 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
       }).then((res) => {
         console.log(res);
         if (res.data?.status === true) {
+          navigation('/admin-panel/Room/ForcePrint', {
+            state: {
+              data: isData,
+            },
+          });
           Swal.fire('Great!', res?.data?.message, 'success');
         }
       });
@@ -326,19 +329,17 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
                               </td> */}
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmount) *
-                                    Number(isData && isData?.nRoom)}
+                                    (Number(1) + Number(1))}
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmount) *
-                                    (Number(isData && isData?.nRoom) +
-                                      Number(isData && isData?.nRoom))}
+                                    (Number(1) + Number(1))}
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmount) *
-                                    Number(isData && isData?.nRoom) -
+                                    (Number(1) + Number(1)) -
                                     Number(isData && isData?.roomAmount) *
-                                      (Number(isData && isData?.nRoom) +
-                                        Number(isData && isData?.nRoom))}
+                                      (Number(1) + Number(1))}
                                 </td>
                                 {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *

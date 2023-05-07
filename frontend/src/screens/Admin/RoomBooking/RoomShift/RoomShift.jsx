@@ -101,7 +101,7 @@ const RoomShift = ({ setopendashboard }) => {
   };
 
   const downloadrecept = (row) => {
-    navigation('/admin-panel/Room/printReceipt', {
+    navigation('/admin-panel/Room/OnlinePrintReceipt', {
       state: {
         data: row,
       },
@@ -139,8 +139,8 @@ const RoomShift = ({ setopendashboard }) => {
         Customer: item?.name,
         CheckinDate: Moment(item?.date).format('DD-MM-YYYY'),
         CheckinTime: moment(item?.time, 'HH:mm:ss').format('hh:mm:ss'),
-        CheckinDate: Moment(item?.coutDate).format('DD-MM-YYYY'),
-        CheckinTime: moment(item?.coutTime, 'HH:mm:ss').format('hh:mm:ss'),
+        CheckOutDate: Moment(item?.coutDate).format('DD-MM-YYYY'),
+        CheckOutTime: moment(item?.coutTime, 'HH:mm:ss').format('hh:mm:ss'),
         Rate: item?.roomAmount,
         Advance: item?.advanceAmount,
         RoomNo: item?.RoomNo,
@@ -802,14 +802,11 @@ const RoomShift = ({ setopendashboard }) => {
                                 backgroundColor: '#800000',
                               }}
                               onClick={() =>
-                                navigation(
-                                  '/admin-panel/Room/ForceRoomChequeOut',
-                                  {
-                                    state: {
-                                      data: row,
-                                    },
+                                navigation('/admin-panel/Room/OnlineForce', {
+                                  state: {
+                                    data: row,
                                   },
-                                )
+                                })
                               }
                               className="chaneRoom"
                             >
@@ -845,7 +842,7 @@ const RoomShift = ({ setopendashboard }) => {
                               }}
                               onClick={() =>
                                 navigation(
-                                  '/admin-panel/Room/CheckoutReceipt',
+                                  '/admin-panel/Room/OnlinecheckinReceipt',
                                   {
                                     state: {
                                       data: row,

@@ -226,20 +226,16 @@ function PrintRoomBooking({ setopendashboard }) {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) *
-                        Number(isData && isData?.nRoom)}
+                      {Number(isData && isData?.roomAmount) * Number(1)}
                     </td>
                     <td className="table_tddd lineheight10">
                       {Number(isData && isData?.roomAmount) *
-                        (Number(isData && isData?.nRoom) +
-                          Number(isData && isData?.nRoom))}
+                        (Number(1) + Number(1))}
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) *
-                        Number(isData && isData?.nRoom) -
+                      {Number(isData && isData?.roomAmount) * Number(1) -
                         Number(isData && isData?.roomAmount) *
-                          (Number(isData && isData?.nRoom) +
-                            Number(isData && isData?.nRoom))}
+                          (Number(1) + Number(1))}
                     </td>
                     {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *

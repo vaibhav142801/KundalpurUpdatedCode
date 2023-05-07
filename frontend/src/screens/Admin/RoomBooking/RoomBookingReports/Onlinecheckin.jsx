@@ -215,7 +215,7 @@ const Onlinecheckin = ({ setopendashboard }) => {
   }, [open, open1, open3, open4, open8, optionss]);
 
   const downloadrecept = (row) => {
-    navigation('/admin-panel/Room/printReceipt', {
+    navigation('/admin-panel/Room/OnlinePrintReceipt', {
       state: {
         data: row,
       },
@@ -400,14 +400,6 @@ const Onlinecheckin = ({ setopendashboard }) => {
                   alt=" Print"
                 />
               </IconButton>
-            </Tooltip>
-            <Tooltip title="Add Dharamshala">
-              <Button
-                onClick={() => handleOepn()}
-                className="add_btn_main_dhara"
-              >
-                + Add
-              </Button>
             </Tooltip>
             &nbsp;&nbsp;
           </div>

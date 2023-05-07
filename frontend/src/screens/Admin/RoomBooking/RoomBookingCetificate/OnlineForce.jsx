@@ -1,15 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Converter, hiIN } from 'any-number-to-words';
-import { backendApiUrl } from '../../../../config/config';
 import { serverInstance } from '../../../../API/ServerInstance';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../../../Admin/Reciept/cashrecipt.css';
 const converter = new Converter(hiIN);
-const Onlyprint = ({ setopendashboard }) => {
+const OnlineForce = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
@@ -22,6 +20,11 @@ const Onlyprint = ({ setopendashboard }) => {
       }).then((res) => {
         console.log(res);
         if (res.data?.status === true) {
+          navigation('/admin-panel/Room/OnlineforcePrint', {
+            state: {
+              data: isData,
+            },
+          });
           Swal.fire('Great!', res?.data?.message, 'success');
         }
       });
@@ -88,17 +91,7 @@ const Onlyprint = ({ setopendashboard }) => {
         >
           <button onClick={() => navigation(-1)}>Back</button>
           <button onClick={() => down()}>Download</button>
-          <button
-            onClick={() =>
-              navigation('/admin-panel/Room/PrintOnlysetup', {
-                state: {
-                  data: isData,
-                },
-              })
-            }
-          >
-            Print
-          </button>
+          <button onClick={() => handlesubmit()}>Force Checkout</button>
         </div>
         <div style={{ height: '10rem' }} />
         <div style={{ padding: '1rem' }} ref={componentRef}>
@@ -135,7 +128,7 @@ const Onlyprint = ({ setopendashboard }) => {
                       <div className="maxxin_room_receipt_innear">
                         <div className="tex_center">
                           <p className="yadda_text lineheight">
-                            यात्री आगमन रसीद
+                            यात्री प्रस्थान रसीद (ओनलाईन)
                           </p>
                         </div>
 
@@ -188,13 +181,13 @@ const Onlyprint = ({ setopendashboard }) => {
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                आगमन दिनांक :
+                                प्रस्थान दिनाँक :
                               </p>
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                प्रस्थान दिनाँक :
+                                आगमन दिनांक :
                               </p>
 
                               <p
@@ -212,11 +205,12 @@ const Onlyprint = ({ setopendashboard }) => {
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
-                                {currDate} / {currTime}
-                              </p>
-                              <p className="lineheight">
                                 {currDatecheckout} / {currTimecheckout}
                               </p>
+                              <p className="lineheight">
+                                {currDate} / {currTime}
+                              </p>
+
                               <p className="lineheight">
                                 {TotalDays && TotalDays} Days
                               </p>
@@ -335,7 +329,7 @@ const Onlyprint = ({ setopendashboard }) => {
                               </td> */}
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmount) *
-                                    Number(1)}
+                                    (Number(1) + Number(1))}
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmount) *
@@ -343,7 +337,7 @@ const Onlyprint = ({ setopendashboard }) => {
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmount) *
-                                    Number(1) -
+                                    (Number(1) + Number(1)) -
                                     Number(isData && isData?.roomAmount) *
                                       (Number(1) + Number(1))}
                                 </td>
@@ -464,4 +458,4 @@ const Onlyprint = ({ setopendashboard }) => {
   );
 };
 
-export default Onlyprint;
+export default OnlineForce;

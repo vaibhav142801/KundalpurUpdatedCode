@@ -5,7 +5,7 @@ import jsPDF from 'jspdf';
 import { useReactToPrint } from 'react-to-print';
 import './RoomBookingCetificate.css';
 
-function ForcePrint({ setopendashboard }) {
+function PrintOnlysetup({ setopendashboard }) {
   const navigate = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
@@ -74,7 +74,7 @@ function ForcePrint({ setopendashboard }) {
             ref={componentRef}
             style={{ marginLeft: '1.3rem', marginTop: '7rem' }}
           >
-            <p className="yadda_text"> यात्री प्रस्थान रसीद</p>
+            <p className="yadda_text"> यात्री आगमन रसीद</p>
 
             <div className="innear_div_texx">
               <div className="innear_div_texx_dd">
@@ -102,12 +102,11 @@ function ForcePrint({ setopendashboard }) {
               <div className="innear_div_texx_dd" style={{ marginLeft: '0px' }}>
                 <div>
                   <p style={{ color: 'gray' }} className="lineheight">
-                    प्रस्थान दिनाँक :
-                  </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
                     आगमन दिनांक:
                   </p>
-
+                  <p style={{ color: 'gray' }} className="lineheight">
+                    प्रस्थान दिनाँक :
+                  </p>
                   <p style={{ color: 'gray' }} className="lineheight">
                     स्टे :
                   </p>
@@ -117,10 +116,10 @@ function ForcePrint({ setopendashboard }) {
                 </div>
                 <div className="main_left">
                   <p className="lineheight">
-                    {currDatecheckout} / {currTimecheckout}
+                    {currDate} / {currTime}
                   </p>
                   <p className="lineheight">
-                    {currDate} / {currTime}
+                    {currDatecheckout} / {currTimecheckout}
                   </p>
 
                   <p className="lineheight">{TotalDays && TotalDays} Days</p>
@@ -129,7 +128,7 @@ function ForcePrint({ setopendashboard }) {
               </div>
             </div>
 
-            {/* <div className="yyy_text_div">
+            <div className="yyy_text_div">
               <p className="lineheight">यात्री संख्या </p>
               <p className="lineheight">Male: {isData?.male}</p>
               <p className="lineheight">Female: {isData?.female}</p>
@@ -140,7 +139,7 @@ function ForcePrint({ setopendashboard }) {
                   Number(isData?.female) +
                   Number(isData?.child)}
               </p>
-            </div> */}
+            </div>
 
             <div>
               <table className="table_ddd">
@@ -226,16 +225,14 @@ function ForcePrint({ setopendashboard }) {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) *
-                        (Number(1) + Number(1))}
+                      {Number(isData && isData?.roomAmount) * Number(1)}
                     </td>
                     <td className="table_tddd lineheight10">
                       {Number(isData && isData?.roomAmount) *
                         (Number(1) + Number(1))}
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) *
-                        (Number(1) + Number(1)) -
+                      {Number(isData && isData?.roomAmount) * Number(1) -
                         Number(isData && isData?.roomAmount) *
                           (Number(1) + Number(1))}
                     </td>
@@ -267,4 +264,4 @@ function ForcePrint({ setopendashboard }) {
   );
 }
 
-export default ForcePrint;
+export default PrintOnlysetup;

@@ -26,7 +26,6 @@ const CheckoutReceipt = ({ setopendashboard }) => {
         advanceAmount: isData?.id,
       });
 
-      console.log(res.data.data);
       if (res.data.data.message) {
         navigation('/admin-panel/room/Print/Room/Booking', {
           state: {
@@ -336,19 +335,17 @@ const CheckoutReceipt = ({ setopendashboard }) => {
                               </td> */}
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmount) *
-                                    Number(isData && isData?.nRoom)}
+                                    Number(1)}
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmount) *
-                                    (Number(isData && isData?.nRoom) +
-                                      Number(isData && isData?.nRoom))}
+                                    (Number(1) + Number(1))}
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmount) *
-                                    Number(isData && isData?.nRoom) -
+                                    Number(1) -
                                     Number(isData && isData?.roomAmount) *
-                                      (Number(isData && isData?.nRoom) +
-                                        Number(isData && isData?.nRoom))}
+                                      (Number(1) + Number(1))}
                                 </td>
                                 {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *

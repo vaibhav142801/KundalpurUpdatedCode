@@ -5,7 +5,7 @@ import jsPDF from 'jspdf';
 import { useReactToPrint } from 'react-to-print';
 import './RoomBookingCetificate.css';
 
-function ForcePrint({ setopendashboard }) {
+function OnlineforcePrint({ setopendashboard }) {
   const navigate = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
@@ -74,7 +74,7 @@ function ForcePrint({ setopendashboard }) {
             ref={componentRef}
             style={{ marginLeft: '1.3rem', marginTop: '7rem' }}
           >
-            <p className="yadda_text"> यात्री प्रस्थान रसीद</p>
+            <p className="yadda_text"> यात्री प्रस्थान रसीद (ओनलाईन)</p>
 
             <div className="innear_div_texx">
               <div className="innear_div_texx_dd">
@@ -267,4 +267,4 @@ function ForcePrint({ setopendashboard }) {
   );
 }
 
-export default ForcePrint;
+export default OnlineforcePrint;

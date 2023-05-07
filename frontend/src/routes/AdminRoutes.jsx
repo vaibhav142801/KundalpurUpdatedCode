@@ -74,6 +74,13 @@ import Onlyprint from '../screens/Admin/RoomBooking/RoomBookingCetificate/Onlypr
 
 import CheckinReports from '../screens/Admin/RoomBooking/RoomBookingReports/CheckinReports';
 import Onlinecheckin from '../screens/Admin/RoomBooking/RoomBookingReports/Onlinecheckin';
+import PrintOnlysetup from '../screens/Admin/RoomBooking/RoomBookingCetificate/PrintOnlysetup';
+import OnlinePrintReceipt from '../screens/Admin/RoomBooking/RoomBookingCetificate/OnlinePrintReceipt';
+import OnlinePrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/OnlinePrint';
+import OnlineForce from '../screens/Admin/RoomBooking/RoomBookingCetificate/OnlineForce';
+import OnlineforcePrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/OnlineforcePrint';
+import OnlinecheckinReceipt from '../screens/Admin/RoomBooking/RoomBookingCetificate/OnlinecheckinReceipt';
+import OnlinecheckinPrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/OnlinecheckinPrint';
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -601,6 +608,64 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <Onlinecheckin setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/Room/PrintOnlysetup"
+          element={
+            <Adminprivateroute>
+              <PrintOnlysetup setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Room/OnlinePrintReceipt"
+          element={
+            <Adminprivateroute>
+              <OnlinePrintReceipt setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Room/OnlinePrint"
+          element={
+            <Adminprivateroute>
+              <OnlinePrint setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/Room/OnlineForce"
+          element={
+            <Adminprivateroute>
+              <OnlineForce setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Room/OnlineforcePrint"
+          element={
+            <Adminprivateroute>
+              <OnlineforcePrint setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Room/OnlinecheckinReceipt"
+          element={
+            <Adminprivateroute>
+              <OnlinecheckinReceipt setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Room/OnlinecheckinPrint"
+          element={
+            <Adminprivateroute>
+              <OnlinecheckinPrint setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />

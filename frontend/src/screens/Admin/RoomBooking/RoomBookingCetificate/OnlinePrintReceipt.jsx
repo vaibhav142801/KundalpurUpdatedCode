@@ -2,14 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Converter, hiIN } from 'any-number-to-words';
 import { backendApiUrl } from '../../../../config/config';
-import { serverInstance } from '../../../../API/ServerInstance';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../../../Admin/Reciept/cashrecipt.css';
 const converter = new Converter(hiIN);
-const Onlyprint = ({ setopendashboard }) => {
+const OnlinePrintReceipt = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
@@ -17,14 +16,24 @@ const Onlyprint = ({ setopendashboard }) => {
 
   const handlesubmit = async () => {
     try {
-      serverInstance('/room/force-checkout', 'POST', {
+      axios.defaults.headers.post[
+        'Authorization'
+      ] = `Bearer ${sessionStorage.getItem('token')}`;
+
+      const res = await axios.post(`${backendApiUrl}room/checkOut`, {
         id: isData?.id,
-      }).then((res) => {
-        console.log(res);
-        if (res.data?.status === true) {
-          Swal.fire('Great!', res?.data?.message, 'success');
-        }
+        checkoutDate: new Date(),
+        advanceAmount: isData?.id,
       });
+
+      if (res.data.data.message) {
+        navigation('/admin-panel/Room/OnlinePrint', {
+          state: {
+            data: isData,
+          },
+        });
+        Swal.fire('Great!', res.data.data.message, 'success');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -90,7 +99,7 @@ const Onlyprint = ({ setopendashboard }) => {
           <button onClick={() => down()}>Download</button>
           <button
             onClick={() =>
-              navigation('/admin-panel/Room/PrintOnlysetup', {
+              navigation('/admin-panel/Room/OnlinePrint', {
                 state: {
                   data: isData,
                 },
@@ -135,7 +144,7 @@ const Onlyprint = ({ setopendashboard }) => {
                       <div className="maxxin_room_receipt_innear">
                         <div className="tex_center">
                           <p className="yadda_text lineheight">
-                            यात्री आगमन रसीद
+                            यात्री आगमन रसीद (ओनलाईन)
                           </p>
                         </div>
 
@@ -217,6 +226,7 @@ const Onlyprint = ({ setopendashboard }) => {
                               <p className="lineheight">
                                 {currDatecheckout} / {currTimecheckout}
                               </p>
+
                               <p className="lineheight">
                                 {TotalDays && TotalDays} Days
                               </p>
@@ -464,4 +474,4 @@ const Onlyprint = ({ setopendashboard }) => {
   );
 };
 
-export default Onlyprint;
+export default OnlinePrintReceipt;

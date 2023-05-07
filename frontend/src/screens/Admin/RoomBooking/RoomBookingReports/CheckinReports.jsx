@@ -401,14 +401,6 @@ const CheckinReports = ({ setopendashboard }) => {
                 />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Add Dharamshala">
-              <Button
-                onClick={() => handleOepn()}
-                className="add_btn_main_dhara"
-              >
-                + Add
-              </Button>
-            </Tooltip>
             &nbsp;&nbsp;
           </div>
         </div>

@@ -5,7 +5,7 @@ import jsPDF from 'jspdf';
 import { useReactToPrint } from 'react-to-print';
 import './RoomBookingCetificate.css';
 
-function ForcePrint({ setopendashboard }) {
+function OnlinecheckinPrint({ setopendashboard }) {
   const navigate = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
@@ -226,16 +226,14 @@ function ForcePrint({ setopendashboard }) {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) *
-                        (Number(1) + Number(1))}
+                      {Number(isData && isData?.roomAmount) * Number(1)}
                     </td>
                     <td className="table_tddd lineheight10">
                       {Number(isData && isData?.roomAmount) *
                         (Number(1) + Number(1))}
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) *
-                        (Number(1) + Number(1)) -
+                      {Number(isData && isData?.roomAmount) * Number(1) -
                         Number(isData && isData?.roomAmount) *
                           (Number(1) + Number(1))}
                     </td>
@@ -267,4 +265,4 @@ function ForcePrint({ setopendashboard }) {
   );
 }
 
-export default ForcePrint;
+export default OnlinecheckinPrint;
