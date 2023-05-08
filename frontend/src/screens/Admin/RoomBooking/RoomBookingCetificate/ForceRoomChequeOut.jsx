@@ -126,9 +126,9 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
                       style={{ width: '100%' }}
                     >
                       <div className="maxxin_room_receipt_innear">
-                        <div className="tex_center">
+                        <div style={{ backgroundColor: '#92D14C' }}>
                           <p className="yadda_text lineheight">
-                            यात्री प्रस्थान रसीद
+                            यात्री प्रस्थान रसीद (फोर्स चेकआउट)
                           </p>
                         </div>
 
@@ -162,7 +162,7 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
-                                {isData && isData?.RoomNo}
+                                {isData && isData?.booking_id}
                               </p>
                               <p className="lineheight">
                                 {isData && isData?.contactNo}
@@ -310,7 +310,7 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
                                       ),
                                     )}
                                   ,{isData && isData?.category_name})-
-                                  {isData && isData?.booking_id}
+                                  {isData && isData?.RoomNo}
                                 </td>
                                 {/* <td className="table_tddd">
                                 {checkinda &&
@@ -330,16 +330,19 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmount) *
                                     (Number(1) + Number(1))}
+                                  .00
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmount) *
                                     (Number(1) + Number(1))}
+                                  .00
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmount) *
                                     (Number(1) + Number(1)) -
                                     Number(isData && isData?.roomAmount) *
                                       (Number(1) + Number(1))}
+                                  .00
                                 </td>
                                 {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *
@@ -372,9 +375,7 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
               </p>
             </div>
             <div className="main-certificatenote">
-              <h2 className="h2text">
-                ऑनलाईन आवास व्यवस्था हेतु नियम/सावधानियां
-              </h2>
+              <h2 className="h2text">आवास व्यवस्था हेतु नियम/सावधानियां</h2>
               <p>
                 1. कमरें खुले ना छोड़े, स्वयं के ताले का उपयोग करें, सामान की
                 सुरक्षा स्वयं करें ।

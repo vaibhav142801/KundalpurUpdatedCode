@@ -91,7 +91,7 @@ function PaymentSuccess({ setopendashboard }) {
                   {currDate1} / {currTime1}
                 </p>
                 {/* <p>125362547859</p> */}
-              </div>
+              </div>{' '}
             </div>
             <div className="payment_btn_duvvvvvv">
               <button

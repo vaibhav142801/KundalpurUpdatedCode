@@ -74,7 +74,9 @@ function OnlinePrint({ setopendashboard }) {
             ref={componentRef}
             style={{ marginLeft: '1.3rem', marginTop: '7rem' }}
           >
-            <p className="yadda_text"> यात्री आगमन रसीद (ओनलाईन)</p>
+            <div style={{ backgroundColor: '#FFC100' }}>
+              <p className="yadda_text lineheight">यात्री आगमन रसीद (ओनलाईन)</p>
+            </div>
 
             <div className="innear_div_texx">
               <div className="innear_div_texx_dd">
@@ -82,9 +84,7 @@ function OnlinePrint({ setopendashboard }) {
                   <p className="lineheight" style={{ color: 'gray' }}>
                     आवास क्र :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    मोबाईल न :
-                  </p>
+
                   <p style={{ color: 'gray' }} className="lineheight">
                     यात्री का नाम :
                   </p>
@@ -94,7 +94,7 @@ function OnlinePrint({ setopendashboard }) {
                 </div>
                 <div className="main_left">
                   <p className="lineheight">{isData && isData?.RoomNo}</p>
-                  <p className="lineheight">{isData && isData?.contactNo}</p>
+
                   <p className="lineheight">{isData && isData?.name}</p>
                   <p className="lineheight">{isData && isData?.Fname}</p>
                 </div>
@@ -108,10 +108,7 @@ function OnlinePrint({ setopendashboard }) {
                     प्रस्थान दिनाँक :
                   </p>
                   <p style={{ color: 'gray' }} className="lineheight">
-                    स्टे :
-                  </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    पता :
+                    मोबाईल न :
                   </p>
                 </div>
                 <div className="main_left">
@@ -121,23 +118,27 @@ function OnlinePrint({ setopendashboard }) {
                   <p className="lineheight">
                     {currDatecheckout} / {currTimecheckout}
                   </p>
-
-                  <p className="lineheight">{TotalDays && TotalDays} Days</p>
-                  <p className="lineheight">{isData && isData?.city}</p>
+                  <p className="lineheight">{isData && isData?.contactNo}</p>
                 </div>
               </div>
             </div>
 
             <div className="yyy_text_div">
-              <p className="lineheight">यात्री संख्या </p>
-              <p className="lineheight">Male: {isData?.male}</p>
-              <p className="lineheight">Female: {isData?.female}</p>
-              <p className="lineheight">Child: {isData?.child}</p>
+              <p style={{ color: 'gray' }} className="lineheight">
+                पता-
+              </p>
+              <p className="lineheight">{isData && isData?.city}</p>
+
+              <p className="lineheight">
+                यात्री संख्या- Male: {isData && isData?.male}
+              </p>
+              <p className="lineheight">Female: {isData && isData?.female}</p>
+              <p className="lineheight">Child: {isData && isData?.child}</p>
               <p className="lineheight">
                 Total:
-                {Number(isData?.male) +
-                  Number(isData?.female) +
-                  Number(isData?.child)}
+                {Number(isData && isData?.male) +
+                  Number(isData && isData?.female) +
+                  Number(isData && isData?.child)}
               </p>
             </div>
 
@@ -147,8 +148,10 @@ function OnlinePrint({ setopendashboard }) {
                   <tr>
                     <td className="table_tddd lineheight10">धर्मशाला नाम</td>
                     <td className="table_tddd lineheight10">
-                      रूम टाईप & रूम न.
+                      रूम टाईप & फेसिलिटी
                     </td>
+                    {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
+                    <td className="table_tddd lineheight10">रुम न</td>
                     {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
                     {/* <td className="table_tddd lineheight10">
                                   रुम न.
@@ -174,17 +177,6 @@ function OnlinePrint({ setopendashboard }) {
                                   </p> */}
                     </td>
 
-                    <td className="table_tddd lineheight10">
-                      शेष राशि वापिसी
-                      {/* <p className="lineheight10">
-                                    {Number(isData && isData?.roomAmount) *
-                                      (Number(isData && isData?.nRoom) +
-                                        Number(isData && isData?.nRoom))}
-                                    -
-                                    {Number(isData && isData?.roomAmount) *
-                                      Number(isData && isData?.nRoom)}
-                                  </p> */}
-                    </td>
                     {/* <td className="table_tddd">
                             अमानत राशि
                             <p>
@@ -200,14 +192,15 @@ function OnlinePrint({ setopendashboard }) {
                       {isData && isData?.dharmasala?.name}
                     </td>
                     <td className="table_tddd lineheight10">
-                      ({' '}
                       {isData &&
                         isData?.facility_name &&
                         isData?.facility_name.map((element, index) => (
                           <span key={index}> {element}</span>
                         ))}
-                      ,{isData && isData?.category_name})-
-                      {isData && isData?.booking_id}
+                      -{isData && isData?.category_name}
+                    </td>
+                    <td className="table_tddd lineheight10">
+                      {isData && isData?.RoomNo}
                     </td>
                     {/* <td className="table_tddd">
                                 {checkinda &&
@@ -226,16 +219,14 @@ function OnlinePrint({ setopendashboard }) {
                               </td> */}
                     <td className="table_tddd lineheight10">
                       {Number(isData && isData?.roomAmount) * Number(1)}
+                      .00
                     </td>
                     <td className="table_tddd lineheight10">
                       {Number(isData && isData?.roomAmount) *
                         (Number(1) + Number(1))}
+                      .00
                     </td>
-                    <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) * Number(1) -
-                        Number(isData && isData?.roomAmount) *
-                          (Number(1) + Number(1))}
-                    </td>
+
                     {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *
                               Number(isData && isData[0]?.nRoom)}

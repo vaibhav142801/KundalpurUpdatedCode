@@ -74,8 +74,10 @@ function PrintRoomBooking({ setopendashboard }) {
             ref={componentRef}
             style={{ marginLeft: '1.3rem', marginTop: '7rem' }}
           >
-            <p className="yadda_text"> यात्री प्रस्थान रसीद</p>
-
+            {' '}
+            <div style={{ backgroundColor: '#FE0002' }}>
+              <p className="yadda_text"> यात्री प्रस्थान रसीद</p>
+            </div>
             <div className="innear_div_texx">
               <div className="innear_div_texx_dd">
                 <div>
@@ -128,7 +130,6 @@ function PrintRoomBooking({ setopendashboard }) {
                 </div>
               </div>
             </div>
-
             {/* <div className="yyy_text_div">
               <p className="lineheight">यात्री संख्या </p>
               <p className="lineheight">Male: {isData?.male}</p>
@@ -141,7 +142,6 @@ function PrintRoomBooking({ setopendashboard }) {
                   Number(isData?.child)}
               </p>
             </div> */}
-
             <div>
               <table className="table_ddd">
                 <tbody>

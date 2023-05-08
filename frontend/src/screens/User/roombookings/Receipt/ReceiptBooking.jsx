@@ -46,7 +46,15 @@ const ReceiptBooking = ({}) => {
     minute: 'numeric',
     hour12: true,
   });
-
+  var today1 = new Date(isData && isData[0]?.date);
+  const currDatecheckout = today1
+    .toLocaleDateString('en-IN', options)
+    .replace(/-/g, ' ');
+  const currTimecheckout = today1.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
   useEffect(() => {
     if (location.state) {
       setisData(location?.state?.data);
@@ -98,7 +106,7 @@ const ReceiptBooking = ({}) => {
                       style={{ width: '100%' }}
                     >
                       <div className="maxxin_room_receipt_innear">
-                        <div className="tex_center">
+                        <div style={{ backgroundColor: '#FFC100' }}>
                           <p className="yadda_text lineheight">
                             यात्री आगमन रसीद (ओनलाईन)
                           </p>
@@ -107,16 +115,13 @@ const ReceiptBooking = ({}) => {
                         <div className="innear_div_texx">
                           <div className="innear_div_texx_ddd">
                             <div>
-                              <p className="lineheight">आवास क्र</p>
+                              <p className="lineheight">आवास क्र-</p>
                               <p className="lineheight">यात्री का नाम-</p>
                               <p className="lineheight">पिता/पति श्री-</p>
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
-                                {isData &&
-                                  isData.map((item) => {
-                                    return <span> {item?.RoomNo}</span>;
-                                  })}
+                                {isData && isData[0]?.booking_id}
                               </p>
                               <p className="lineheight">
                                 {isData && isData[0]?.name}
@@ -128,27 +133,31 @@ const ReceiptBooking = ({}) => {
                           </div>
                           <div className="innear_div_texx_ddd">
                             <div>
-                              <p className="lineheight">आगमन दिनांक</p>
-                              <p className="lineheight">मोबाईल न.-</p>
-                              <p className="lineheight">पता-</p>
+                              <p className="lineheight">आगमन दिनांक-</p>
+                              <p className="lineheight">प्रस्थान दिनाँक -</p>
+                              <p className="lineheight">मोबाईल न-</p>
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
+                                {currDatecheckout} / {currTimecheckout}
+                              </p>
+                              <p className="lineheight">
                                 {currDate} / {currTime}
                               </p>
+
                               <p className="lineheight">
                                 {isData && isData[0]?.contactNo}
-                              </p>
-                              <p className="lineheight">
-                                {isData && isData[0]?.city}
                               </p>
                             </div>
                           </div>
                         </div>
                         <div className="yyy_text_div">
-                          <p className="lineheight">यात्री संख्या</p>
+                          <p className="lineheight">पता-</p>
                           <p className="lineheight">
-                            Male: {isData && isData[0]?.male}
+                            {isData && isData[0]?.city}
+                          </p>
+                          <p className="lineheight">
+                            यात्री संख्या - Male: {isData && isData[0]?.male}
                           </p>
                           <p className="lineheight">
                             Female: {isData && isData[0]?.female}
@@ -172,11 +181,11 @@ const ReceiptBooking = ({}) => {
                                   धर्मशाला नाम
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  रूम टाईप & रूम न.
+                                  रूम टाईप & फेसिलिटी
                                 </td>
                                 {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
                                 <td className="table_tddd lineheight10">
-                                  रुम न.
+                                  रुम न
                                 </td>
                                 {/* <td className="table_tddd">रूम की संख्या</td> */}
                                 <td className="table_tddd lineheight10">
@@ -225,7 +234,7 @@ const ReceiptBooking = ({}) => {
                                         <span key={index}> {element}</span>
                                       ),
                                     )}
-                                  ,
+                                  -
                                   {checkinda &&
                                     checkinda?.category[0]?.category_name}
                                 </td>
@@ -239,12 +248,10 @@ const ReceiptBooking = ({}) => {
                                   )}
                               </td> */}
                                 <td className="table_tddd lineheight10">
-                                  (
                                   {isData &&
                                     isData.map((item) => {
                                       return <span> {item?.RoomNo},</span>;
-                                    })}{' '}
-                                  )
+                                    })}
                                 </td>
                                 {/* <td className="table_tddd">
                                 {isData && isData[0]?.nRoom}

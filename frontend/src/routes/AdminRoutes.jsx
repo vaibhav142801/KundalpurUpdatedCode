@@ -57,7 +57,7 @@ import AllOnline from '../screens/Admin/Reports/AllReport/AllOnline';
 import RoomBookingscreen from '../screens/Admin/RoomBooking/RoomBookingscreen/RoomBookingscreen';
 import PaymentSuccess from '../screens/Admin/RoomBooking/PaymentSuccess/PaymentSuccess';
 import RoomBookingCetificate from '../screens/Admin/RoomBooking/RoomBookingCetificate/RoomBookingCetificate';
-
+import RoomBookingPrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/RoomBookingPrint';
 // room booking routes
 import Dashbords from '../screens/Admin/RoomBooking/Dashbord/Dashbord';
 import CheckIn from '../screens/Admin/RoomBooking/CheckIn/CheckIn';
@@ -506,6 +506,14 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <RoomBookingCetificate setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/room/RoomBookingPrint"
+          element={
+            <Adminprivateroute>
+              <RoomBookingPrint setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />

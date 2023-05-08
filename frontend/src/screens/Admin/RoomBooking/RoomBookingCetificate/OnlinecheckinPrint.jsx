@@ -74,7 +74,11 @@ function OnlinecheckinPrint({ setopendashboard }) {
             ref={componentRef}
             style={{ marginLeft: '1.3rem', marginTop: '7rem' }}
           >
-            <p className="yadda_text"> यात्री प्रस्थान रसीद</p>
+            <div style={{ backgroundColor: '#FE0002' }}>
+              <p className="yadda_text lineheight">
+                यात्री प्रस्थान रसीद (ओनलाईन)
+              </p>
+            </div>
 
             <div className="innear_div_texx">
               <div className="innear_div_texx_dd">
@@ -93,7 +97,7 @@ function OnlinecheckinPrint({ setopendashboard }) {
                   </p>
                 </div>
                 <div className="main_left">
-                  <p className="lineheight">{isData && isData?.RoomNo}</p>
+                  <p className="lineheight">{isData && isData?.booking_id}</p>
                   <p className="lineheight">{isData && isData?.contactNo}</p>
                   <p className="lineheight">{isData && isData?.name}</p>
                   <p className="lineheight">{isData && isData?.Fname}</p>
@@ -208,7 +212,7 @@ function OnlinecheckinPrint({ setopendashboard }) {
                           <span key={index}> {element}</span>
                         ))}
                       ,{isData && isData?.category_name})-
-                      {isData && isData?.booking_id}
+                      {isData && isData?.RoomNo}
                     </td>
                     {/* <td className="table_tddd">
                                 {checkinda &&
@@ -226,16 +230,18 @@ function OnlinecheckinPrint({ setopendashboard }) {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) * Number(1)}
+                      {Number(isData && isData?.roomAmount) * Number(1)}.00
                     </td>
                     <td className="table_tddd lineheight10">
                       {Number(isData && isData?.roomAmount) *
                         (Number(1) + Number(1))}
+                      .00
                     </td>
                     <td className="table_tddd lineheight10">
                       {Number(isData && isData?.roomAmount) * Number(1) -
                         Number(isData && isData?.roomAmount) *
                           (Number(1) + Number(1))}
+                      .00
                     </td>
                     {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *

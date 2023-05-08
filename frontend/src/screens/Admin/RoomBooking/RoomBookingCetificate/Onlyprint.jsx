@@ -133,7 +133,7 @@ const Onlyprint = ({ setopendashboard }) => {
                       style={{ width: '100%' }}
                     >
                       <div className="maxxin_room_receipt_innear">
-                        <div className="tex_center">
+                        <div style={{ backgroundColor: '#01B0F1' }}>
                           <p className="yadda_text lineheight">
                             यात्री आगमन रसीद
                           </p>
@@ -148,12 +148,7 @@ const Onlyprint = ({ setopendashboard }) => {
                               >
                                 आवास क्र :
                               </p>
-                              <p
-                                style={{ color: 'gray' }}
-                                className="lineheight"
-                              >
-                                मोबाईल न :
-                              </p>
+
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
@@ -169,11 +164,9 @@ const Onlyprint = ({ setopendashboard }) => {
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
-                                {isData && isData?.RoomNo}
+                                {isData && isData?.booking_id}
                               </p>
-                              <p className="lineheight">
-                                {isData && isData?.contactNo}
-                              </p>
+
                               <p className="lineheight">
                                 {isData && isData?.name}
                               </p>
@@ -194,14 +187,7 @@ const Onlyprint = ({ setopendashboard }) => {
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                प्रस्थान दिनाँक :
-                              </p>
-
-                              <p
-                                style={{ color: 'gray' }}
-                                className="lineheight"
-                              >
-                                स्टे :
+                                मोबाईल न :
                               </p>
                               <p
                                 style={{ color: 'gray' }}
@@ -215,10 +201,7 @@ const Onlyprint = ({ setopendashboard }) => {
                                 {currDate} / {currTime}
                               </p>
                               <p className="lineheight">
-                                {currDatecheckout} / {currTimecheckout}
-                              </p>
-                              <p className="lineheight">
-                                {TotalDays && TotalDays} Days
+                                {isData && isData?.contactNo}
                               </p>
                               <p className="lineheight">
                                 {isData && isData?.city}
@@ -227,7 +210,7 @@ const Onlyprint = ({ setopendashboard }) => {
                           </div>
                         </div>
 
-                        {/* <div className="yyy_text_div">
+                        <div className="yyy_text_div">
                           <p className="lineheight">यात्री संख्या</p>
                           <p className="lineheight">
                             Male: {isData && isData?.male}
@@ -244,7 +227,7 @@ const Onlyprint = ({ setopendashboard }) => {
                               Number(isData && isData?.female) +
                               Number(isData && isData?.child)}
                           </p>
-                        </div> */}
+                        </div>
 
                         <div>
                           <table className="table_ddd">
@@ -254,7 +237,10 @@ const Onlyprint = ({ setopendashboard }) => {
                                   धर्मशाला नाम
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  रूम टाईप & रूम न.
+                                  रूम टाईप & फेसिलिटी
+                                </td>
+                                <td className="table_tddd lineheight10">
+                                  रूम न
                                 </td>
                                 {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
                                 {/* <td className="table_tddd lineheight10">
@@ -281,17 +267,6 @@ const Onlyprint = ({ setopendashboard }) => {
                                   </p> */}
                                 </td>
 
-                                <td className="table_tddd lineheight10">
-                                  शेष राशि वापिसी
-                                  {/* <p className="lineheight10">
-                                    {Number(isData && isData?.roomAmount) *
-                                      (Number(isData && isData?.nRoom) +
-                                        Number(isData && isData?.nRoom))}
-                                    -
-                                    {Number(isData && isData?.roomAmount) *
-                                      Number(isData && isData?.nRoom)}
-                                  </p> */}
-                                </td>
                                 {/* <td className="table_tddd">
                             अमानत राशि
                             <p>
@@ -307,7 +282,6 @@ const Onlyprint = ({ setopendashboard }) => {
                                   {isData && isData?.dharmasala?.name}
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  ({' '}
                                   {isData &&
                                     isData?.facility_name &&
                                     isData?.facility_name.map(
@@ -315,8 +289,10 @@ const Onlyprint = ({ setopendashboard }) => {
                                         <span key={index}> {element}</span>
                                       ),
                                     )}
-                                  ,{isData && isData?.category_name})-
-                                  {isData && isData?.booking_id}
+                                  -{isData && isData?.category_name}
+                                </td>
+                                <td className="table_tddd lineheight10">
+                                  {isData && isData?.RoomNo}
                                 </td>
                                 {/* <td className="table_tddd">
                                 {checkinda &&
@@ -341,12 +317,7 @@ const Onlyprint = ({ setopendashboard }) => {
                                   {Number(isData && isData?.roomAmount) *
                                     (Number(1) + Number(1))}
                                 </td>
-                                <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmount) *
-                                    Number(1) -
-                                    Number(isData && isData?.roomAmount) *
-                                      (Number(1) + Number(1))}
-                                </td>
+
                                 {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *
                               Number(isData && isData[0]?.nRoom)}
@@ -378,9 +349,7 @@ const Onlyprint = ({ setopendashboard }) => {
               </p>
             </div>
             <div className="main-certificatenote">
-              <h2 className="h2text">
-                ऑनलाईन आवास व्यवस्था हेतु नियम/सावधानियां
-              </h2>
+              <h2 className="h2text">आवास व्यवस्था हेतु नियम/सावधानियां</h2>
               <p>
                 1. कमरें खुले ना छोड़े, स्वयं के ताले का उपयोग करें, सामान की
                 सुरक्षा स्वयं करें ।

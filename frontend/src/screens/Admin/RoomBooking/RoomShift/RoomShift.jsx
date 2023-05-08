@@ -83,7 +83,7 @@ const RoomShift = ({ setopendashboard }) => {
           setloader(false);
           // let filterData = res.data.filter((item) => item.modeOfBooking === 1);
           setisData(res.data);
-          setisDataDummy(res.daat);
+          setisDataDummy(res.data);
         }
       });
     }

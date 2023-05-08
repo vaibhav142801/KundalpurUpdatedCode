@@ -15,17 +15,15 @@ import LoadingSpinner from '../../../components/Loading/LoadingSpinner';
 import axios from 'axios';
 import './RoomBooking.css';
 import { width } from '@mui/system';
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-
-  transform: 'translate(-50%, -50%)',
-  bgcolor: 'background.paper',
-  p: 2,
-  boxShadow: 24,
-  borderRadius: '15px',
+const styles = {
+  height: '26px',
+  border: 'none',
+  left: '458px',
+  top: '163px',
+  background: 'linear-gradient(180deg, #F2EEEB 0%, #EDEDED 100%)',
+  borderRadius: '3px',
 };
+
 export const CustomInput = styled(InputBase)(({ theme }) => ({
   width: '100%',
   height: '26px',
@@ -52,11 +50,6 @@ export const CustomInput = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const Dharamshalalist = [
-  { id: 1, type: 'Lala Umrav Singh Jain' },
-  { id: 2, type: 'Vardhman Dharmshala' },
-  { id: 3, type: 'North wing (Katla Parisar)' },
-];
 const roomCount = [
   { id: 1, type: 1 },
   { id: 2, type: 2 },
@@ -421,7 +414,7 @@ function RoomBooking({ setroomfilterdata }) {
                 Check In
               </label>
               <input
-                className="checkindateandtime"
+                className="checkouttype"
                 min={minDateTime}
                 id="donation-time"
                 name="checkintime"
@@ -430,6 +423,7 @@ function RoomBooking({ setroomfilterdata }) {
                 value={checkintime}
               />
             </div>
+
             <div className="main_div_select_div">
               <label className="labbelddd" htmlFor="donation-time">
                 <img
@@ -440,7 +434,7 @@ function RoomBooking({ setroomfilterdata }) {
                 Check Out
               </label>
               <input
-                className="checkindateandtime"
+                className="checkouttype"
                 disabled={checkintime ? false : true}
                 min={checkintime}
                 id="donation-time"

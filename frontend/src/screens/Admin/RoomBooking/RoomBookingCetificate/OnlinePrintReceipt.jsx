@@ -142,7 +142,7 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                       style={{ width: '100%' }}
                     >
                       <div className="maxxin_room_receipt_innear">
-                        <div className="tex_center">
+                        <div style={{ backgroundColor: '#FFC100' }}>
                           <p className="yadda_text lineheight">
                             यात्री आगमन रसीद (ओनलाईन)
                           </p>
@@ -157,12 +157,7 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                               >
                                 आवास क्र :
                               </p>
-                              <p
-                                style={{ color: 'gray' }}
-                                className="lineheight"
-                              >
-                                मोबाईल न :
-                              </p>
+
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
@@ -178,11 +173,9 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
-                                {isData && isData?.RoomNo}
+                                {isData && isData?.booking_id}
                               </p>
-                              <p className="lineheight">
-                                {isData && isData?.contactNo}
-                              </p>
+
                               <p className="lineheight">
                                 {isData && isData?.name}
                               </p>
@@ -205,18 +198,11 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                               >
                                 प्रस्थान दिनाँक :
                               </p>
-
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                स्टे :
-                              </p>
-                              <p
-                                style={{ color: 'gray' }}
-                                className="lineheight"
-                              >
-                                पता :
+                                मोबाईल न :
                               </p>
                             </div>
                             <div className="main_left">
@@ -226,21 +212,21 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                               <p className="lineheight">
                                 {currDatecheckout} / {currTimecheckout}
                               </p>
-
                               <p className="lineheight">
-                                {TotalDays && TotalDays} Days
-                              </p>
-                              <p className="lineheight">
-                                {isData && isData?.city}
+                                {isData && isData?.contactNo}
                               </p>
                             </div>
                           </div>
                         </div>
 
-                        {/* <div className="yyy_text_div">
-                          <p className="lineheight">यात्री संख्या</p>
+                        <div className="yyy_text_div">
+                          <p style={{ color: 'gray' }} className="lineheight">
+                            पता-
+                          </p>
+                          <p className="lineheight">{isData && isData?.city}</p>
+
                           <p className="lineheight">
-                            Male: {isData && isData?.male}
+                            यात्री संख्या- Male: {isData && isData?.male}
                           </p>
                           <p className="lineheight">
                             Female: {isData && isData?.female}
@@ -254,7 +240,7 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                               Number(isData && isData?.female) +
                               Number(isData && isData?.child)}
                           </p>
-                        </div> */}
+                        </div>
 
                         <div>
                           <table className="table_ddd">
@@ -264,7 +250,11 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                                   धर्मशाला नाम
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  रूम टाईप & रूम न.
+                                  रूम टाईप & फेसिलिटी
+                                </td>
+                                {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
+                                <td className="table_tddd lineheight10">
+                                  रुम न
                                 </td>
                                 {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
                                 {/* <td className="table_tddd lineheight10">
@@ -291,17 +281,6 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                                   </p> */}
                                 </td>
 
-                                <td className="table_tddd lineheight10">
-                                  शेष राशि वापिसी
-                                  {/* <p className="lineheight10">
-                                    {Number(isData && isData?.roomAmount) *
-                                      (Number(isData && isData?.nRoom) +
-                                        Number(isData && isData?.nRoom))}
-                                    -
-                                    {Number(isData && isData?.roomAmount) *
-                                      Number(isData && isData?.nRoom)}
-                                  </p> */}
-                                </td>
                                 {/* <td className="table_tddd">
                             अमानत राशि
                             <p>
@@ -317,7 +296,6 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                                   {isData && isData?.dharmasala?.name}
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  ({' '}
                                   {isData &&
                                     isData?.facility_name &&
                                     isData?.facility_name.map(
@@ -325,8 +303,10 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                                         <span key={index}> {element}</span>
                                       ),
                                     )}
-                                  ,{isData && isData?.category_name})-
-                                  {isData && isData?.booking_id}
+                                  -{isData && isData?.category_name}
+                                </td>
+                                <td className="table_tddd lineheight10">
+                                  {isData && isData?.RoomNo}
                                 </td>
                                 {/* <td className="table_tddd">
                                 {checkinda &&
@@ -346,17 +326,14 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmount) *
                                     Number(1)}
+                                  .00
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmount) *
                                     (Number(1) + Number(1))}
+                                  .00
                                 </td>
-                                <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmount) *
-                                    Number(1) -
-                                    Number(isData && isData?.roomAmount) *
-                                      (Number(1) + Number(1))}
-                                </td>
+
                                 {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *
                               Number(isData && isData[0]?.nRoom)}

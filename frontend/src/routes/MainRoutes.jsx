@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from '../screens/User/Home/Home';
 import EmailLogin from '../screens/User/Auth/EmailLogin/EmailLogin';
@@ -22,7 +22,6 @@ import RoomBookingscreen from '../screens/User/roombookings/RoomBookingscreen/Ro
 import PaymentSuccess from '../screens/User/roombookings/PaymentSuccess/PaymentSuccess';
 import DownloadReceipt from '../screens/Admin/Reciept/DownloadReceipt';
 import BookingHistory from '../screens/User/roombookings/BookingHistory/BookingHistory';
-import RoomBookingCetificate from '../screens/User/roombookings/RoomBookingCetificate/RoomBookingCetificate';
 import ReceiptBooking from '../screens/User/roombookings/Receipt/ReceiptBooking';
 function MainRoutes({
   setopendashboard,
@@ -184,14 +183,6 @@ function MainRoutes({
           }
         />
 
-        <Route
-          path="/room/booking/receipt"
-          element={
-            <PrivateRoutes>
-              <RoomBookingCetificate />
-            </PrivateRoutes>
-          }
-        />
         <Route
           path="downloadreceipt"
           element={

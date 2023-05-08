@@ -9,7 +9,6 @@
     text-align: center;
 }
 
-
 .innear_div_texx_ddd{
     display: flex;
     width: 50%;
@@ -18,7 +17,7 @@
 
 .main_left{
     padding-left: 2rem;
-}
+}  
 .main-certificatenote {
     margin: 0;
     border: none;
@@ -31,15 +30,13 @@
     font-size: 15px;
 }
 .reciept-footer-style{
-    background-color: yellow;
+    background-color:#FFC100;
 }
 .reciept-footer-style p{
     text-align: center;
-    color: blue;
+   
 }
-.absolute_text p{
 
-}
 
 .absolute_text{
     border: 3px solid red;
@@ -53,13 +50,13 @@
     border-bottom-left-radius: 1rem;
 }
 .note_text{
-    background-color: yellow;
+    background-color:#FFC100;
    padding: 1rem;
 }
 .note_text p{
     text-align: center;
-    color: blue;
-    font-size: 23px;
+
+    font-size: 16.3px;
  
 }
 .hessaxxd-sn{

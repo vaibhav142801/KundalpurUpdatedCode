@@ -132,7 +132,7 @@ const CheckoutReceipt = ({ setopendashboard }) => {
                       style={{ width: '100%' }}
                     >
                       <div className="maxxin_room_receipt_innear">
-                        <div className="tex_center">
+                        <div style={{ backgroundColor: '#FE0002' }}>
                           <p className="yadda_text lineheight">
                             यात्री प्रस्थान रसीद
                           </p>
@@ -168,7 +168,7 @@ const CheckoutReceipt = ({ setopendashboard }) => {
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
-                                {isData && isData?.RoomNo}
+                                {isData && isData?.booking_id}
                               </p>
                               <p className="lineheight">
                                 {isData && isData?.contactNo}
@@ -316,7 +316,7 @@ const CheckoutReceipt = ({ setopendashboard }) => {
                                       ),
                                     )}
                                   ,{isData && isData?.category_name})-
-                                  {isData && isData?.booking_id}
+                                  {isData && isData?.RoomNo}
                                 </td>
                                 {/* <td className="table_tddd">
                                 {checkinda &&
@@ -378,9 +378,7 @@ const CheckoutReceipt = ({ setopendashboard }) => {
               </p>
             </div>
             <div className="main-certificatenote">
-              <h2 className="h2text">
-                ऑनलाईन आवास व्यवस्था हेतु नियम/सावधानियां
-              </h2>
+              <h2 className="h2text">आवास व्यवस्था हेतु नियम/सावधानियां</h2>
               <p>
                 1. कमरें खुले ना छोड़े, स्वयं के ताले का उपयोग करें, सामान की
                 सुरक्षा स्वयं करें ।
