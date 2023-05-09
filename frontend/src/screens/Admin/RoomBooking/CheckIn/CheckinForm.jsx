@@ -184,7 +184,7 @@ function CheckinForm({ setOpen }) {
       };
 
       if (Paymode === 'Cash') {
-        const data = {
+        serverInstance('room/checkin', 'post', {
           date: today,
           time: time,
           contactNo: phoneno,
@@ -214,28 +214,23 @@ function CheckinForm({ setOpen }) {
           nRoom: roomno.length,
           roomList: roomno,
           extraM: '',
-        };
-        axios.defaults.headers.post[
-          'Authorization'
-        ] = `Bearer ${sessionStorage.getItem('token')}`;
-
-        const res = await axios.post(`${backendApiUrl}room/checkin`, data);
-
-        console.log('checkin', res, dataa);
-
-        if (res.status === 200) {
-          setOpen(false);
-          getalldharamshala();
-          navigate('/admin-panel/room/paymentsuccess', {
-            state: {
-              data: res?.data,
-              checkindata: dataa,
-            },
-          });
-        }
+        }).then((res) => {
+          if (res.data && res.data.status === true) {
+            navigate('/admin-panel/room/cashpaymentsuccess', {
+              state: {
+                data: res?.data,
+                checkindata: dataa,
+              },
+            });
+          }
+          if (res.message) {
+            Swal.fire('Error!', res.message, 'error');
+          }
+        });
       }
+
       if (Paymode === 'Online') {
-        const data = {
+        serverInstance('room/checkin', 'post', {
           date: today,
           time: time,
           contactNo: phoneno,
@@ -249,9 +244,9 @@ function CheckinForm({ setOpen }) {
           idNumber: idproffno,
           male: maleno,
           female: femaleno,
-          paymentMode: 1,
           child: Children,
           dharmasala: dharamshalaname,
+          paymentMode: 0,
           modeOfBooking: 1,
           coutDate: new Date(today.getTime() + staydays * 24 * 60 * 60 * 1000),
           coutTime: new Date(
@@ -262,28 +257,27 @@ function CheckinForm({ setOpen }) {
             second: '2-digit',
             hour12: false,
           }),
-          nRoom: roomno.length,
-          roomList: roomno,
+          nRoom: result.length,
+          roomList: result,
           extraM: '',
-        };
-        axios.defaults.headers.post[
-          'Authorization'
-        ] = `Bearer ${sessionStorage.getItem('token')}`;
+        }).then((res) => {
+          if (res.data && res.data.status === true) {
+            navigate('/admin-panel/room/paymentsuccess', {
+              state: {
+                data: res?.data,
+                checkindata: dataa,
+              },
+            });
 
-        const res = await axios.post(`${backendApiUrl}room/checkin`, data);
-
-        console.log('checkin', res);
-
-        if (res.status === 200) {
-          setOpen(false);
-          getalldharamshala();
-          navigate('/admin-panel/room/paymentsuccess', {
-            state: {
-              data: res.data.data,
-              checkindata: dataa,
-            },
-          });
-        }
+            console.log('onlinr', res?.data);
+            // window.location.href =
+            //   'https://paymentkundalpur.techjainsupport.co.in/about?order_id=' +
+            //   isData.data[0]?.id;
+          }
+          if (res.message) {
+            Swal.fire('Error!', res.message, 'error');
+          }
+        });
       }
     } catch (error) {
       // Swal.fire('Error!', error, 'error');

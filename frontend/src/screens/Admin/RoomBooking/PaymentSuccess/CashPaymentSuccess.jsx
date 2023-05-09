@@ -4,39 +4,19 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { serverInstance } from '../../../../API/ServerInstance';
 import './PaymentSuccess.css';
-function PaymentSuccess({ setopendashboard }) {
+function CashPaymentSuccess({ setopendashboard }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { search } = useLocation();
   const [isData, setisData] = useState('');
   const [checkindata, setcheckindata] = useState('');
-  const [transactionID, setTransactionID] = useState(false);
-  const [paymentmode, setpaymentmode] = useState(false);
-  const [bookdetails, setbookdetails] = useState(null);
-
-  useEffect(() => {
-    if (search) {
-      let value = new URLSearchParams(search).get('t');
-      if (value) {
-        setTransactionID(value);
-      }
-    } else {
-      setTransactionID(false);
-    }
-
-    serverInstance(`room/checkin`, 'get').then((res) => {
-      if (res?.data) {
-        setbookdetails(res?.data);
-      }
-
-      console.log(res?.data.pop());
-    });
-  }, [search]);
+  const [transactionID, setTransactionID] = useState(true);
 
   useEffect(() => {
     if (location.state) {
       setisData(location?.state?.data);
       setcheckindata(location?.state?.checkindata);
+
+      console.log(location?.state);
     }
     setopendashboard(true);
   }, []);
@@ -100,7 +80,7 @@ function PaymentSuccess({ setopendashboard }) {
                     <p>Transaction id</p>
                   </div>
                   <div className="name_of_divvsssssv10">
-                    <p>{transactionID ? 'UPI' : 'Cash'}</p>
+                    <p>Cash</p>
                     {/* <p>HDFC</p> */}
                     <p>{isData.data && isData.data[0]?.contactNo}</p>
 
@@ -179,4 +159,4 @@ function PaymentSuccess({ setopendashboard }) {
   );
 }
 
-export default PaymentSuccess;
+export default CashPaymentSuccess;

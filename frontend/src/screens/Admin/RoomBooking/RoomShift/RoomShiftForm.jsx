@@ -514,6 +514,10 @@ function RoomShiftForm({ setOpen, changedata }) {
                                       setrate(item?.Rate);
                                       setadvancerate(item?.advance);
                                       setdharamshalid(item?.dharmasala_id);
+                                      setdharamshalanameroom(
+                                        item?.dharmasala?.name,
+                                      );
+                                      setcategoryroom(item?.category_name);
                                     }}
                                   />
                                 </td>

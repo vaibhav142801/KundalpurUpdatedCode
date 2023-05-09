@@ -163,20 +163,20 @@ function RoomBookingscreen({ setopendashboard }) {
   let totalRoomAmount = roomno * isData?.Rate;
   let alltotalamount = totalRoomAmount + totalofmattress;
   let totalmember = femaleno;
-  const data = {
-    fullname: fullname,
-    email: email,
-    mobile: mobile,
-    address: address,
-    city: city,
-    state: state,
-    idproffname: idproffname,
-    maleno: maleno,
-    femaleno: femaleno,
-    childrenno: childrenno,
-    roomno: roomno,
-    extraMattress: extraMattress,
-  };
+  // const data = {
+  //   fullname: fullname,
+  //   email: email,
+  //   mobile: mobile,
+  //   address: address,
+  //   city: city,
+  //   state: state,
+  //   idproffname: idproffname,
+  //   maleno: maleno,
+  //   femaleno: femaleno,
+  //   childrenno: childrenno,
+  //   roomno: roomno,
+  //   extraMattress: extraMattress,
+  // };
 
   const showpaymentoption = async () => {
     try {
@@ -209,15 +209,15 @@ function RoomBookingscreen({ setopendashboard }) {
           extraM: extraMattress,
         }).then((res) => {
           setIsLoading(false);
-          // console.log('booking responce', res.data);
-          // if (res.data.status === true) {
-          //   navigate('admin-panel/room/paymentsuccess', {
-          //     state: {
-          //       data: res.data,
-          //        Paymode: 'UPI',
-          //     },
-          //   });
-          // }
+          console.log('booking responce', res.data);
+          if (res.data.status === true) {
+            navigate('admin-panel/room/paymentsuccess', {
+              state: {
+                data: res.data,
+                Paymode: 'UPI',
+              },
+            });
+          }
           // if (res.status === true) {
           //   setshowloader(false);
           //   window.location.href =
@@ -256,10 +256,9 @@ function RoomBookingscreen({ setopendashboard }) {
           nRoom: roomno,
           extraM: extraMattress,
         }).then((res) => {
-          console.log('booking responcesssss', res.data);
           if (res.data && res.data.status === true) {
             setIsLoading(false);
-            navigate('/admin-panel/room/paymentsuccess', {
+            navigate('/admin-panel/room/cashpaymentsuccess', {
               state: {
                 data: res.data,
                 Paymode: 'Cash',
@@ -467,10 +466,7 @@ function RoomBookingscreen({ setopendashboard }) {
                       <p>{roomno} Room x 1 Night</p>
                       <p> ₹ {roomno * isData?.Rate} </p>
                     </div>
-                    <div className="main_div_test22222">
-                      <p>GST</p>
-                      <p>₹ 0.00</p>
-                    </div>
+
                     <div className="main_div_test22222">
                       <p>Mattress {extraMattress} x ₹150</p>
                       <p>₹ {extraMattress * 150}</p>
@@ -884,7 +880,7 @@ function RoomBookingscreen({ setopendashboard }) {
                       <p style={{ color: 'red' }}>{formerror.idproffname}</p>
                     </div>
                     <div className="main_book_form_input_div_innear">
-                      <label htmlFor="idproffnumber">ID Number</label>
+                      <label htmlFr="idproffnumber">ID Number</label>
                       <CustomInput
                         type="text"
                         id="idproffnumber"

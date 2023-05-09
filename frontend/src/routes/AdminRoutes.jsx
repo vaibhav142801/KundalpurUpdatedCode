@@ -56,6 +56,7 @@ import AllOnline from '../screens/Admin/Reports/AllReport/AllOnline';
 
 import RoomBookingscreen from '../screens/Admin/RoomBooking/RoomBookingscreen/RoomBookingscreen';
 import PaymentSuccess from '../screens/Admin/RoomBooking/PaymentSuccess/PaymentSuccess';
+import CashPaymentSuccess from '../screens/Admin/RoomBooking/PaymentSuccess/CashPaymentSuccess';
 import RoomBookingCetificate from '../screens/Admin/RoomBooking/RoomBookingCetificate/RoomBookingCetificate';
 import RoomBookingPrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/RoomBookingPrint';
 // room booking routes
@@ -81,6 +82,7 @@ import OnlineForce from '../screens/Admin/RoomBooking/RoomBookingCetificate/Onli
 import OnlineforcePrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/OnlineforcePrint';
 import OnlinecheckinReceipt from '../screens/Admin/RoomBooking/RoomBookingCetificate/OnlinecheckinReceipt';
 import OnlinecheckinPrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/OnlinecheckinPrint';
+
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -498,6 +500,14 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <PaymentSuccess setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/room/cashpaymentsuccess"
+          element={
+            <Adminprivateroute>
+              <CashPaymentSuccess setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />

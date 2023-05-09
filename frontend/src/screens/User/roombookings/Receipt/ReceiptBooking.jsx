@@ -151,6 +151,7 @@ const ReceiptBooking = ({}) => {
                             </div>
                           </div>
                         </div>
+
                         <div className="yyy_text_div">
                           <p className="lineheight">पता-</p>
                           <p className="lineheight">
