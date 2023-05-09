@@ -257,22 +257,24 @@ function CheckinForm({ setOpen }) {
             second: '2-digit',
             hour12: false,
           }),
-          nRoom: result.length,
-          roomList: result,
+          nRoom: roomno.length,
+          roomList: roomno,
           extraM: '',
         }).then((res) => {
           if (res.data && res.data.status === true) {
-            navigate('/admin-panel/room/paymentsuccess', {
-              state: {
-                data: res?.data,
-                checkindata: dataa,
-              },
-            });
+            // navigate('/admin-panel/room/paymentsuccess', {
+            //   state: {
+            //     data: res?.data,
+            //     checkindata: dataa,
+            //   },
+            // });
 
-            console.log('onlinr', res?.data);
-            // window.location.href =
-            //   'https://paymentkundalpur.techjainsupport.co.in/about?order_id=' +
-            //   isData.data[0]?.id;
+            if (res?.data?.data[0]?.booking_id) {
+              setOpen(false);
+              window.location.href =
+                'https://paymentkundalpur.techjainsupport.co.in/about?order_id=' +
+                res?.data?.data[0]?.id;
+            }
           }
           if (res.message) {
             Swal.fire('Error!', res.message, 'error');
@@ -736,6 +738,7 @@ function CheckinForm({ setOpen }) {
                         setshowPayDetails(true);
                         setroomno(result);
                       }}
+                      disabled={result.length === null ? true : false}
                       className="save-div-btn-btn"
                     >
                       Next

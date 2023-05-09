@@ -54,7 +54,6 @@ import AllConsolidated from '../screens/Admin/Reports/AllReport/AllConsolidated'
 import AllOnline from '../screens/Admin/Reports/AllReport/AllOnline';
 //dharamshala
 
-import RoomBookingscreen from '../screens/Admin/RoomBooking/RoomBookingscreen/RoomBookingscreen';
 import PaymentSuccess from '../screens/Admin/RoomBooking/PaymentSuccess/PaymentSuccess';
 import CashPaymentSuccess from '../screens/Admin/RoomBooking/PaymentSuccess/CashPaymentSuccess';
 import RoomBookingCetificate from '../screens/Admin/RoomBooking/RoomBookingCetificate/RoomBookingCetificate';
@@ -482,15 +481,6 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <AllConsolidated setopendashboard={setopendashboard} />
-            </Adminprivateroute>
-          }
-        />
-
-        <Route
-          path="/admin-panel/room/booking"
-          element={
-            <Adminprivateroute>
-              <RoomBookingscreen setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />
