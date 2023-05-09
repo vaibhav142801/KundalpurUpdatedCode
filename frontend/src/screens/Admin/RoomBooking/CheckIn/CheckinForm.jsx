@@ -508,7 +508,7 @@ function CheckinForm({ setOpen }) {
                       <div>
                         <button
                           onClick={() => handlesubmit()}
-                          className="main_div_btn_continues"
+                          className="online_div_room_bookContinue"
                         >
                           Continue
                         </button>
@@ -714,7 +714,7 @@ function CheckinForm({ setOpen }) {
                     className={
                       Paymode === 'Cash'
                         ? 'cash_div_room_book'
-                        : 'cash_div_room_book_disable '
+                        : 'cash_div_room_book_disable'
                     }
                     onClick={() => setPaymode('Cash')}
                   >
@@ -725,7 +725,7 @@ function CheckinForm({ setOpen }) {
                     className={
                       Paymode === 'Online'
                         ? 'online_div_room_book'
-                        : 'cash_div_room_book_disable '
+                        : 'cash_div_room_book_disable'
                     }
                     onClick={() => setPaymode('Online')}
                   >

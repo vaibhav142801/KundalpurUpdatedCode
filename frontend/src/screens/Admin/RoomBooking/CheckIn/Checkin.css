@@ -196,3 +196,36 @@ padding-left: 0.8rem;
   justify-content: center;
   margin-right: 1rem;
 }
+
+.cash_div_room_book{
+  background: #F1DAC6;
+  border: 1px solid #FA7401;
+  border-radius: 7px;
+  width: 6rem;
+  height: 27px;
+  margin-right: 1rem;
+}
+.online_div_room_book{
+  background: #F1DAC6;
+  border: 1px solid #FA7401;
+  border-radius: 7px;
+  width: 6rem;
+  height: 27px;
+  margin-left: 1rem;
+}
+
+.online_div_room_bookContinue{
+  background: #F1DAC6;
+  border: 1px solid #FA7401;
+  border-radius: 7px;
+  width: 8rem;
+  height: 27px;
+  margin-left: 1rem;
+}
+.cash_div_room_book_disable{
+  background: #FFFFFF;
+  border: 1px solid #9B9797;
+  border-radius: 7px;
+  width: 6rem;
+  height: 27px;
+}
