@@ -196,7 +196,6 @@ function RoomBookingscreen() {
       console.log('booking responce', res.data);
       if (res.data && res.data.status === true) {
         setIsLoading(false);
-        console.log(res);
 
         navigate('/room/paymentsuccessfuly', {
           state: {
@@ -206,25 +205,18 @@ function RoomBookingscreen() {
           },
         });
 
+        // if (res.data?.data[0]?.booking_id) {
+        //   window.location.href =
+        //     'https://paymentkundalpur.techjainsupport.co.in/about?order_id=' +
+        //     res.data?.data[0]?.booking_id;
+        // } else {
+        //   Swal.fire('Error!', 'Somthing went wrong!!', 'error');
+        // }
+
         if (res.message) {
           setIsLoading(false);
           Swal.fire('Error!', res.message, 'error');
         }
-      }
-      // if (res.status === true) {
-      //   setshowloader(false);
-      //   window.location.href =
-      //     'https://paymentkundalpur.techjainsupport.co.in/about?order_id=' +
-      //     res.data.id;
-      //   // handleOpen();
-      //   // sendsms();
-      //   setonlineId(res.data.id);
-      // } else {
-      //   Swal.fire('Error!', 'Somthing went wrong!!', 'error');
-      // }
-      if (res.message) {
-        setIsLoading(false);
-        Swal.fire('Error!', res.message, 'error');
       }
     });
   };
@@ -725,7 +717,7 @@ function RoomBookingscreen() {
                 </div>
               </form>
 
-              <div className="Mattress_main_div">
+              {/* <div className="Mattress_main_div">
                 <h2> Extra Mattress</h2>
                 <p>Exter charge (₹150 per mattress) </p>
 
@@ -772,7 +764,8 @@ function RoomBookingscreen() {
                       })}
                   </Select>
                 </div>
-              </div>
+              </div> */}
+
               <div className="proces_btn_main_div">
                 <div>
                   <button onClick={() => handleclick()} className="Proceed_btn">
