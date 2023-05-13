@@ -163,6 +163,9 @@ function RoomBookingscreen() {
   let totalmember = femaleno;
   let result = [];
 
+  let currentTime = new Date(checkindata.checkouttime).getTime();
+  let updatedTIme = new Date(currentTime + 3 * 60 * 60 * 1000);
+
   const savedataIntodb = async () => {
     setIsLoading(false);
     isData?.available_room_numbers
@@ -188,7 +191,12 @@ function RoomBookingscreen() {
       modeOfBooking: 2,
       RoomNo: isData?.roomNumber,
       coutDate: checkindata.checkouttime,
-      coutTime: checkindata.checkoutcurrTime,
+      coutTime: new Date(updatedTIme).toLocaleTimeString('it-IT', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+      }),
       nRoom: roomno,
       roomList: result,
       extraM: extraMattress,
@@ -264,9 +272,20 @@ function RoomBookingscreen() {
       setcheckindata(location?.state?.checkindata);
       setdharamshala(location?.state?.dhramshalaname);
     }
+
+    if (isData?.available_rooms) {
+      for (var i = 0; i < isData?.available_rooms; i++) {
+        console.log(i);
+      }
+    }
   }, []);
 
-  console.log('room data from room booking screens', isData, checkindata);
+  // let today1 = Date(checkindata && checkindata?.checkouttime);
+  // let today = Date(checkindata && checkindata?.checkintime);
+
+  // let difference = today1?.getTime() - today?.getTime();
+  // let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+
   return (
     <>
       <div className="main_div_head_tyopeeeebook">
@@ -366,20 +385,25 @@ function RoomBookingscreen() {
                   <h2>Price Summary</h2>
                   <div className="main_div_test22222">
                     <p>rate</p>
-                    <p> ₹ {isData?.roomDetails?.advance} </p>
-                  </div>
-                  <div className="main_div_test22222">
-                    <p>{roomno} Room x 1 Night</p>
-                    <p> ₹ {roomno * isData?.roomDetails?.advance} </p>
+                    <p> ₹ {isData?.roomDetails?.Rate} </p>
                   </div>
                   <div className="main_div_test22222">
                     <p>Advance rate</p>
-                    <p>
-                      ₹
-                      {roomno * isData?.roomDetails?.advance +
-                        roomno * isData?.roomDetails?.advance}
-                    </p>
+                    <p>₹{isData?.roomDetails?.advance}</p>
                   </div>
+                  <div className="main_div_test22222">
+                    <p>{roomno} Room x 1 Night</p>
+                    <p> ₹ {roomno * isData?.roomDetails?.Rate} </p>
+                  </div>
+
+                  <div className="main_div_test22222">
+                    <p>
+                      {roomno} Room x {isData && isData?.roomDetails?.advance}{' '}
+                      Advance rate
+                    </p>
+                    <p> ₹ {roomno * isData?.roomDetails?.advance} </p>
+                  </div>
+
                   {/* <div className="main_div_test22222">
                     <p>GST</p>
                     <p>₹ 0.00</p>
@@ -392,7 +416,7 @@ function RoomBookingscreen() {
                     <p>Total Amount </p>
                     <p>
                       ₹
-                      {roomno * isData?.roomDetails?.advance +
+                      {roomno * isData?.roomDetails?.Rate +
                         roomno * isData?.roomDetails?.advance}
                     </p>
                   </div>
@@ -606,6 +630,7 @@ function RoomBookingscreen() {
                       <p style={{ color: 'red' }}>{formerror.childrenno}</p>
                     </div>
                   </div>
+                  {console.log(isData?.available_rooms)}
                   <div className="main_book_form_input_div_innear">
                     <label htmlFor="roomno">No of room</label>
                     <Select
@@ -634,6 +659,7 @@ function RoomBookingscreen() {
                       >
                         Please select
                       </MenuItem>
+
                       {roomCount &&
                         roomCount.map((item) => {
                           return (

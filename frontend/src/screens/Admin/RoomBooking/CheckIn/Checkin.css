@@ -15,7 +15,7 @@
   padding: 0.5rem;
 }
 .date_and_time_div {
-  width: 28.2%;
+  width: 24.5%;
   display: flex;
   justify-content: space-between;
 }
@@ -71,8 +71,8 @@
 }
 
 .minddle_div_room_innear_adddress input {
-  width: 635px;
-  height: 35px;
+  width: 713px!important;
+  height: 37px!important;
   font-size: 15px;
   background: #ffffff;
   border: 1px solid #c4bfbf;

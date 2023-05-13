@@ -696,16 +696,39 @@ const ItemDonation = ({
                       </Select>
                     </TableCell>
                     <TableCell align="center">
-                      <CustomTableInput
-                        value={item.itemType}
-                        onChange={(e) =>
-                          handleDonationItemUpdate(
-                            item,
-                            'itemType',
-                            e.target.value,
-                          )
-                        }
-                      />
+                      {!newMember ? (
+                        <>
+                          <ReactTransliterate
+                            style={custommStyleInputTable}
+                            required
+                            value={item.itemType}
+                            onChangeText={(e) => {
+                              handleDonationItemUpdate(item, 'itemType', e);
+                            }}
+                            onChange={(e) =>
+                              handleDonationItemUpdate(
+                                item,
+                                'itemType',
+                                e.target.value,
+                              )
+                            }
+                            lang="hi"
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <CustomTableInput
+                            value={item.itemType}
+                            onChange={(e) =>
+                              handleDonationItemUpdate(
+                                item,
+                                'itemType',
+                                e.target.value,
+                              )
+                            }
+                          />
+                        </>
+                      )}
                     </TableCell>
                     <TableCell align="center">
                       <CustomTableInput

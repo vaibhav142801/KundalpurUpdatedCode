@@ -6,8 +6,8 @@
 }
 
 .main_room_receipt_innear{
-    border: 1px solid gray;
-    width: 95%;
+   
+    width: 100%;
     margin-top: 1rem;
     padding-top: 1rem;
 }
@@ -68,7 +68,7 @@
     }
     
     .main_room_receipt_innear {
-        border: 1px solid gray;
+      
         width: 172%!important;
         margin-top: 1rem;
         padding-top: 1rem;

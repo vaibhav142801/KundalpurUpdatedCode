@@ -118,7 +118,7 @@ const style2 = {
 };
 
 const donationColorTheme = {
-  cash: '#00ff00',
+  cash: '#000080',
   electronic: '#9F2B68',
   cheque: '#808080',
   item: '#FF0000',

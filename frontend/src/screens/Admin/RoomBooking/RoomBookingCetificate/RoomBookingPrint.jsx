@@ -66,7 +66,7 @@ function RoomBookingPrint({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginLeft: '1.3rem', marginTop: '7rem' }}
+            style={{ marginTop: '7rem' }}
           >
             <div style={{ backgroundColor: '#01B0F1' }}>
               <p className="yadda_text lineheight">यात्री आगमन रसीद</p>
@@ -200,23 +200,36 @@ function RoomBookingPrint({ setopendashboard }) {
                                   )}
                               </td> */}
                     <td className="table_tddd lineheight10">
-                      {isData &&
-                        isData.map((item) => {
-                          return item?.RoomNo;
-                        })}
+                      {isData && isData[0]?.nRoom < 1 ? (
+                        <>
+                          {isData &&
+                            isData.map((item) => {
+                              return <span>{item?.RoomNo}</span>;
+                            })}
+                        </>
+                      ) : (
+                        <>
+                          {isData &&
+                            isData.map((item) => {
+                              return <span>{item?.RoomNo}, </span>;
+                            })}
+                        </>
+                      )}
                     </td>
                     {/* <td className="table_tddd">
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                     <td className="table_tddd lineheight10">
                       {Number(isData && isData[0]?.roomAmount) *
-                        Number(isData[0]?.nRoom)}
+                        Number(isData[0]?.nRoom) *
+                        Number(checkindata?.days) +
+                        Number(isData && isData[0]?.advanceAmount) *
+                          Number(isData[0]?.nRoom)}
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData[0]?.roomAmount) *
-                        (Number(isData[0]?.nRoom) + Number(isData[0]?.nRoom))}
+                      {Number(isData && isData[0]?.advanceAmount) *
+                        Number(isData[0]?.nRoom)}
                     </td>
-
                     {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *
                               Number(isData && isData[0]?.nRoom)}

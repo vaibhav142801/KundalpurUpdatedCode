@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { serverInstance } from '../../../../API/ServerInstance';
 import InputBase from '@mui/material/InputBase';
-import { backendApiUrl } from '../../../../config/config';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import { MenuItem, Select, Box, Typography, Button } from '@mui/material';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
@@ -159,9 +157,15 @@ function CheckinForm({ setOpen }) {
     }),
   );
 
+  let currentTime = new Date(
+    today.getTime() + staydays * 24 * 60 * 60 * 1000,
+  ).getTime();
+  let updatedTIme = new Date(currentTime + 3 * 60 * 60 * 1000);
+
   let result = [];
   const handlesubmit = async () => {
     try {
+      console.log('kkkk');
       let dataa = {
         dharamshalaname: dharamshalaname,
         chlidremc: Children,
@@ -181,6 +185,7 @@ function CheckinForm({ setOpen }) {
         dharamshala: roomlist,
         nRoom: result.length,
         roomList: result,
+        days: staydays,
       };
 
       if (Paymode === 'Cash') {
@@ -203,9 +208,7 @@ function CheckinForm({ setOpen }) {
           paymentMode: 0,
           modeOfBooking: 1,
           coutDate: new Date(today.getTime() + staydays * 24 * 60 * 60 * 1000),
-          coutTime: new Date(
-            today.getTime() + staydays * 24 * 60 * 60 * 1000,
-          ).toLocaleTimeString('it-IT', {
+          coutTime: new Date(updatedTIme).toLocaleTimeString('it-IT', {
             hour: '2-digit',
             minute: '2-digit',
             second: '2-digit',
@@ -216,7 +219,8 @@ function CheckinForm({ setOpen }) {
           extraM: '',
         }).then((res) => {
           if (res.data && res.data.status === true) {
-            navigate('/admin-panel/room/cashpaymentsuccess', {
+            setOpen(false);
+            navigate('/admin-panel/room/roombookingcetificate', {
               state: {
                 data: res?.data,
                 checkindata: dataa,
@@ -246,12 +250,10 @@ function CheckinForm({ setOpen }) {
           female: femaleno,
           child: Children,
           dharmasala: dharamshalaname,
-          paymentMode: 0,
+          paymentMode: 1,
           modeOfBooking: 1,
           coutDate: new Date(today.getTime() + staydays * 24 * 60 * 60 * 1000),
-          coutTime: new Date(
-            today.getTime() + staydays * 24 * 60 * 60 * 1000,
-          ).toLocaleTimeString('it-IT', {
+          coutTime: new Date(updatedTIme).toLocaleTimeString('it-IT', {
             hour: '2-digit',
             minute: '2-digit',
             second: '2-digit',
@@ -262,19 +264,13 @@ function CheckinForm({ setOpen }) {
           extraM: '',
         }).then((res) => {
           if (res.data && res.data.status === true) {
-            // navigate('/admin-panel/room/paymentsuccess', {
-            //   state: {
-            //     data: res?.data,
-            //     checkindata: dataa,
-            //   },
-            // });
-
-            if (res?.data?.data[0]?.booking_id) {
-              setOpen(false);
-              window.location.href =
-                'https://paymentkundalpur.techjainsupport.co.in/about?order_id=' +
-                res?.data?.data[0]?.id;
-            }
+            setOpen(false);
+            navigate('/admin-panel/room/roombookingcetificate', {
+              state: {
+                data: res?.data,
+                checkindata: dataa,
+              },
+            });
           }
           if (res.message) {
             Swal.fire('Error!', res.message, 'error');
@@ -489,28 +485,47 @@ function CheckinForm({ setOpen }) {
                         <p>
                           {roomno.length} Room x {staydays} Days
                         </p>
-                        <p>₹ {roomno.length * Number(roomlist[0]?.advance)}</p>
-                        {console.log(roomlist)}
+                        <p>
+                          ₹
+                          {roomno.length *
+                            Number(roomlist[0]?.Rate) *
+                            Number(staydays)}
+                        </p>
                       </div>
+
                       <div className="main_div_test22222">
+                        <p>
+                          {roomno.length} Room x {roomlist[0]?.advance} Advance
+                          rate
+                        </p>
+                        <p>₹{roomno.length * Number(roomlist[0]?.advance)}</p>
+                      </div>
+
+                      {/* <div className="main_div_test22222">
                         <p>GST</p>
                         <p>₹ 0.00</p>
-                      </div>
+                      </div> */}
                       {/* <div className="main_div_test22222">
                         <p>Mattress {extraMattress} x ₹150</p>
                         <p>₹ {extraMattress * 150}</p>
                       </div> */}
                       <div className="main_div_test22222">
-                        <p>Total Amount </p>
-                        <p>₹ {roomno.length * Number(roomlist[0]?.advance)}</p>
+                        <p>Payable Amount </p>
+                        <p>
+                          ₹{' '}
+                          {roomno.length *
+                            Number(roomlist[0]?.Rate) *
+                            Number(staydays) +
+                            roomno.length * Number(roomlist[0]?.advance)}
+                        </p>
                       </div>
 
-                      <div>
+                      <div style={{ marginTop: '1rem' }}>
                         <button
                           onClick={() => handlesubmit()}
                           className="online_div_room_bookContinue"
                         >
-                          Continue
+                          Save
                         </button>
                       </div>
                     </div>
@@ -641,7 +656,6 @@ function CheckinForm({ setOpen }) {
                       </div>
                     </div>
                   </div>
-
                   {roomlist ? (
                     <>
                       <div className="tablescrollbarss">
@@ -710,6 +724,8 @@ function CheckinForm({ setOpen }) {
                   ) : (
                     ''
                   )}
+                  <span style={{ marginRight: '1rem' }}>Payment mode</span>
+
                   <button
                     className={
                       Paymode === 'Cash'
@@ -720,7 +736,6 @@ function CheckinForm({ setOpen }) {
                   >
                     Cash
                   </button>
-
                   <button
                     className={
                       Paymode === 'Online'
@@ -731,7 +746,6 @@ function CheckinForm({ setOpen }) {
                   >
                     online
                   </button>
-
                   <div className="save-div-btn">
                     <button
                       onClick={() => {
@@ -804,38 +818,6 @@ function CheckinForm({ setOpen }) {
                     <div className="minddle_div_room_innear">
                       {lan ? (
                         <>
-                          <label htmlFor="fathers">Father's Name</label>
-                          <CustomInput
-                            id="fathers"
-                            type="fathers"
-                            name="fathers"
-                            required
-                            placeholder="Enter the Father's Name"
-                            value={fathers}
-                            onChange={(e) => setfathers(e.target.value)}
-                          />
-                        </>
-                      ) : (
-                        <>
-                          <label htmlFor="fathers">Father's Name</label>
-                          <ReactTransliterate
-                            placeholder="Enter the Father's Name"
-                            style={custominput}
-                            id="full-name"
-                            required
-                            value={fathers}
-                            onChangeText={(fathers) => {
-                              setfathers(fathers);
-                            }}
-                            onChange={(e) => setfathers(e.target.value)}
-                            lang="hi"
-                          />
-                        </>
-                      )}
-                    </div>
-                    <div className="minddle_div_room_innear">
-                      {lan ? (
-                        <>
                           <label htmlFor="fullname">Full Name</label>
                           <CustomInput
                             id="fullname"
@@ -865,10 +847,46 @@ function CheckinForm({ setOpen }) {
                         </>
                       )}
                     </div>
+
+                    <div className="minddle_div_room_innear">
+                      {lan ? (
+                        <>
+                          <label htmlFor="fathers">Father's Name</label>
+                          <CustomInput
+                            id="fathers"
+                            type="fathers"
+                            name="fathers"
+                            required
+                            placeholder="Enter the Father's Name"
+                            value={fathers}
+                            onChange={(e) => setfathers(e.target.value)}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <label htmlFor="fathers">Father's Name</label>
+                          <ReactTransliterate
+                            placeholder="Enter the Father's Name"
+                            style={custominput}
+                            id="full-name"
+                            required
+                            value={fathers}
+                            onChangeText={(fathers) => {
+                              setfathers(fathers);
+                            }}
+                            onChange={(e) => setfathers(e.target.value)}
+                            lang="hi"
+                          />
+                        </>
+                      )}
+                    </div>
                   </div>
 
                   <div className="minddle_div_room">
-                    <div className="minddle_div_room_innear_adddress">
+                    <div
+                      className="minddle_div_room_innear_adddress"
+                      style={{ width: '98%' }}
+                    >
                       {lan ? (
                         <>
                           <label htmlFor="address">Address</label>

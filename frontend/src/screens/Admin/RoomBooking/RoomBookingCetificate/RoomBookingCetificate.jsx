@@ -339,22 +339,35 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                                   )}
                               </td> */}
                                 <td className="table_tddd lineheight10">
-                                  {isData &&
-                                    isData.map((item) => {
-                                      return item?.RoomNo;
-                                    })}
+                                  {isData && isData[0]?.nRoom < 1 ? (
+                                    <>
+                                      {isData &&
+                                        isData.map((item) => {
+                                          return <span>{item?.RoomNo}</span>;
+                                        })}
+                                    </>
+                                  ) : (
+                                    <>
+                                      {isData &&
+                                        isData.map((item) => {
+                                          return <span>{item?.RoomNo}, </span>;
+                                        })}
+                                    </>
+                                  )}
                                 </td>
                                 {/* <td className="table_tddd">
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData[0]?.roomAmount) *
-                                    Number(isData[0]?.nRoom)}
+                                    Number(isData[0]?.nRoom) *
+                                    Number(checkindata?.days) +
+                                    Number(isData && isData[0]?.advanceAmount) *
+                                      Number(isData[0]?.nRoom)}
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData[0]?.roomAmount) *
-                                    (Number(isData[0]?.nRoom) +
-                                      Number(isData[0]?.nRoom))}
+                                  {Number(isData && isData[0]?.advanceAmount) *
+                                    Number(isData[0]?.nRoom)}
                                 </td>
 
                                 {/* <td className="table_tddd">
@@ -381,7 +394,7 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                 </div>
               </div>
             </div>
-            <div className="note_text">
+            <div className="note_text" style={{ backgroundColor: '#01B0F1' }}>
               <p>
                 नोट : रूम चेक आउट समय 24 घंटे के पश्चात दूसरे दिन का चार्ज मान्य
                 होगा। रूम केन्सिल एवं बदलने का समय 1 घंटे रहेगा ।
@@ -459,7 +472,10 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                 </p>
               </div>
             </div>
-            <div className="reciept-footer-style">
+            <div
+              className="reciept-footer-style"
+              style={{ backgroundColor: '#01B0F1' }}
+            >
               <p>
                 मोबाईल : +91-7771834880, +91-7771835891 पर कार्यदिवस में संपर्क
                 कर सकते हैं।
