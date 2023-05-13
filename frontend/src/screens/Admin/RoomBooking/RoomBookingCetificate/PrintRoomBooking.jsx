@@ -57,6 +57,8 @@ function PrintRoomBooking({ setopendashboard }) {
 
   let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+
+  console.log('days', TotalDays);
   return (
     <>
       <div

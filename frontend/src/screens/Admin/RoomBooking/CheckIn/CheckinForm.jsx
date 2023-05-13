@@ -778,6 +778,7 @@ function CheckinForm({ setOpen }) {
                     <div className="inpur_div_room">
                       <label htmlFor="donation-time">Date</label>
                       <CustomInput
+                        disabled={true}
                         style={{ width: '80%' }}
                         type="date"
                         required
@@ -791,6 +792,7 @@ function CheckinForm({ setOpen }) {
                     <div className="inpur_div_room">
                       <label htmlFor="donation-time">Time</label>
                       <CustomInput
+                        disabled={true}
                         style={{ width: '100%' }}
                         id="donation-time"
                         type="time"

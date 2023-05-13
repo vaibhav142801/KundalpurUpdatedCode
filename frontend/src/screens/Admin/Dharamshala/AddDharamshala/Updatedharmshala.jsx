@@ -60,6 +60,8 @@ function Updatedharmshala({ setOpen, updatedata }) {
       setimg1(updatedata?.image1);
       setdescription(updatedata?.desc);
       setdharamshalaname(updatedata?.name);
+
+      console.log(updatedata);
     }
   }, []);
 

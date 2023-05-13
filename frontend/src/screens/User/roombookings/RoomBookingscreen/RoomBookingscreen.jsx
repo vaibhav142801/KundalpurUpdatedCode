@@ -279,13 +279,31 @@ function RoomBookingscreen() {
       }
     }
   }, []);
+  var options = { year: 'numeric', month: 'short', day: '2-digit' };
+  var today = new Date(checkindata?.checkouttime);
+  const currDate = today
+    .toLocaleDateString('en-IN', options)
+    .replace(/-/g, ' ');
+  const currTime = today.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
 
-  // let today1 = Date(checkindata && checkindata?.checkouttime);
-  // let today = Date(checkindata && checkindata?.checkintime);
+  var today1 = new Date(checkindata?.checkintime);
+  const currDatecheckout = today1
+    .toLocaleDateString('en-IN', options)
+    .replace(/-/g, ' ');
+  const currTimecheckout = today1.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
 
-  // let difference = today1?.getTime() - today?.getTime();
-  // let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+  let difference = today.getTime() - today1.getTime();
+  let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
 
+  console.log('days', TotalDays);
   return (
     <>
       <div className="main_div_head_tyopeeeebook">
@@ -392,8 +410,10 @@ function RoomBookingscreen() {
                     <p>₹{isData?.roomDetails?.advance}</p>
                   </div>
                   <div className="main_div_test22222">
-                    <p>{roomno} Room x 1 Night</p>
-                    <p> ₹ {roomno * isData?.roomDetails?.Rate} </p>
+                    <p>
+                      {roomno} Room x {TotalDays} days
+                    </p>
+                    <p> ₹ {roomno * isData?.roomDetails?.Rate * TotalDays} </p>
                   </div>
 
                   <div className="main_div_test22222">
@@ -416,7 +436,7 @@ function RoomBookingscreen() {
                     <p>Total Amount </p>
                     <p>
                       ₹
-                      {roomno * isData?.roomDetails?.Rate +
+                      {roomno * isData?.roomDetails?.Rate * TotalDays +
                         roomno * isData?.roomDetails?.advance}
                     </p>
                   </div>

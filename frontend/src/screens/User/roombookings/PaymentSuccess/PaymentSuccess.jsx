@@ -43,6 +43,32 @@ function PaymentSuccess() {
       setdharamshalaname(location?.state?.categoryname);
     }
   }, []);
+
+  var options = { year: 'numeric', month: 'short', day: '2-digit' };
+  var today = new Date(checkinda?.checkouttime);
+  const currDate = today
+    .toLocaleDateString('en-IN', options)
+    .replace(/-/g, ' ');
+  const currTime = today.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
+
+  var today1 = new Date(checkinda?.checkintime);
+  const currDatecheckout = today1
+    .toLocaleDateString('en-IN', options)
+    .replace(/-/g, ' ');
+  const currTimecheckout = today1.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
+
+  let difference = today.getTime() - today1.getTime();
+  let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+
+  console.log('days from siuccedfull scvrens ', TotalDays);
   return (
     <>
       <div className="main_div_head_tyopeeeebook">
@@ -82,7 +108,9 @@ function PaymentSuccess() {
                   <p>{isData[0]?.contactNo}</p>
                   <p>{isData[0]?.email}</p>
                   <p>
-                    {Number(isData[0]?.roomAmount) * Number(isData[0]?.nRoom)}
+                    {Number(isData[0]?.roomAmount) * Number(isData[0]?.nRoom) +
+                      Number(isData[0]?.advanceAmount) *
+                        Number(isData[0]?.nRoom)}
                   </p>
                   <p>125362547859</p>
                 </div>

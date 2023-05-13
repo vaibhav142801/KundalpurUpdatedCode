@@ -131,6 +131,8 @@ function UpdateRoom({ setOpen, updatedata }) {
       setimg3(updatedata?.image3);
       setimg4(updatedata?.image4);
       setcheckout(updatedata?.coTime);
+
+      console.log(updatedata?.dharmasala?.name);
     }
   }, []);
 
@@ -302,7 +304,6 @@ function UpdateRoom({ setOpen, updatedata }) {
                       value={dharamshalaname}
                       name="dharamshalaname"
                       onChange={(e) => setdharamshalaname(e.target.value)}
-                      displayEmpty
                     >
                       <MenuItem
                         sx={{

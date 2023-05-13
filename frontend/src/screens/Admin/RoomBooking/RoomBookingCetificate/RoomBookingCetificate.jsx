@@ -355,15 +355,17 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                                     </>
                                   )}
                                 </td>
+
                                 {/* <td className="table_tddd">
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData[0]?.roomAmount) *
-                                    Number(isData[0]?.nRoom) *
-                                    Number(checkindata?.days) +
-                                    Number(isData && isData[0]?.advanceAmount) *
-                                      Number(isData[0]?.nRoom)}
+                                  {isData &&
+                                    isData.reduce(
+                                      (n, { roomAmount }) =>
+                                        parseFloat(n) + parseFloat(roomAmount),
+                                      0,
+                                    )}
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData[0]?.advanceAmount) *
