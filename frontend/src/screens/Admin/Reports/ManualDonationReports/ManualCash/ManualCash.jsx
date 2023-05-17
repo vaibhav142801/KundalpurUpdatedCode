@@ -387,8 +387,8 @@ const ManualCash = ({ setopendashboard }) => {
         dt?.phoneNo.toLowerCase().indexOf(phone) > -1 &&
         Moment(dt?.donation_date).format('YYYY-MM-DD').indexOf(date) > -1 &&
         dt?.name.toLowerCase().indexOf(name) > -1 &&
-        dt?.address.toLowerCase().indexOf(address) > -1 &&
-        dt?.CreatedBy?.toLowerCase()?.indexOf(userType) > -1,
+        dt?.address.toLowerCase().indexOf(address) > -1,
+      // dt?.CreatedBy?.toLowerCase()?.indexOf(userType) > -1,
     );
     console.log(filtered);
     if (type) {

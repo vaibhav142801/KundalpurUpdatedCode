@@ -161,16 +161,14 @@ function RoomBookingscreen() {
   let totalRoomAmount = roomno * isData?.Rate;
   let alltotalamount = totalRoomAmount + totalofmattress;
   let totalmember = femaleno;
-  let result = [];
+  let result;
 
   let currentTime = new Date(checkindata.checkouttime).getTime();
   let updatedTIme = new Date(currentTime + 3 * 60 * 60 * 1000);
 
   const savedataIntodb = async () => {
     setIsLoading(false);
-    isData?.available_room_numbers
-      .slice(0, roomno)
-      .forEach((val) => result.push(val));
+    result = isData && isData?.available_room_numbers.slice(0, roomno);
     serverInstance('room/checkin', 'post', {
       date: checkindata.checkintime,
       time: checkindata.checkincurrTime,
@@ -183,7 +181,7 @@ function RoomBookingscreen() {
       state: state,
       proof: idproffname,
       idNumber: idproffnumber,
-      paymentMode: 0,
+      paymentMode: 1,
       male: maleno,
       female: femaleno,
       child: childrenno,
@@ -205,21 +203,21 @@ function RoomBookingscreen() {
       if (res.data && res.data.status === true) {
         setIsLoading(false);
 
-        navigate('/room/paymentsuccessfuly', {
-          state: {
-            data: res.data,
-            dharamshala: dharamshala,
-            checkindata: checkindata,
-          },
-        });
+        // navigate('/room/paymentsuccessfuly', {
+        //   state: {
+        //     data: res.data,
+        //     dharamshala: dharamshala,
+        //     checkindata: checkindata,
+        //   },
+        // });
 
-        // if (res.data?.data[0]?.booking_id) {
-        //   window.location.href =
-        //     'https://paymentkundalpur.techjainsupport.co.in/about?order_id=' +
-        //     res.data?.data[0]?.booking_id;
-        // } else {
-        //   Swal.fire('Error!', 'Somthing went wrong!!', 'error');
-        // }
+        if (res.data?.data[0]?.booking_id) {
+          window.location.href =
+            'http://paymentkundalpur.techjainsupport.co.in/room?booking_id=' +
+            res.data?.data[0]?.booking_id;
+        } else {
+          Swal.fire('Error!', 'Somthing went wrong!!', 'error');
+        }
 
         if (res.message) {
           setIsLoading(false);

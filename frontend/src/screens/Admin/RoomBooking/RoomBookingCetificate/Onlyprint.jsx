@@ -310,12 +310,10 @@ const Onlyprint = ({ setopendashboard }) => {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmount) *
-                                    Number(1)}
+                                  {Number(isData && isData?.roomAmount)}
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmount) *
-                                    (Number(1) + Number(1))}
+                                  {Number(isData && isData?.advanceAmount)}
                                 </td>
 
                                 {/* <td className="table_tddd">
@@ -333,7 +331,7 @@ const Onlyprint = ({ setopendashboard }) => {
                               marginBottom: '0.5rem',
                             }}
                           >
-                            Admin
+                            {isData && isData?.bookedByName}
                           </p>
                         </div>
                       </div>

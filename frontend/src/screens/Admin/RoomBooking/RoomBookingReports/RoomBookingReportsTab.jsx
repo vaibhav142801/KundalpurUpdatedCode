@@ -36,7 +36,7 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
               Online Checkin History
             </NavLink>
             <NavLink
-              to="/admin-panel/Room/onlissnecheckin"
+              to="/admin-panel/Room/Holdhistory"
               className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
             >
               <img
@@ -48,7 +48,7 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
             </NavLink>
 
             <NavLink
-              to="/admin-panel/Room/onlissnecheckin"
+              to="/admin-panel/Room/CanceledHistory"
               className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
             >
               <img

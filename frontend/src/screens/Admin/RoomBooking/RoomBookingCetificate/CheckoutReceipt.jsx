@@ -23,7 +23,7 @@ const CheckoutReceipt = ({ setopendashboard }) => {
       const res = await axios.post(`${backendApiUrl}room/checkOut`, {
         id: isData?.id,
         checkoutDate: new Date(),
-        advanceAmount: isData?.id,
+        advanceAmount: isData?.advanceAmount,
       });
 
       if (res.data.data.message) {
@@ -334,18 +334,13 @@ const CheckoutReceipt = ({ setopendashboard }) => {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmount) *
-                                    Number(1)}
+                                  {Number(isData && isData?.roomAmount)}
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmount) *
-                                    (Number(1) + Number(1))}
+                                  {Number(isData && isData?.advanceAmount)}
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmount) *
-                                    Number(1) -
-                                    Number(isData && isData?.roomAmount) *
-                                      (Number(1) + Number(1))}
+                                  {Number(isData && isData?.advanceAmount)}
                                 </td>
                                 {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *

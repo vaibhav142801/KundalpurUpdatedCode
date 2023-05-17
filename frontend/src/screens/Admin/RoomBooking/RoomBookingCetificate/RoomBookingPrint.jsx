@@ -51,6 +51,18 @@ function RoomBookingPrint({ setopendashboard }) {
     hour12: true,
   });
 
+  var today1 = new Date(isData && isData[0]?.coutDate);
+  const currDatecheckout = today1
+    .toLocaleDateString('en-IN', options)
+    .replace(/-/g, ' ');
+  const currTimecheckout = today1.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
+
+  let difference = today1.getTime() - today.getTime();
+  let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
   return (
     <>
       <div
@@ -66,7 +78,7 @@ function RoomBookingPrint({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginTop: '7rem' }}
+            style={{ marginTop: '6rem' }}
           >
             <div style={{ backgroundColor: '#01B0F1' }}>
               <p className="yadda_text lineheight">यात्री आगमन रसीद</p>
@@ -220,16 +232,16 @@ function RoomBookingPrint({ setopendashboard }) {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                     <td className="table_tddd lineheight10">
-                      {isData &&
-                        isData.reduce(
-                          (n, { roomAmount }) =>
-                            parseFloat(n) + parseFloat(roomAmount),
-                          0,
-                        )}
+                      {isData[0]?.nRoom *
+                        Number(isData[0]?.roomAmount) *
+                        Number(TotalDays)}
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData[0]?.advanceAmount) *
-                        Number(isData[0]?.nRoom)}
+                      {isData[0]?.nRoom *
+                        Number(isData[0]?.roomAmount) *
+                        Number(TotalDays) +
+                        Number(isData && isData[0]?.advanceAmount) *
+                          Number(isData[0]?.nRoom)}
                     </td>
                     {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *
@@ -246,7 +258,7 @@ function RoomBookingPrint({ setopendashboard }) {
                   marginBottom: '0.5rem',
                 }}
               >
-                Admin
+                {isData && isData[0]?.bookedByName}
               </p>
             </div>
           </div>

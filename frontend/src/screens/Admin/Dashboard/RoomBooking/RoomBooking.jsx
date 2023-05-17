@@ -29,6 +29,18 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
 import f1 from '../../../../assets/f4.png';
+import PrintRoomBooking from '../RoomBooking/Print/PrintRoomBooking';
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  width: '70%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  p: 2,
+  boxShadow: 24,
+  borderRadius: '15px',
+};
 const RoomBooking = ({ setopendashboard }) => {
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
@@ -48,8 +60,30 @@ const RoomBooking = ({ setopendashboard }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const getAllguest = () => {
+    serverInstance('room/room-booking-stats-1', 'GET').then((res) => {
+      setisData(res.data);
+    });
+  };
+  useEffect(() => {
+    getAllguest();
+  }, []);
+
   return (
     <>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <PrintRoomBooking handleClose={handleClose} isData={isData} />
+          </Box>
+        </Fade>
+      </Modal>
       <div className="main_dash_daily_main">
         <div
           className="search-header-print"
@@ -78,7 +112,7 @@ const RoomBooking = ({ setopendashboard }) => {
           </Tooltip>
           <Tooltip title="Print">
             <img
-              // onClick={() => ExportPdfmanul(isData, 'ManualCashReport')}
+              onClick={() => handleOpen()}
               src={Print}
               alt="cc"
               style={{ width: '30px', marginRight: '2rem' }}
@@ -105,40 +139,32 @@ const RoomBooking = ({ setopendashboard }) => {
           >
             <TableHead>
               <TableRow>
-                <TableCell>Staff Name</TableCell>
-                <TableCell>Bank</TableCell>
+                <TableCell>Username</TableCell>
+                <TableCell>Online</TableCell>
                 <TableCell>Cash</TableCell>
+                <TableCell>Total</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableCell style={{ fontWeight: '600' }}>anil</TableCell>
-
-              <TableCell>0</TableCell>
-              <TableCell>0</TableCell>
-
-              {/* {(rowsPerPage > 0
-                  ? isData.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                  : isData
-                ).map((row, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                    }}
-                  >
-                    <TableCell>{index + 1}</TableCell>
-
-                    <TableCell>{row.NAME}</TableCell>
-
-                    <TableCell>
-                      <RemoveRedEyeIcon />
-                      <DeleteForeverIcon />
-                    </TableCell>
-                  </TableRow>
-                ))} */}
+              {(rowsPerPage > 0
+                ? isData.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage,
+                  )
+                : isData
+              ).map((row, index) => (
+                <TableRow
+                  key={index}
+                  sx={{
+                    '&:last-child td, &:last-child th': { border: 0 },
+                  }}
+                >
+                  <TableCell>{row?.userName}</TableCell>
+                  <TableCell>{row?.bank}</TableCell>
+                  <TableCell>{row?.cash}</TableCell>
+                  <TableCell>{Number(row?.cash) + Number(row?.bank)}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
             <TableFooter>
               <TableRow>
@@ -150,6 +176,15 @@ const RoomBooking = ({ setopendashboard }) => {
                   }}
                 >
                   Total
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontSize: '15px',
+                    color: '#05313C',
+                    fontWeight: 700,
+                  }}
+                >
+                  0
                 </TableCell>
                 <TableCell
                   style={{

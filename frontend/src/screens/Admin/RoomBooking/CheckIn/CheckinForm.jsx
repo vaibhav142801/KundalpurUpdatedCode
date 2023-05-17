@@ -115,6 +115,7 @@ function CheckinForm({ setOpen }) {
   const [lan, setlan] = useState(false);
   const [showPayDetails, setshowPayDetails] = useState(false);
   const [Paymode, setPaymode] = useState('Cash');
+  const [paymentmode, setpaymentmode] = useState(2);
   const [roomno, setroomno] = useState('');
   const [fathers, setfathers] = useState('');
   const [showloader1, setshowloader1] = useState(false);
@@ -127,7 +128,7 @@ function CheckinForm({ setOpen }) {
   const [pincode, setpincode] = useState('');
   const [idproffname, setidproffname] = useState('');
   const [idproffno, setidproffno] = useState('');
-  const [staydays, setstaydays] = useState('');
+  const [staydays, setstaydays] = useState(1);
   const [maleno, setmaleno] = useState('');
   const [femaleno, setfemaleno] = useState('');
   const [Children, setChildren] = useState('');
@@ -188,95 +189,48 @@ function CheckinForm({ setOpen }) {
         days: staydays,
       };
 
-      if (Paymode === 'Cash') {
-        serverInstance('room/checkin', 'post', {
-          date: today,
-          time: time,
-          contactNo: phoneno,
-          name: fullname,
-          Fname: fathers,
-          email: email,
-          address: address,
-          city: city,
-          state: state,
-          proof: idproffname,
-          idNumber: idproffno,
-          male: maleno,
-          female: femaleno,
-          child: Children,
-          dharmasala: dharamshalaname,
-          paymentMode: 0,
-          modeOfBooking: 1,
-          coutDate: new Date(today.getTime() + staydays * 24 * 60 * 60 * 1000),
-          coutTime: new Date(updatedTIme).toLocaleTimeString('it-IT', {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false,
-          }),
-          nRoom: roomno.length,
-          roomList: roomno,
-          extraM: '',
-        }).then((res) => {
-          if (res.data && res.data.status === true) {
-            setOpen(false);
-            navigate('/admin-panel/room/roombookingcetificate', {
-              state: {
-                data: res?.data,
-                checkindata: dataa,
-              },
-            });
-          }
-          if (res.message) {
-            Swal.fire('Error!', res.message, 'error');
-          }
-        });
-      }
-
-      if (Paymode === 'Online') {
-        serverInstance('room/checkin', 'post', {
-          date: today,
-          time: time,
-          contactNo: phoneno,
-          name: fullname,
-          Fname: fathers,
-          email: email,
-          address: address,
-          city: city,
-          state: state,
-          proof: idproffname,
-          idNumber: idproffno,
-          male: maleno,
-          female: femaleno,
-          child: Children,
-          dharmasala: dharamshalaname,
-          paymentMode: 1,
-          modeOfBooking: 1,
-          coutDate: new Date(today.getTime() + staydays * 24 * 60 * 60 * 1000),
-          coutTime: new Date(updatedTIme).toLocaleTimeString('it-IT', {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false,
-          }),
-          nRoom: roomno.length,
-          roomList: roomno,
-          extraM: '',
-        }).then((res) => {
-          if (res.data && res.data.status === true) {
-            setOpen(false);
-            navigate('/admin-panel/room/roombookingcetificate', {
-              state: {
-                data: res?.data,
-                checkindata: dataa,
-              },
-            });
-          }
-          if (res.message) {
-            Swal.fire('Error!', res.message, 'error');
-          }
-        });
-      }
+      serverInstance('room/checkin', 'post', {
+        date: today,
+        time: time,
+        contactNo: phoneno,
+        name: fullname,
+        Fname: fathers,
+        email: email,
+        address: address,
+        city: city,
+        state: state,
+        proof: idproffname,
+        idNumber: idproffno,
+        male: maleno,
+        female: femaleno,
+        child: Children,
+        dharmasala: dharamshalaname,
+        paymentMode: paymentmode,
+        modeOfBooking: 1,
+        coutDate: new Date(today.getTime() + staydays * 24 * 60 * 60 * 1000),
+        coutTime: new Date(updatedTIme).toLocaleTimeString('it-IT', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        }),
+        nRoom: roomno.length,
+        roomList: roomno,
+        extraM: '',
+      }).then((res) => {
+        if (res.data && res.data.status === true) {
+          setOpen(false);
+          navigate('/admin-panel/room/roombookingcetificate', {
+            state: {
+              data: res?.data,
+              checkindata: dataa,
+            },
+          });
+        }
+        if (res.message) {
+          Swal.fire('Error!', res.message, 'error');
+        }
+      });
     } catch (error) {
       // Swal.fire('Error!', error, 'error');
     }
@@ -732,7 +686,10 @@ function CheckinForm({ setOpen }) {
                         ? 'cash_div_room_book'
                         : 'cash_div_room_book_disable'
                     }
-                    onClick={() => setPaymode('Cash')}
+                    onClick={() => {
+                      setPaymode('Cash');
+                      setpaymentmode(2);
+                    }}
                   >
                     Cash
                   </button>
@@ -742,7 +699,10 @@ function CheckinForm({ setOpen }) {
                         ? 'online_div_room_book'
                         : 'cash_div_room_book_disable'
                     }
-                    onClick={() => setPaymode('Online')}
+                    onClick={() => {
+                      setPaymode('Online');
+                      setpaymentmode(1);
+                    }}
                   >
                     online
                   </button>
@@ -751,6 +711,8 @@ function CheckinForm({ setOpen }) {
                       onClick={() => {
                         setshowPayDetails(true);
                         setroomno(result);
+
+                        console.log('roohhms list', result);
                       }}
                       disabled={result.length === null ? true : false}
                       className="save-div-btn-btn"

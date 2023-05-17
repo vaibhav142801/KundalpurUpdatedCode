@@ -233,6 +233,7 @@ function Donation({ setshowreciept, paymentId, setonlineId }) {
     formData.set('MODE_OF_DONATION', mode === 'Online' ? 1 : 2);
     formData.set('AMOUNT', amount);
     // formData.set("CHEQUE_NO", donationdata?.chequeno);
+    formData.set('GENDER', genderp);
     formData.set('DATE_OF_CHEQUE', donationdata?.date_of_sub);
     formData.set('NAME_OF_BANK', donationdata?.name_of_bank);
     formData.set('DATE_OF_DAAN', new Date());
@@ -260,6 +261,7 @@ function Donation({ setshowreciept, paymentId, setonlineId }) {
     }
     if (mode === 'Online' && amount) {
       serverInstance('user/add-donation', 'POST', {
+        GENDER: genderp,
         NAME:
           donationdata.selected === 'yes1' && user.name
             ? user.name

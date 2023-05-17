@@ -40,7 +40,7 @@ const style = {
   borderRadius: '5px',
 };
 
-const CheckinReports = ({ setopendashboard }) => {
+const Holdhistory = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
@@ -77,13 +77,13 @@ const CheckinReports = ({ setopendashboard }) => {
   const getall_donation = () => {
     setloader(true);
 
-    serverInstance('room/get-room-history-admin', 'post').then((res) => {
+    serverInstance('room/holdin-history', 'get').then((res) => {
       console.log(res);
       if (res.data) {
         setloader(false);
-        let filterData = res.data.filter((item) => item.modeOfBooking === 1);
-        setisData(filterData);
-        setisDataDummy(filterData);
+        // let filterData = res.data.filter((item) => item.modeOfBooking === 1);
+        setisData(res.data);
+        setisDataDummy(res.data);
       }
     });
   };
@@ -413,22 +413,7 @@ const CheckinReports = ({ setopendashboard }) => {
             <TableHead style={{ background: '#F1F0F0' }}>
               <TableRow>
                 <TableCell>S.No</TableCell>
-                <TableCell>
-                  BookingId
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('booking_id')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  Mobile
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('contactNo')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
+
                 <TableCell>
                   CustomerName
                   <i
@@ -438,7 +423,7 @@ const CheckinReports = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  CheckinDate$Time
+                  CheckinDate
                   <i
                     style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('date')}
@@ -447,7 +432,7 @@ const CheckinReports = ({ setopendashboard }) => {
                 </TableCell>
 
                 <TableCell>
-                  CheckoutDate$Time
+                  CheckoutDate
                   <i
                     style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('coutDate')}
@@ -455,54 +440,13 @@ const CheckinReports = ({ setopendashboard }) => {
                   />
                 </TableCell>
 
-                <TableCell>
-                  Rate
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('roomAmount')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  AdvanceRate
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('advanceAmount')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  RoomNo
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('RoomNo')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
                 <TableCell>&nbsp;</TableCell>
-                <TableCell>
-                  <input
-                    style={{ width: '5rem' }}
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => onSearchByOther(e, 'bookid')}
-                    placeholder="Search bookid"
-                  />
-                </TableCell>
-                <TableCell>
-                  <input
-                    style={{ width: '7rem' }}
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => onSearchByOther(e, 'mobileno')}
-                    placeholder="Search  mobileno"
-                  />
-                </TableCell>
+
                 <TableCell>
                   <input
                     style={{ width: '7rem' }}
@@ -533,39 +477,6 @@ const CheckinReports = ({ setopendashboard }) => {
                 </TableCell>
 
                 <TableCell>
-                  <input
-                    style={{ width: '7rem' }}
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => {
-                      onSearchByOther(e, 'rate');
-                    }}
-                    placeholder="Rate"
-                  />
-                </TableCell>
-                <TableCell>
-                  <input
-                    style={{ width: '7rem' }}
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => {
-                      onSearchByOther(e, 'advanceRate');
-                    }}
-                    placeholder="Advance"
-                  />
-                </TableCell>
-                <TableCell>
-                  <input
-                    style={{ width: '7rem' }}
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => {
-                      onSearchByOther(e, 'roomNo');
-                    }}
-                    placeholder="roomNo"
-                  />
-                </TableCell>
-                <TableCell>
                   <button
                     style={{
                       width: '6rem',
@@ -593,23 +504,19 @@ const CheckinReports = ({ setopendashboard }) => {
                       }}
                     >
                       <TableCell>{index + 1}</TableCell>
-                      <TableCell>{row?.booking_id}</TableCell>
-                      <TableCell>{row?.contactNo}</TableCell>
+
                       <TableCell>{row?.name}</TableCell>
                       <TableCell>
                         {handledisable(row?.date)}
                         {Moment(row?.date).format('YYYY-MM-DD')}&nbsp;&nbsp;
-                        {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
+                        {/* {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')} */}
                       </TableCell>
 
                       <TableCell>
                         {Moment(row?.coutDate).format('DD-MM-YYYY')}&nbsp;&nbsp;
-                        {moment(row?.coutTime, 'HH:mm:ss').format('hh:mm:ss')}
+                        {/* {moment(row?.coutTime, 'HH:mm:ss').format('hh:mm:ss')} */}
                       </TableCell>
 
-                      <TableCell> {row?.roomAmount}</TableCell>
-                      <TableCell> {row?.advanceAmount}</TableCell>
-                      <TableCell> {row?.RoomNo}</TableCell>
                       <TableCell
                         style={{ display: 'flex', flexDirection: 'column' }}
                       >
@@ -664,4 +571,4 @@ const CheckinReports = ({ setopendashboard }) => {
   );
 };
 
-export default CheckinReports;
+export default Holdhistory;

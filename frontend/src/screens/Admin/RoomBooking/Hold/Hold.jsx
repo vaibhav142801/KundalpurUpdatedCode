@@ -77,8 +77,9 @@ const Hold = ({ setopendashboard }) => {
     serverInstance('room/update-holdin', 'PUT', {
       id: deleteId,
     }).then((res) => {
-      if (res.data) {
+      if (res?.data?.status === true) {
         getall_donation();
+        Swal.fire('Great!', res?.data?.message, 'success');
       }
     });
   };
@@ -171,12 +172,7 @@ const Hold = ({ setopendashboard }) => {
   useEffect(() => {
     getall_donation();
     setopendashboard(true);
-
     setuserrole(Number(sessionStorage.getItem('userrole')));
-  }, [open, open1, open3]);
-
-  useEffect(() => {
-    getall_donation();
   }, [open, open1, open3]);
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });

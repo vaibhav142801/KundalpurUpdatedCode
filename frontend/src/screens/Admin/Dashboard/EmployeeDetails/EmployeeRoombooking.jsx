@@ -31,6 +31,7 @@ import { format } from 'date-fns';
 import f1 from '../../../../assets/f4.png';
 import IconButton from '@mui/material/IconButton';
 import PrintRoom from './Printdata/PrintRoom';
+import PrintRoomBooking from '../RoomBooking/Print/PrintRoomBooking';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -43,6 +44,7 @@ const style = {
   boxShadow: 24,
   borderRadius: '15px',
 };
+
 const EmployeeRoombooking = ({ setopendashboard }) => {
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
@@ -62,6 +64,15 @@ const EmployeeRoombooking = ({ setopendashboard }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  const getAllguest = () => {
+    serverInstance('room/employee-booking-stats-1', 'GET').then((res) => {
+      setisData(res.data);
+    });
+  };
+  useEffect(() => {
+    getAllguest();
+  }, []);
   return (
     <>
       <Modal
@@ -73,7 +84,7 @@ const EmployeeRoombooking = ({ setopendashboard }) => {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <PrintRoom handleClose={handleClose} isData={isData} />
+            <PrintRoomBooking handleClose={handleClose} isData={isData} />
           </Box>
         </Fade>
       </Modal>
@@ -132,38 +143,32 @@ const EmployeeRoombooking = ({ setopendashboard }) => {
           >
             <TableHead>
               <TableRow>
+                <TableCell>Username</TableCell>
+                <TableCell>Online</TableCell>
                 <TableCell>Cash</TableCell>
-
                 <TableCell>Total</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableCell>0</TableCell>
-              <TableCell>0</TableCell>
-
-              {/* {(rowsPerPage > 0
-                  ? isData.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                  : isData
-                ).map((row, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                    }}
-                  >
-                    <TableCell>{index + 1}</TableCell>
-
-                    <TableCell>{row.NAME}</TableCell>
-
-                    <TableCell>
-                      <RemoveRedEyeIcon />
-                      <DeleteForeverIcon />
-                    </TableCell>
-                  </TableRow>
-                ))} */}
+              {(rowsPerPage > 0
+                ? isData.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage,
+                  )
+                : isData
+              ).map((row, index) => (
+                <TableRow
+                  key={index}
+                  sx={{
+                    '&:last-child td, &:last-child th': { border: 0 },
+                  }}
+                >
+                  <TableCell>{row?.userName}</TableCell>
+                  <TableCell>{row?.bank}</TableCell>
+                  <TableCell>{row?.cash}</TableCell>
+                  <TableCell>{Number(row?.cash) + Number(row?.bank)}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
             <TableFooter>
               <TableRow>

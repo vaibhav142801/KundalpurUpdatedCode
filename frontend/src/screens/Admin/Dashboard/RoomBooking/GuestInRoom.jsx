@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { serverInstance } from '../../../../API/ServerInstance';
 import Swal from 'sweetalert2';
 import moment from 'moment';
@@ -29,6 +27,18 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
 import f1 from '../../../../assets/f4.png';
+import PrintGuest from '../RoomBooking//Print/PrintGuest';
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  width: '70%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  p: 2,
+  boxShadow: 24,
+  borderRadius: '15px',
+};
 const GuestInRoom = ({ setopendashboard }) => {
   const [isData, setisData] = React.useState([]);
   const [page, setPage] = useState(0);
@@ -48,8 +58,33 @@ const GuestInRoom = ({ setopendashboard }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  const getAllguest = () => {
+    serverInstance('room/get-guests', 'GET').then((res) => {
+      setisData(res.data);
+
+      console.log(res.data);
+    });
+  };
+  useEffect(() => {
+    getAllguest();
+  }, []);
+
   return (
     <>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <PrintGuest handleClose={handleClose} isData={isData} />
+          </Box>
+        </Fade>
+      </Modal>
       <div className="main_dash_daily_main">
         <div
           className="search-header-print"
@@ -78,7 +113,7 @@ const GuestInRoom = ({ setopendashboard }) => {
           </Tooltip>
           <Tooltip title="Print">
             <img
-              // onClick={() => ExportPdfmanul(isData, 'ManualCashReport')}
+              onClick={() => handleOpen()}
               src={Print}
               alt="cc"
               style={{ width: '30px', marginRight: '2rem' }}
@@ -110,33 +145,36 @@ const GuestInRoom = ({ setopendashboard }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableCell>Male</TableCell>
-
-              <TableCell>10</TableCell>
-
-              {/* {(rowsPerPage > 0
-                  ? isData.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                  : isData
-                ).map((row, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                    }}
-                  >
-                    <TableCell>{index + 1}</TableCell>
-
-                    <TableCell>{row.NAME}</TableCell>
-
-                    <TableCell>
-                      <RemoveRedEyeIcon />
-                      <DeleteForeverIcon />
-                    </TableCell>
-                  </TableRow>
-                ))} */}
+              <TableRow
+                sx={{
+                  '&:last-child td, &:last-child th': { border: 0 },
+                }}
+              >
+                <TableCell>male</TableCell>
+                <TableCell>
+                  {isData[0]?.male === null ? '0' : isData[0]?.male}
+                </TableCell>
+              </TableRow>
+              <TableRow
+                sx={{
+                  '&:last-child td, &:last-child th': { border: 0 },
+                }}
+              >
+                <TableCell>female</TableCell>
+                <TableCell>
+                  {isData[0]?.female === null ? '0' : isData[0]?.female}
+                </TableCell>
+              </TableRow>
+              <TableRow
+                sx={{
+                  '&:last-child td, &:last-child th': { border: 0 },
+                }}
+              >
+                <TableCell>child</TableCell>
+                <TableCell>
+                  {isData[0]?.child === null ? '0' : isData[0]?.child}
+                </TableCell>
+              </TableRow>
             </TableBody>
             <TableFooter>
               <TableRow>
@@ -156,7 +194,9 @@ const GuestInRoom = ({ setopendashboard }) => {
                     fontWeight: 700,
                   }}
                 >
-                  0
+                  {Number(isData[0]?.male) +
+                    Number(isData[0]?.female) +
+                    Number(isData[0]?.child)}
                 </TableCell>
               </TableRow>
               <TableRow>

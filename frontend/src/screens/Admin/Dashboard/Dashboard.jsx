@@ -11,6 +11,8 @@ import OnlineTotal from '../TotalDashboardFun/OnlineTotal';
 import EmpelecTotal from '../TotalDashboardFun/EmpelecTotal';
 import EmpmanulTotal from '../TotalDashboardFun/EmpmanulTotal';
 import LoadingSpinner1 from '../../../components/Loading/LoadingSpinner1';
+import Bookingadmin from '../TotalDashboardFun/Bookingadmin';
+import BookingEmpTotal from '../TotalDashboardFun/BookingEmpTotal';
 import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 
@@ -20,6 +22,10 @@ const Dashboard = ({ setopendashboard }) => {
   const [empid, setempid] = useState('');
   const [userrole, setuserrole] = useState('');
   const [emproleid, setemproleid] = useState('');
+  const [isDataadmin, setisDataadmin] = useState('');
+  const [isDataemp, setisDataemp] = useState('');
+  const [bookingadmin, setbookingadmin] = useState('');
+  const [bookemp, setbookemp] = useState('');
   const [isData1, setisData1] = useState('');
   const [isData2, setisData2] = useState('');
   const [isData3, setisData3] = useState('');
@@ -75,17 +81,38 @@ const Dashboard = ({ setopendashboard }) => {
       }
     });
   };
+  const getAllguestadmin = () => {
+    serverInstance('room/get-guests', 'GET').then((res) => {
+      setisDataadmin(res.data);
+    });
+  };
 
+  const getAllempguest = () => {
+    serverInstance('room/employee-get-guests', 'GET').then((res) => {
+      setisDataemp(res.data);
+    });
+  };
+
+  const getempbooking = () => {
+    serverInstance('room/employee-booking-stats-1', 'GET').then((res) => {
+      setbookemp(res.data);
+    });
+  };
+  const getadminbooking = () => {
+    serverInstance('room/room-booking-stats-1', 'GET').then((res) => {
+      setbookingadmin(res.data);
+    });
+  };
   useEffect(() => {
     setopendashboard(true);
     setuserrole(Number(sessionStorage.getItem('userrole')));
     setemproleid(Number(sessionStorage.getItem('empRoleid')));
     setempid(Number(sessionStorage.getItem('empRoleid')));
-    getallelec(),
-      getallmanual(),
-      getallonline(),
-      getallempelec(),
-      getallempmanual();
+    getallelec(), getempbooking();
+    getAllempguest();
+    getallmanual(), getallonline(), getallempelec(), getallempmanual();
+    getAllguestadmin();
+    getadminbooking();
   }, []);
 
   return (
@@ -146,16 +173,18 @@ const Dashboard = ({ setopendashboard }) => {
                 </div>
               </div>
               <div
+                onClick={() => navigate('/admin-panel/room/checkin')}
                 className="main_card_amount"
                 style={{ background: '#3C5FFE', color: 'white' }}
               >
                 <p>Room Booking</p>
                 <div className="main_repue_img">
-                  <p>₹ 0</p>
+                  <Bookingadmin data={bookingadmin} />
                   <img src={Group227} alt="dd" />
                 </div>
               </div>
               <div
+                onClick={() => navigate('/admin-panel/room/roomshift')}
                 className="main_card_amount"
                 style={{ background: '#FF6332', color: 'white' }}
               >
@@ -171,7 +200,11 @@ const Dashboard = ({ setopendashboard }) => {
               >
                 <p>Guest in Room</p>
                 <div className="main_repue_img">
-                  <p>0</p>
+                  <p>
+                    {Number(isDataadmin[0]?.male) +
+                      Number(isDataadmin[0]?.female) +
+                      Number(isDataadmin[0]?.child)}
+                  </p>
                   <img src={Group228} alt="dd" />
                 </div>
               </div>
@@ -244,6 +277,7 @@ const Dashboard = ({ setopendashboard }) => {
                   </div>
 
                   <div
+                    onClick={() => navigate('/admin-panel/room/checkin')}
                     className="main_card_amount"
                     style={{
                       background: '#3C5FFE',
@@ -253,7 +287,7 @@ const Dashboard = ({ setopendashboard }) => {
                   >
                     <p>Room Booking</p>
                     <div className="main_repue_img">
-                      <p>₹ 0</p>
+                      <BookingEmpTotal data={bookemp} />
                       <img src={Group227} alt="dd" />
                     </div>
                   </div>
@@ -268,7 +302,11 @@ const Dashboard = ({ setopendashboard }) => {
                   >
                     <p>Guest in Room</p>
                     <div className="main_repue_img">
-                      <p>0</p>
+                      <p>
+                        {Number(isDataemp[0]?.male) +
+                          Number(isDataemp[0]?.female) +
+                          Number(isDataemp[0]?.child)}
+                      </p>
                       <img src={Group228} alt="dd" />
                     </div>
                   </div>
@@ -301,6 +339,7 @@ const Dashboard = ({ setopendashboard }) => {
               {emproleid === 2 && (
                 <>
                   <div
+                    onClick={() => navigate('/admin-panel/room/checkin')}
                     className="main_card_amount"
                     style={{
                       background: '#3C5FFE',
@@ -310,7 +349,7 @@ const Dashboard = ({ setopendashboard }) => {
                   >
                     <p>Room Booking</p>
                     <div className="main_repue_img">
-                      <p>₹ 0</p>
+                      <BookingEmpTotal data={bookemp} />
                       <img src={Group227} alt="dd" />
                     </div>
                   </div>
@@ -325,7 +364,11 @@ const Dashboard = ({ setopendashboard }) => {
                   >
                     <p>Guest in Room</p>
                     <div className="main_repue_img">
-                      <p>0</p>
+                      <p>
+                        {Number(isDataemp[0]?.male) +
+                          Number(isDataemp[0]?.female) +
+                          Number(isDataemp[0]?.child)}
+                      </p>
                       <img src={Group228} alt="dd" />
                     </div>
                   </div>

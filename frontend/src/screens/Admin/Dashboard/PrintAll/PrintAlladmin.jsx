@@ -17,6 +17,10 @@ function PrintAlladmin({ handleClose }) {
   const [userrole, setuserrole] = useState('');
   const [emproleid, setemproleid] = useState('');
   const [userName, setuserName] = useState('');
+  const [isDataadmin, setisDataadmin] = useState('');
+  const [isDataemp, setisDataemp] = useState('');
+  const [bookingadmin, setbookingadmin] = useState('');
+  const [bookemp, setbookemp] = useState('');
   const [isData1, setisData1] = useState('');
   const [isData2, setisData2] = useState('');
   const [isData3, setisData3] = useState('');
@@ -59,6 +63,29 @@ function PrintAlladmin({ handleClose }) {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+
+  const getAllguestadmin = () => {
+    serverInstance('room/get-guests', 'GET').then((res) => {
+      setisDataadmin(res.data);
+    });
+  };
+
+  const getAllempguest = () => {
+    serverInstance('room/employee-get-guests', 'GET').then((res) => {
+      setisDataemp(res.data);
+    });
+  };
+
+  const getempbooking = () => {
+    serverInstance('room/employee-booking-stats-1', 'GET').then((res) => {
+      setbookemp(res.data);
+    });
+  };
+  const getadminbooking = () => {
+    serverInstance('room/room-booking-stats-1', 'GET').then((res) => {
+      setbookingadmin(res.data);
+    });
+  };
   useEffect(() => {
     setuserrole(Number(sessionStorage.getItem('userrole')));
     setemproleid(Number(sessionStorage.getItem('empRoleid')));
@@ -68,6 +95,10 @@ function PrintAlladmin({ handleClose }) {
       getallonline(),
       getallempelec(),
       getallempmanual();
+    getAllguestadmin();
+    getAllempguest();
+    getempbooking();
+    getadminbooking();
   }, []);
 
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
@@ -799,22 +830,50 @@ function PrintAlladmin({ handleClose }) {
                   className="margintop_add"
                   style={{ borderBottom: '1px solid gray' }}
                 >
-                  <th>Staff Name</th>
-                  <th>Bank</th>
+                  <th>Username</th>
+                  <th>Online</th>
                   <th>Cash</th>
-                  <th>Total</th>
+                  {/* <th>Total</th> */}
                 </tr>
-                <tr className="margintop_add">
-                  <td>anil</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                </tr>
-                <tr className="margintop_add">
+                {bookingadmin && (
+                  <>
+                    {bookingadmin &&
+                      bookingadmin.map((row, index) => (
+                        <tr
+                          className="margintop_add"
+                          style={{ borderBottom: '1px solid gray' }}
+                          key={index}
+                        >
+                          <td>{row?.userName}</td>
+                          <td>{row?.bank}</td>
+                          <td>{row?.cash}</td>
+                          {/* <td>{Number(row?.cash) + Number(row?.bank)}</td> */}
+                        </tr>
+                      ))}
+                  </>
+                )}
+                <tr
+                  className="margintop_add"
+                  style={{ borderBottom: '1px solid gray' }}
+                >
                   <th>Total</th>
-                  <th>0</th>
-                  <th>0</th>
-                  <th>0</th>
+                  <th>
+                    {bookingadmin
+                      ? bookingadmin.reduce(
+                          (n, { bank }) => parseFloat(n) + parseFloat(bank),
+                          0,
+                        )
+                      : '0'}
+                  </th>
+                  <th>
+                    {' '}
+                    {bookingadmin
+                      ? bookingadmin.reduce(
+                          (n, { cash }) => parseFloat(n) + parseFloat(cash),
+                          0,
+                        )
+                      : '0'}
+                  </th>
                 </tr>
               </table>
               <p
@@ -860,13 +919,56 @@ function PrintAlladmin({ handleClose }) {
                   <th>Gender</th>
                   <th>Quantity</th>
                 </tr>
-                <tr>
-                  <td>Male</td>
-                  <td>10</td>
-                </tr>
-                <tr>
+                {isDataadmin && (
+                  <>
+                    <tr
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <td>male</td>
+                      <td>
+                        {isDataadmin[0]?.male === null
+                          ? '0'
+                          : isDataadmin[0]?.male}
+                      </td>
+                    </tr>
+                    <tr
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <td>female</td>
+                      <td>
+                        {isDataadmin[0]?.female === null
+                          ? '0'
+                          : isDataadmin[0]?.female}
+                      </td>
+                    </tr>
+                    <tr
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <td>child</td>
+                      <td>
+                        {isDataadmin[0]?.child === null
+                          ? '0'
+                          : isDataadmin[0]?.child}
+                      </td>
+                    </tr>
+                  </>
+                )}
+                <tr
+                  className="margintop_add"
+                  style={{ borderBottom: '1px solid gray' }}
+                >
                   <th>Total</th>
-                  <th>10</th>
+                  <th>
+                    {Number(isDataadmin[0]?.male) +
+                      Number(isDataadmin[0]?.female) +
+                      Number(isDataadmin[0]?.child)}
+                  </th>
                 </tr>
               </table>
             </>
@@ -1006,22 +1108,53 @@ function PrintAlladmin({ handleClose }) {
                   <table>
                     <tr
                       className="margintop_add"
-                      style={{
-                        borderBottom: '1px solid gray',
-                        fontSize: '14px',
-                      }}
+                      style={{ borderBottom: '1px solid gray' }}
                     >
+                      <th>Username</th>
+                      <th>Online</th>
                       <th>Cash</th>
-                      <th>Bank</th>
-                      <th>Total</th>
+                      {/* <th>Total</th> */}
                     </tr>
-                    <tr style={{ borderBottom: '1px solid gray' }}>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
+                    {bookemp && (
+                      <>
+                        {bookemp &&
+                          bookemp.map((row, index) => (
+                            <tr
+                              className="margintop_add"
+                              style={{ borderBottom: '1px solid gray' }}
+                              key={index}
+                            >
+                              <td>{row?.userName}</td>
+                              <td>{row?.bank}</td>
+                              <td>{row?.cash}</td>
+                              {/* <td>{Number(row?.cash) + Number(row?.bank)}</td> */}
+                            </tr>
+                          ))}
+                      </>
+                    )}
+                    <tr
+                      className="margintop_add"
+                      style={{ borderBottom: '1px solid gray' }}
+                    >
+                      <th>Total</th>
+                      <th>
+                        {bookemp
+                          ? bookemp.reduce(
+                              (n, { bank }) => parseFloat(n) + parseFloat(bank),
+                              0,
+                            )
+                          : '0'}
+                      </th>
+                      <th>
+                        {bookemp
+                          ? bookemp.reduce(
+                              (n, { cash }) => parseFloat(n) + parseFloat(cash),
+                              0,
+                            )
+                          : '0'}
+                      </th>
                     </tr>
                   </table>
-
                   <p
                     style={{
                       color: '#808080',
@@ -1039,13 +1172,56 @@ function PrintAlladmin({ handleClose }) {
                       <th>Gender</th>
                       <th>Quantity</th>
                     </tr>
-                    <tr>
-                      <td>Male</td>
-                      <td>10</td>
-                    </tr>
-                    <tr>
+                    {isDataemp && (
+                      <>
+                        <tr
+                          sx={{
+                            '&:last-child td, &:last-child th': { border: 0 },
+                          }}
+                        >
+                          <td>male</td>
+                          <td>
+                            {isDataemp[0]?.male === null
+                              ? '0'
+                              : isDataemp[0]?.male}
+                          </td>
+                        </tr>
+                        <tr
+                          sx={{
+                            '&:last-child td, &:last-child th': { border: 0 },
+                          }}
+                        >
+                          <td>female</td>
+                          <td>
+                            {isDataemp[0]?.female === null
+                              ? '0'
+                              : isDataemp[0]?.female}
+                          </td>
+                        </tr>
+                        <tr
+                          sx={{
+                            '&:last-child td, &:last-child th': { border: 0 },
+                          }}
+                        >
+                          <td>child</td>
+                          <td>
+                            {isDataemp[0]?.child === null
+                              ? '0'
+                              : isDataemp[0]?.child}
+                          </td>
+                        </tr>
+                      </>
+                    )}
+                    <tr
+                      className="margintop_add"
+                      style={{ borderBottom: '1px solid gray' }}
+                    >
                       <th>Total</th>
-                      <th>10</th>
+                      <th>
+                        {Number(isDataemp[0]?.male) +
+                          Number(isDataemp[0]?.female) +
+                          Number(isDataemp[0]?.child)}
+                      </th>
                     </tr>
                   </table>
                 </>
@@ -1112,19 +1288,52 @@ function PrintAlladmin({ handleClose }) {
                   <table>
                     <tr
                       className="margintop_add"
-                      style={{
-                        borderBottom: '1px solid gray',
-                        fontSize: '14px',
-                      }}
+                      style={{ borderBottom: '1px solid gray' }}
                     >
+                      <th>Username</th>
+                      <th>Online</th>
                       <th>Cash</th>
-                      <th>Bank</th>
-                      <th>Total</th>
+                      {/* <th>Total</th> */}
                     </tr>
-                    <tr style={{ borderBottom: '1px solid gray' }}>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
+                    {bookemp && (
+                      <>
+                        {bookemp &&
+                          bookemp.map((row, index) => (
+                            <tr
+                              className="margintop_add"
+                              style={{ borderBottom: '1px solid gray' }}
+                              key={index}
+                            >
+                              <td>{row?.userName}</td>
+                              <td>{row?.bank}</td>
+                              <td>{row?.cash}</td>
+                              {/* <td>{Number(row?.cash) + Number(row?.bank)}</td> */}
+                            </tr>
+                          ))}
+                      </>
+                    )}
+                    <tr
+                      className="margintop_add"
+                      style={{ borderBottom: '1px solid gray' }}
+                    >
+                      <th>Total</th>
+                      <th>
+                        {bookemp
+                          ? bookemp.reduce(
+                              (n, { bank }) => parseFloat(n) + parseFloat(bank),
+                              0,
+                            )
+                          : '0'}
+                      </th>
+                      <th>
+                        {' '}
+                        {bookemp
+                          ? bookemp.reduce(
+                              (n, { cash }) => parseFloat(n) + parseFloat(cash),
+                              0,
+                            )
+                          : '0'}
+                      </th>
                     </tr>
                   </table>
 
@@ -1145,13 +1354,56 @@ function PrintAlladmin({ handleClose }) {
                       <th>Gender</th>
                       <th>Quantity</th>
                     </tr>
-                    <tr>
-                      <td>Male</td>
-                      <td>10</td>
-                    </tr>
-                    <tr>
+                    {isDataemp && (
+                      <>
+                        <tr
+                          sx={{
+                            '&:last-child td, &:last-child th': { border: 0 },
+                          }}
+                        >
+                          <td>male</td>
+                          <td>
+                            {isDataemp[0]?.male === null
+                              ? '0'
+                              : isDataemp[0]?.male}
+                          </td>
+                        </tr>
+                        <tr
+                          sx={{
+                            '&:last-child td, &:last-child th': { border: 0 },
+                          }}
+                        >
+                          <td>female</td>
+                          <td>
+                            {isDataemp[0]?.female === null
+                              ? '0'
+                              : isDataemp[0]?.female}
+                          </td>
+                        </tr>
+                        <tr
+                          sx={{
+                            '&:last-child td, &:last-child th': { border: 0 },
+                          }}
+                        >
+                          <td>child</td>
+                          <td>
+                            {isDataemp[0]?.child === null
+                              ? '0'
+                              : isDataemp[0]?.child}
+                          </td>
+                        </tr>
+                      </>
+                    )}
+                    <tr
+                      className="margintop_add"
+                      style={{ borderBottom: '1px solid gray' }}
+                    >
                       <th>Total</th>
-                      <th>10</th>
+                      <th>
+                        {Number(isDataadmin[0]?.male) +
+                          Number(isDataadmin[0]?.female) +
+                          Number(isDataadmin[0]?.child)}
+                      </th>
                     </tr>
                   </table>
                 </>

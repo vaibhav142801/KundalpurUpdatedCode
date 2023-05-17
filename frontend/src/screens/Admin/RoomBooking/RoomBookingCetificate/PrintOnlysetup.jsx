@@ -72,7 +72,7 @@ function PrintOnlysetup({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginLeft: '1.3rem', marginTop: '7rem' }}
+            style={{ marginLeft: '1.3rem', marginTop: '5rem' }}
           >
             <div style={{ backgroundColor: '#01B0F1' }}>
               <p className="yadda_text lineheight">यात्री आगमन रसीद</p>
@@ -209,11 +209,10 @@ function PrintOnlysetup({ setopendashboard }) {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) * Number(1)}
+                      {Number(isData && isData?.roomAmount)}
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) *
-                        (Number(1) + Number(1))}
+                      {Number(isData && isData?.advanceAmount)}
                     </td>
 
                     {/* <td className="table_tddd">
@@ -231,7 +230,7 @@ function PrintOnlysetup({ setopendashboard }) {
                   marginBottom: '0.5rem',
                 }}
               >
-                Admin
+                {isData && isData?.bookedByName}
               </p>
             </div>
           </div>

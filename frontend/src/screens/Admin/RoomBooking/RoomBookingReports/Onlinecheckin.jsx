@@ -81,9 +81,9 @@ const Onlinecheckin = ({ setopendashboard }) => {
       console.log(res);
       if (res.data) {
         setloader(false);
-        // let filterData = res.data.filter((item) => item.modeOfBooking === 1);
-        setisData(res.data);
-        setisDataDummy(res.data);
+        let filterData = res.data.filter((item) => item.modeOfBooking === 1);
+        setisData(filterData);
+        setisDataDummy(filterData);
       }
     });
   };

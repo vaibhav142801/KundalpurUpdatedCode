@@ -72,7 +72,7 @@ function OnlineforcePrint({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginLeft: '1.3rem', marginTop: '7rem' }}
+            style={{ marginTop: '7rem' }}
           >
             <div style={{ backgroundColor: '#92D14C' }}>
               <p className="yadda_text">
@@ -230,13 +230,11 @@ function OnlineforcePrint({ setopendashboard }) {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) *
-                        (Number(1) + Number(1))}
+                      {Number(isData && isData?.roomAmount)}
                       .00
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) *
-                        (Number(1) + Number(1))}
+                      {Number(isData && isData?.advanceAmount)}
                       .00
                     </td>
                     <td className="table_tddd lineheight10">

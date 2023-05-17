@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -13,7 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import Printguest from './Printdata/Printguest';
+import PrintGuest from '../RoomBooking/Print/PrintGuest';
+import { serverInstance } from '../../../../API/ServerInstance';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -41,6 +42,16 @@ const EmployeeGuestInRoom = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const getAllguest = () => {
+    serverInstance('room/employee-get-guests', 'GET').then((res) => {
+      setisData(res.data);
+
+      console.log(res.data);
+    });
+  };
+  useEffect(() => {
+    getAllguest();
+  }, []);
   return (
     <>
       <Modal
@@ -52,7 +63,7 @@ const EmployeeGuestInRoom = () => {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Printguest handleClose={handleClose} isData={isData} />
+            <PrintGuest handleClose={handleClose} isData={isData} />
           </Box>
         </Fade>
       </Modal>
@@ -116,32 +127,36 @@ const EmployeeGuestInRoom = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableCell>0</TableCell>
-              <TableCell>0</TableCell>
-
-              {/* {(rowsPerPage > 0
-                  ? isData.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                  : isData
-                ).map((row, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                    }}
-                  >
-                    <TableCell>{index + 1}</TableCell>
-
-                    <TableCell>{row.NAME}</TableCell>
-
-                    <TableCell>
-                      <RemoveRedEyeIcon />
-                      <DeleteForeverIcon />
-                    </TableCell>
-                  </TableRow>
-                ))} */}
+              <TableRow
+                sx={{
+                  '&:last-child td, &:last-child th': { border: 0 },
+                }}
+              >
+                <TableCell>male</TableCell>
+                <TableCell>
+                  {isData[0]?.male === null ? '0' : isData[0]?.male}
+                </TableCell>
+              </TableRow>
+              <TableRow
+                sx={{
+                  '&:last-child td, &:last-child th': { border: 0 },
+                }}
+              >
+                <TableCell>female</TableCell>
+                <TableCell>
+                  {isData[0]?.female === null ? '0' : isData[0]?.female}
+                </TableCell>
+              </TableRow>
+              <TableRow
+                sx={{
+                  '&:last-child td, &:last-child th': { border: 0 },
+                }}
+              >
+                <TableCell>child</TableCell>
+                <TableCell>
+                  {isData[0]?.child === null ? '0' : isData[0]?.child}
+                </TableCell>
+              </TableRow>
             </TableBody>
             <TableFooter>
               <TableRow>
@@ -160,7 +175,9 @@ const EmployeeGuestInRoom = () => {
                     color: '#05313C',
                   }}
                 >
-                  0
+                  {Number(isData[0]?.male) +
+                    Number(isData[0]?.female) +
+                    Number(isData[0]?.child)}
                 </TableCell>
               </TableRow>
               <TableRow>

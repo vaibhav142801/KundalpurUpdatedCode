@@ -377,6 +377,7 @@ const Itemdonation = ({ setopendashboard }) => {
     }
   };
   useEffect(() => {
+    console.log(voucherno);
     var filtered = isDataDummy?.filter(
       (dt) =>
         dt?.ReceiptNo.toLowerCase().indexOf(receiptNo) > -1 &&
@@ -384,10 +385,10 @@ const Itemdonation = ({ setopendashboard }) => {
         Moment(dt?.donation_date).format('YYYY-MM-DD').indexOf(date) > -1 &&
         dt?.name.toLowerCase().indexOf(name) > -1 &&
         dt?.address.toLowerCase().indexOf(address) > -1 &&
-        dt?.createdBy?.toLowerCase()?.indexOf(userType) > -1 &&
+        // dt?.createdBy?.toLowerCase()?.indexOf(userType) > -1 &&
         dt?.voucherNo?.toLowerCase()?.indexOf(voucherno) > -1,
     );
-    console.log(filtered);
+    console.log(type);
     if (type) {
       filtered = filtered?.map((item) => {
         if (item?.elecItemDetails?.find((typ) => typ.type == type)) {
@@ -398,7 +399,6 @@ const Itemdonation = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
-
     if (amount) {
       filtered = filtered?.map((item) => {
         console.log(
@@ -430,7 +430,6 @@ const Itemdonation = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
-
     if (fsize) {
       filtered = filtered?.map((item) => {
         if (item?.elecItemDetails?.find((typ) => typ.size == fsize)) {
@@ -463,7 +462,6 @@ const Itemdonation = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
-
     if (fitem) {
       filtered = filtered?.map((item) => {
         if (
@@ -478,7 +476,7 @@ const Itemdonation = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
-
+    console.log('filter', filtered);
     setisData(filtered);
   }, [
     phone,
@@ -591,6 +589,7 @@ const Itemdonation = ({ setopendashboard }) => {
     setSortConfig({ key: key, direction: direction });
   };
 
+  console.log('data from  filyter', isData);
   const sortDataItemtype = (key) => {
     let direction = 'ascending';
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -647,6 +646,7 @@ const Itemdonation = ({ setopendashboard }) => {
     );
     setSortConfig({ key: key, direction: direction });
   };
+
   return (
     <>
       <Modal

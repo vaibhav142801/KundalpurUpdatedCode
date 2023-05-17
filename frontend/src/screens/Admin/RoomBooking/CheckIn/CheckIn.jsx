@@ -91,9 +91,9 @@ const CheckIn = ({ setopendashboard }) => {
       serverInstance('room/checkin', 'get').then((res) => {
         if (res.data) {
           setloader(false);
-          // let filterData = res.data.filter((item) => item.modeOfBooking === 1);
-          setisData(res.data);
-          setisDataDummy(res.data);
+          let filterData = res.data.filter((item) => item.modeOfBooking === 1);
+          setisData(filterData);
+          setisDataDummy(filterData);
         }
       });
     }
@@ -102,9 +102,9 @@ const CheckIn = ({ setopendashboard }) => {
         console.log(res);
         if (res.data) {
           setloader(false);
-          // let filterData = res.data.filter((item) => item.modeOfBooking === 1);
-          setisData(res.data);
-          setisDataDummy(res.data);
+          let filterData = res.data.filter((item) => item.modeOfBooking === 1);
+          setisData(filterData);
+          setisDataDummy(filterData);
         }
       });
     }
@@ -195,13 +195,14 @@ const CheckIn = ({ setopendashboard }) => {
 
   const handleClose4 = () => {
     setOpen3(false);
-
-    // serverInstance('/room/force-checkout', 'POST', {
-    //   id: deleteId,
-    // }).then((res) => {
-    //   console.log(res);
-    //   // setOpen(false);
-    // });
+    serverInstance('/room/cancel-checkin', 'DELETE', {
+      bookingId: cancelid,
+    }).then((res) => {
+      console.log(res);
+      if (res?.data?.status === true) {
+        Swal.fire('Great!', res?.data?.message, 'success');
+      }
+    });
   };
 
   const [checkforceid, setcheckforceid] = useState('');
@@ -482,7 +483,7 @@ const CheckIn = ({ setopendashboard }) => {
       </Modal>
       <RoomBookingTap setopendashboard={setopendashboard} />
       <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
-        <div className="main_amin_gain">
+        {/* <div className="main_amin_gain">
           <div className="main_amin_gain1">
             Total Guest : <Totalguest data={isData} />
           </div>
@@ -522,7 +523,7 @@ const CheckIn = ({ setopendashboard }) => {
               History
             </MenuItem>
           </Select>
-        </div>
+        </div> */}
 
         <div className="search-header-print">
           <div
@@ -837,7 +838,7 @@ const CheckIn = ({ setopendashboard }) => {
                                 marginBottom: '4px',
                                 backgroundColor: '#FF0000',
                               }}
-                              onClick={() => handleClickOpen3(row?.id)}
+                              onClick={() => handleClickOpen3(row?.booking_id)}
                               className="chaneRoom"
                             >
                               Cancel

@@ -81,7 +81,8 @@ import OnlineForce from '../screens/Admin/RoomBooking/RoomBookingCetificate/Onli
 import OnlineforcePrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/OnlineforcePrint';
 import OnlinecheckinReceipt from '../screens/Admin/RoomBooking/RoomBookingCetificate/OnlinecheckinReceipt';
 import OnlinecheckinPrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/OnlinecheckinPrint';
-
+import CanceledHistory from '../screens/Admin/RoomBooking/RoomBookingReports/CanceledHistory';
+import Holdhistory from '../screens/Admin/RoomBooking/RoomBookingReports/Holdhistory';
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -674,6 +675,22 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <OnlinecheckinPrint setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Room/CanceledHistory"
+          element={
+            <Adminprivateroute>
+              <CanceledHistory setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Room/Holdhistory"
+          element={
+            <Adminprivateroute>
+              <Holdhistory setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />
