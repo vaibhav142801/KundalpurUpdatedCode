@@ -1,24 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { serverInstance } from '../../../../API/ServerInstance';
 import InputBase from '@mui/material/InputBase';
-import InputLabel from '@mui/material/InputLabel';
 import { backendApiUrl } from '../../../../config/config';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import camera from '../../../../assets/camera.png';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import './AddRoom.css';
-import {
-  Box,
-  Button,
-  ButtonBase,
-  FormControlLabel,
-  Grid,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
-  Typography,
-} from '@mui/material';
+import { MenuItem, Select } from '@mui/material';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 const formData = new FormData();
 export const CustomInput = styled(InputBase)(({ theme }) => ({
@@ -44,6 +33,7 @@ export const CustomInput = styled(InputBase)(({ theme }) => ({
   },
 }));
 function AddRoomForm({ setOpen }) {
+  const [showprocess, setshowprocess] = useState(false);
   const [showsaveimg, setshowsaveimg] = useState(false);
   const [facility, setfacility] = useState('');
   const [Dharamshala, setDharamshala] = useState('');
@@ -68,6 +58,7 @@ function AddRoomForm({ setOpen }) {
 
   const handlesubmit = async () => {
     try {
+      setshowprocess(true);
       formData.set('Rate', rate);
       formData.set('dharmasala_id', dharamshalaname);
       formData.set('category_id', JSON.stringify(categroyname));
@@ -90,11 +81,12 @@ function AddRoomForm({ setOpen }) {
 
       if (res.data.data.status) {
         setOpen(false);
-
+        setshowprocess(false);
         Swal.fire('Great!', res.data.data.message, 'success');
       }
     } catch (error) {
       Swal.fire('Error!', error, 'error');
+      setshowprocess(false);
     }
   };
 
@@ -288,7 +280,13 @@ function AddRoomForm({ setOpen }) {
                   onClick={() => handlesubmit()}
                   className="save-div-btn-btn"
                 >
-                  Save
+                  {showprocess ? (
+                    <CircularProgress
+                      style={{ width: '21px', height: '21px' }}
+                    />
+                  ) : (
+                    'Save'
+                  )}
                 </button>
               </div>
             </>

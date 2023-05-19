@@ -247,7 +247,7 @@ const AddRoom = ({ setopendashboard }) => {
                   </Typography>
                 </div>
                 <IconButton>
-                  <CloseIcon onClick={() => handleClose1()} />
+                  <CloseIcon onClick={() => setOpen1(false)} />
                 </IconButton>
               </div>
               <UpdateRoom setOpen={setOpen1} updatedata={updatedata} />
@@ -416,7 +416,11 @@ const AddRoom = ({ setopendashboard }) => {
                       <TableCell>{row?.Rate}</TableCell>
                       <TableCell>{row?.advance}</TableCell>
                       <TableCell>{row?.coTime}</TableCell>
-                      <TableCell>{row?.roomType}</TableCell>
+                      <TableCell>
+                        {row?.roomType === 0 && 'Online'}{' '}
+                        {row?.roomType === 1 && ' Offline'}
+                        {row?.roomType === 2 && 'OnlineAndOffline'}
+                      </TableCell>
 
                       <TableCell>
                         <Tooltip title="Edit">
@@ -442,11 +446,11 @@ const AddRoom = ({ setopendashboard }) => {
                 </>
               ) : (
                 <>
-                  <TableRow>
+                  {/* <TableRow>
                     <TableCell colSpan={12} align="center">
                       <CircularProgress />
                     </TableCell>
-                  </TableRow>
+                  </TableRow> */}
                 </>
               )}
             </TableBody>

@@ -27,7 +27,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
 import Printcheckin from '../CheckIn/Printcheckin';
-
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 const style = {
   position: 'absolute',
   top: '47%',
@@ -667,6 +667,7 @@ const CanceledHistory = ({ setopendashboard }) => {
           </Table>
         </div>
       </div>
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };

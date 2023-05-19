@@ -8,6 +8,7 @@ import camera from '../../../../assets/camera.png';
 import './AddRoom.css';
 import { MenuItem, Select } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 const formData = new FormData();
 export const CustomInput = styled(InputBase)(({ theme }) => ({
   width: '280px',
@@ -32,6 +33,7 @@ export const CustomInput = styled(InputBase)(({ theme }) => ({
   },
 }));
 function UpdateRoom({ setOpen, updatedata }) {
+  const [showprocess, setshowprocess] = useState(false);
   const [showsaveimg, setshowsaveimg] = useState(false);
   const [facility, setfacility] = useState('');
   const [Dharamshala, setDharamshala] = useState('');
@@ -58,6 +60,7 @@ function UpdateRoom({ setOpen, updatedata }) {
 
   const handlesubmit = async () => {
     try {
+      setshowprocess(true);
       formData.set('id', updatedata?.room_id);
       formData.set('Rate', rate);
       formData.set('dharmasala_id', dharamshalaname);
@@ -79,12 +82,19 @@ function UpdateRoom({ setOpen, updatedata }) {
 
       const res = await axios.put(`${backendApiUrl}room`, formData);
 
-      if (res.data.data.status) {
+      if (res.data.data.status === true) {
         setOpen(false);
-
+        setshowprocess(false);
+        Swal.fire('Great!', res.data.data.message, 'success');
+      }
+      if (res.data.data.status === false) {
+        setOpen(false);
+        setshowprocess(false);
         Swal.fire('Great!', res.data.data.message, 'success');
       }
     } catch (error) {
+      setOpen(false);
+      setshowprocess(false);
       Swal.fire('Error!', error, 'error');
     }
   };
@@ -277,7 +287,13 @@ function UpdateRoom({ setOpen, updatedata }) {
                   onClick={() => handlesubmit()}
                   className="save-div-btn-btn"
                 >
-                  Update
+                  {showprocess ? (
+                    <CircularProgress
+                      style={{ width: '21px', height: '21px' }}
+                    />
+                  ) : (
+                    'Update'
+                  )}
                 </button>
               </div>
             </>

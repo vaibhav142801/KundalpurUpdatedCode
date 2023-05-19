@@ -37,6 +37,7 @@ import RoomShiftForm from '../RoomShift/RoomShiftForm';
 import TotalAdvance from './TotalAdvance';
 import Totalguest from './Totalguest';
 import Printcheckin from './Printcheckin';
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import './Checkin.css';
 const style = {
   position: 'absolute',
@@ -968,6 +969,7 @@ const CheckIn = ({ setopendashboard }) => {
           </Table>
         </div>
       </div>
+      {loader && <LoadingSpinner1 />}
     </>
   );
 };
