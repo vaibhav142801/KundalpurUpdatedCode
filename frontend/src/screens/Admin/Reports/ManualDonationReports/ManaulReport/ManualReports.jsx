@@ -208,7 +208,13 @@ const ManualReports = ({ setopendashboard }) => {
     serverInstance('admin/manual-donation', 'get').then((res) => {
       if (res.status) {
         setloader(false);
-        let filterData = res.data.filter((item) => item.modeOfDonation === '3');
+        let currentMonth, filterData;
+        (currentMonth = new Date().getMonth() + 1),
+          (filterData = res?.data?.filter((e) => {
+            var [_, month] = e.donation_date.split('-'); // Or, var month = e.date.split('-')[1];
+            return currentMonth === +month && e.modeOfDonation === '3';
+          }));
+        // let filterData = res.data.filter((item) => item.modeOfDonation === '3');
 
         setisData(filterData);
         setisDataDummy(filterData);

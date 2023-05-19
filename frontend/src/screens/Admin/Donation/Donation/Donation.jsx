@@ -249,7 +249,12 @@ const Donation = ({ setopendashboard }) => {
           );
           setloader(false);
         } else {
-          filterData = res.data.filter((item) => item.isActive === true);
+          filterData = res.data.filter(
+            (item) =>
+              item.isActive === true &&
+              Moment(item?.donation_date).format('YYYY-MM-DD') ===
+                Moment(new Date()).format('YYYY-MM-DD'),
+          );
           setloader(false);
         }
         setisData(filterData);

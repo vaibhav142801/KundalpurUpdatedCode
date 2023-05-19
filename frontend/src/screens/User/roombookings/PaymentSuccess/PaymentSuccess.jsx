@@ -16,25 +16,25 @@ function PaymentSuccess() {
   const [transactionID, setTransactionID] = useState(true);
   const [paymentmode, setpaymentmode] = useState(false);
   const [bookdetails, setbookdetails] = useState(null);
+  console.log('srach', search);
+  useEffect(() => {
+    if (search) {
+      let value = new URLSearchParams(search).get('t');
+      if (value) {
+        setTransactionID(value);
+      }
+    } else {
+      setTransactionID(false);
+    }
 
-  // useEffect(() => {
-  //   if (search) {
-  //     let value = new URLSearchParams(search).get('t');
-  //     if (value) {
-  //       setTransactionID(value);
-  //     }
-  //   } else {
-  //     setTransactionID(false);
-  //   }
+    serverInstance(`room/checkin`, 'get').then((res) => {
+      if (res?.data) {
+        setbookdetails(res?.data);
+      }
 
-  //   serverInstance(`room/checkin`, 'get').then((res) => {
-  //     if (res?.data) {
-  //       setbookdetails(res?.data);
-  //     }
-
-  //     console.log(res?.data.pop());
-  //   });
-  // }, [search]);
+      console.log(res?.data.pop());
+    });
+  }, [search]);
 
   useEffect(() => {
     if (location.state) {

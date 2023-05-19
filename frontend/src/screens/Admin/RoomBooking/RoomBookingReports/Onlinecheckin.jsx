@@ -81,7 +81,7 @@ const Onlinecheckin = ({ setopendashboard }) => {
       console.log(res);
       if (res.data) {
         setloader(false);
-        let filterData = res.data.filter((item) => item.modeOfBooking === 1);
+        let filterData = res.data.filter((item) => item.modeOfBooking === 2);
         setisData(filterData);
         setisDataDummy(filterData);
       }

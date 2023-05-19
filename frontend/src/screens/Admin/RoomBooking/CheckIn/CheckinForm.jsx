@@ -12,6 +12,7 @@ import CheckAvalability from './CheckAvalability';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { ReactTransliterate } from 'react-transliterate';
 import { useNavigate } from 'react-router-dom';
+
 const addressinput = {
   width: '635px',
   height: '35px',
@@ -112,6 +113,7 @@ const idproff = [
 
 function CheckinForm({ setOpen }) {
   const navigate = useNavigate();
+  const [showprocess, setshowprocess] = useState(false);
   const [lan, setlan] = useState(false);
   const [showPayDetails, setshowPayDetails] = useState(false);
   const [Paymode, setPaymode] = useState('Cash');
@@ -166,7 +168,7 @@ function CheckinForm({ setOpen }) {
   let result = [];
   const handlesubmit = async () => {
     try {
-      console.log('kkkk');
+      setshowprocess(true);
       let dataa = {
         dharamshalaname: dharamshalaname,
         chlidremc: Children,
@@ -201,9 +203,9 @@ function CheckinForm({ setOpen }) {
         state: state,
         proof: idproffname,
         idNumber: idproffno,
-        male: maleno,
-        female: femaleno,
-        child: Children,
+        male: maleno ? Number(maleno) : 0,
+        female: femaleno ? Number(femaleno) : 0,
+        child: Children ? Number(Children) : 0,
         dharmasala: dharamshalaname,
         paymentMode: paymentmode,
         modeOfBooking: 1,
@@ -220,6 +222,7 @@ function CheckinForm({ setOpen }) {
       }).then((res) => {
         if (res.data && res.data.status === true) {
           setOpen(false);
+          setshowprocess(false);
           navigate('/admin-panel/room/roombookingcetificate', {
             state: {
               data: res?.data,
@@ -229,6 +232,7 @@ function CheckinForm({ setOpen }) {
         }
         if (res.message) {
           Swal.fire('Error!', res.message, 'error');
+          setshowprocess(false);
         }
       });
     } catch (error) {
@@ -479,7 +483,13 @@ function CheckinForm({ setOpen }) {
                           onClick={() => handlesubmit()}
                           className="online_div_room_bookContinue"
                         >
-                          Save
+                          {showprocess ? (
+                            <CircularProgress
+                              style={{ width: '21px', height: '21px' }}
+                            />
+                          ) : (
+                            'Save'
+                          )}
                         </button>
                       </div>
                     </div>

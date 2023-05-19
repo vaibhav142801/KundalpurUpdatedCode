@@ -181,9 +181,20 @@ const ManualCash = ({ setopendashboard }) => {
     setsearchvalue('');
     serverInstance('user/add-elecDonation', 'get').then((res) => {
       if (res.status) {
-        let filterData = res.data.filter(
-          (item) => item.modeOfDonation === '2' && item.isActive === true,
-        );
+        let currentMonth, filterData;
+        (currentMonth = new Date().getMonth() + 1),
+          (filterData = res?.data?.filter((e) => {
+            var [_, month] = e.donation_date.split('-'); // Or, var month = e.date.split('-')[1];
+            return (
+              currentMonth === +month &&
+              e.modeOfDonation === '2' &&
+              e.isActive === true
+            );
+          }));
+        // console.log(filterData);
+        // let filterData = res.data.filter(
+        //   (item) => item.modeOfDonation === '2' && item.isActive === true,
+        // );
         setloader(false);
         setisData(filterData);
         setisDataDummy(filterData);
@@ -356,6 +367,7 @@ const ManualCash = ({ setopendashboard }) => {
       setUserType(e.target.value.toLowerCase());
     }
   };
+
   useEffect(() => {
     var filtered = isDataDummy?.filter(
       (dt) =>

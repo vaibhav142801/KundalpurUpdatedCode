@@ -218,10 +218,16 @@ const ManualDonation = ({ setopendashboard }) => {
     setdateto('');
     setvoucherfrom('');
     setvoucherto('');
+
     serverInstance('admin/manual-donation', 'get').then((res) => {
       if (res.status) {
-        setisData(res.data);
-        setisDataDummy(res.data);
+        let filterData = res.data.filter(
+          (item) =>
+            Moment(item?.donation_date).format('YYYY-MM-DD') ===
+            Moment(new Date()).format('YYYY-MM-DD'),
+        );
+        setisData(filterData);
+        setisDataDummy(filterData);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
       }

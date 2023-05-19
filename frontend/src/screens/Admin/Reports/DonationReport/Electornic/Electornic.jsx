@@ -192,10 +192,32 @@ const Electornic = ({ setopendashboard }) => {
               item.isActive === true &&
               item.created_by === empid,
           );
+          let currentMonth;
+          (currentMonth = new Date().getMonth() + 1),
+            (filterData = res?.data?.filter((e) => {
+              var [_, month] = e.donation_date.split('-'); // Or, var month = e.date.split('-')[1];
+              return (
+                currentMonth === +month &&
+                e.modeOfDonation === '1' &&
+                e.isActive === true &&
+                item.created_by === empid
+              );
+            }));
         } else {
-          filterData = res.data.filter(
-            (item) => item.modeOfDonation === '1' && item.isActive === true,
-          );
+          let currentMonth;
+          (currentMonth = new Date().getMonth() + 1),
+            (filterData = res?.data?.filter((e) => {
+              var [_, month] = e.donation_date.split('-'); // Or, var month = e.date.split('-')[1];
+              return (
+                currentMonth === +month &&
+                e.modeOfDonation === '1' &&
+                e.isActive === true
+              );
+            }));
+
+          // filterData = res.data.filter(
+          //   (item) => item.modeOfDonation === '1' && item.isActive === true,
+          // );
         }
 
         setisData(filterData);

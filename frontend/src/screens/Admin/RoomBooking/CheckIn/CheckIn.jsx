@@ -812,48 +812,104 @@ const CheckIn = ({ setopendashboard }) => {
                             >
                               Print
                             </button>
-                            <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#800000',
-                              }}
-                              onClick={() =>
-                                navigation(
-                                  '/admin-panel/Room/ForceRoomChequeOut',
-                                  {
-                                    state: {
-                                      data: row,
+                            {console.log(
+                              'hours',
+                              new Date(row?.date).getHours(),
+                              new Date(row?.date).getHours() + 2,
+                            )}
+                            {userrole === 1 && (
+                              <button
+                                style={{
+                                  width: '6rem',
+                                  marginBottom: '4px',
+                                  backgroundColor: '#800000',
+                                }}
+                                onClick={() =>
+                                  navigation(
+                                    '/admin-panel/Room/ForceRoomChequeOut',
+                                    {
+                                      state: {
+                                        data: row,
+                                      },
                                     },
-                                  },
-                                )
-                              }
-                              className="chaneRoom"
-                            >
-                              Forcecheckout
-                            </button>
-                            <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#FF0000',
-                              }}
-                              onClick={() => handleClickOpen3(row?.booking_id)}
-                              className="chaneRoom"
-                            >
-                              Cancel
-                            </button>
-                            <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#800080',
-                              }}
-                              onClick={() => handleOepn8(row)}
-                              className="chaneRoom"
-                            >
-                              RoomChange
-                            </button>
+                                  )
+                                }
+                                className="chaneRoom"
+                              >
+                                Forcecheckout
+                              </button>
+                            )}
+
+                            {userrole === 1 ? (
+                              <>
+                                {new Date(row?.date).getHours() !=
+                                new Date(row?.date).getHours() + 2 ? (
+                                  <>
+                                    <button
+                                      style={{
+                                        width: '6rem',
+                                        marginBottom: '4px',
+                                        backgroundColor: '#FF0000',
+                                      }}
+                                      onClick={() =>
+                                        handleClickOpen3(row?.booking_id)
+                                      }
+                                      className="chaneRoom"
+                                    >
+                                      Cancel
+                                    </button>
+                                    <button
+                                      style={{
+                                        width: '6rem',
+                                        marginBottom: '4px',
+                                        backgroundColor: '#800080',
+                                      }}
+                                      onClick={() => handleOepn8(row)}
+                                      className="chaneRoom"
+                                    >
+                                      RoomChange
+                                    </button>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
+                              </>
+                            ) : (
+                              <>
+                                {new Date(row?.date).getHours() !=
+                                new Date(row?.date).getHours() + 2 ? (
+                                  <>
+                                    <button
+                                      style={{
+                                        width: '6rem',
+                                        marginBottom: '4px',
+                                        backgroundColor: '#FF0000',
+                                      }}
+                                      onClick={() =>
+                                        handleClickOpen3(row?.booking_id)
+                                      }
+                                      className="chaneRoom"
+                                    >
+                                      Cancel
+                                    </button>
+                                    <button
+                                      style={{
+                                        width: '6rem',
+                                        marginBottom: '4px',
+                                        backgroundColor: '#800080',
+                                      }}
+                                      onClick={() => handleOepn8(row)}
+                                      className="chaneRoom"
+                                    >
+                                      RoomChange
+                                    </button>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
+                              </>
+                            )}
+
                             <button
                               style={{
                                 backgroundColor: '#FA7401',
