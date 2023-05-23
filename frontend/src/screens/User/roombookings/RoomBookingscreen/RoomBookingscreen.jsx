@@ -167,7 +167,7 @@ function RoomBookingscreen() {
   let updatedTIme = new Date(currentTime + 3 * 60 * 60 * 1000);
 
   const savedataIntodb = async () => {
-    setIsLoading(false);
+    setIsLoading(true);
     result = isData && isData?.available_room_numbers.slice(0, roomno);
     serverInstance('room/checkin', 'post', {
       date: checkindata.checkintime,
@@ -202,14 +202,6 @@ function RoomBookingscreen() {
       console.log('booking responce', res.data);
       if (res.data && res.data.status === true) {
         setIsLoading(false);
-
-        // navigate('/room/paymentsuccessfuly', {
-        //   state: {
-        //     data: res.data,
-        //     dharamshala: dharamshala,
-        //     checkindata: checkindata,
-        //   },
-        // });
 
         if (res.data?.data[0]?.booking_id) {
           window.location.href =

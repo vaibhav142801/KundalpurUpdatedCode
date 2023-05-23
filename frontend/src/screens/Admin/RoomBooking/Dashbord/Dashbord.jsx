@@ -1,14 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import RoomBookingTap from '../RoomBookingTap';
 import Print from '../../../../assets/Print.png';
 import Tooltip from '@mui/material/Tooltip';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import { serverInstance } from '../../../../API/ServerInstance';
+import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import './Dashbord.css';
 function Dashbord({ setopendashboard }) {
+  const [isData, setisData] = useState('');
+  const [categoryRooms, setcategoryRooms] = useState('');
+  const [loader, setloader] = useState(true);
+  const getdata = () => {
+    serverInstance('room/dharmashala-data', 'get').then((res) => {
+      setloader(true);
+      if (res?.data) {
+        setloader(false);
+        setisData(res?.data);
+      }
+    });
+  };
+
+  const getobject = (roomData) => {
+    let localityParameterSets;
+    if (roomData) {
+      localityParameterSets = Object.entries(roomData).map(([key, val]) => ({
+        name: key,
+        value: val,
+      }));
+    }
+
+    return localityParameterSets;
+  };
+
+  const getholdobject = (roomData) => {
+    let localityParameterSets;
+    if (roomData) {
+      localityParameterSets = Object.entries(roomData).map(([key, val]) => ({
+        name: key,
+        value: val,
+      }));
+    }
+
+    return localityParameterSets;
+  };
+
+  console.log('care', categoryRooms);
+  useEffect(() => {
+    getdata();
+  }, []);
+
   return (
     <>
       <RoomBookingTap setopendashboard={setopendashboard} />
@@ -28,176 +67,152 @@ function Dashbord({ setopendashboard }) {
         <h1 className="trust_text">
           श्री दिगम्बर जैन सिद्धक्षेत्र कुण्डलगिरि कुण्डलपुर दमोह (म.प्र.)
         </h1>
-        <div className="print_all_align" style={{ marginBottom: '1rem' }}>
-          <div className="only_flex">
-            <p style={{ marginTop: '0px', marginBottom: '0px' }}>Print</p>
-            <Tooltip title="Print">
-              <img
-                src={Print}
-                alt="dd"
-                style={{ width: '25px', marginLeft: '1rem' }}
-              />
-            </Tooltip>
-          </div>
-        </div>
-        <div className="table_main_div">
-          <table>
-            <tr
-              className="margintop_add"
-              style={{
-                borderBottom: '1px solid gray',
-                fontSize: '14px',
-                borderRight: '1px solid gray',
-              }}
-            >
-              <th colSpan={2}>धर्मशाला का विवरण</th>
-            </tr>
-            <tr
-              style={{
-                borderBottom: '1px solid gray',
-                borderRight: '1px solid gray',
-              }}
-            >
-              <td>Facility & Category</td>
-              <td>Available Rooms (8)</td>
-            </tr>
-            <tr
-              style={{
-                borderBottom: '1px solid gray',
-                borderRight: '1px solid gray',
-              }}
-            >
-              <td>AC 1 Bed</td>
-              <td>1-2-3-4-5-6-7-8</td>
-            </tr>
-            <tr
-              style={{
-                borderBottom: '1px solid gray',
-                borderRight: '1px solid gray',
-              }}
-            >
-              <td>Facility & Category</td>
-              <td>Available Rooms (4)</td>
-            </tr>
-            <tr
-              style={{
-                borderBottom: '1px solid gray',
-                borderRight: '1px solid gray',
-              }}
-            >
-              <td>AC 2 Bed</td>
-              <td>1-2-3-4</td>
-            </tr>
-          </table>
-          <table>
-            <tr
-              className="margintop_add"
-              style={{
-                borderBottom: '1px solid gray',
-                fontSize: '14px',
-              }}
-            >
-              <th colSpan={2}>धर्मशाला का नाम- अष्टापद (पाटनी) गेस्ट हाउस</th>
-            </tr>
-            <tr style={{ borderBottom: '1px solid gray' }}>
-              <td>Hold Room (0)</td>
-              <td>Occupied Room (0)</td>
-            </tr>
-            <tr
-              style={{
-                borderBottom: '1px solid gray',
-              }}
-            >
-              <td>0</td>
-              <td>0</td>
-            </tr>
-            <tr style={{ borderBottom: '1px solid gray' }}>
-              <td>Hold Room (0)</td>
-              <td>Occupied Room (0)</td>
-            </tr>
-            <tr
-              style={{
-                borderBottom: '1px solid gray',
-              }}
-            >
-              <td>0</td>
-              <td>0</td>
-            </tr>
-          </table>
-        </div>
-        <div
-          className="print_all_align"
-          style={{ marginBottom: '1rem', marginTop: '1rem' }}
-        >
-          <div className="only_flex">
-            <p style={{ marginTop: '0px', marginBottom: '0px' }}>Print</p>
-            <Tooltip title="Print">
-              <img
-                src={Print}
-                alt="dd"
-                style={{ width: '25px', marginLeft: '1rem' }}
-              />
-            </Tooltip>
-          </div>
-        </div>
-        <div className="table_main_div">
-          <table>
-            <tr
-              className="margintop_add"
-              style={{
-                borderBottom: '1px solid gray',
-                fontSize: '14px',
-                borderRight: '1px solid gray',
-              }}
-            >
-              <th colSpan={2}>धर्मशाला का विवरण</th>
-            </tr>
+        {isData &&
+          isData.map((item, index) => {
+            return (
+              <>
+                {/* <div
+                  className="print_all_align"
+                  style={{ marginBottom: '1rem', marginTop: '1rem' }}
+                >
+                  <div className="only_flex">
+                    <p style={{ marginTop: '0px', marginBottom: '0px' }}>
+                      Print
+                    </p>
+                    <Tooltip title="Print">
+                      <img
+                        src={Print}
+                        alt="dd"
+                        style={{ width: '25px', marginLeft: '1rem' }}
+                      />
+                    </Tooltip>
+                  </div>
+                </div> */}
+                <div className="table_main_div" key={index}>
+                  <table>
+                    <tr
+                      className="margintop_add"
+                      style={{
+                        borderBottom: '1px solid gray',
+                        fontSize: '14px',
+                        borderRight: '1px solid gray',
+                      }}
+                    >
+                      <th colSpan={2}>धर्मशाला का विवरण</th>
+                    </tr>
+                    {getobject(item?.roomData)?.length > 0 ? (
+                      <>
+                        {getobject(item?.roomData)?.map((item, index) => {
+                          return (
+                            <>
+                              <tr
+                                style={{
+                                  borderBottom: '1px solid gray',
+                                  borderRight: '1px solid gray',
+                                }}
+                              >
+                                <td>Facility & Category</td>
+                                <td>Available Rooms ({item?.value.length})</td>
+                              </tr>
+                              <tr
+                                style={{
+                                  borderBottom: '1px solid gray',
+                                  borderRight: '1px solid gray',
+                                }}
+                              >
+                                <td>{item?.name}</td>
+                                <td>
+                                  {item?.value.map((x) => {
+                                    return <span>{x},</span>;
+                                  })}
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        })}
+                      </>
+                    ) : (
+                      <>
+                        <tr
+                          style={{
+                            borderBottom: '1px solid gray',
+                            borderRight: '1px solid gray',
+                          }}
+                        >
+                          <td>Facility & Category</td>
+                          <td>Available Rooms (8)</td>
+                        </tr>
+                        <tr
+                          style={{
+                            borderBottom: '1px solid gray',
+                            borderRight: '1px solid gray',
+                          }}
+                        >
+                          <td>.....</td>
+                          <td>0</td>
+                        </tr>
+                      </>
+                    )}
+                  </table>
+                  <table>
+                    <tr
+                      className="margintop_add"
+                      style={{
+                        borderBottom: '1px solid gray',
+                        fontSize: '14px',
+                      }}
+                    >
+                      <th colSpan={2}>धर्मशाला का नाम-{item?.name}</th>
+                    </tr>
 
-            <tr
-              style={{
-                borderBottom: '1px solid gray',
-                borderRight: '1px solid gray',
-              }}
-            >
-              <td>Facility & Category</td>
-              <td>Available Rooms (4)</td>
-            </tr>
-            <tr
-              style={{
-                borderBottom: '1px solid gray',
-                borderRight: '1px solid gray',
-              }}
-            >
-              <td>AC 2 Bed</td>
-              <td>1-2-3-4</td>
-            </tr>
-          </table>
-          <table>
-            <tr
-              className="margintop_add"
-              style={{
-                borderBottom: '1px solid gray',
-
-                fontSize: '14px',
-              }}
-            >
-              <th colSpan={2}>धर्मशाला का नाम- अष्टापद (पाटनी) गेस्ट हाउस</th>
-            </tr>
-            <tr style={{ borderBottom: '1px solid gray' }}>
-              <td>Hold Room (0)</td>
-              <td>Occupied Room (0)</td>
-            </tr>
-            <tr
-              style={{
-                borderBottom: '1px solid gray',
-              }}
-            >
-              <td>0</td>
-              <td>0</td>
-            </tr>
-          </table>
-        </div>
+                    {getholdobject(item?.holdinData)?.length > 0 ? (
+                      <>
+                        {getholdobject(item?.holdinData).map((item) => {
+                          return (
+                            <>
+                              <tr style={{ borderBottom: '1px solid gray' }}>
+                                <td>Hold Room ({item?.value.length})</td>
+                                <td>Occupied Room (0)</td>
+                              </tr>
+                              <tr
+                                style={{
+                                  borderBottom: '1px solid gray',
+                                }}
+                              >
+                                <td>
+                                  {item?.value.map((x) => {
+                                    return <span>{x},</span>;
+                                  })}
+                                </td>
+                                <td>0</td>
+                              </tr>
+                            </>
+                          );
+                        })}
+                      </>
+                    ) : (
+                      <>
+                        <tr style={{ borderBottom: '1px solid gray' }}>
+                          <td>Hold Room (0)</td>
+                          <td>Occupied Room (0)</td>
+                        </tr>
+                        <tr
+                          style={{
+                            borderBottom: '1px solid gray',
+                          }}
+                        >
+                          <td>0</td>
+                          <td>0</td>
+                        </tr>
+                      </>
+                    )}
+                  </table>
+                </div>
+              </>
+            );
+          })}
       </div>
+      {loader && <LoadingSpinner1 />}
     </>
   );
 }

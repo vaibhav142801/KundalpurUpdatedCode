@@ -193,6 +193,21 @@ function Holdfrom({ setOpen }) {
         <div className="cash-donation-container-innser">
           <div className="form-div" style={{ marginBottom: '1rem' }}>
             <div className="form-input-div_add_user">
+              <div className="inner-input-div2">
+                <label
+                  style={{ marginBottom: '0.3rem' }}
+                  htmlFor="holdermobile"
+                >
+                  Holder Mobile No.
+                </label>
+                <CustomInput
+                  id="holdermobile"
+                  name="holdermobile"
+                  placeholder="Enter  Holder Mobile No."
+                  value={holdermobile}
+                  onChange={(e) => setholdermobile(e.target.value)}
+                />
+              </div>
               {lan ? (
                 <>
                   <div className="inner-input-div2">
@@ -235,22 +250,6 @@ function Holdfrom({ setOpen }) {
                   </div>
                 </>
               )}
-
-              <div className="inner-input-div2">
-                <label
-                  style={{ marginBottom: '0.3rem' }}
-                  htmlFor="holdermobile"
-                >
-                  Holder Mobile No.
-                </label>
-                <CustomInput
-                  id="holdermobile"
-                  name="holdermobile"
-                  placeholder="Enter  Holder Mobile No."
-                  value={holdermobile}
-                  onChange={(e) => setholdermobile(e.target.value)}
-                />
-              </div>
 
               <div className="inner-input-div2">
                 <label

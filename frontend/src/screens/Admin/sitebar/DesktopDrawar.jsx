@@ -313,7 +313,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
             {
               id: 4.6,
               name: 'All Reports',
-              link: 'allreport/allhead',
+              link: 'allreport/allconsolidated',
               active: false,
               icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
               subTabs: [],
@@ -344,7 +344,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
             {
               id: 4.6,
               name: 'All Reports',
-              link: 'allreport/allhead',
+              link: 'allreport/allconsolidated',
               active: false,
               icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
               subTabs: [],
@@ -375,7 +375,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
             {
               id: 4.6,
               name: 'All Reports',
-              link: 'allreport/allhead',
+              link: 'allreport/allconsolidated',
               active: false,
               icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
               subTabs: [],

@@ -962,7 +962,7 @@ const ManualCash = ({ setopendashboard }) => {
                         })}
                       </TableCell>
                       <TableCell>
-                        <Tooltip title="Vew Details">
+                        {/* <Tooltip title="Vew Details">
                           <img
                             onClick={() =>
                               navigation(
@@ -973,7 +973,7 @@ const ManualCash = ({ setopendashboard }) => {
                             alt="print"
                             style={{ width: '20px', marginRight: '2px' }}
                           />
-                        </Tooltip>
+                        </Tooltip> */}
 
                         {userrole === 1 || emproleid === 0 ? (
                           <Tooltip title="Edit Donation">

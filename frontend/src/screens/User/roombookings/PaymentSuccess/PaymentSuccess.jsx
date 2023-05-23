@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import ok from '../../../../assets/ok.png';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { serverInstance } from '../../../../API/ServerInstance';
@@ -13,29 +12,40 @@ function PaymentSuccess() {
   const [isData, setisData] = useState('');
   const [dharamshalaname, setdharamshalaname] = useState('');
   const [checkinda, setcheckinda] = useState('');
-  const [transactionID, setTransactionID] = useState(true);
-  const [paymentmode, setpaymentmode] = useState(false);
+  const [transactionID, setTransactionID] = useState('');
   const [bookdetails, setbookdetails] = useState(null);
-  console.log('srach', search);
+  const [paymentid, setpaymentid] = useState('');
+  const [bookingid, setbookingid] = useState('');
   useEffect(() => {
     if (search) {
       let value = new URLSearchParams(search).get('t');
+      let bookingId = new URLSearchParams(search).get('booking_id');
       if (value) {
-        setTransactionID(value);
+        setTransactionID(true);
+
+        setpaymentid(value);
+        setbookingid(bookingId);
+        serverInstance(`/room/booking-info/${bookingId}`, 'GET').then((res) => {
+          if (res?.data) {
+            setbookdetails(res?.data);
+            console.log('booking data', res?.data);
+          }
+
+          console.log('booking data', res);
+        });
       }
     } else {
       setTransactionID(false);
     }
-
-    serverInstance(`room/checkin`, 'get').then((res) => {
-      if (res?.data) {
-        setbookdetails(res?.data);
-      }
-
-      console.log(res?.data.pop());
-    });
   }, [search]);
-
+  console.log(
+    'PaymentId',
+    paymentid,
+    'id',
+    bookingid,
+    'bookigndaat',
+    bookdetails,
+  );
   useEffect(() => {
     if (location.state) {
       setisData(location?.state?.data?.data);
@@ -112,7 +122,7 @@ function PaymentSuccess() {
                       Number(isData[0]?.advanceAmount) *
                         Number(isData[0]?.nRoom)}
                   </p>
-                  <p>125362547859</p>
+                  <p>{paymentid}</p>
                 </div>
               </div>
               <div className="payment_btn_duvvvvvv">
@@ -142,12 +152,12 @@ function PaymentSuccess() {
             <>
               <div className="mainFail_div">
                 <p className="payment-description">
-                  Your payment is failed.Don't worry if its deducted from you
+                  Your payment is failed.Don't worry if its deducted from Your
                   bank account then it will refund soon. You can try again
                   by&nbsp;&nbsp;
                   <span
                     style={{ color: 'blue' }}
-                    onClick={() => navigate('/admin-panel/room/checkin')}
+                    onClick={() => navigate('/roombooking')}
                   >
                     clicking here
                   </span>

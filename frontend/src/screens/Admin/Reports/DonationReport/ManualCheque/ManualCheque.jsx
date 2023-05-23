@@ -1061,14 +1061,14 @@ const ManualCheque = ({ setopendashboard }) => {
                         })}
                       </TableCell>
                       <TableCell>
-                        <img
+                        {/* <img
                           onClick={() =>
                             navigation(`/admin-panel/infoElectronic/${row?.id}`)
                           }
                           src={eye}
                           alt="print"
                           style={{ width: '20px', marginRight: '2px' }}
-                        />
+                        /> */}
 
                         {userrole === 1 || emproleid === 0 ? (
                           <img

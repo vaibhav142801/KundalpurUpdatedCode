@@ -341,122 +341,6 @@ function AddRoomForm({ setOpen }) {
                   </div>
 
                   <div className="inner-input-div2">
-                    <label
-                      style={{ marginBottom: '0.3rem' }}
-                      htmlFor="fromroomno"
-                    >
-                      From Room Range
-                    </label>
-                    <CustomInput
-                      id="fromroomno"
-                      name="fromroomno"
-                      placeholder="Enter the from range"
-                      value={fromroomno}
-                      onChange={(e) => setfromroomno(e.target.value)}
-                    />
-                  </div>
-                  <div className="inner-input-div2">
-                    <label
-                      style={{ marginBottom: '0.3rem' }}
-                      htmlFor="toroomno"
-                    >
-                      To Room Range
-                    </label>
-                    <CustomInput
-                      id="toroomno"
-                      name="toroomno"
-                      placeholder="Enter the to room range"
-                      value={toroomno}
-                      onChange={(e) => settoroomno(e.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="form-div" style={{ marginBottom: '1rem' }}>
-                <div className="form-input-div_add_user">
-                  <div className="inner-input-div2">
-                    <label
-                      style={{ marginBottom: '0.3rem' }}
-                      htmlFor="categroyname"
-                    >
-                      Category
-                    </label>
-                    <Select
-                      multiple
-                      id="categroyname"
-                      required
-                      sx={{
-                        width: '280px',
-                        fontSize: 14,
-                        '& .MuiSelect-select': {
-                          // borderColor: !!formerror.donationtype ? 'red' : '',
-                          padding: '10px 0px 10px 10px',
-                          background: '#fff',
-                        },
-                      }}
-                      value={categroyname}
-                      name="categroyname[]"
-                      onChange={(e) => setcategroyname(e.target.value)}
-                      displayEmpty
-                    >
-                      <MenuItem
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={'Please select'}
-                      >
-                        Please select
-                      </MenuItem>
-                      {category &&
-                        category.map((item) => {
-                          return (
-                            <MenuItem
-                              sx={{
-                                fontSize: 14,
-                              }}
-                              key={item.category_id}
-                              value={item.category_id}
-                            >
-                              {item.name}
-                            </MenuItem>
-                          );
-                        })}
-                    </Select>
-                  </div>
-
-                  <div className="inner-input-div2">
-                    <label style={{ marginBottom: '0.3rem' }} htmlFor="toNo">
-                      Room Price
-                    </label>
-                    <CustomInput
-                      id="rate"
-                      name="rate"
-                      placeholder="Enter the rate"
-                      value={rate}
-                      onChange={(e) => setrate(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="inner-input-div2">
-                    <label
-                      style={{ marginBottom: '0.3rem' }}
-                      htmlFor="advncerate"
-                    >
-                      Advance Amount
-                    </label>
-                    <CustomInput
-                      id="advncerate"
-                      name="advncerate"
-                      placeholder="Enter the rate"
-                      value={advncerate}
-                      onChange={(e) => setadvncerate(e.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="form-div" style={{ marginBottom: '1rem' }}>
-                <div className="form-input-div_add_user">
-                  <div className="inner-input-div2">
                     <label style={{ marginBottom: '0.3rem' }} htmlFor="toNo">
                       Facilities
                     </label>
@@ -506,20 +390,135 @@ function AddRoomForm({ setOpen }) {
                   <div className="inner-input-div2">
                     <label
                       style={{ marginBottom: '0.3rem' }}
+                      htmlFor="categroyname"
+                    >
+                      Category
+                    </label>
+                    <Select
+                      multiple
+                      id="categroyname"
+                      required
+                      sx={{
+                        width: '280px',
+                        fontSize: 14,
+                        '& .MuiSelect-select': {
+                          // borderColor: !!formerror.donationtype ? 'red' : '',
+                          padding: '10px 0px 10px 10px',
+                          background: '#fff',
+                        },
+                      }}
+                      value={categroyname}
+                      name="categroyname[]"
+                      onChange={(e) => setcategroyname(e.target.value)}
+                      displayEmpty
+                    >
+                      <MenuItem
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={'Please select'}
+                      >
+                        Please select
+                      </MenuItem>
+                      {category &&
+                        category.map((item) => {
+                          return (
+                            <MenuItem
+                              sx={{
+                                fontSize: 14,
+                              }}
+                              key={item.category_id}
+                              value={item.category_id}
+                            >
+                              {item.name}
+                            </MenuItem>
+                          );
+                        })}
+                    </Select>
+                  </div>
+                </div>
+              </div>
+              <div className="form-div" style={{ marginBottom: '1rem' }}>
+                <div className="form-input-div_add_user">
+                  <div className="inner-input-div2">
+                    <label
+                      style={{ marginBottom: '0.3rem' }}
+                      htmlFor="fromroomno"
+                    >
+                      From Room Range
+                    </label>
+                    <CustomInput
+                      id="fromroomno"
+                      name="fromroomno"
+                      placeholder="Enter the from range"
+                      value={fromroomno}
+                      onChange={(e) => setfromroomno(e.target.value)}
+                    />
+                  </div>
+                  <div className="inner-input-div2">
+                    <label
+                      style={{ marginBottom: '0.3rem' }}
+                      htmlFor="toroomno"
+                    >
+                      To Room Range
+                    </label>
+                    <CustomInput
+                      id="toroomno"
+                      name="toroomno"
+                      placeholder="Enter the to room range"
+                      value={toroomno}
+                      onChange={(e) => settoroomno(e.target.value)}
+                    />
+                  </div>
+                  <div className="inner-input-div2">
+                    <label
+                      style={{ marginBottom: '0.3rem' }}
                       htmlFor="donation-time"
                     >
                       Check Out Time
                     </label>
                     <CustomInput
-                      type="time"
+                      type="Text"
                       id="donation-time"
                       name="checkout"
-                      placeholder="Enter the rate"
+                      placeholder="Enter Check Out Time "
                       value={checkout}
                       onChange={(e) => setcheckout(e.target.value)}
                     />
                   </div>
+                </div>
+              </div>
 
+              <div className="form-div" style={{ marginBottom: '1rem' }}>
+                <div className="form-input-div_add_user">
+                  <div className="inner-input-div2">
+                    <label style={{ marginBottom: '0.3rem' }} htmlFor="toNo">
+                      Room Price
+                    </label>
+                    <CustomInput
+                      id="rate"
+                      name="rate"
+                      placeholder="Enter the rate"
+                      value={rate}
+                      onChange={(e) => setrate(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="inner-input-div2">
+                    <label
+                      style={{ marginBottom: '0.3rem' }}
+                      htmlFor="advncerate"
+                    >
+                      Advance Amount
+                    </label>
+                    <CustomInput
+                      id="advncerate"
+                      name="advncerate"
+                      placeholder="Enter the rate"
+                      value={advncerate}
+                      onChange={(e) => setadvncerate(e.target.value)}
+                    />
+                  </div>
                   <div className="inner-input-div2">
                     <label
                       style={{ marginBottom: '0.3rem' }}

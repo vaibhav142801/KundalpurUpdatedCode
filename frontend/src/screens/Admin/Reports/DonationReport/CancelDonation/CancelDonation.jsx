@@ -966,7 +966,7 @@ const CancelDonation = ({ setopendashboard }) => {
                         })}
                       </TableCell>
                       <TableCell>
-                        <Tooltip title="Vew Details">
+                        {/* <Tooltip title="Vew Details">
                           <img
                             onClick={() =>
                               navigation(
@@ -977,7 +977,7 @@ const CancelDonation = ({ setopendashboard }) => {
                             alt="print"
                             style={{ width: '20px', marginRight: '2px' }}
                           />
-                        </Tooltip>
+                        </Tooltip> */}
 
                         {userrole === 1 && (
                           <Tooltip title="Edit Donation">

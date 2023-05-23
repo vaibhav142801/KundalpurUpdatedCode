@@ -50,7 +50,7 @@ const AddRoom = ({ setopendashboard }) => {
   const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(50);
   const [userrole, setuserrole] = useState('');
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
@@ -325,6 +325,22 @@ const AddRoom = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
+                  Facilities
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('facility_name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Category Name
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('category_name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
                   From Room
                   <i
                     style={{ marginLeft: '0.5rem' }}
@@ -341,18 +357,10 @@ const AddRoom = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Facilities
+                  Check out Time
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('facility_name')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  Category Name
-                  <i
-                    style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('category_name')}
+                    onClick={() => sortData('coTime')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -372,14 +380,7 @@ const AddRoom = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
-                  Check out Time
-                  <i
-                    style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('coTime')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
+
                 <TableCell>
                   Room Type
                   <i
@@ -409,13 +410,14 @@ const AddRoom = ({ setopendashboard }) => {
                     >
                       <TableCell>{index + 1}</TableCell>
                       <TableCell>{row?.dharmasala?.name}</TableCell>
-                      <TableCell>{row?.FroomNo}</TableCell>
-                      <TableCell>{row?.TroomNo}</TableCell>
                       <TableCell>{row?.facility_name}</TableCell>
                       <TableCell>{row?.category_name}</TableCell>
+                      <TableCell>{row?.FroomNo}</TableCell>
+                      <TableCell>{row?.TroomNo}</TableCell>
+                      <TableCell>{row?.coTime}</TableCell>
                       <TableCell>{row?.Rate}</TableCell>
                       <TableCell>{row?.advance}</TableCell>
-                      <TableCell>{row?.coTime}</TableCell>
+
                       <TableCell>
                         {row?.roomType === 0 && 'Online'}{' '}
                         {row?.roomType === 1 && ' Offline'}
@@ -462,7 +464,7 @@ const AddRoom = ({ setopendashboard }) => {
                   page={page}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
-                  rowsPerPageOptions={[5, 10, 25]}
+                  rowsPerPageOptions={[50, 100, 225]}
                   labelRowsPerPage={<span>Rows:</span>}
                   labelDisplayedRows={({ page }) => {
                     return `Page: ${page}`;

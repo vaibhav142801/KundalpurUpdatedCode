@@ -38,13 +38,14 @@ import TotalAdvance from './TotalAdvance';
 import Totalguest from './Totalguest';
 import Printcheckin from './Printcheckin';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
+import ForceCheckoutOptions from './ForceCheckoutOptions';
 import './Checkin.css';
 const style = {
   position: 'absolute',
   top: '47%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '80%',
+  width: 'auto',
   bgcolor: 'background.paper',
   p: 2,
   boxShadow: 24,
@@ -67,6 +68,13 @@ const CheckIn = ({ setopendashboard }) => {
   const handleClose1 = () => setOpen1(false);
   const handleOepn1 = () => {
     setOpen1(true);
+  };
+  const [row, setrow] = useState('');
+  const [open2, setOpen2] = React.useState(false);
+  const handleClose2 = () => setOpen1(false);
+  const handleOepn2 = (row) => {
+    setrow(row);
+    setOpen2(true);
   };
   const [open8, setOpen8] = React.useState(false);
   const [changedata8, setchangedata8] = useState('');
@@ -477,7 +485,39 @@ const CheckIn = ({ setopendashboard }) => {
                   <CloseIcon onClick={() => handleClose1()} />
                 </IconButton>
               </div>
-              <Printcheckin isData={isData} setOpen1={setOpen1} />;
+              <Printcheckin isData={isData} setOpen1={handleClose1} row={row} />
+              ;
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open2}
+        onClose={handleClose2}
+        closeAfterTransition
+      >
+        <Fade in={open2}>
+          <Box sx={style}>
+            <div>
+              <div className="add-div-close-div">
+                <div style={{ marginLeft: '0rem', marginBottom: '1rem' }}>
+                  <h2 style={{ marginBottom: '0rem' }}>
+                    force Checkout option
+                  </h2>
+                  <Typography variant="body2" color="primary">
+                    {currDate} / {currTime}
+                  </Typography>
+                </div>
+                <IconButton>
+                  <CloseIcon
+                    // style={{ marginBottom: '3rem' }}
+                    onClick={() => setOpen2(false)}
+                  />
+                </IconButton>
+              </div>
+              <ForceCheckoutOptions setOpen={setOpen2} row={row} />
             </div>
           </Box>
         </Fade>
@@ -817,6 +857,8 @@ const CheckIn = ({ setopendashboard }) => {
                               'hours',
                               new Date(row?.date).getHours(),
                               new Date(row?.date).getHours() + 2,
+                              new Date().getHours(),
+                              new Date().getHours() + 2,
                             )}
                             {userrole === 1 && (
                               <button
@@ -825,16 +867,7 @@ const CheckIn = ({ setopendashboard }) => {
                                   marginBottom: '4px',
                                   backgroundColor: '#800000',
                                 }}
-                                onClick={() =>
-                                  navigation(
-                                    '/admin-panel/Room/ForceRoomChequeOut',
-                                    {
-                                      state: {
-                                        data: row,
-                                      },
-                                    },
-                                  )
-                                }
+                                onClick={() => handleOepn2(row)}
                                 className="chaneRoom"
                               >
                                 Forcecheckout
