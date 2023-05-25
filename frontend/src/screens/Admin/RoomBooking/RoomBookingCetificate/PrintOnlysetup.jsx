@@ -31,6 +31,9 @@ function PrintOnlysetup({ setopendashboard }) {
       setisData(location.state?.data);
     }
     setopendashboard(true);
+    setTimeout(() => {
+      handlePrint();
+    }, 10);
   }, []);
   console.log('certificate', isData);
 
@@ -72,7 +75,7 @@ function PrintOnlysetup({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginLeft: '1.3rem', marginTop: '5rem' }}
+            style={{ marginLeft: '0rem', marginTop: '5rem' }}
           >
             <div style={{ backgroundColor: '#01B0F1' }}>
               <p className="yadda_text lineheight">यात्री आगमन रसीद</p>
@@ -212,7 +215,8 @@ function PrintOnlysetup({ setopendashboard }) {
                       {Number(isData && isData?.roomAmount)}
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.advanceAmount)}
+                      {Number(isData && isData?.advanceAmount) +
+                        Number(isData && isData?.roomAmount)}
                     </td>
 
                     {/* <td className="table_tddd">

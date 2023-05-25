@@ -58,8 +58,7 @@ const ReceiptBooking = ({}) => {
 
   let difference = today.getTime() - today1.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
-
-  console.log(TotalDays);
+  let days = TotalDays === 1 ? 1 : TotalDays - 1;
   useEffect(() => {
     if (location.state) {
       setisData(location?.state?.data);
@@ -265,13 +264,13 @@ const ReceiptBooking = ({}) => {
                                 <td className="table_tddd lineheight10">
                                   {isData[0]?.nRoom *
                                     Number(isData[0]?.roomAmount) *
-                                    Number(TotalDays)}
+                                    Number(days)}
                                 </td>
 
                                 <td className="table_tddd lineheight10">
                                   {isData[0]?.nRoom *
                                     Number(isData[0]?.roomAmount) *
-                                    Number(TotalDays) +
+                                    Number(days) +
                                     isData[0]?.nRoom *
                                       Number(isData[0]?.advanceAmount)}
                                 </td>

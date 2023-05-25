@@ -30,6 +30,9 @@ function ForcePrint({ setopendashboard }) {
     if (location.state) {
       setisData(location.state?.data);
     }
+    setTimeout(() => {
+      handlePrint();
+    }, 10);
     setopendashboard(true);
   }, []);
   console.log('certificate', isData);
@@ -45,7 +48,7 @@ function ForcePrint({ setopendashboard }) {
     hour12: true,
   });
 
-  var today1 = new Date(isData && isData?.coutDate);
+  var today1 = new Date();
   const currDatecheckout = today1
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -57,6 +60,7 @@ function ForcePrint({ setopendashboard }) {
 
   let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+  let days = TotalDays === 1 ? 1 : TotalDays - 1;
   return (
     <>
       <div
@@ -126,7 +130,7 @@ function ForcePrint({ setopendashboard }) {
                     {currDate} / {currTime}
                   </p>
 
-                  <p className="lineheight">{TotalDays && TotalDays} Days</p>
+                  <p className="lineheight">{days}&nbsp; Days</p>
                   <p className="lineheight">{isData && isData?.city}</p>
                 </div>
               </div>
@@ -229,18 +233,19 @@ function ForcePrint({ setopendashboard }) {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount)}
+                      {Number(isData && isData?.roomAmount) * days}
                       .00
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.advanceAmount)}
+                      {Number(isData && isData?.advanceAmount) +
+                        Number(isData && isData?.roomAmount) * days}
                       .00
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) *
-                        (Number(1) + Number(1)) -
-                        Number(isData && isData?.roomAmount) *
-                          (Number(1) + Number(1))}
+                      {Number(isData && isData?.advanceAmount) +
+                        Number(isData && isData?.roomAmount) * days -
+                        (Number(isData && isData?.advanceAmount) +
+                          Number(isData && isData?.roomAmount) * days)}
                       .00
                     </td>
                     {/* <td className="table_tddd">
@@ -258,7 +263,7 @@ function ForcePrint({ setopendashboard }) {
                   marginBottom: '0.5rem',
                 }}
               >
-                Admin
+                {isData && isData?.bookedByName}
               </p>
             </div>
           </div>

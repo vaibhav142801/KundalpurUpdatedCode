@@ -45,7 +45,7 @@ const style = {
   top: '47%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 'auto',
+  width: '80%',
   bgcolor: 'background.paper',
   p: 2,
   boxShadow: 24,
@@ -867,7 +867,16 @@ const CheckIn = ({ setopendashboard }) => {
                                   marginBottom: '4px',
                                   backgroundColor: '#800000',
                                 }}
-                                onClick={() => handleOepn2(row)}
+                                onClick={() =>
+                                  navigation(
+                                    '/admin-panel/Room/ForceRoomChequeOut',
+                                    {
+                                      state: {
+                                        data: row,
+                                      },
+                                    },
+                                  )
+                                }
                                 className="chaneRoom"
                               >
                                 Forcecheckout

@@ -31,12 +31,10 @@ function RoomBookingPrint({ setopendashboard }) {
       setcheckindata(location?.state?.checkindata);
     }
 
-    console.log(
-      'data from certifucate',
-      location?.state?.data,
-      location?.state?.checkindata,
-    );
     setopendashboard(true);
+    setTimeout(() => {
+      handlePrint();
+    }, 10);
   }, []);
   console.log('certificate', isData);
 
@@ -212,7 +210,7 @@ function RoomBookingPrint({ setopendashboard }) {
                                   )}
                               </td> */}
                     <td className="table_tddd lineheight10">
-                      {isData && isData[0]?.nRoom < 1 ? (
+                      {isData && isData[0]?.nRoom === 1 ? (
                         <>
                           {isData &&
                             isData.map((item) => {

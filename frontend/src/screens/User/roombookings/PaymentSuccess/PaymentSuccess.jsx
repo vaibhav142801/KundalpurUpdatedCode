@@ -27,11 +27,8 @@ function PaymentSuccess() {
         setbookingid(bookingId);
         serverInstance(`/room/booking-info/${bookingId}`, 'GET').then((res) => {
           if (res?.data) {
-            setbookdetails(res?.data);
-            console.log('booking data', res?.data);
+            setisData(res?.data);
           }
-
-          console.log('booking data', res);
         });
       }
     } else {
@@ -48,7 +45,6 @@ function PaymentSuccess() {
   );
   useEffect(() => {
     if (location.state) {
-      setisData(location?.state?.data?.data);
       setcheckinda(location?.state?.checkindata);
       setdharamshalaname(location?.state?.categoryname);
     }

@@ -185,19 +185,19 @@ const Itemdonation = ({ setopendashboard }) => {
     serverInstance('user/add-elecDonation', 'get').then((res) => {
       if (res.status) {
         setloader(false);
-        let currentMonth, filterData;
-        (currentMonth = new Date().getMonth() + 1),
-          (filterData = res?.data?.filter((e) => {
-            var [_, month] = e.donation_date.split('-'); // Or, var month = e.date.split('-')[1];
-            return (
-              currentMonth === +month &&
-              e.modeOfDonation === '4' &&
-              e.isActive === true
-            );
-          }));
-        // let filterData = res.data.filter(
-        //   (item) => item.modeOfDonation === '4' && item.isActive === true,
-        // );
+        // let currentMonth, filterData;
+        // (currentMonth = new Date().getMonth() + 1),
+        //   (filterData = res?.data?.filter((e) => {
+        //     var [_, month] = e.donation_date.split('-'); // Or, var month = e.date.split('-')[1];
+        //     return (
+        //       currentMonth === +month &&
+        //       e.modeOfDonation === '4' &&
+        //       e.isActive === true
+        //     );
+        //   }));
+        let filterData = res.data.filter(
+          (item) => item.modeOfDonation === '4' && item.isActive === true,
+        );
 
         setisData(filterData);
         setisDataDummy(filterData);
@@ -973,6 +973,7 @@ const Itemdonation = ({ setopendashboard }) => {
             <TableBody>
               <TableCell>
                 <input
+                  id="donation-date"
                   className="cuolms_search"
                   type="date"
                   onChange={(e) => onSearchByOther(e, 'Date')}

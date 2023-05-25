@@ -643,6 +643,7 @@ const Cheque = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
+                    id="donation-date"
                     style={{ width: '100%' }}
                     className="cuolms_search"
                     type="date"
@@ -705,6 +706,7 @@ const Cheque = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
+                    id="donation-date"
                     className="cuolms_search"
                     type="date"
                     onChange={(e) => onSearchByOther(e, 'subdate')}

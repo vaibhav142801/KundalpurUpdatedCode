@@ -184,11 +184,14 @@ const CancelDonation = ({ setopendashboard }) => {
       if (res.status) {
         setloader(false);
         if (emproleid === 7) {
+          // filterData = res.data.filter(
+          //   (item) =>
+          //     item.modeOfDonation === '1' &&
+          //     item.isActive === false &&
+          //     item.created_by === empid,
+          // );
           filterData = res.data.filter(
-            (item) =>
-              item.modeOfDonation === '1' &&
-              item.isActive === false &&
-              item.created_by === empid,
+            (item) => item.isActive === false && item.created_by === empid,
           );
         } else {
           filterData = res.data.filter((item) => item.isActive === false);
@@ -828,6 +831,7 @@ const CancelDonation = ({ setopendashboard }) => {
             <TableBody>
               <TableCell>
                 <input
+                  id="donation-date"
                   className="cuolms_search"
                   type="date"
                   onChange={(e) => onSearchByOther(e, 'Date')}

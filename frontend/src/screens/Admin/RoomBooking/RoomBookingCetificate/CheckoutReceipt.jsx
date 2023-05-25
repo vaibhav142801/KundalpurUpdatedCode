@@ -32,7 +32,6 @@ const CheckoutReceipt = ({ setopendashboard }) => {
             data: isData,
           },
         });
-        Swal.fire('Great!', res.data.data.message, 'success');
       }
     } catch (error) {
       console.log(error);
@@ -61,7 +60,7 @@ const CheckoutReceipt = ({ setopendashboard }) => {
     hour12: true,
   });
 
-  var today1 = new Date(isData && isData?.coutDate);
+  var today1 = new Date();
   const currDatecheckout = today1
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -73,7 +72,7 @@ const CheckoutReceipt = ({ setopendashboard }) => {
 
   let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
-
+  let days = TotalDays === 1 ? 1 : TotalDays - 1;
   useEffect(() => {
     if (location.state) {
       setisData(location?.state?.data);
@@ -217,9 +216,7 @@ const CheckoutReceipt = ({ setopendashboard }) => {
                                 {currDate} / {currTime}
                               </p>
 
-                              <p className="lineheight">
-                                {TotalDays && TotalDays} Days
-                              </p>
+                              <p className="lineheight">{days} Days</p>
                               <p className="lineheight">
                                 {isData && isData?.city}
                               </p>
@@ -334,13 +331,21 @@ const CheckoutReceipt = ({ setopendashboard }) => {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmount)}
+                                  {Number(isData && isData?.roomAmount) *
+                                    Number(days)}
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.advanceAmount)}
+                                  {Number(isData && isData?.advanceAmount) +
+                                    Number(isData && isData?.roomAmount) *
+                                      Number(days)}
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.advanceAmount)}
+                                  {Number(isData && isData?.advanceAmount) +
+                                    Number(isData && isData?.roomAmount) *
+                                      days -
+                                    Number(isData && isData?.roomAmount) *
+                                      Number(days)}
+                                  .00
                                 </td>
                                 {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *
@@ -357,7 +362,7 @@ const CheckoutReceipt = ({ setopendashboard }) => {
                               marginBottom: '0.5rem',
                             }}
                           >
-                            Admin
+                            {isData && isData?.bookedByName}
                           </p>
                         </div>
                       </div>

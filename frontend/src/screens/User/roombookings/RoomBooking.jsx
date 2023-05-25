@@ -8,7 +8,7 @@ import ServicesandFacilities from './Services&Facilities/ServicesandFacilities';
 import { serverInstance } from '../../../API/ServerInstance';
 import Moment from 'moment-js';
 import moment from 'moment';
-import { MenuItem, Menu, Select } from '@mui/material';
+import { MenuItem, Menu, Select, Button } from '@mui/material';
 import { backendApiUrl, backendUrl } from '../../../config/config';
 import RoomCard1 from '../roombookings/AllAcards/RoomCard1';
 import LoadingSpinner from '../../../components/Loading/LoadingSpinner';
@@ -88,6 +88,7 @@ function RoomBooking({ setroomfilterdata }) {
   const [minDateTime, setMinDateTime] = useState(
     new Date().toISOString().slice(0, 16),
   );
+  const [applyshow, setapplyshow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showresuilt, setshowresuilt] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -98,7 +99,6 @@ function RoomBooking({ setroomfilterdata }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const [filterdata, setfilterdata] = useState('');
   const [dharamshalalist, setdharamshalalist] = useState('');
   const [dharamshalaname, setdharamshalaname] = useState('Select');
@@ -336,6 +336,20 @@ function RoomBooking({ setroomfilterdata }) {
             </Select>
           </div>
         </MenuItem>
+        <MenuItem>
+          <div>
+            <Button
+              onClick={() => {
+                handleClose();
+
+                setapplyshow(true);
+              }}
+              className="apply_btnn"
+            >
+              Apply
+            </Button>
+          </div>
+        </MenuItem>
       </Menu>
 
       <div className="main_room_availabilty">
@@ -444,15 +458,17 @@ function RoomBooking({ setroomfilterdata }) {
                 value={checkouttime}
               />
             </div>
-            <div className="main_div_select_div">
-              <label className="labbelddd">
+            <div className="main_div_select_div" style={{ width: '25%' }}>
+              <span className="labbelddd">
                 <img
                   style={{ width: '8%', marginRight: '1%' }}
                   src={homee}
                   alt="dd"
                 />
-                Rooms For
-              </label>
+                Rooms {applyshow ? roomcount : '0'} Children
+                {applyshow ? chlidremc : '0'}, Adults
+                {applyshow ? abcount : '0'}
+              </span>
 
               <div onClick={handleClick} className="select_person_div">
                 Select

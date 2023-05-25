@@ -272,7 +272,7 @@ const ItemDonation = ({
           if (res.data.status === true) {
             handleClose();
             setshowloader(false);
-            sendsms(totalamount, res.data.data.message.data.ReceiptNo);
+            sendsms(totalamount, res?.data?.data?.message?.data);
             navigation('/reciept', {
               state: {
                 userdata: res.data.data.message.data,
@@ -310,15 +310,27 @@ const ItemDonation = ({
     }
   };
 
-  const sendsms = async (totalamount, ReceiptNo) => {
+  const sendsms = async (totalamount, data) => {
     try {
       axios.defaults.headers.post[
         'Authorization'
       ] = `Bearer ${sessionStorage.getItem('token')}`;
       const res = await axios.post(`${backendApiUrl}user/sms`, {
         mobile: mobileNo,
-        amount: totalamount,
-        rno: ReceiptNo,
+        amount: data?.elecItemDetails?.map((item) => {
+          return (
+            <>
+              {item?.remark}
+              {item?.itemType && (
+                <>
+                  ( {item?.itemType}-{item?.quantity}
+                  {item?.size} {item?.unit})
+                </>
+              )}
+            </>
+          );
+        }),
+        rno: data?.ReceiptNo,
       });
     } catch (error) {}
   };

@@ -313,7 +313,8 @@ const Onlyprint = ({ setopendashboard }) => {
                                   {Number(isData && isData?.roomAmount)}
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.advanceAmount)}
+                                  {Number(isData && isData?.advanceAmount) +
+                                    Number(isData && isData?.roomAmount)}
                                 </td>
 
                                 {/* <td className="table_tddd">

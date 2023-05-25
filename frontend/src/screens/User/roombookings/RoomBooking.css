@@ -416,6 +416,11 @@
   padding-left: 5%;
   padding-right: 5%;
 }
+
+.apply_btnn{
+  background: #F1DAC6!important;
+  color: #FA7401!important;
+}
 @media screen and (max-width: 780px) {
 
   .main_div_select_div {

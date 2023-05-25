@@ -339,7 +339,7 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                                   )}
                               </td> */}
                                 <td className="table_tddd lineheight10">
-                                  {isData && isData[0]?.nRoom < 1 ? (
+                                  {isData && isData[0]?.nRoom === 1 ? (
                                     <>
                                       {isData &&
                                         isData.map((item) => {
@@ -362,12 +362,13 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                                 <td className="table_tddd lineheight10">
                                   {isData[0]?.nRoom *
                                     Number(isData[0]?.roomAmount) *
-                                    Number(TotalDays)}
+                                    Number(checkindata?.days)}
+                                  {console.log(checkindata?.days)}
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   {isData[0]?.nRoom *
                                     Number(isData[0]?.roomAmount) *
-                                    Number(TotalDays) +
+                                    Number(checkindata?.days) +
                                     Number(isData && isData[0]?.advanceAmount) *
                                       Number(isData[0]?.nRoom)}
                                 </td>

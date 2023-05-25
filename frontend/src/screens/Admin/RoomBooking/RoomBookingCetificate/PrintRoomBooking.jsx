@@ -31,6 +31,9 @@ function PrintRoomBooking({ setopendashboard }) {
       setisData(location.state?.data);
     }
     setopendashboard(true);
+    setTimeout(() => {
+      handlePrint();
+    }, 10);
   }, []);
   console.log('certificate', isData);
 
@@ -45,7 +48,7 @@ function PrintRoomBooking({ setopendashboard }) {
     hour12: true,
   });
 
-  var today1 = new Date(isData && isData?.coutDate);
+  var today1 = new Date();
   const currDatecheckout = today1
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -57,7 +60,7 @@ function PrintRoomBooking({ setopendashboard }) {
 
   let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
-
+  let days = TotalDays === 1 ? 1 : TotalDays - 1;
   console.log('days', TotalDays);
   return (
     <>
@@ -74,7 +77,7 @@ function PrintRoomBooking({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginLeft: '1.3rem', marginTop: '7rem' }}
+            style={{ marginLeft: '0rem', marginTop: '6rem' }}
           >
             {' '}
             <div style={{ backgroundColor: '#FE0002' }}>
@@ -127,7 +130,7 @@ function PrintRoomBooking({ setopendashboard }) {
                     {currDate} / {currTime}
                   </p>
 
-                  <p className="lineheight">{TotalDays && TotalDays} Days</p>
+                  <p className="lineheight">{days} Days</p>
                   <p className="lineheight">{isData && isData?.city}</p>
                 </div>
               </div>
@@ -228,16 +231,18 @@ function PrintRoomBooking({ setopendashboard }) {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) * Number(1)}
+                      {Number(isData && isData?.roomAmount) * Number(days)}.00
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) *
-                        (Number(1) + Number(1))}
+                      {Number(isData && isData?.advanceAmount) +
+                        Number(isData && isData?.roomAmount) * Number(days)}
+                      .00
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) * Number(1) -
-                        Number(isData && isData?.roomAmount) *
-                          (Number(1) + Number(1))}
+                      {Number(isData && isData?.advanceAmount) +
+                        Number(isData && isData?.roomAmount) * days -
+                        Number(isData && isData?.roomAmount) * Number(days)}
+                      .00
                     </td>
                     {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *
@@ -254,7 +259,7 @@ function PrintRoomBooking({ setopendashboard }) {
                   marginBottom: '0.5rem',
                 }}
               >
-                Admin
+                {isData && isData?.bookedByName}
               </p>
             </div>
           </div>

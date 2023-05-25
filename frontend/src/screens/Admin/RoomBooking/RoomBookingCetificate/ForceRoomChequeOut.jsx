@@ -25,7 +25,7 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
               data: isData,
             },
           });
-          Swal.fire('Great!', res?.data?.message, 'success');
+          // Swal.fire('Great!', res?.data?.message, 'success');
         }
       });
     } catch (error) {
@@ -55,7 +55,7 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
     hour12: true,
   });
 
-  var today1 = new Date(isData && isData?.coutDate);
+  var today1 = new Date();
   const currDatecheckout = today1
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -68,6 +68,7 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
   let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
 
+  let days = TotalDays === 1 ? 1 : TotalDays - 1;
   useEffect(() => {
     if (location.state) {
       setisData(location?.state?.data);
@@ -211,9 +212,7 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
                                 {currDate} / {currTime}
                               </p>
 
-                              <p className="lineheight">
-                                {TotalDays && TotalDays} Days
-                              </p>
+                              <p className="lineheight">{days}&nbsp; Days</p>
                               <p className="lineheight">
                                 {isData && isData?.city}
                               </p>
@@ -328,18 +327,21 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmount)}
+                                  {Number(isData && isData?.roomAmount) * days}
                                   .00
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.advanceAmount)}
+                                  {Number(isData && isData?.advanceAmount) +
+                                    Number(isData && isData?.roomAmount) * days}
                                   .00
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmount) *
-                                    (Number(1) + Number(1)) -
+                                  {Number(isData && isData?.advanceAmount) +
                                     Number(isData && isData?.roomAmount) *
-                                      (Number(1) + Number(1))}
+                                      days -
+                                    (Number(isData && isData?.advanceAmount) +
+                                      Number(isData && isData?.roomAmount) *
+                                        days)}
                                   .00
                                 </td>
                                 {/* <td className="table_tddd">
@@ -357,7 +359,7 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
                               marginBottom: '0.5rem',
                             }}
                           >
-                            Admin
+                            {isData && isData?.bookedByName}
                           </p>
                         </div>
                       </div>

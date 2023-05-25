@@ -14,7 +14,7 @@ import { ReactTransliterate } from 'react-transliterate';
 import { useNavigate } from 'react-router-dom';
 
 const addressinput = {
-  width: '635px',
+  width: '600px',
   height: '35px',
   fontSize: '15px',
   background: '#ffffff',

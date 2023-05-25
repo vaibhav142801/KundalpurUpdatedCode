@@ -857,6 +857,7 @@ const ManualDonation = ({ setopendashboard }) => {
               <TableBody>
                 <TableCell>
                   <input
+                    id="donation-date"
                     className="cuolms_search"
                     type="date"
                     onChange={(e) => onSearchByOther(e, 'Date')}

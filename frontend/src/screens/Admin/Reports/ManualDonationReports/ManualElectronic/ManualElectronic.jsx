@@ -215,13 +215,13 @@ const ManualElectronic = ({ setopendashboard }) => {
       if (res.status) {
         setloader(false);
 
-        let currentMonth, filterData;
-        (currentMonth = new Date().getMonth() + 1),
-          (filterData = res?.data?.filter((e) => {
-            var [_, month] = e.donation_date.split('-'); // Or, var month = e.date.split('-')[1];
-            return currentMonth === +month && e.modeOfDonation === '1';
-          }));
-        // let filterData = res.data.filter((item) => item.modeOfDonation === '1');
+        // let currentMonth, filterData;
+        // (currentMonth = new Date().getMonth() + 1),
+        //   (filterData = res?.data?.filter((e) => {
+        //     var [_, month] = e.donation_date.split('-'); // Or, var month = e.date.split('-')[1];
+        //     return currentMonth === +month && e.modeOfDonation === '1';
+        //   }));
+        let filterData = res.data.filter((item) => item.modeOfDonation === '1');
 
         setisData(filterData);
         setisDataDummy(filterData);
@@ -962,6 +962,7 @@ const ManualElectronic = ({ setopendashboard }) => {
             <TableBody>
               <TableCell>
                 <input
+                  id="donation-date"
                   className="cuolms_search"
                   type="date"
                   onChange={(e) => onSearchByOther(e, 'Date')}
