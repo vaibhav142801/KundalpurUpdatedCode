@@ -44,7 +44,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 'auto',
+
   bgcolor: 'background.paper',
   p: 3,
   boxShadow: 24,
@@ -78,12 +78,12 @@ const RoomShift = ({ setopendashboard }) => {
     setloader(true);
 
     if (optionss === 'Currently Stay') {
-      serverInstance('room/checkin', 'get').then((res) => {
+      serverInstance('room/checkin-user', 'get').then((res) => {
         if (res.data) {
           setloader(false);
-          let filterData = res.data.filter((item) => item.modeOfBooking === 2);
-          setisData(filterData);
-          setisDataDummy(filterData);
+
+          setisData(res.data);
+          setisDataDummy(res.data);
         }
       });
     }

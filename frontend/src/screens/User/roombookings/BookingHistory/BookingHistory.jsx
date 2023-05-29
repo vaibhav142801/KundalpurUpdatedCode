@@ -43,12 +43,13 @@ function BookingHistory({ setopendashboard, setshowreciept, setHeaderFooter }) {
       setHeaderFooter(false),
       gettable();
   }, []);
+
   useEffect(() => {
     // setshowreciept(false);
   }, []);
 
   const gettable = () => {
-    serverInstance('room/checkin-user', 'get').then((res) => {
+    serverInstance('room/checkin-history-user', 'get').then((res) => {
       if (res.data) {
         setisrow(res.data);
 
@@ -163,7 +164,7 @@ function BookingHistory({ setopendashboard, setshowreciept, setHeaderFooter }) {
                             {moment(row?.DATE_OF_DAAN).format('DD/MM/YYYY')}
                           </td>
                           <td align="left">{row?.contactNo}</td>
-                          <td align="left"> {row?.holderName}</td>
+                          <td align="left"> {row?.name}</td>
 
                           <td align="left">{row.Fname}</td>
                           <td align="left">{row.address}</td>
@@ -186,7 +187,7 @@ function BookingHistory({ setopendashboard, setshowreciept, setHeaderFooter }) {
                             align="left"
                             style={{
                               cursor: 'pointer',
-                              color: status === '0' ? 'red' : '',
+                              color: row.paymentStatus === '1' ? '' : 'red',
                             }}
                           >
                             download

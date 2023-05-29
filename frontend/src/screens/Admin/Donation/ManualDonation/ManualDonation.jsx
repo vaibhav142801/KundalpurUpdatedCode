@@ -341,7 +341,7 @@ const ManualDonation = ({ setopendashboard }) => {
     get_donation_tyeps();
     get_donation_types();
     setuserrole(Number(sessionStorage.getItem('userrole')));
-  }, [showalert, open, donationTypes, donationitem]);
+  }, [showalert, open]);
 
   const tabs = React.useMemo(
     () => [

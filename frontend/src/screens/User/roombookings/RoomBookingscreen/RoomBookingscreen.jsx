@@ -169,7 +169,7 @@ function RoomBookingscreen() {
   const savedataIntodb = async () => {
     setIsLoading(true);
     result = isData && isData?.available_room_numbers.slice(0, roomno);
-    serverInstance('room/checkin', 'post', {
+    serverInstance('room/checkin-user', 'post', {
       date: checkindata.checkintime,
       time: checkindata.checkincurrTime,
       contactNo: mobile,
