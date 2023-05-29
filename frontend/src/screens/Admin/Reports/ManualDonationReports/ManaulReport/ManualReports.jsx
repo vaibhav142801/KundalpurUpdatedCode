@@ -664,6 +664,7 @@ const ManualReports = ({ setopendashboard }) => {
                   themeColor={donationColorTheme.cash}
                   updateData={updateData}
                   showUpdateBtn={showUpdateBtn}
+                  donationTypes={donationTypes}
                 />
               </>
             )}
@@ -674,6 +675,7 @@ const ManualReports = ({ setopendashboard }) => {
                   themeColor={donationColorTheme.cash}
                   updateData={updateData}
                   showUpdateBtn={showUpdateBtn}
+                  donationTypes={donationTypes}
                 />
               </>
             )}
@@ -684,6 +686,7 @@ const ManualReports = ({ setopendashboard }) => {
                   themeColor={donationColorTheme.cash}
                   updateData={updateData}
                   showUpdateBtn={showUpdateBtn}
+                  donationTypes={donationTypes}
                 />
               </>
             )}
@@ -694,6 +697,7 @@ const ManualReports = ({ setopendashboard }) => {
                   themeColor={donationColorTheme.cash}
                   updateData={updateData}
                   showUpdateBtn={showUpdateBtn}
+                  donationTypes={donationTypes}
                 />
               </>
             )}

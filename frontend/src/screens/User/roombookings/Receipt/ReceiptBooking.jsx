@@ -229,19 +229,17 @@ const ReceiptBooking = ({}) => {
                               </tr>
                               <tr>
                                 <td className="table_tddd lineheight10">
-                                  {checkinda && checkinda?.dharamshala}
+                                  {isData[0]?.dharmasala_name}
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {checkinda &&
-                                    checkinda?.category[0]?.facilities &&
-                                    checkinda?.category[0]?.facilities.map(
+                                  {isData &&
+                                    isData[0]?.facilities &&
+                                    isData[0]?.facilities.map(
                                       (element, index) => (
                                         <span key={index}> {element}</span>
                                       ),
                                     )}
-                                  -
-                                  {checkinda &&
-                                    checkinda?.category[0]?.category_name}
+                                  -{isData && isData[0]?.categoryName}
                                 </td>
                                 {/* <td className="table_tddd">
                                 {checkinda &&

@@ -727,6 +727,7 @@ const ManualItem = ({ setopendashboard }) => {
                   themeColor={donationColorTheme.cash}
                   updateData={updateData}
                   showUpdateBtn={showUpdateBtn}
+                  donationTypes={donationTypes}
                 />
               </>
             )}
@@ -737,6 +738,7 @@ const ManualItem = ({ setopendashboard }) => {
                   themeColor={donationColorTheme.cash}
                   updateData={updateData}
                   showUpdateBtn={showUpdateBtn}
+                  donationTypes={donationTypes}
                 />
               </>
             )}
@@ -747,6 +749,7 @@ const ManualItem = ({ setopendashboard }) => {
                   themeColor={donationColorTheme.cash}
                   updateData={updateData}
                   showUpdateBtn={showUpdateBtn}
+                  donationTypes={donationTypes}
                 />
               </>
             )}
@@ -757,6 +760,7 @@ const ManualItem = ({ setopendashboard }) => {
                   themeColor={donationColorTheme.cash}
                   updateData={updateData}
                   showUpdateBtn={showUpdateBtn}
+                  donationTypes={donationTypes}
                 />
               </>
             )}

@@ -39,6 +39,7 @@ import { backendApiUrl } from '../../../../config/config';
 import { ExportPdfmanul } from '../../compoments/ExportPdf';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import './Donation.css';
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -136,6 +137,7 @@ const Donation = ({ setopendashboard }) => {
   const [open, setOpen] = React.useState(true);
   const [open3, setOpen3] = React.useState(false);
   const [donationTypes, setDonationTypes] = useState([]);
+  const [donationitem, setdonationitem] = useState([]);
   const [open4, setOpen4] = useState(false);
   const [datefrom, setdatefrom] = useState('');
   const [dateto, setdateto] = useState('');
@@ -285,22 +287,6 @@ const Donation = ({ setopendashboard }) => {
     }
   };
 
-  const get_donation_tyeps = () => {
-    try {
-      Promise.all([serverInstance('admin/donation-type?type=1', 'get')]).then(
-        ([res, item]) => {
-          if (res.status) {
-            setDonationTypes(res.data);
-          } else {
-            Swal.fire('Error', 'somthing went  wrong', 'error');
-          }
-        },
-      );
-    } catch (error) {
-      Swal.fire('Error!', error, 'error');
-    }
-  };
-
   const filterdata = async (e) => {
     e.preventDefault();
     setloader(true);
@@ -362,14 +348,53 @@ const Donation = ({ setopendashboard }) => {
       }
     });
   };
+  const getVoucher = () => {
+    serverInstance('admin/voucher-get', 'get').then((res) => {
+      if (res) {
+        console.log('voucher', res.voucher);
+        setReceiptNo(res.voucher);
+      }
+    });
+  };
 
+  const get_donation_tyeps = () => {
+    try {
+      Promise.all([serverInstance('admin/donation-type?type=1', 'get')]).then(
+        ([res, item]) => {
+          if (res.status) {
+            setDonationTypes(res.data);
+          } else {
+            Swal.fire('Error', 'somthing went  wrong', 'error');
+          }
+        },
+      );
+    } catch (error) {
+      Swal.fire('Error!', error, 'error');
+    }
+  };
+
+  const get_donation_types = () => {
+    try {
+      Promise.all([serverInstance('admin/donation-type?type=2', 'get')]).then(
+        ([res, item]) => {
+          if (res.status) {
+            setdonationitem(res.data);
+          } else {
+            Swal.fire('Error', 'somthing went  wrong', 'error');
+          }
+        },
+      );
+    } catch (error) {
+      Swal.fire('Error!', error, 'error');
+    }
+  };
   useEffect(() => {
+    getVoucher();
     getallemp_list();
     getall_donation();
+    get_donation_types();
     setopendashboard(true);
-
     get_donation_tyeps();
-
     const role = Number(sessionStorage.getItem('userrole'));
     setemproleid(Number(sessionStorage.getItem('empRoleid')));
     setroleid(Number(sessionStorage.getItem('userrole')));
@@ -401,6 +426,8 @@ const Donation = ({ setopendashboard }) => {
               themeColor={donationColorTheme.electronic}
               handleOpen4={handleOpen4}
               setopendashboard={setopendashboard}
+              receiptNo={receiptNo}
+              donationTypes={donationTypes}
             />
           ),
         })}
@@ -417,6 +444,8 @@ const Donation = ({ setopendashboard }) => {
                 handleOpen4={handleOpen4}
                 getall_donation={getall_donation}
                 setopendashboard={setopendashboard}
+                receiptNo={receiptNo}
+                donationTypes={donationTypes}
               />
             ),
           },
@@ -428,6 +457,8 @@ const Donation = ({ setopendashboard }) => {
                 themeColor={donationColorTheme.electronic}
                 handleOpen4={handleOpen4}
                 setopendashboard={setopendashboard}
+                receiptNo={receiptNo}
+                donationTypes={donationTypes}
               />
             ),
           },
@@ -439,6 +470,8 @@ const Donation = ({ setopendashboard }) => {
                 themeColor={donationColorTheme.cheque}
                 handleOpen4={handleOpen4}
                 setopendashboard={setopendashboard}
+                receiptNo={receiptNo}
+                donationTypes={donationTypes}
               />
             ),
           },
@@ -450,6 +483,8 @@ const Donation = ({ setopendashboard }) => {
                 themeColor={donationColorTheme.item}
                 handleOpen4={handleOpen4}
                 setopendashboard={setopendashboard}
+                receiptNo={receiptNo}
+                donationTypes={donationitem}
               />
             ),
           },
@@ -951,6 +986,7 @@ const Donation = ({ setopendashboard }) => {
                   <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
+
               <TableBody>
                 <TableCell>
                   <input

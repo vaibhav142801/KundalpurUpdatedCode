@@ -51,6 +51,7 @@ const ChequeDonation = ({
   updateData,
   showUpdateBtn,
   setopendashboard,
+  donationTypes,
 }) => {
   const theme = createTheme({
     typography: {
@@ -65,7 +66,7 @@ const ChequeDonation = ({
   const navigation = useNavigate();
   const [receipterror, setreceipterror] = useState('');
   const [hindiremark, sethindiremark] = useState('');
-  const [donationTypes, setDonationTypes] = useState([]);
+  // const [donationTypes, setDonationTypes] = useState([]);
   const [receiptNo, setReceiptNo] = useState('');
   const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
@@ -238,22 +239,22 @@ const ChequeDonation = ({
     }
   };
 
-  const getall_donatiions = () => {
-    try {
-      Promise.all([
-        serverInstance('admin/donation-type?type=1', 'get'),
-        serverInstance('admin/voucher-get', 'get'),
-      ]).then(([res, item]) => {
-        if (res.status) {
-          setDonationTypes(res.data);
-        } else {
-          Swal.fire('Error', 'somthing went  wrong', 'error');
-        }
-      });
-    } catch (error) {
-      Swal.fire('Error!', error, 'error');
-    }
-  };
+  // const getall_donatiions = () => {
+  //   try {
+  //     Promise.all([
+  //       serverInstance('admin/donation-type?type=1', 'get'),
+  //       serverInstance('admin/voucher-get', 'get'),
+  //     ]).then(([res, item]) => {
+  //       if (res.status) {
+  //         setDonationTypes(res.data);
+  //       } else {
+  //         Swal.fire('Error', 'somthing went  wrong', 'error');
+  //       }
+  //     });
+  //   } catch (error) {
+  //     Swal.fire('Error!', error, 'error');
+  //   }
+  // };
   const sendsms = async (totalamount, ReceiptNo) => {
     try {
       axios.defaults.headers.post[
@@ -267,7 +268,7 @@ const ChequeDonation = ({
     } catch (error) {}
   };
   useEffect(() => {
-    getall_donatiions();
+    // getall_donatiions();
     if (updateData) {
       setAddress(updateData?.address);
       setFullName(updateData?.name);

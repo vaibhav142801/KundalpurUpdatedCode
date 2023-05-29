@@ -33,6 +33,8 @@ const CashDonation = ({
   themeColor,
   updateData,
   showUpdateBtn,
+  receiptNo,
+  donationTypes,
 }) => {
   const navigation = useNavigate();
   const { t, i18n } = useTranslation();
@@ -67,8 +69,8 @@ const CashDonation = ({
   };
   const [role, setrole] = useState('');
   const [hindiremark, sethindiremark] = useState('');
-  const [donationTypes, setDonationTypes] = useState([]);
-  const [receiptNo, setReceiptNo] = useState('');
+  // const [donationTypes, setDonationTypes] = useState([]);
+  // const [receiptNo, setReceiptNo] = useState('');
   const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
   const [newMember, setNewMember] = useState(false);
@@ -85,6 +87,7 @@ const CashDonation = ({
     },
   ]);
 
+  console.log('from cash ', donationTypes, receiptNo);
   function addDonationItem() {
     setDonationItems([
       ...donationItems,
@@ -243,32 +246,32 @@ const CashDonation = ({
     } catch (error) {}
   };
 
-  const getall_donatiions = () => {
-    try {
-      Promise.all([
-        serverInstance('admin/donation-type?type=1', 'get'),
-        serverInstance('admin/voucher-get', 'get'),
-      ]).then(([res, item]) => {
-        if (res.status) {
-          setDonationTypes(res.data);
-        } else {
-          Swal.fire('Error', 'somthing went  wrong', 'error');
-        }
-        if (item.status) {
-          setReceiptNo(item.voucher);
-        }
-      });
-    } catch (error) {
-      Swal.fire('Error!', error, 'error');
-    }
+  // const getall_donatiions = () => {
+  //   try {
+  //     Promise.all([
+  //       serverInstance('admin/donation-type?type=1', 'get'),
+  //       serverInstance('admin/voucher-get', 'get'),
+  //     ]).then(([res, item]) => {
+  //       if (res.status) {
+  //         setDonationTypes(res.data);
+  //       } else {
+  //         Swal.fire('Error', 'somthing went  wrong', 'error');
+  //       }
+  //       // if (item.status) {
+  //       //   setReceiptNo(item.voucher);
+  //       // }
+  //     });
+  //   } catch (error) {
+  //     Swal.fire('Error!', error, 'error');
+  //   }
 
-    serverInstance('admin/voucher-get', 'get').then((res) => {
-      if (res.status) {
-      } else {
-        Swal('Error', 'somthing went  wrong', 'error');
-      }
-    });
-  };
+  //   serverInstance('admin/voucher-get', 'get').then((res) => {
+  //     if (res.status) {
+  //     } else {
+  //       Swal('Error', 'somthing went  wrong', 'error');
+  //     }
+  //   });
+  // };
   const hasHindiCharacters = (str) => {
     return (
       str.split('').filter(function (char) {
@@ -279,7 +282,7 @@ const CashDonation = ({
   };
 
   useEffect(() => {
-    getall_donatiions();
+    // getall_donatiions();
     if (updateData) {
       setAddress(updateData?.address);
       setFullName(updateData?.name);
@@ -524,19 +527,20 @@ const CashDonation = ({
                         >
                           Please select
                         </MenuItem>
-                        {donationTypes.map((item, idx) => {
-                          return (
-                            <MenuItem
-                              sx={{
-                                fontSize: 14,
-                              }}
-                              key={item.id}
-                              value={item.type_hi}
-                            >
-                              {item.type_hi}
-                            </MenuItem>
-                          );
-                        })}
+                        {donationTypes &&
+                          donationTypes.map((item, idx) => {
+                            return (
+                              <MenuItem
+                                sx={{
+                                  fontSize: 14,
+                                }}
+                                key={item.id}
+                                value={item.type_hi}
+                              >
+                                {item.type_hi}
+                              </MenuItem>
+                            );
+                          })}
                       </Select>
                     </TableCell>
                     <TableCell align="center">

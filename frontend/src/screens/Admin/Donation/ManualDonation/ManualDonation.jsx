@@ -141,6 +141,7 @@ const ManualDonation = ({ setopendashboard }) => {
   const [tabValue, setTabValue] = React.useState(0);
   const [userrole, setuserrole] = useState('');
   const [donationTypes, setDonationTypes] = useState([]);
+  const [donationitem, setdonationitem] = useState([]);
   const [rowData, setrowData] = useState('');
   const [open4, setOpen4] = useState(false);
   const [datefrom, setdatefrom] = useState('');
@@ -218,7 +219,6 @@ const ManualDonation = ({ setopendashboard }) => {
     setdateto('');
     setvoucherfrom('');
     setvoucherto('');
-
     serverInstance('admin/manual-donation', 'get').then((res) => {
       if (res.status) {
         let filterData = res.data.filter(
@@ -297,15 +297,15 @@ const ManualDonation = ({ setopendashboard }) => {
     exportFromJSON({ data, fileName, exportType });
   };
 
-  const voucherexhauted = async (row) => {
-    printreceipt(row);
-    if (res.data.status === true) {
-    }
-    try {
-    } catch (error) {
-      Swal.fire('Error!', error, 'error');
-    }
-  };
+  // const voucherexhauted = async (row) => {
+  //   printreceipt(row);
+  //   if (res.data.status === true) {
+  //   }
+  //   try {
+  //   } catch (error) {
+  //     Swal.fire('Error!', error, 'error');
+  //   }
+  // };
 
   const getallemp_list = () => {
     serverInstance('admin/add-employee', 'get').then((res) => {
@@ -319,13 +319,29 @@ const ManualDonation = ({ setopendashboard }) => {
     });
   };
 
+  const get_donation_types = () => {
+    try {
+      Promise.all([serverInstance('admin/donation-type?type=2', 'get')]).then(
+        ([res, item]) => {
+          if (res.status) {
+            setdonationitem(res.data);
+          } else {
+            Swal.fire('Error', 'somthing went  wrong', 'error');
+          }
+        },
+      );
+    } catch (error) {
+      Swal.fire('Error!', error, 'error');
+    }
+  };
   useEffect(() => {
     getallemp_list();
     setopendashboard(true);
     getall_donation();
     get_donation_tyeps();
+    get_donation_types();
     setuserrole(Number(sessionStorage.getItem('userrole')));
-  }, [showalert, open]);
+  }, [showalert, open, donationTypes, donationitem]);
 
   const tabs = React.useMemo(
     () => [
@@ -338,6 +354,7 @@ const ManualDonation = ({ setopendashboard }) => {
             themeColor={donationColorTheme.cash}
             handleOpen4={handleOpen4}
             setopendashboard={setopendashboard}
+            donationTypes={donationTypes}
           />
         ),
       },
@@ -350,6 +367,7 @@ const ManualDonation = ({ setopendashboard }) => {
             themeColor={donationColorTheme.electronic}
             handleOpen4={handleOpen4}
             setopendashboard={setopendashboard}
+            donationTypes={donationTypes}
           />
         ),
       },
@@ -362,6 +380,7 @@ const ManualDonation = ({ setopendashboard }) => {
             themeColor={donationColorTheme.cheque}
             handleOpen4={handleOpen4}
             setopendashboard={setopendashboard}
+            donationTypes={donationTypes}
           />
         ),
       },
@@ -374,6 +393,7 @@ const ManualDonation = ({ setopendashboard }) => {
             themeColor={donationColorTheme.item}
             handleOpen4={handleOpen4}
             setopendashboard={setopendashboard}
+            donationTypes={donationitem}
           />
         ),
       },
@@ -854,6 +874,7 @@ const ManualDonation = ({ setopendashboard }) => {
                   <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
+
               <TableBody>
                 <TableCell>
                   <input

@@ -49,6 +49,8 @@ const ElectronicDonation = ({
   themeColor,
   updateData,
   showUpdateBtn,
+  receiptNo,
+  donationTypes,
 }) => {
   const theme = createTheme({
     typography: {
@@ -65,8 +67,8 @@ const ElectronicDonation = ({
 
   const [userrole, setuserrole] = useState('');
   const [hindiremark, sethindiremark] = useState('');
-  const [donationTypes, setDonationTypes] = useState([]);
-  const [receiptNo, setReceiptNo] = useState('');
+  // const [donationTypes, setDonationTypes] = useState([]);
+  // const [receiptNo, setReceiptNo] = useState('');
   const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
   const [fetchuserdetail, setfetchuserdetail] = useState(true);
@@ -240,25 +242,25 @@ const ElectronicDonation = ({
     }
   };
 
-  const getall_donatiions = () => {
-    try {
-      Promise.all([
-        serverInstance('admin/donation-type?type=1', 'get'),
-        serverInstance('admin/voucher-get', 'get'),
-      ]).then(([res, item]) => {
-        if (res.status) {
-          setDonationTypes(res.data);
-        } else {
-          Swal.fire('Error', 'somthing went  wrong', 'error');
-        }
-        if (item.status) {
-          setReceiptNo(item.voucher);
-        }
-      });
-    } catch (error) {
-      Swal.fire('Error!', error, 'error');
-    }
-  };
+  // const getall_donatiions = () => {
+  //   try {
+  //     Promise.all([
+  //       serverInstance('admin/donation-type?type=1', 'get'),
+  //       serverInstance('admin/voucher-get', 'get'),
+  //     ]).then(([res, item]) => {
+  //       if (res.status) {
+  //         setDonationTypes(res.data);
+  //       } else {
+  //         Swal.fire('Error', 'somthing went  wrong', 'error');
+  //       }
+  //       if (item.status) {
+  //         setReceiptNo(item.voucher);
+  //       }
+  //     });
+  //   } catch (error) {
+  //     Swal.fire('Error!', error, 'error');
+  //   }
+  // };
 
   const sendsms = async (totalamount, ReceiptNo) => {
     try {
@@ -273,8 +275,8 @@ const ElectronicDonation = ({
     } catch (error) {}
   };
   useEffect(() => {
-    getall_donatiions();
-    setDonationTypes(typesOfDonation);
+    // getall_donatiions();
+    // setDonationTypes(typesOfDonation);
     if (updateData) {
       setAddress(updateData?.address);
       setFullName(updateData?.name);
@@ -551,19 +553,20 @@ const ElectronicDonation = ({
                         >
                           Please select
                         </MenuItem>
-                        {donationTypes.map((item, idx) => {
-                          return (
-                            <MenuItem
-                              sx={{
-                                fontSize: 14,
-                              }}
-                              key={item.id}
-                              value={item.type_hi}
-                            >
-                              {item.type_hi}
-                            </MenuItem>
-                          );
-                        })}
+                        {donationTypes &&
+                          donationTypes.map((item, idx) => {
+                            return (
+                              <MenuItem
+                                sx={{
+                                  fontSize: 14,
+                                }}
+                                key={item.id}
+                                value={item.type_hi}
+                              >
+                                {item.type_hi}
+                              </MenuItem>
+                            );
+                          })}
                       </Select>
                     </TableCell>
                     <TableCell align="center">

@@ -682,6 +682,7 @@ const ManualElectronic = ({ setopendashboard }) => {
                   themeColor={donationColorTheme.cash}
                   updateData={updateData}
                   showUpdateBtn={showUpdateBtn}
+                  donationTypes={donationTypes}
                 />
               </>
             )}
@@ -692,6 +693,7 @@ const ManualElectronic = ({ setopendashboard }) => {
                   themeColor={donationColorTheme.cash}
                   updateData={updateData}
                   showUpdateBtn={showUpdateBtn}
+                  donationTypes={donationTypes}
                 />
               </>
             )}
@@ -702,6 +704,7 @@ const ManualElectronic = ({ setopendashboard }) => {
                   themeColor={donationColorTheme.cash}
                   updateData={updateData}
                   showUpdateBtn={showUpdateBtn}
+                  donationTypes={donationTypes}
                 />
               </>
             )}
@@ -712,6 +715,7 @@ const ManualElectronic = ({ setopendashboard }) => {
                   themeColor={donationColorTheme.cash}
                   updateData={updateData}
                   showUpdateBtn={showUpdateBtn}
+                  donationTypes={donationTypes}
                 />
               </>
             )}

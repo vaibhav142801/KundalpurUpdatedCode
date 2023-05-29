@@ -659,6 +659,7 @@ const ManualCheque = ({ setopendashboard }) => {
               updateData={updateData}
               showUpdateBtn={showUpdateBtn}
               setopendashboard={setopendashboard}
+              donationTypes={donationTypes}
             />
           </Box>
         </Fade>

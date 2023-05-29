@@ -25,7 +25,13 @@ import { typesOfDonation } from '../common/Data';
 import { CustomInput, CustomInputLabel, CustomTableInput } from '../common';
 import TotalAmountRow from '../common/TotalAmountRow';
 import CircularProgress from '@material-ui/core/CircularProgress';
-const UpdateElec = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
+const UpdateElec = ({
+  handleClose,
+  themeColor,
+  updateData,
+  showUpdateBtn,
+  donationTypes,
+}) => {
   const theme = createTheme({
     typography: {
       fontFamily: 'Poppins',
@@ -36,7 +42,7 @@ const UpdateElec = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
       },
     },
   });
-  const [donationTypes, setDonationTypes] = useState([]);
+  // const [donationTypes, setDonationTypes] = useState([]);
   const [receiptNo, setReceiptNo] = useState('');
   const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
@@ -162,22 +168,22 @@ const UpdateElec = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
     }
   };
 
-  const getall_donatiions = () => {
-    try {
-      Promise.all([
-        serverInstance('admin/donation-type?type=1', 'get'),
-        serverInstance('admin/voucher-get', 'get'),
-      ]).then(([res, item]) => {
-        if (res.status) {
-          setDonationTypes(res.data);
-        } else {
-          Swal.fire('Error', 'somthing went  wrong', 'error');
-        }
-      });
-    } catch (error) {
-      Swal.fire('Error!', error, 'error');
-    }
-  };
+  // const getall_donatiions = () => {
+  //   try {
+  //     Promise.all([
+  //       serverInstance('admin/donation-type?type=1', 'get'),
+  //       serverInstance('admin/voucher-get', 'get'),
+  //     ]).then(([res, item]) => {
+  //       if (res.status) {
+  //         setDonationTypes(res.data);
+  //       } else {
+  //         Swal.fire('Error', 'somthing went  wrong', 'error');
+  //       }
+  //     });
+  //   } catch (error) {
+  //     Swal.fire('Error!', error, 'error');
+  //   }
+  // };
 
   const sendsms = async (totalamount) => {
     try {
@@ -192,7 +198,7 @@ const UpdateElec = ({ handleClose, themeColor, updateData, showUpdateBtn }) => {
     } catch (error) {}
   };
   useEffect(() => {
-    getall_donatiions();
+    // getall_donatiions();
     setAddress('');
     setFullName('');
     setReceiptNo('');
