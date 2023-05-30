@@ -35,7 +35,9 @@ function PrintContent({ setopendashboard, setshowreciept }) {
     <>
       <div style={{ paddingLeft: '4rem', paddingRight: '4rem' }}>
         <div className="button_div_print_download10">
-          <button onClick={() => navigation(-1)}>Back</button>
+          <button onClick={() => navigation('/admin-panel/donation')}>
+            Back
+          </button>
 
           <div />
         </div>

@@ -36,9 +36,18 @@ const OnlineRoomBooking = ({ setopendashboard }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
   const [open1, setOpen1] = React.useState(false);
   const handleOpen1 = () => setOpen1(true);
+
+  const getAllguest = () => {
+    serverInstance('room/room-booking-report', 'GET').then((res) => {
+      setisData(res?.data);
+      console.log('online room', res);
+    });
+  };
+  useEffect(() => {
+    getAllguest();
+  }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -105,60 +114,24 @@ const OnlineRoomBooking = ({ setopendashboard }) => {
           >
             <TableHead>
               <TableRow>
-                <TableCell>User Name</TableCell>
-                <TableCell>Amout</TableCell>
+                <TableCell>
+                  {isData[0]?.modeOfBooking === 2 ? 'Amout' : ''}
+                </TableCell>
+                <TableCell>
+                  {isData[1]?.modeOfBooking === 2 ? 'Amout' : ''}
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableCell style={{ fontWeight: '600' }}>Anil Babu</TableCell>
+              <TableCell>
+                {isData[0]?.modeOfBooking === 2 ? isData[0]?.total_amount : ''}
+              </TableCell>
 
-              <TableCell>0</TableCell>
-
-              {/* {(rowsPerPage > 0
-                  ? isData.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                  : isData
-                ).map((row, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                    }}
-                  >
-                    <TableCell>{index + 1}</TableCell>
-
-                    <TableCell>{row.NAME}</TableCell>
-
-                    <TableCell>
-                      <RemoveRedEyeIcon />
-                      <DeleteForeverIcon />
-                    </TableCell>
-                  </TableRow>
-                ))} */}
+              <TableCell>
+                {isData[1]?.modeOfBooking === 2 ? isData[0]?.total_amount : ''}
+              </TableCell>
             </TableBody>
             <TableFooter>
-              <TableRow>
-                <TableCell
-                  style={{
-                    fontSize: '15px',
-                    color: '#05313C',
-                    fontWeight: 700,
-                  }}
-                >
-                  Total
-                </TableCell>
-                <TableCell
-                  style={{
-                    fontSize: '15px',
-                    color: '#05313C',
-                    fontWeight: 700,
-                  }}
-                >
-                  0
-                </TableCell>
-              </TableRow>
               <TableRow>
                 <TablePagination
                   count={isData.length}
@@ -180,16 +153,10 @@ const OnlineRoomBooking = ({ setopendashboard }) => {
                       'aria-label': 'page number',
                     },
                   }}
-                  // showFirstButton={true}
-                  // showLastButton={true}
-                  //ActionsComponent={TablePaginationActions}
-                  //component={Box}
-                  //sx and classes prop discussed in styling section
                 />
               </TableRow>
             </TableFooter>
           </Table>
-          {/* </TableContainer> */}
         </div>
       </div>
     </>

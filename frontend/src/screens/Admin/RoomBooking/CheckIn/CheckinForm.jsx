@@ -688,34 +688,7 @@ function CheckinForm({ setOpen }) {
                   ) : (
                     ''
                   )}
-                  <span style={{ marginRight: '1rem' }}>Payment mode</span>
 
-                  <button
-                    className={
-                      Paymode === 'Cash'
-                        ? 'cash_div_room_book'
-                        : 'cash_div_room_book_disable'
-                    }
-                    onClick={() => {
-                      setPaymode('Cash');
-                      setpaymentmode(2);
-                    }}
-                  >
-                    Cash
-                  </button>
-                  <button
-                    className={
-                      Paymode === 'Online'
-                        ? 'online_div_room_book'
-                        : 'cash_div_room_book_disable'
-                    }
-                    onClick={() => {
-                      setPaymode('Online');
-                      setpaymentmode(1);
-                    }}
-                  >
-                    online
-                  </button>
                   <div className="save-div-btn">
                     <button
                       onClick={() => {
@@ -744,6 +717,36 @@ function CheckinForm({ setOpen }) {
           <>
             <div className="cash-donation-container-innser">
               <div className="main_div_checkin_div">
+                <span style={{ marginRight: '1rem' }}>Payment mode</span>
+
+                <button
+                  className={
+                    Paymode === 'Cash'
+                      ? 'cash_div_room_book'
+                      : 'cash_div_room_book_disable'
+                  }
+                  onClick={() => {
+                    setpaymentmode('');
+                    setPaymode('Cash');
+                    setpaymentmode(2);
+                  }}
+                >
+                  Cash
+                </button>
+                <button
+                  className={
+                    Paymode === 'Online'
+                      ? 'online_div_room_book'
+                      : 'cash_div_room_book_disable'
+                  }
+                  onClick={() => {
+                    setpaymentmode('');
+                    setPaymode('Online');
+                    setpaymentmode(1);
+                  }}
+                >
+                  online
+                </button>
                 <p>Details</p>
                 <div>
                   <div className="date_and_time_div">

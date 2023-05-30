@@ -577,12 +577,13 @@ const CanceledHistory = ({ setopendashboard }) => {
                   </button>
                 </TableCell>
               </TableRow>
-              {isData && (
+              {isData.length > 0 && (
                 <>
-                  {isData ? (
+                  {isData.length > 0 ? (
                     <>
                       {(rowsPerPage > 0
-                        ? isData.slice(
+                        ? isData.length > 0 &&
+                          isData.slice(
                             page * rowsPerPage,
                             page * rowsPerPage + rowsPerPage,
                           )

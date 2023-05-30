@@ -42,7 +42,7 @@ import ForceCheckoutOptions from './ForceCheckoutOptions';
 import './Checkin.css';
 const style = {
   position: 'absolute',
-  top: '47%',
+  top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '80%',
@@ -205,11 +205,18 @@ const CheckIn = ({ setopendashboard }) => {
   const handleClose4 = () => {
     setOpen3(false);
     serverInstance('/room/cancel-checkin', 'DELETE', {
-      bookingId: cancelid,
+      id: cancelid,
     }).then((res) => {
       console.log(res);
       if (res?.data?.status === true) {
         Swal.fire('Great!', res?.data?.message, 'success');
+      }
+      if (res?.data?.status === false) {
+        Swal.fire(
+          'Great!',
+          'Room failed to checkout (Time Limit Elapsed)',
+          'success',
+        );
       }
     });
   };
@@ -448,7 +455,7 @@ const CheckIn = ({ setopendashboard }) => {
           <Box sx={style}>
             <div>
               <div className="add-div-close-div">
-                <div style={{ marginLeft: '1rem', marginBottom: '1rem' }}>
+                <div style={{ marginLeft: '1rem', marginBottom: '0rem' }}>
                   <h2 style={{ marginBottom: '0.5rem' }}>Check In</h2>
                   <Typography variant="body2" color="primary">
                     {currDate} / {currTime}
@@ -894,9 +901,7 @@ const CheckIn = ({ setopendashboard }) => {
                                         marginBottom: '4px',
                                         backgroundColor: '#FF0000',
                                       }}
-                                      onClick={() =>
-                                        handleClickOpen3(row?.booking_id)
-                                      }
+                                      onClick={() => handleClickOpen3(row?.id)}
                                       className="chaneRoom"
                                     >
                                       Cancel

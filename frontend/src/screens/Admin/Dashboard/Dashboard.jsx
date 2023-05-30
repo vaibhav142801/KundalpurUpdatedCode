@@ -31,6 +31,7 @@ const Dashboard = ({ setopendashboard }) => {
   const [isData3, setisData3] = useState('');
   const [isData4, setisData4] = useState('');
   const [isData5, setisData5] = useState('');
+  const [onlineamount, setonlineamount] = useState('');
   const getallelec = () => {
     serverInstance('admin/dash-admin-total-elec', 'get').then((res) => {
       setloader(true);
@@ -103,6 +104,12 @@ const Dashboard = ({ setopendashboard }) => {
       setbookingadmin(res.data);
     });
   };
+
+  const getOnlineBooingAmount = () => {
+    serverInstance('room/room-booking-report', 'GET').then((res) => {
+      setonlineamount(res?.data);
+    });
+  };
   useEffect(() => {
     setopendashboard(true);
     setuserrole(Number(sessionStorage.getItem('userrole')));
@@ -113,6 +120,7 @@ const Dashboard = ({ setopendashboard }) => {
     getallmanual(), getallonline(), getallempelec(), getallempmanual();
     getAllguestadmin();
     getadminbooking();
+    getOnlineBooingAmount();
   }, []);
 
   return (
@@ -190,7 +198,15 @@ const Dashboard = ({ setopendashboard }) => {
               >
                 <p>Online Room Booking</p>
                 <div className="main_repue_img">
-                  <p>₹ 0</p>
+                  <p>
+                    ₹
+                    {onlineamount[0]?.modeOfBooking === 2
+                      ? onlineamount[0]?.total_amount
+                      : ''}{' '}
+                    {onlineamount[1]?.modeOfBooking === 2
+                      ? onlineamount[1]?.total_amount
+                      : ''}
+                  </p>
                   <img src={Group225} alt="dd" />
                 </div>
               </div>

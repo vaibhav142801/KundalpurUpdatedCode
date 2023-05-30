@@ -173,10 +173,18 @@ function RoomShiftForm({ setOpen, changedata }) {
       const res = await axios.put(`${backendApiUrl}room/checkin`, data);
 
       console.log('room shift', res);
-      if (res.data.data.status) {
+      if (res?.data?.data?.status) {
         setOpen(false);
 
         Swal.fire('Great!', res.data.data.message, 'success');
+      }
+
+      if (res?.data?.data?.status === false) {
+        Swal.fire(
+          'Great!',
+          'Room failed to checkout (Time Limit Elapsed)',
+          'success',
+        );
       }
     } catch (error) {
       // Swal.fire('Error!', error, 'error');

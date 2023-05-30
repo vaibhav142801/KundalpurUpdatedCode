@@ -25,7 +25,15 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
               data: isData,
             },
           });
-          // Swal.fire('Great!', res?.data?.message, 'success');
+          Swal.fire('Great!', res?.data?.message, 'success');
+        }
+
+        if (res?.data?.status === false) {
+          Swal.fire(
+            'Great!',
+            'Room failed to checkout (Time Limit Elapsed)',
+            'success',
+          );
         }
       });
     } catch (error) {

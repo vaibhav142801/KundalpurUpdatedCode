@@ -43,7 +43,18 @@ function Dashbord({ setopendashboard }) {
     return localityParameterSets;
   };
 
-  console.log('care', categoryRooms);
+  const getoccupidedobject = (roomData) => {
+    let localityParameterSets;
+    if (roomData) {
+      localityParameterSets = Object.entries(roomData).map(([key, val]) => ({
+        name: key,
+        value: val,
+      }));
+    }
+
+    return localityParameterSets;
+  };
+
   useEffect(() => {
     getdata();
   }, []);
@@ -165,13 +176,23 @@ function Dashbord({ setopendashboard }) {
                       <th colSpan={2}>धर्मशाला का नाम-{item?.name}</th>
                     </tr>
 
-                    {getholdobject(item?.holdinData)?.length > 0 ? (
+                    {getholdobject(item?.holdRooms)?.length > 0 ? (
                       <>
-                        {getholdobject(item?.holdinData).map((item) => {
+                        {getholdobject(item?.holdRooms).map((item, index) => {
                           return (
                             <>
                               <tr style={{ borderBottom: '1px solid gray' }}>
                                 <td>Hold Room ({item?.value.length})</td>
+                                {isData &&
+                                  isData.map((item) => {
+                                    getoccupidedobject(
+                                      item?.occupiedRooms,
+                                    )?.map((item) => {
+                                      if (item[index]?.value != null) {
+                                        console.log('dd', item[index]?.value);
+                                      }
+                                    });
+                                  })}
                                 <td>Occupied Room (0)</td>
                               </tr>
                               <tr

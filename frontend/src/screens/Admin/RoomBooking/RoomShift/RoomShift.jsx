@@ -78,12 +78,14 @@ const RoomShift = ({ setopendashboard }) => {
     setloader(true);
 
     if (optionss === 'Currently Stay') {
-      serverInstance('room/checkin-user', 'get').then((res) => {
+      serverInstance('room/checkin', 'get').then((res) => {
         if (res.data) {
           setloader(false);
-
-          setisData(res.data);
-          setisDataDummy(res.data);
+          let filterData = res.data.filter((item) => item.modeOfBooking === 2);
+          setisData(filterData);
+          setisDataDummy(filterData);
+          setisData(filterData);
+          setisDataDummy(filterData);
         }
       });
     }
@@ -206,11 +208,18 @@ const RoomShift = ({ setopendashboard }) => {
     setOpen3(false);
 
     serverInstance('/room/cancel-checkin', 'DELETE', {
-      bookingId: cancelid,
+      id: cancelid,
     }).then((res) => {
       console.log(res);
       if (res?.data?.status === true) {
         Swal.fire('Great!', res?.data?.message, 'success');
+      }
+      if (res?.data?.status === false) {
+        Swal.fire(
+          'Great!',
+          'Room failed to checkout (Time Limit Elapsed)',
+          'success',
+        );
       }
     });
   };
@@ -816,7 +825,7 @@ const RoomShift = ({ setopendashboard }) => {
                                 marginBottom: '4px',
                                 backgroundColor: '#FF0000',
                               }}
-                              onClick={() => handleClickOpen3(row?.booking_id)}
+                              onClick={() => handleClickOpen3(row?.id)}
                               className="chaneRoom"
                             >
                               Cancel
