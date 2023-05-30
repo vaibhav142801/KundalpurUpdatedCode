@@ -811,7 +811,7 @@ const CheckIn = ({ setopendashboard }) => {
                       <TableCell>{row?.name}</TableCell>
                       <TableCell>
                         {handledisable(row?.date)}
-                        {Moment(row?.date).format('YYYY-MM-DD')}&nbsp;&nbsp;
+                        {Moment(row?.date).format('DD-MM-YYYY')}&nbsp;&nbsp;
                         {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
                       </TableCell>
 

@@ -747,7 +747,7 @@ const RoomShift = ({ setopendashboard }) => {
                       <TableCell>{row?.contactNo}</TableCell>
                       <TableCell>{row?.name}</TableCell>
                       <TableCell>
-                        {Moment(row?.date).format('YYYY-MM-DD')}&nbsp;&nbsp;
+                        {Moment(row?.date).format('DD-MM-YYYY')}&nbsp;&nbsp;
                         {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
                       </TableCell>
                       {/* <TableCell>

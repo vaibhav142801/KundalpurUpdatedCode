@@ -46,6 +46,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import LoadingSpinner1 from '../../../../../components/Loading/LoadingSpinner1';
+import { MenuItem, Menu } from '@mui/material';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -229,7 +230,25 @@ const ManualItem = ({ setopendashboard }) => {
       }
     });
   };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open11 = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose11 = () => {
+    setAnchorEl(null);
+    setpassuser(users);
+  };
 
+  const [anchorEl1, setAnchorEl1] = React.useState(null);
+  const open1 = Boolean(anchorEl1);
+  const handleClick1 = (event) => {
+    setAnchorEl1(event.currentTarget);
+  };
+  const handleClose1 = () => {
+    setAnchorEl1(null);
+    setpasshead(head);
+  };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -777,7 +796,7 @@ const ManualItem = ({ setopendashboard }) => {
                 <label htmlFor="donation-date">From Date</label>
                 <input
                   id="donation-date"
-                  style={{ width: '250px' }}
+                  style={{ width: '100%' }}
                   type="date"
                   placeholder="From"
                   value={datefrom}
@@ -792,7 +811,7 @@ const ManualItem = ({ setopendashboard }) => {
                 <label htmlFor="donation-date">To Date</label>
                 <input
                   id="donation-date"
-                  style={{ width: '250px' }}
+                  style={{ width: '100%' }}
                   type="date"
                   placeholder="From"
                   value={dateto}
@@ -827,6 +846,66 @@ const ManualItem = ({ setopendashboard }) => {
                     setvoucherto(e.target.value);
                   }}
                 />
+              </div>
+              <div className="Center_main_dic_filetr">
+                <label>&nbsp;</label>
+                <div
+                  className="main_div_selectAllhed"
+                  style={{ width: '9rem' }}
+                >
+                  <div
+                    onClick={handleClick1}
+                    className="select_person_divAllHead"
+                    style={{ width: '9rem' }}
+                  >
+                    All Head
+                    <svg
+                      width="12"
+                      height="7"
+                      viewBox="0 0 12 7"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 1L6 6L11 1"
+                        stroke="#333333"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div className="Center_main_dic_filetr">
+                <label>&nbsp;</label>
+                <div
+                  className="main_div_selectAllhed"
+                  style={{ width: '9rem' }}
+                >
+                  <div
+                    onClick={handleClick}
+                    className="select_person_divAllHead"
+                    style={{ width: '9rem' }}
+                  >
+                    All User
+                    <svg
+                      width="12"
+                      height="7"
+                      viewBox="0 0 12 7"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 1L6 6L11 1"
+                        stroke="#333333"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
               </div>
               <div className="Center_main_dic_filetr">
                 <label>&nbsp;</label>

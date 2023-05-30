@@ -168,7 +168,7 @@ const AllHead = ({ setopendashboard }) => {
   const filterdata = async () => {
     setloader(true);
     serverInstance(
-      `admin/centralized-report?user=${empId}&fromDate=${datefrom}&toDate=${dateto}&type=${type}`,
+      `admin/centralized-report?fromDate=${datefrom}&toDate=${dateto}`,
       'post',
       {
         user: passuser,
@@ -312,7 +312,9 @@ const AllHead = ({ setopendashboard }) => {
                   onClick={handleClick1}
                   className="select_person_divAllHead"
                 >
-                  All Head
+                  {passhead.length > 0
+                    ? `Selected head ${passhead.length}`
+                    : ' All Head'}
                   <svg
                     width="12"
                     height="7"
@@ -332,7 +334,9 @@ const AllHead = ({ setopendashboard }) => {
               </div>
               <div className="main_div_selectAllhed">
                 <div onClick={handleClick} className="select_person_divAllHead">
-                  All User
+                  {passuser.length > 0
+                    ? `Selected user ${passuser.length}`
+                    : 'All User '}
                   <svg
                     width="12"
                     height="7"

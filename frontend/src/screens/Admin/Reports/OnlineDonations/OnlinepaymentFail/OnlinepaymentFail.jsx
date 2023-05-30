@@ -709,7 +709,7 @@ const OnlinepaymentFail = ({ setopendashboard }) => {
                       <TableCell>{row?.REMARK}</TableCell>
                       <TableCell align="left">
                         {row?.PAYMENT_STATUS === true
-                          ? 'Payment succrssfull'
+                          ? 'Payment successfull'
                           : 'Payment failed'}
                       </TableCell>
                     </TableRow>

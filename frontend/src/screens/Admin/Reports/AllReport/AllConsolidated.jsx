@@ -31,7 +31,12 @@ import AllTotal from '../AllReport/Totals/AllTotal';
 import Tooltip from '@mui/material/Tooltip';
 import { Button } from '@mui/material';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
+import { MenuItem, Menu } from '@mui/material';
 const AllConsolidated = ({ setopendashboard }) => {
+  let users = [];
+  let head = [];
+  const [passuser, setpassuser] = useState('');
+  const [passhead, setpasshead] = useState('');
   const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [page, setPage] = useState(0);
@@ -49,6 +54,26 @@ const AllConsolidated = ({ setopendashboard }) => {
   const handlePrint2 = useReactToPrint({
     content: () => componentRef2.current,
   });
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+    setpassuser(users);
+  };
+
+  const [anchorEl1, setAnchorEl1] = React.useState(null);
+  const open1 = Boolean(anchorEl1);
+  const handleClick1 = (event) => {
+    setAnchorEl1(event.currentTarget);
+  };
+  const handleClose1 = () => {
+    setAnchorEl1(null);
+    setpasshead(head);
+  };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -135,18 +160,22 @@ const AllConsolidated = ({ setopendashboard }) => {
   };
   const filterdata = async () => {
     setloader(true);
-    axios.defaults.headers.get[
-      'Authorization'
-    ] = `Bearer ${sessionStorage.getItem('token')}`;
-
-    const res = await axios.get(
-      `${backendApiUrl}admin/get-cons-report?user=${empId}&fromDate=${datefrom}&toDate=${dateto}&type=${type}`,
-    );
-
-    if (res.data.data) {
-      setloader(false);
-      setisData(res.data.data);
-    }
+    serverInstance(
+      `admin/get-cons-report?fromDate=${datefrom}&toDate=${dateto}`,
+      'post',
+      {
+        user: passuser,
+        type: passhead,
+      },
+    ).then((res) => {
+      console.log('consolatred');
+      if (res.status) {
+        setloader(false);
+        setisData(res.data);
+      } else {
+        Swal('Error', 'somthing went  wrong', 'error');
+      }
+    });
   };
 
   // const filterHead = async (type) => {
@@ -174,11 +203,13 @@ const AllConsolidated = ({ setopendashboard }) => {
   }, []);
 
   const resetbutn = () => {
+    setpasshead('');
+    setpassuser('');
     setdatefrom('');
     setdateto('');
     setempId('');
-    setisData('');
     setSearchHead('');
+    filterdata();
   };
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
@@ -203,6 +234,59 @@ const AllConsolidated = ({ setopendashboard }) => {
   };
   return (
     <>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        {empylist &&
+          empylist.map((item, index) => (
+            <MenuItem key={item?.id}>
+              <div className="mainuser_item">
+                <input
+                  style={{ marginRight: '1rem' }}
+                  type="checkbox"
+                  onClick={() => {
+                    users.push(item?.id);
+                    console.log(users);
+                  }}
+                />
+                <span>{item?.Username}</span>
+              </div>
+            </MenuItem>
+          ))}
+      </Menu>
+
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl1}
+        open={open1}
+        onClose={handleClose1}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        {headlist &&
+          headlist.map((item, index) => (
+            <MenuItem key={index} value={item.type_hi}>
+              <div className="mainuser_item">
+                <input
+                  style={{ marginRight: '1rem' }}
+                  type="checkbox"
+                  onClick={() => {
+                    head.push(item.type_hi);
+                    console.log(head);
+                  }}
+                />
+                <span> {item.type_hi}</span>
+              </div>
+            </MenuItem>
+          ))}
+      </Menu>
       <AllReportTap setopendashboard={setopendashboard} />
 
       <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
@@ -230,34 +314,53 @@ const AllConsolidated = ({ setopendashboard }) => {
                   setdateto(e.target.value);
                 }}
               />
-              <select
-                style={{ width: '14%' }}
-                value={type}
-                name="type"
-                onChange={(e) => settype(e.target.value)}
-              >
-                <option value="">All Head</option>
-                {headlist &&
-                  headlist.map((item, index) => (
-                    <option key={index} value={item.type_hi}>
-                      {item.type_hi}
-                    </option>
-                  ))}
-              </select>
-              <select
-                style={{ width: '14%' }}
-                value={empId}
-                name="empId"
-                onChange={(e) => setempId(e.target.value)}
-              >
-                <option value="">All User</option>
-                {empylist &&
-                  empylist.map((item, index) => (
-                    <option key={index} value={item.id}>
-                      {item.Username}
-                    </option>
-                  ))}
-              </select>
+              <div className="main_div_selectAllhed">
+                <div
+                  onClick={handleClick1}
+                  className="select_person_divAllHead"
+                >
+                  {passhead.length > 0
+                    ? `Selected head ${passhead.length}`
+                    : ' All Head'}
+                  <svg
+                    width="12"
+                    height="7"
+                    viewBox="0 0 12 7"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1 1L6 6L11 1"
+                      stroke="#333333"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div className="main_div_selectAllhed">
+                <div onClick={handleClick} className="select_person_divAllHead">
+                  {passuser.length > 0
+                    ? `Selected user ${passuser.length}`
+                    : 'All User '}
+                  <svg
+                    width="12"
+                    height="7"
+                    viewBox="0 0 12 7"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1 1L6 6L11 1"
+                      stroke="#333333"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
               <button onClick={() => filterdata()}>Search</button>
               <button onClick={() => resetbutn()}>Reset</button>
               <Tooltip title="Print">

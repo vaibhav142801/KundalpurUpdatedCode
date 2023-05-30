@@ -38,6 +38,7 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import DonationReportTap from '../DonationReportTap';
 import LoadingSpinner1 from '../../../../../components/Loading/LoadingSpinner1';
+import { MenuItem, Menu } from '@mui/material';
 import 'react-spinning-wheel/dist/style.css';
 import './Electornic.css';
 
@@ -235,6 +236,25 @@ const Electornic = ({ setopendashboard }) => {
       console.log(res);
     });
   };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open11 = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose11 = () => {
+    setAnchorEl(null);
+    setpassuser(users);
+  };
+
+  const [anchorEl1, setAnchorEl1] = React.useState(null);
+  const open1 = Boolean(anchorEl1);
+  const handleClick1 = (event) => {
+    setAnchorEl1(event.currentTarget);
+  };
+  const handleClose1 = () => {
+    setAnchorEl1(null);
+    setpasshead(head);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -302,18 +322,20 @@ const Electornic = ({ setopendashboard }) => {
         const res = await axios.get(
           `${backendApiUrl}admin/search-electric?search=${searchvalue}&type=${1}`,
         );
-
+        console.log('filter data', res?.data?.data);
         if (res.data.status) {
           setloader(false);
           if (emproleid === 7) {
-            filterData = res.data.filter(
+            filterData = res?.data?.data.filter(
               (item) =>
                 item.modeOfDonation === '1' &&
                 item.isActive === true &&
                 item.created_by === empid,
             );
           } else {
-            filterData = res.data.filter((item) => item.isActive === true);
+            filterData = res?.data?.data.filter(
+              (item) => item.isActive === true,
+            );
           }
 
           setisData(filterData);
@@ -331,14 +353,16 @@ const Electornic = ({ setopendashboard }) => {
         if (res.data.status) {
           setloader(false);
           if (emproleid === 7) {
-            filterData = res.data.filter(
+            filterData = res?.data?.data?.filter(
               (item) =>
                 item.modeOfDonation === '1' &&
                 item.isActive === true &&
                 item.created_by === empid,
             );
           } else {
-            filterData = res.data.filter((item) => item.isActive === true);
+            filterData = res?.data?.data?.filter(
+              (item) => item.isActive === true,
+            );
           }
           setisData(filterData);
           setisDataDummy(filterData);
@@ -651,6 +675,59 @@ const Electornic = ({ setopendashboard }) => {
   };
   return (
     <>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open11}
+        onClose={handleClose11}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        {emplist &&
+          emplist.map((item, index) => (
+            <MenuItem key={item?.id}>
+              <div className="mainuser_item">
+                <input
+                  style={{ marginRight: '1rem' }}
+                  type="checkbox"
+                  onClick={() => {
+                    users.push(item?.id);
+                    console.log(users);
+                  }}
+                />
+                <span>{item?.Username}</span>
+              </div>
+            </MenuItem>
+          ))}
+      </Menu>
+
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl1}
+        open={open1}
+        onClose={handleClose1}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        {donationTypes &&
+          donationTypes.map((item, index) => (
+            <MenuItem key={index} value={item.type_hi}>
+              <div className="mainuser_item">
+                <input
+                  style={{ marginRight: '1rem' }}
+                  type="checkbox"
+                  onClick={() => {
+                    head.push(item.type_hi);
+                    console.log(head);
+                  }}
+                />
+                <span> {item.type_hi}</span>
+              </div>
+            </MenuItem>
+          ))}
+      </Menu>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -724,7 +801,7 @@ const Electornic = ({ setopendashboard }) => {
                 <label htmlFor="donation-date">From Date</label>
                 <input
                   id="donation-date"
-                  style={{ width: '220px' }}
+                  style={{ width: '100%' }}
                   type="date"
                   placeholder="From"
                   value={datefrom}
@@ -738,7 +815,7 @@ const Electornic = ({ setopendashboard }) => {
                 <label htmlFor="donation-date">To Date</label>
                 <input
                   id="donation-date"
-                  style={{ width: '220px' }}
+                  style={{ width: '100%' }}
                   type="date"
                   placeholder="From"
                   value={dateto}
@@ -751,7 +828,7 @@ const Electornic = ({ setopendashboard }) => {
               <div className="Center_main_dic_filetr">
                 <label>From Voucher</label>
                 <input
-                  style={{ width: '220px' }}
+                  style={{ width: '100%' }}
                   type="text"
                   placeholder="From"
                   value={voucherfrom}
@@ -764,7 +841,7 @@ const Electornic = ({ setopendashboard }) => {
               <div className="Center_main_dic_filetr">
                 <label>To Voucher</label>
                 <input
-                  style={{ width: '220px' }}
+                  style={{ width: '100%' }}
                   type="text"
                   placeholder="From"
                   value={voucherto}
@@ -775,6 +852,66 @@ const Electornic = ({ setopendashboard }) => {
                 />
               </div>
 
+              <div className="Center_main_dic_filetr">
+                <label>&nbsp;</label>
+                <div
+                  className="main_div_selectAllhed"
+                  style={{ width: '7rem' }}
+                >
+                  <div
+                    onClick={handleClick1}
+                    className="select_person_divAllHead"
+                    style={{ width: '7rem' }}
+                  >
+                    All Head
+                    <svg
+                      width="12"
+                      height="7"
+                      viewBox="0 0 12 7"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 1L6 6L11 1"
+                        stroke="#333333"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div className="Center_main_dic_filetr">
+                <label>&nbsp;</label>
+                <div
+                  className="main_div_selectAllhed"
+                  style={{ width: '7rem' }}
+                >
+                  <div
+                    onClick={handleClick}
+                    className="select_person_divAllHead"
+                    style={{ width: '7rem' }}
+                  >
+                    All User
+                    <svg
+                      width="12"
+                      height="7"
+                      viewBox="0 0 12 7"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 1L6 6L11 1"
+                        stroke="#333333"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
               <div className="Center_main_dic_filetr">
                 <label>&nbsp;</label>
                 <Search>
@@ -790,7 +927,6 @@ const Electornic = ({ setopendashboard }) => {
                   />
                 </Search>
               </div>
-
               <div className="Center_main_dic_filetr">
                 <label>&nbsp;</label>
                 <button>Search</button>

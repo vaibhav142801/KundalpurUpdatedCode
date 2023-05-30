@@ -73,13 +73,17 @@ const Hold = ({ setopendashboard }) => {
 
   const handleClose4 = () => {
     setOpen3(false);
-
+    setloader(true);
     serverInstance('room/update-holdin', 'PUT', {
       id: deleteId,
     }).then((res) => {
       if (res?.data?.status === true) {
-        getall_donation();
         Swal.fire('Great!', res?.data?.message, 'success');
+
+        setTimeout(() => {
+          getall_donation();
+        }, 1000);
+        setloader(false);
       }
     });
   };
@@ -87,8 +91,8 @@ const Hold = ({ setopendashboard }) => {
     setloader(true);
     serverInstance('room/hold', 'get').then((res) => {
       if (res.data) {
-        setisData(res.data);
-        setisDataDummy(res.data);
+        setisData(res?.data);
+        setisDataDummy(res?.data);
         setloader(false);
       }
     });
@@ -173,7 +177,7 @@ const Hold = ({ setopendashboard }) => {
     getall_donation();
     setopendashboard(true);
     setuserrole(Number(sessionStorage.getItem('userrole')));
-  }, [open, open1, open3]);
+  }, [open, open1]);
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const sortData = (key) => {
