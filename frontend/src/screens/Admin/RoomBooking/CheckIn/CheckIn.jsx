@@ -16,7 +16,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
 import moment from 'moment';
-import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../assets/ExportExcel.png';
 import Tooltip from '@mui/material/Tooltip';
@@ -39,6 +38,12 @@ import Totalguest from './Totalguest';
 import Printcheckin from './Printcheckin';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import ForceCheckoutOptions from './ForceCheckoutOptions';
+import Checkin from '../../../../assets/Checkin.png';
+import Checkout from '../../../../assets/Checkout.png';
+import forcheckout from '../../../../assets/Checkout2.png';
+import roomshift from '../../../../assets/Edit.png';
+import Print from '../../../../assets/Print.png';
+import Edit from '../../../../assets/Edit.png';
 import './Checkin.css';
 const style = {
   position: 'absolute',
@@ -46,6 +51,18 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '80%',
+  bgcolor: 'background.paper',
+  p: 2,
+  boxShadow: 24,
+  borderRadius: '5px',
+};
+
+const style1 = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '60%',
   bgcolor: 'background.paper',
   p: 2,
   boxShadow: 24,
@@ -380,7 +397,7 @@ const CheckIn = ({ setopendashboard }) => {
         closeAfterTransition
       >
         <Fade in={open8}>
-          <Box sx={style}>
+          <Box sx={style1}>
             <div>
               <div className="add-div-close-div">
                 <div>
@@ -831,11 +848,11 @@ const CheckIn = ({ setopendashboard }) => {
                       <TableCell> {row?.advanceAmount}</TableCell>
                       <TableCell> {row?.RoomNo}</TableCell>
                       <TableCell
-                        style={{ display: 'flex', flexDirection: 'column' }}
+                      // style={{ display: 'flex', flexDirection: 'column' }}
                       >
                         {optionss === 'History' ? (
                           <>
-                            <button
+                            {/* <button
                               style={{
                                 width: '6rem',
                                 marginBottom: '4px',
@@ -845,11 +862,19 @@ const CheckIn = ({ setopendashboard }) => {
                               onClick={() => downloadrecept(row)}
                             >
                               Print
-                            </button>
+                            </button> */}
+                            <Tooltip title="Print">
+                              <img
+                                onClick={() => downloadrecept(row)}
+                                src={Print}
+                                alt="print"
+                                style={{ width: '25px', marginRight: '0.3rem' }}
+                              />
+                            </Tooltip>
                           </>
                         ) : (
                           <>
-                            <button
+                            {/* <button
                               style={{
                                 width: '6rem',
                                 marginBottom: '4px',
@@ -859,35 +884,57 @@ const CheckIn = ({ setopendashboard }) => {
                               onClick={() => downloadrecept(row)}
                             >
                               Print
-                            </button>
-                            {console.log(
-                              'hours',
-                              new Date(row?.date).getHours(),
-                              new Date(row?.date).getHours() + 2,
-                              new Date().getHours(),
-                              new Date().getHours() + 2,
-                            )}
+                            </button> */}
+                            <Tooltip title="Print">
+                              <img
+                                onClick={() => downloadrecept(row)}
+                                src={Print}
+                                alt="print"
+                                style={{ width: '25px', marginRight: '0.3rem' }}
+                              />
+                            </Tooltip>
+
                             {userrole === 1 && (
-                              <button
-                                style={{
-                                  width: '6rem',
-                                  marginBottom: '4px',
-                                  backgroundColor: '#800000',
-                                }}
-                                onClick={() =>
-                                  navigation(
-                                    '/admin-panel/Room/ForceRoomChequeOut',
-                                    {
-                                      state: {
-                                        data: row,
+                              // <button
+                              //   style={{
+                              //     width: '6rem',
+                              //     marginBottom: '4px',
+                              //     backgroundColor: '#800000',
+                              //   }}
+                              //   onClick={() =>
+                              //     navigation(
+                              //       '/admin-panel/Room/ForceRoomChequeOut',
+                              //       {
+                              //         state: {
+                              //           data: row,
+                              //         },
+                              //       },
+                              //     )
+                              //   }
+                              //   className="chaneRoom"
+                              // >
+                              //   Forcecheckout
+                              // </button>
+                              <Tooltip title="Force Checkout">
+                                <img
+                                  onClick={() =>
+                                    navigation(
+                                      '/admin-panel/Room/ForceRoomChequeOut',
+                                      {
+                                        state: {
+                                          data: row,
+                                        },
                                       },
-                                    },
-                                  )
-                                }
-                                className="chaneRoom"
-                              >
-                                Forcecheckout
-                              </button>
+                                    )
+                                  }
+                                  src={Checkout}
+                                  alt="print"
+                                  style={{
+                                    width: '25px',
+                                    marginRight: '0.3rem',
+                                  }}
+                                />
+                              </Tooltip>
                             )}
 
                             {userrole === 1 ? (
@@ -895,7 +942,7 @@ const CheckIn = ({ setopendashboard }) => {
                                 {new Date(row?.date).getHours() !=
                                 new Date(row?.date).getHours() + 2 ? (
                                   <>
-                                    <button
+                                    {/* <button
                                       style={{
                                         width: '6rem',
                                         marginBottom: '4px',
@@ -905,8 +952,16 @@ const CheckIn = ({ setopendashboard }) => {
                                       className="chaneRoom"
                                     >
                                       Cancel
-                                    </button>
-                                    <button
+                                    </button> */}
+                                    <Tooltip title="Cancel">
+                                      <CloseIcon
+                                        onClick={() =>
+                                          handleClickOpen3(row?.booking_id)
+                                        }
+                                      />
+                                    </Tooltip>
+
+                                    {/* <button
                                       style={{
                                         width: '6rem',
                                         marginBottom: '4px',
@@ -916,7 +971,18 @@ const CheckIn = ({ setopendashboard }) => {
                                       className="chaneRoom"
                                     >
                                       RoomChange
-                                    </button>
+                                    </button> */}
+                                    <Tooltip title="Print">
+                                      <img
+                                        onClick={() => handleOepn8(row)}
+                                        src={Edit}
+                                        alt="print"
+                                        style={{
+                                          width: '25px',
+                                          marginRight: '0.3rem',
+                                        }}
+                                      />
+                                    </Tooltip>
                                   </>
                                 ) : (
                                   <></>
@@ -927,7 +993,7 @@ const CheckIn = ({ setopendashboard }) => {
                                 {new Date(row?.date).getHours() !=
                                 new Date(row?.date).getHours() + 2 ? (
                                   <>
-                                    <button
+                                    {/* <button
                                       style={{
                                         width: '6rem',
                                         marginBottom: '4px',
@@ -939,7 +1005,13 @@ const CheckIn = ({ setopendashboard }) => {
                                       className="chaneRoom"
                                     >
                                       Cancel
-                                    </button>
+                                    </button> */}
+
+                                    {/* <CloseIcon
+                                      onClick={() =>
+                                        handleClickOpen3(row?.booking_id)
+                                      }
+                                    />
                                     <button
                                       style={{
                                         width: '6rem',
@@ -950,7 +1022,18 @@ const CheckIn = ({ setopendashboard }) => {
                                       className="chaneRoom"
                                     >
                                       RoomChange
-                                    </button>
+                                    </button> */}
+                                    <Tooltip title="Room Shift">
+                                      <img
+                                        onClick={() => handleOepn8(row)}
+                                        src={Edit}
+                                        alt="print"
+                                        style={{
+                                          width: '25px',
+                                          marginRight: '0.3rem',
+                                        }}
+                                      />
+                                    </Tooltip>
                                   </>
                                 ) : (
                                   <></>
@@ -958,7 +1041,7 @@ const CheckIn = ({ setopendashboard }) => {
                               </>
                             )}
 
-                            <button
+                            {/* <button
                               style={{
                                 backgroundColor: '#FA7401',
                                 width: '6rem',
@@ -977,7 +1060,24 @@ const CheckIn = ({ setopendashboard }) => {
                               className="chaneRoom"
                             >
                               checkout
-                            </button>
+                            </button> */}
+                            <Tooltip title="Checkout">
+                              <img
+                                onClick={() =>
+                                  navigation(
+                                    '/admin-panel/Room/CheckoutReceipt',
+                                    {
+                                      state: {
+                                        data: row,
+                                      },
+                                    },
+                                  )
+                                }
+                                src={forcheckout}
+                                alt="print"
+                                style={{ width: '25px', marginRight: '0.3rem' }}
+                              />
+                            </Tooltip>
                           </>
                         )}
                       </TableCell>

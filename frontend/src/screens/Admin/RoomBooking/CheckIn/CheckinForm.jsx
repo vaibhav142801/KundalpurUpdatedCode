@@ -113,6 +113,9 @@ const idproff = [
 
 function CheckinForm({ setOpen }) {
   const navigate = useNavigate();
+  const [formerror, setFormerror] = useState({});
+  const [mainRate, setmainRate] = useState('');
+  const [mainAvanceRate, setmainAvanceRate] = useState('');
   const [showprocess, setshowprocess] = useState(false);
   const [lan, setlan] = useState(false);
   const [showPayDetails, setshowPayDetails] = useState(false);
@@ -292,6 +295,31 @@ function CheckinForm({ setOpen }) {
       }
     });
   };
+  const handleclick = async () => {
+    setFormerror(validate());
+    if (fullname && phoneno && address) {
+      setshowavailability(true);
+    }
+  };
+
+  const validate = (values) => {
+    const errors = {};
+
+    if (!fullname) {
+      errors.name = 'Full name is required';
+    }
+
+    if (!phoneno) {
+      errors.mobile = 'Mobile is required';
+    }
+
+    if (!address) {
+      errors.address = 'Address is required';
+    }
+
+    return errors;
+  };
+
   useEffect(() => {
     getalldharamshala();
     getallfacility();
@@ -433,30 +461,26 @@ function CheckinForm({ setOpen }) {
                       <h2>Price Summary</h2>
                       <div className="main_div_test22222">
                         <p>Rate</p>
-                        <p>₹ {roomlist[0]?.Rate}</p>
+                        <p>₹ {mainRate}</p>
                       </div>
                       <div className="main_div_test22222">
                         <p>Advance rate</p>
-                        <p>₹ {roomlist[0]?.advance}</p>
+                        <p>₹ {mainAvanceRate}</p>
                       </div>
                       <div className="main_div_test22222">
                         <p>
                           {roomno.length} Room x {staydays} Days
                         </p>
                         <p>
-                          ₹
-                          {roomno.length *
-                            Number(roomlist[0]?.Rate) *
-                            Number(staydays)}
+                          ₹{roomno.length * Number(mainRate) * Number(staydays)}
                         </p>
                       </div>
 
                       <div className="main_div_test22222">
                         <p>
-                          {roomno.length} Room x {roomlist[0]?.advance} Advance
-                          rate
+                          {roomno.length} Room x {mainAvanceRate} Advance rate
                         </p>
-                        <p>₹{roomno.length * Number(roomlist[0]?.advance)}</p>
+                        <p>₹{roomno.length * Number(mainAvanceRate)}</p>
                       </div>
 
                       {/* <div className="main_div_test22222">
@@ -644,8 +668,14 @@ function CheckinForm({ setOpen }) {
                                         type="checkbox"
                                         onClick={() => {
                                           result.push(item?.RoomNo);
-                                          console.log(result);
+                                          console.log(
+                                            'rooooo',
+                                            item?.RoomNo,
+                                            result,
+                                          );
 
+                                          setmainRate(item?.Rate);
+                                          setmainAvanceRate(item?.advance);
                                           // setdharamshalanameroom(item?.name);
                                           // setcategoryroom(item?.category_name);
                                           // setfacilityname(item?.facility_name);
@@ -703,7 +733,9 @@ function CheckinForm({ setOpen }) {
                       Next
                     </button>
                     <button
-                      onClick={() => setshowavailability(false)}
+                      onClick={() => {
+                        setshowavailability(false);
+                      }}
                       className="save-div-btn-btn-cancel"
                     >
                       Back
@@ -791,6 +823,13 @@ function CheckinForm({ setOpen }) {
                         value={phoneno}
                         onChange={(e) => setphoneno(e.target.value)}
                       />
+                      {formerror.mobile && (
+                        <>
+                          <p style={{ color: 'red', marginTop: '1rem' }}>
+                            {formerror.mobile}
+                          </p>
+                        </>
+                      )}
                     </div>
                     <div className="minddle_div_room_innear">
                       {lan ? (
@@ -805,6 +844,13 @@ function CheckinForm({ setOpen }) {
                             value={fullname}
                             onChange={(e) => setfullname(e.target.value)}
                           />
+                          {formerror.name && (
+                            <>
+                              <p style={{ color: 'red', marginTop: '1rem' }}>
+                                {formerror.name}
+                              </p>
+                            </>
+                          )}
                         </>
                       ) : (
                         <>
@@ -821,6 +867,13 @@ function CheckinForm({ setOpen }) {
                             onChange={(e) => setfullname(e.target.value)}
                             lang="hi"
                           />
+                          {formerror.name && (
+                            <>
+                              <p style={{ color: 'red', marginTop: '1rem' }}>
+                                {formerror.name}
+                              </p>
+                            </>
+                          )}
                         </>
                       )}
                     </div>
@@ -862,7 +915,7 @@ function CheckinForm({ setOpen }) {
                   <div className="minddle_div_room">
                     <div
                       className="minddle_div_room_innear_adddress"
-                      style={{ width: '98%' }}
+                      style={{ width: '100%' }}
                     >
                       {lan ? (
                         <>
@@ -876,6 +929,14 @@ function CheckinForm({ setOpen }) {
                             value={address}
                             onChange={(e) => setaddress(e.target.value)}
                           />
+
+                          {formerror.address && (
+                            <>
+                              <p style={{ color: 'red', marginTop: '1rem' }}>
+                                {formerror.address}
+                              </p>
+                            </>
+                          )}
                         </>
                       ) : (
                         <>
@@ -893,6 +954,13 @@ function CheckinForm({ setOpen }) {
                             onChange={(e) => setaddress(e.target.value)}
                             lang="hi"
                           />
+                          {formerror.address && (
+                            <>
+                              <p style={{ color: 'red', marginTop: '1rem' }}>
+                                {formerror.address}
+                              </p>
+                            </>
+                          )}
                         </>
                       )}
                     </div>
@@ -1099,7 +1167,9 @@ function CheckinForm({ setOpen }) {
               </div>
               <div className="save-div-btn">
                 <button
-                  onClick={() => setshowavailability(true)}
+                  onClick={() => {
+                    handleclick();
+                  }}
                   className="save-div-btn-btn"
                 >
                   Next

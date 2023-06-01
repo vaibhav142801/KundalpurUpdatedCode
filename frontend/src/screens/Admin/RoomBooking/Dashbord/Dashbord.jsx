@@ -78,6 +78,23 @@ function Dashbord({ setopendashboard }) {
         <h1 className="trust_text">
           श्री दिगम्बर जैन सिद्धक्षेत्र कुण्डलगिरि कुण्डलपुर दमोह (म.प्र.)
         </h1>
+
+        {isData &&
+          Object.keys(isData).forEach((category) => {
+            // holdRoomsCatWise[category] = roomsCatWise[category].filter((id) => {
+            //   return holdinsArr.includes(id);
+            // });
+
+            // occRoomsOnCategory[category] = roomsCatWise[category].filter((id) => {
+            //   return unavailableRooms.includes(id);
+            // });
+
+            // roomsCatWise[category] = roomsCatWise[category].filter((id) => {
+            //   return !unavailableRooms.includes(id);
+            // });
+
+            console.log('object', category);
+          })}
         {isData &&
           isData.map((item, index) => {
             return (
@@ -132,7 +149,12 @@ function Dashbord({ setopendashboard }) {
                                 }}
                               >
                                 <td>{item?.name}</td>
-                                <td>
+                                <td
+                                  style={{
+                                    display: 'flex',
+                                    flexWrap: 'wrap',
+                                  }}
+                                >
                                   {item?.value.map((x) => {
                                     return <span>{x},</span>;
                                   })}
@@ -201,9 +223,11 @@ function Dashbord({ setopendashboard }) {
                                 }}
                               >
                                 <td>
-                                  {item?.value.map((x) => {
-                                    return <span>{x},</span>;
-                                  })}
+                                  {item?.value?.length > 0
+                                    ? item?.value.map((x) => {
+                                        return <span>{x},</span>;
+                                      })
+                                    : '0'}
                                 </td>
                                 <td>0</td>
                               </tr>

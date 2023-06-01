@@ -29,6 +29,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
+import forcheckout from '../../../../assets/Checkout2.png';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
@@ -587,13 +588,12 @@ const Hold = ({ setopendashboard }) => {
                       <TableCell> {row?.remarks}</TableCell>
                       <TableCell>
                         <Tooltip title="Room Release">
-                          <button
-                            style={{ backgroundColor: '#FA7401' }}
+                          <img
                             onClick={() => handleClickOpen3(row?.id)}
-                            className="chaneRoom"
-                          >
-                            RoomRelease
-                          </button>
+                            src={forcheckout}
+                            alt="print"
+                            style={{ width: '25px', marginRight: '0.3rem' }}
+                          />
                         </Tooltip>
                       </TableCell>
                     </TableRow>
