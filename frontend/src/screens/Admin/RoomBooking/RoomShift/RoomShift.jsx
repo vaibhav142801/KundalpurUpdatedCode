@@ -874,9 +874,7 @@ const RoomShift = ({ setopendashboard }) => {
                             </button> */}
                             <Tooltip title="Cancel">
                               <CloseIcon
-                                onClick={() =>
-                                  handleClickOpen3(row?.booking_id)
-                                }
+                                onClick={() => handleClickOpen3(row?.id)}
                               />
                             </Tooltip>
                             {/* 

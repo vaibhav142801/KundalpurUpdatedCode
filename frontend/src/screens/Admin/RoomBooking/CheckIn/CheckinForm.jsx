@@ -12,15 +12,12 @@ import CheckAvalability from './CheckAvalability';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { ReactTransliterate } from 'react-transliterate';
 import { useNavigate } from 'react-router-dom';
-
 const addressinput = {
   width: '600px',
   height: '35px',
   fontSize: '15px',
   background: '#ffffff',
   border: '1px solid #c4bfbf',
-  borderRadius: '7px',
-  // color: '',
   paddingLeft: '0.8rem',
 };
 const custominput = {
@@ -32,7 +29,6 @@ const custominput = {
   borderRadius: '5px',
   fontSize: '15px',
   paddingLeft: '0.5rem',
-  // color: 'g',
 };
 const style = {
   position: 'absolute',
@@ -65,7 +61,6 @@ export const CustomInput = styled(InputBase)(({ theme }) => ({
       'box-shadow',
     ]),
     '&:focus': {
-      // boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
       borderColor: theme.palette.primary.main,
     },
   },
@@ -121,7 +116,7 @@ function CheckinForm({ setOpen }) {
   const [showPayDetails, setshowPayDetails] = useState(false);
   const [Paymode, setPaymode] = useState('Cash');
   const [paymentmode, setpaymentmode] = useState(2);
-  const [roomno, setroomno] = useState('');
+  const [roomno, setroomno] = useState([]);
   const [fathers, setfathers] = useState('');
   const [showloader1, setshowloader1] = useState(false);
   const [fullname, setfullname] = useState('');
@@ -494,11 +489,9 @@ function CheckinForm({ setOpen }) {
                       <div className="main_div_test22222">
                         <p>Payable Amount </p>
                         <p>
-                          ₹{' '}
-                          {roomno.length *
-                            Number(roomlist[0]?.Rate) *
-                            Number(staydays) +
-                            roomno.length * Number(roomlist[0]?.advance)}
+                          ₹
+                          {roomno.length * Number(mainRate) * Number(staydays) +
+                            roomno.length * Number(mainAvanceRate)}
                         </p>
                       </div>
 
@@ -667,12 +660,10 @@ function CheckinForm({ setOpen }) {
                                       <input
                                         type="checkbox"
                                         onClick={() => {
-                                          result.push(item?.RoomNo);
-                                          console.log(
-                                            'rooooo',
+                                          setroomno((current) => [
+                                            ...current,
                                             item?.RoomNo,
-                                            result,
-                                          );
+                                          ]);
 
                                           setmainRate(item?.Rate);
                                           setmainAvanceRate(item?.advance);
@@ -723,9 +714,8 @@ function CheckinForm({ setOpen }) {
                     <button
                       onClick={() => {
                         setshowPayDetails(true);
-                        setroomno(result);
 
-                        console.log('roohhms list', result);
+                        console.log('anil list', roomno);
                       }}
                       disabled={result.length === null ? true : false}
                       className="save-div-btn-btn"

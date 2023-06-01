@@ -44,6 +44,7 @@ import forcheckout from '../../../../assets/Checkout2.png';
 import roomshift from '../../../../assets/Edit.png';
 import Print from '../../../../assets/Print.png';
 import Edit from '../../../../assets/Edit.png';
+import Checkout21 from '../../../../assets/Checkout21.png';
 import './Checkin.css';
 const style = {
   position: 'absolute',
@@ -96,9 +97,50 @@ const CheckIn = ({ setopendashboard }) => {
   const [open8, setOpen8] = React.useState(false);
   const [changedata8, setchangedata8] = useState('');
   const handleClose8 = () => setOpen8(false);
-  const handleOepn8 = (data) => {
-    setOpen8(true);
-    setchangedata8(data);
+  const handleOepn8 = async (data) => {
+    // setOpen8(true);
+    // setchangedata8(data);
+    // console.log('for change room', data);
+    // try {
+    //   console.log('click');
+    //   const data = {
+    //     id: data?.id,
+    //     contactNo: data?.contactNo,
+    //     name: data?.name,
+    //     email: email,
+    //     address: address,
+    //     stayD: 3,
+    //     pin: 555555,
+    //     city: city,
+    //     state: state,
+    //     proof: idproffname,
+    //     idNumber: idproffnumber,
+    //     male: maleno ? Number(maleno) : 0,
+    //     female: femaleno ? Number(femaleno) : 0,
+    //     child: Children ? Number(Children) : 0,
+    //     dharmasala: dharamshalid,
+    //     modeOfBooking: changedata?.modeOfBooking,
+    //     RoomNo: roomnumber,
+    //   };
+    //   axios.defaults.headers.put[
+    //     'Authorization'
+    //   ] = `Bearer ${sessionStorage.getItem('token')}`;
+    //   const res = await axios.put(`${backendApiUrl}room/checkin`, data);
+    //   console.log('room shift', res);
+    //   if (res?.data?.data?.status) {
+    //     setOpen(false);
+    //     Swal.fire('Great!', res.data.data.message, 'success');
+    //   }
+    //   if (res?.data?.data?.status === false) {
+    //     Swal.fire(
+    //       'Great!',
+    //       'Room failed to checkout (Time Limit Elapsed)',
+    //       'success',
+    //     );
+    //   }
+    // } catch (error) {
+    //   // Swal.fire('Error!', error, 'error');
+    // }
   };
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
   var today = new Date();
@@ -927,7 +969,7 @@ const CheckIn = ({ setopendashboard }) => {
                                       },
                                     )
                                   }
-                                  src={Checkout}
+                                  src={Checkout21}
                                   alt="print"
                                   style={{
                                     width: '25px',
@@ -956,7 +998,7 @@ const CheckIn = ({ setopendashboard }) => {
                                     <Tooltip title="Cancel">
                                       <CloseIcon
                                         onClick={() =>
-                                          handleClickOpen3(row?.booking_id)
+                                          handleClickOpen3(row?.id)
                                         }
                                       />
                                     </Tooltip>
