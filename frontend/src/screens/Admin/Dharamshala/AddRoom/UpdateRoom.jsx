@@ -10,6 +10,7 @@ import { MenuItem, Select } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 const formData = new FormData();
+
 export const CustomInput = styled(InputBase)(({ theme }) => ({
   width: '280px',
   fontFamily: 'Poppins',
@@ -56,8 +57,7 @@ function UpdateRoom({ setOpen, updatedata }) {
   const [previewprofile3, setpreviewprofile3] = useState('');
   const [previewprofile4, setpreviewprofile4] = useState('');
 
-  console.log(facilityname, categroyname);
-
+  console.log('updated data is now ', updatedata);
   const handlesubmit = async () => {
     try {
       setshowprocess(true);
@@ -119,7 +119,6 @@ function UpdateRoom({ setOpen, updatedata }) {
 
   const getallcategory = () => {
     serverInstance('room/category', 'get').then((res) => {
-      console.log('category', res.data);
       if (res.data) {
         setcategory(res.data);
       }
@@ -135,7 +134,6 @@ function UpdateRoom({ setOpen, updatedata }) {
       settoroomno(updatedata?.TroomNo);
       setrate(updatedata?.Rate);
       setadvncerate(updatedata?.advance);
-      // setdharamshalaname(updatedata?.dharmasala_id);
       setimg1(updatedata?.image1);
       setimg2(updatedata?.image2);
       setimg3(updatedata?.image3);
@@ -143,11 +141,13 @@ function UpdateRoom({ setOpen, updatedata }) {
       setcheckout(updatedata?.coTime);
       setroomtype(updatedata?.roomType);
       setcheckout(updatedata?.coTime);
+      setcategroyname(updatedata?.category_id),
+        setfacilityname(updatedata?.facility_id);
+      setdharamshalaname(updatedata?.dharmasala_id);
       console.log(updatedata?.dharmasala?.name);
     }
   }, []);
 
-  console.log('categori ids', categroyname);
   return (
     <>
       <div className="cash-donation-div">
@@ -178,7 +178,6 @@ function UpdateRoom({ setOpen, updatedata }) {
                         type="file"
                         onChange={(e) => {
                           setimg1(e.target.files[0]);
-                          console.log(e.target.files[0]);
                           setpreviewprofile1(
                             URL.createObjectURL(e.target.files[0]),
                           );
@@ -207,7 +206,6 @@ function UpdateRoom({ setOpen, updatedata }) {
                         type="file"
                         onChange={(e) => {
                           setimg2(e.target.files[0]);
-                          console.log(e.target.files[0]);
                           setpreviewprofile2(
                             URL.createObjectURL(e.target.files[0]),
                           );
@@ -236,7 +234,6 @@ function UpdateRoom({ setOpen, updatedata }) {
                         type="file"
                         onChange={(e) => {
                           setimg3(e.target.files[0]);
-                          console.log(e.target.files[0]);
                           setpreviewprofile3(
                             URL.createObjectURL(e.target.files[0]),
                           );
@@ -266,7 +263,6 @@ function UpdateRoom({ setOpen, updatedata }) {
                         type="file"
                         onChange={(e) => {
                           setimg4(e.target.files[0]);
-                          console.log(e.target.files[0]);
                           setpreviewprofile4(
                             URL.createObjectURL(e.target.files[0]),
                           );
@@ -313,12 +309,11 @@ function UpdateRoom({ setOpen, updatedata }) {
                         width: '280px',
                         fontSize: 14,
                         '& .MuiSelect-select': {
-                          // borderColor: !!formerror.donationtype ? 'red' : '',
                           padding: '10px 0px 10px 10px',
                           background: '#fff',
                         },
                       }}
-                      value={dharamshalaname}
+                      value={dharamshalaname && dharamshalaname}
                       name="dharamshalaname"
                       onChange={(e) => setdharamshalaname(e.target.value)}
                       displayEmpty
@@ -338,10 +333,10 @@ function UpdateRoom({ setOpen, updatedata }) {
                               sx={{
                                 fontSize: 14,
                               }}
-                              key={item.dharmasala_id}
-                              value={item.dharmasala_id}
+                              key={item?.dharmasala_id}
+                              value={item?.dharmasala_id}
                             >
-                              {item.name}
+                              {item?.name}
                             </MenuItem>
                           );
                         })}

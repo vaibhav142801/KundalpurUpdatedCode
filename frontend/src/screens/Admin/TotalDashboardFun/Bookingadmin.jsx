@@ -5,16 +5,15 @@ function Bookingadmin({ data }) {
 
   let totalAmount = 0;
   if (data) {
-    data &&
-      data.map((item, inx) => {
-        if (item?.bank) {
-          totalAmount = totalAmount + parseFloat(item?.bank);
-        }
+    data.map((item, inx) => {
+      if (item?.bank) {
+        totalAmount = totalAmount + parseFloat(item?.bank);
+      }
 
-        if (item?.cash) {
-          totalAmount = totalAmount + parseFloat(item?.cash);
-        }
-      });
+      if (item?.cash) {
+        totalAmount = totalAmount + parseFloat(item?.cash);
+      }
+    });
   }
   return (
     <>

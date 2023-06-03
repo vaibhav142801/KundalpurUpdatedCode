@@ -40,6 +40,7 @@ import Checkout from '../../../../assets/Checkout.png';
 import forcheckout from '../../../../assets/Checkout2.png';
 import roomshift from '../../../../assets/Edit.png';
 import Edit from '../../../../assets/Edit.png';
+import Checkout21 from '../../../../assets/Checkout21.png';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
@@ -211,13 +212,18 @@ const RoomShift = ({ setopendashboard }) => {
 
   const handleClose4 = () => {
     setOpen3(false);
-
+    setloader(true);
     serverInstance('/room/cancel-checkin', 'DELETE', {
       id: cancelid,
     }).then((res) => {
       console.log(res);
       if (res?.data?.status === true) {
         Swal.fire('Great!', res?.data?.message, 'success');
+
+        setTimeout(() => {
+          getall_donation();
+          setloader(false);
+        }, 1000);
       }
       if (res?.data?.status === false) {
         Swal.fire(
@@ -256,7 +262,7 @@ const RoomShift = ({ setopendashboard }) => {
     getall_donation();
     setopendashboard(true);
     setuserrole(Number(sessionStorage.getItem('userrole')));
-  }, [open, open1, open3, open4, optionss]);
+  }, [open, open1, open4, optionss]);
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const sortData = (key) => {
@@ -853,11 +859,11 @@ const RoomShift = ({ setopendashboard }) => {
                                     },
                                   })
                                 }
-                                src={Checkout}
+                                src={Checkout21}
                                 alt="print"
                                 style={{
                                   width: '25px',
-                                  marginRight: '0.3rem',
+                                  // marginRight: '0.3rem',
                                 }}
                               />
                             </Tooltip>

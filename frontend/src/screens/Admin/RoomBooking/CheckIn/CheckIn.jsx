@@ -263,12 +263,17 @@ const CheckIn = ({ setopendashboard }) => {
 
   const handleClose4 = () => {
     setOpen3(false);
+    setloader(true);
     serverInstance('/room/cancel-checkin', 'DELETE', {
       id: cancelid,
     }).then((res) => {
       console.log(res);
       if (res?.data?.status === true) {
         Swal.fire('Great!', res?.data?.message, 'success');
+        setTimeout(() => {
+          getall_donation();
+          setloader(false);
+        }, 1000);
       }
       if (res?.data?.status === false) {
         Swal.fire(
