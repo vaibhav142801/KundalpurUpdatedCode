@@ -125,7 +125,10 @@ const donationColorTheme = {
 };
 const Electornic = ({ setopendashboard }) => {
   let filterData;
-
+  let head = [];
+  let users = [];
+  const [passuser, setpassuser] = useState('');
+  const [passhead, setpasshead] = useState('');
   const [loader, setloader] = useState(false);
   const [empid, setempid] = useState('');
   const [emproleid, setemproleid] = useState('');
@@ -179,6 +182,8 @@ const Electornic = ({ setopendashboard }) => {
   const getall_donation = () => {
     setloader(true);
     setdatefrom('');
+    setpasshead('');
+    setpassuser('');
     setdateto('');
     setvoucherfrom('');
     setvoucherto('');
@@ -342,31 +347,29 @@ const Electornic = ({ setopendashboard }) => {
           setisDataDummy(filterData);
         }
       } else {
-        axios.defaults.headers.get[
-          'Authorization'
-        ] = `Bearer ${sessionStorage.getItem('token')}`;
-
-        const res = await axios.get(
-          `${backendApiUrl}user/search-donation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}&modeOfDonation=${1}`,
-        );
-
-        if (res.data.status) {
-          setloader(false);
-          if (emproleid === 7) {
-            filterData = res?.data?.data?.filter(
-              (item) =>
-                item.modeOfDonation === '1' &&
-                item.isActive === true &&
-                item.created_by === empid,
-            );
-          } else {
-            filterData = res?.data?.data?.filter(
-              (item) => item.isActive === true,
-            );
+        serverInstance(
+          `user/search-donation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}&modeOfDonation=${1}`,
+          'post',
+          { user: passuser, type: passhead },
+        ).then((res) => {
+          if (res.status) {
+            setloader(false);
+            if (emproleid === 7) {
+              filterData = res?.data?.filter(
+                (item) =>
+                  item.modeOfDonation === '1' &&
+                  item.isActive === true &&
+                  item.created_by === empid,
+              );
+            } else {
+              filterData = res?.data?.filter(
+                (item) => item.isActive === true && item.modeOfDonation === '1',
+              );
+            }
+            setisData(filterData);
+            setisDataDummy(filterData);
           }
-          setisData(filterData);
-          setisDataDummy(filterData);
-        }
+        });
       }
     } catch (error) {
       setloader(false);
@@ -456,7 +459,7 @@ const Electornic = ({ setopendashboard }) => {
         Moment(dt?.donation_date).format('YYYY-MM-DD').indexOf(date) > -1 &&
         dt?.name.toLowerCase().indexOf(name) > -1 &&
         dt?.address.toLowerCase().indexOf(address) > -1 &&
-        // dt?.createdBy?.toLowerCase()?.indexOf(userType) > -1 &&
+        dt?.createdBy?.toLowerCase()?.indexOf(userType) > -1 &&
         dt?.voucherNo?.toLowerCase()?.indexOf(voucherno) > -1,
     );
     console.log(filtered);
@@ -684,6 +687,16 @@ const Electornic = ({ setopendashboard }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
+        <div className="mainuser_item">
+          <input
+            style={{ marginLeft: '1.2rem' }}
+            type="checkbox"
+            onClick={() => {
+              setpassuser('');
+            }}
+          />
+          <span>All Users</span>
+        </div>
         {emplist &&
           emplist.map((item, index) => (
             <MenuItem key={item?.id}>
@@ -711,6 +724,16 @@ const Electornic = ({ setopendashboard }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
+        <div className="mainuser_item">
+          <input
+            style={{ marginLeft: '1.3rem' }}
+            type="checkbox"
+            onClick={() => {
+              setpasshead('');
+            }}
+          />
+          <span>All Head</span>
+        </div>
         {donationTypes &&
           donationTypes.map((item, index) => (
             <MenuItem key={index} value={item.type_hi}>
@@ -856,14 +879,16 @@ const Electornic = ({ setopendashboard }) => {
                 <label>&nbsp;</label>
                 <div
                   className="main_div_selectAllhed"
-                  style={{ width: '7rem' }}
+                  style={{ width: '9rem' }}
                 >
                   <div
                     onClick={handleClick1}
                     className="select_person_divAllHead"
-                    style={{ width: '7rem' }}
+                    style={{ width: '9rem' }}
                   >
-                    All Head
+                    {passhead.length > 0
+                      ? `Selected head ${passhead.length}`
+                      : ' All Head'}
                     <svg
                       width="12"
                       height="7"
@@ -886,14 +911,16 @@ const Electornic = ({ setopendashboard }) => {
                 <label>&nbsp;</label>
                 <div
                   className="main_div_selectAllhed"
-                  style={{ width: '7rem' }}
+                  style={{ width: '9rem' }}
                 >
                   <div
                     onClick={handleClick}
                     className="select_person_divAllHead"
-                    style={{ width: '7rem' }}
+                    style={{ width: '9rem' }}
                   >
-                    All User
+                    {passuser.length > 0
+                      ? `Selected user ${passuser.length}`
+                      : 'All User '}
                     <svg
                       width="12"
                       height="7"

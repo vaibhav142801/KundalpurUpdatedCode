@@ -561,11 +561,13 @@ const Hold = ({ setopendashboard }) => {
               {isData ? (
                 <>
                   {(rowsPerPage > 0
-                    ? isData.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage,
-                      )
-                    : isData
+                    ? isData
+                        ?.reverse()
+                        ?.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage,
+                        )
+                    : isData?.reverse()
                   ).map((row, index) => (
                     <TableRow
                       key={row.id}

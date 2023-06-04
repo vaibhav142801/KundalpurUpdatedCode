@@ -662,6 +662,7 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
             </Adminprivateroute>
           }
         />
+
         <Route
           path="/admin-panel/Room/OnlinecheckinReceipt"
           element={

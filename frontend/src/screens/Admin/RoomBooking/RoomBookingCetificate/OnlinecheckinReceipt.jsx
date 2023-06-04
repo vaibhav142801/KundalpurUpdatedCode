@@ -32,7 +32,6 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
             data: isData,
           },
         });
-        Swal.fire('Great!', res.data.data.message, 'success');
       }
     } catch (error) {
       console.log(error);
@@ -95,7 +94,9 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
             width: '100%',
           }}
         >
-          <button onClick={() => navigation(-1)}>Back</button>
+          <button onClick={() => navigation('/admin-panel/room/roomshift')}>
+            Back
+          </button>
           <button onClick={() => down()}>Download</button>
           <button onClick={() => handlesubmit()}>Checkout</button>
         </div>

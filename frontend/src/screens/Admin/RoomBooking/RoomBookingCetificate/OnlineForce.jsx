@@ -25,7 +25,6 @@ const OnlineForce = ({ setopendashboard }) => {
               data: isData,
             },
           });
-          Swal.fire('Great!', res?.data?.message, 'success');
         }
 
         if (res?.data?.status === false) {
@@ -97,7 +96,9 @@ const OnlineForce = ({ setopendashboard }) => {
             width: '100%',
           }}
         >
-          <button onClick={() => navigation(-1)}>Back</button>
+          <button onClick={() => navigation('/admin-panel/room/roomshift')}>
+            Back
+          </button>
           <button onClick={() => down()}>Download</button>
           <button onClick={() => handlesubmit()}>Force Checkout</button>
         </div>

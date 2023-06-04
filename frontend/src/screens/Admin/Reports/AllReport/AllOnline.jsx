@@ -93,20 +93,16 @@ const AllOnline = ({ setopendashboard }) => {
   };
 
   const ExportToExcel = () => {
-    const fileName = 'HeadReport';
+    const fileName = 'OnlineAllReport';
     const exportType = 'xls';
     var data = [];
     isData.map((item, index) => {
       data.push({
-        Head: item?.type,
-        Count: item?.count,
-        'Amount Cheque': item?.cheque_amount ? item?.cheque_amount : '0',
-        'Amount Electronic': item?.electric_amount
-          ? item?.electric_amount
-          : '0',
-        'Amount Item': item?.item_amount ? item?.item_amount : '0',
-        'Amount Cash': item?.cash_amount ? item?.cash_amount : '0',
-        Total: item?.total_amount ? item?.total_amount : '0',
+        Head: item?.type ? item?.type : item?.TYPE,
+        'type of donation': item?.donationType,
+        'Amount online': item?.online ? item?.online : '0',
+        'Amount cheque': item?.cheque ? item?.cheque : '0',
+
         'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
       });
     });
@@ -216,6 +212,16 @@ const AllOnline = ({ setopendashboard }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
+        <div className="mainuser_item">
+          <input
+            style={{ marginLeft: '1.3rem' }}
+            type="checkbox"
+            onClick={() => {
+              setpasshead('');
+            }}
+          />
+          <span>All Head</span>
+        </div>
         {headlist &&
           headlist.map((item, index) => (
             <MenuItem key={index} value={item.type_hi}>

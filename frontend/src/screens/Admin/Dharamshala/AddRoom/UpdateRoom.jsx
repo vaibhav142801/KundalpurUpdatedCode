@@ -63,7 +63,12 @@ function UpdateRoom({ setOpen, updatedata }) {
       setshowprocess(true);
       formData.set('id', updatedata?.room_id);
       formData.set('Rate', rate);
-      formData.set('dharmasala_id', dharamshalaname);
+      formData.set(
+        'dharmasala_id',
+        dharamshalaname
+          ? dharamshalaname
+          : updatedata?.dharmasala?.dharmasala_id,
+      );
       formData.set('category_id', JSON.stringify(categroyname));
       formData.set('FroomNo', fromroomno);
       formData.set('TroomNo', toroomno);
@@ -143,7 +148,7 @@ function UpdateRoom({ setOpen, updatedata }) {
       setcheckout(updatedata?.coTime);
       setcategroyname(updatedata?.category_id),
         setfacilityname(updatedata?.facility_id);
-      setdharamshalaname(updatedata?.dharmasala_id);
+      // setdharamshalaname(updatedata?.dharmasala?.dharmasala_id);
       console.log(updatedata?.dharmasala?.name);
     }
   }, []);
@@ -313,7 +318,7 @@ function UpdateRoom({ setOpen, updatedata }) {
                           background: '#fff',
                         },
                       }}
-                      value={dharamshalaname && dharamshalaname}
+                      value={dharamshalaname}
                       name="dharamshalaname"
                       onChange={(e) => setdharamshalaname(e.target.value)}
                       displayEmpty
@@ -324,7 +329,7 @@ function UpdateRoom({ setOpen, updatedata }) {
                         }}
                         value={''}
                       >
-                        Please select
+                        {updatedata?.dharmasala?.name}
                       </MenuItem>
                       {Dharamshala &&
                         Dharamshala.map((item) => {
@@ -342,7 +347,6 @@ function UpdateRoom({ setOpen, updatedata }) {
                         })}
                     </Select>
                   </div>
-
                   <div className="inner-input-div2">
                     <label style={{ marginBottom: '0.3rem' }} htmlFor="toNo">
                       Facilities

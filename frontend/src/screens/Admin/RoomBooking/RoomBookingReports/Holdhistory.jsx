@@ -221,62 +221,71 @@ const Holdhistory = ({ setopendashboard }) => {
       },
     });
   };
-
-  const [bookid, setbookid] = useState('');
   const [mobileno, setmobileno] = useState('');
   const [customername, setcustomername] = useState('');
   const [checkindate, setcheckindate] = useState('');
-  const [checkintime, setcheckintime] = useState('');
   const [checkoutdate, setcheckoutdate] = useState('');
-  const [checkouttime, setcheckouttime] = useState();
   const [roomNo, setroomNo] = useState('');
-  const [rate, setrate] = useState('');
-  const [advanceRate, setadvanceRate] = useState('');
+  const [holdsince, setholdsince] = useState('');
+  const [holdremain, setholdremain] = useState('');
+  const [holdby, setholdby] = useState('');
+  const [remark, setremark] = useState('');
+
   const onSearchByOther = (e, type) => {
-    if (type === 'rate') {
-      setrate(e.target.value);
-    }
-    if (type === 'advanceRate') {
-      setadvanceRate(e.target.value);
-    }
-    if (type === 'bookid') {
-      setbookid(e.target.value.toLowerCase());
-    }
-    if (type === 'mobileno') {
+    if (type === 'mobile') {
       setmobileno(e.target.value.toLowerCase());
     }
-    if (type === 'customername') {
+    if (type === 'name') {
       setcustomername(e.target.value.toLowerCase());
-    }
-    if (type === 'checkindate') {
-      setcheckindate(e.target.value.toLowerCase());
-    }
-    if (type === 'checkintime') {
-      setcheckintime(e.target.value.toLowerCase());
-    }
-    if (type === 'checkoutdate') {
-      setcheckoutdate(e.target.value.toLowerCase());
-    }
-    if (type === 'checkouttime') {
-      setcheckouttime(e.target.value);
     }
     if (type === 'roomNo') {
       setroomNo(e.target.value);
+    }
+    if (type === 'since') {
+      setcheckindate(e.target.value.toLowerCase());
+    }
+    if (type === 'remain') {
+      setcheckoutdate(e.target.value.toLowerCase());
+    }
+    if (type === 'approvedBy') {
+      setholdby(e.target.value.toLowerCase());
+    }
+    if (type === 'remarks') {
+      setremark(e.target.value.toLowerCase());
     }
   };
 
   useEffect(() => {
     var filtered = isDataDummy?.filter(
       (dt) =>
-        dt?.booking_id?.toLowerCase().indexOf(bookid) > -1 &&
-        Moment(dt?.date).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
-        Moment(dt?.coutDate).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
+        Moment(dt?.since).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
+        Moment(dt?.remain).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
         dt?.name?.toLowerCase().indexOf(customername) > -1,
     );
 
+    if (remark) {
+      filtered = filtered?.map((item) => {
+        if (item.remarks == remark) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+    if (holdby) {
+      filtered = filtered?.map((item) => {
+        if (item.approvedBy == holdby) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
     if (roomNo) {
       filtered = filtered?.map((item) => {
-        if (item.RoomNo == Number(roomNo)) {
+        if (item.roomNo == Number(roomNo)) {
           return item;
         } else {
           return;
@@ -284,32 +293,9 @@ const Holdhistory = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
-
-    if (rate) {
-      filtered = filtered?.map((item) => {
-        if (item.roomAmount == Number(rate)) {
-          return item;
-        } else {
-          return;
-        }
-      });
-      filtered = filtered?.filter((x) => x !== undefined);
-    }
-
-    if (advanceRate) {
-      filtered = filtered?.map((item) => {
-        if (item.advanceAmount == Number(advanceRate)) {
-          return item;
-        } else {
-          return;
-        }
-      });
-      filtered = filtered?.filter((x) => x !== undefined);
-    }
-
     if (mobileno) {
       filtered = filtered?.map((item) => {
-        if (item.contactNo == mobileno) {
+        if (item.mobile == mobileno) {
           return item;
         } else {
           return;
@@ -319,16 +305,15 @@ const Holdhistory = ({ setopendashboard }) => {
     }
     setisData(filtered);
   }, [
-    bookid,
-    checkindate,
-    checkintime,
-    checkoutdate,
-    checkouttime,
-    roomNo,
     mobileno,
+    checkindate,
+    checkoutdate,
     customername,
-    rate,
-    advanceRate,
+    roomNo,
+    holdby,
+    holdremain,
+    holdsince,
+    remark,
   ]);
 
   return (
@@ -413,76 +398,128 @@ const Holdhistory = ({ setopendashboard }) => {
             <TableHead style={{ background: '#F1F0F0' }}>
               <TableRow>
                 <TableCell>S.No</TableCell>
-
                 <TableCell>
-                  CustomerName
+                  Holder Mobile No
                   <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('holderName')}
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('mobile')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
                 <TableCell>
-                  CheckinDate
+                  Room holder Name
                   <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('date')}
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('name')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-
                 <TableCell>
-                  CheckoutDate
+                  Room No
                   <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('coutDate')}
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('roomNo')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-
+                <TableCell>
+                  Hold Since
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('since')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Hold Remain
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('remain')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Hold Approved By
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('approvedBy')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Remarks
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('remarks')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
                 <TableCell>&nbsp;</TableCell>
-
                 <TableCell>
                   <input
-                    style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
-                    onChange={(e) => onSearchByOther(e, 'customername')}
-                    placeholder="Search  name"
+                    onChange={(e) => onSearchByOther(e, 'mobile')}
+                    placeholder="Search mobile"
                   />
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '9rem' }}
                     className="cuolms_search"
-                    type="date"
-                    onChange={(e) => onSearchByOther(e, 'checkindate')}
-                    placeholder="Search  checkin date"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'name')}
+                    placeholder="Search name"
                   />
                 </TableCell>
-
                 <TableCell>
                   <input
-                    style={{ width: '9rem' }}
                     className="cuolms_search"
-                    type="date"
-                    onChange={(e) => onSearchByOther(e, 'checkoutdate')}
-                    placeholder="Search checkout date"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'roomNo')}
+                    placeholder="Search roomNo"
                   />
                 </TableCell>
-
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'since')}
+                    placeholder="Search since"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'remain')}
+                    placeholder="Search remain"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'approvedBy')}
+                    placeholder="Search approvedBy"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'remarks')}
+                    placeholder="Search remarks"
+                  />
+                </TableCell>
                 <TableCell>
                   <button
-                    style={{
-                      width: '6rem',
-                    }}
-                    className="chaneRoom"
                     onClick={() => getall_donation()}
+                    className="chaneRoom"
                   >
                     Reset
                   </button>
@@ -491,11 +528,13 @@ const Holdhistory = ({ setopendashboard }) => {
               {isData ? (
                 <>
                   {(rowsPerPage > 0
-                    ? isData.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage,
-                      )
-                    : isData
+                    ? isData
+                        ?.reverse()
+                        ?.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage,
+                        )
+                    : isData?.reverse()
                   ).map((row, index) => (
                     <TableRow
                       key={row.id}
@@ -504,34 +543,29 @@ const Holdhistory = ({ setopendashboard }) => {
                       }}
                     >
                       <TableCell>{index + 1}</TableCell>
-
+                      <TableCell>{row?.mobile}</TableCell>
                       <TableCell>{row?.name}</TableCell>
+                      <TableCell>{row?.roomNo}</TableCell>
                       <TableCell>
-                        {handledisable(row?.date)}
-                        {Moment(row?.date).format('YYYY-MM-DD')}&nbsp;&nbsp;
-                        {/* {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')} */}
+                        {Moment(row?.since).format('DD-MM-YYYY')}
+                      </TableCell>
+                      <TableCell>
+                        {Moment(row?.remain).format('DD-MM-YYYY')}
                       </TableCell>
 
-                      <TableCell>
-                        {Moment(row?.coutDate).format('DD-MM-YYYY')}&nbsp;&nbsp;
-                        {/* {moment(row?.coutTime, 'HH:mm:ss').format('hh:mm:ss')} */}
-                      </TableCell>
-
-                      <TableCell
-                        style={{ display: 'flex', flexDirection: 'column' }}
-                      >
-                        <button
-                          style={{
-                            width: '6rem',
-                            marginBottom: '4px',
-                            backgroundColor: '#000080',
-                          }}
-                          className="chaneRoom"
-                          onClick={() => downloadrecept(row)}
-                        >
-                          Print
-                        </button>
-                      </TableCell>
+                      <TableCell>{row?.approvedBy}</TableCell>
+                      <TableCell> {row?.remarks}</TableCell>
+                      {/* <TableCell>
+                        <Tooltip title="Room Release">
+                          <img
+                            onClick={() => handleClickOpen3(row?.id)}
+                            src={forcheckout}
+                            alt="print"
+                            style={{ width: '25px', marginRight: '0.3rem' }}
+                          />
+                        </Tooltip>
+                      </TableCell> */}
+                      <TableCell>&nbsp;</TableCell>
                     </TableRow>
                   ))}
                 </>

@@ -124,6 +124,10 @@ const donationColorTheme = {
   cheque: '#1C82AD',
 };
 const ManualCheque = ({ setopendashboard }) => {
+  let head = [];
+  let users = [];
+  const [passuser, setpassuser] = useState('');
+  const [passhead, setpasshead] = useState('');
   const [emproleid, setemproleid] = useState('');
   const [loader, setloader] = useState(false);
   const [emplist, setemplist] = useState('');
@@ -177,6 +181,8 @@ const ManualCheque = ({ setopendashboard }) => {
 
   const getall_donation = () => {
     setloader(true);
+    setpasshead('');
+    setpassuser('');
     setdatefrom('');
     setdateto('');
     setvoucherfrom('');
@@ -305,22 +311,20 @@ const ManualCheque = ({ setopendashboard }) => {
           setisDataDummy(filterData);
         }
       } else {
-        axios.defaults.headers.get[
-          'Authorization'
-        ] = `Bearer ${sessionStorage.getItem('token')}`;
-
-        const res = await axios.get(
-          `${backendApiUrl}user/search-donation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}&modeOfDonation=${3}`,
-        );
-
-        if (res.data.status) {
-          setloader(false);
-          let filterData = res.data.data.filter(
-            (item) => item.isActive === true && item.modeOfDonation === '3',
-          );
-          setisData(filterData);
-          setisDataDummy(filterData);
-        }
+        serverInstance(
+          `user/search-donation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}&modeOfDonation=${3}`,
+          'post',
+          { user: passuser, type: passhead },
+        ).then((res) => {
+          if (res.status) {
+            let filterData = res?.data.filter(
+              (item) => item.isActive === true && item.modeOfDonation === '3',
+            );
+            setisData(filterData);
+            setisDataDummy(filterData);
+            setloader(false);
+          }
+        });
       }
     } catch (error) {
       setloader(false);
@@ -409,7 +413,7 @@ const ManualCheque = ({ setopendashboard }) => {
         Moment(dt?.donation_date).format('YYYY-MM-DD').indexOf(date) > -1 &&
         dt?.name.toLowerCase().indexOf(name) > -1 &&
         dt?.address.toLowerCase().indexOf(address) > -1 &&
-        // dt?.createdBy?.toLowerCase()?.indexOf(userType) > -1 &&
+        dt?.createdBy?.toLowerCase()?.indexOf(userType) > -1 &&
         dt?.voucherNo?.toLowerCase()?.indexOf(voucherno) > -1,
     );
     console.log(filtered);
@@ -633,6 +637,16 @@ const ManualCheque = ({ setopendashboard }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
+        <div className="mainuser_item">
+          <input
+            style={{ marginLeft: '1.2rem' }}
+            type="checkbox"
+            onClick={() => {
+              setpassuser('');
+            }}
+          />
+          <span>All Users</span>
+        </div>
         {emplist &&
           emplist.map((item, index) => (
             <MenuItem key={item?.id}>
@@ -660,6 +674,16 @@ const ManualCheque = ({ setopendashboard }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
+        <div className="mainuser_item">
+          <input
+            style={{ marginLeft: '1.3rem' }}
+            type="checkbox"
+            onClick={() => {
+              setpasshead('');
+            }}
+          />
+          <span>All Head</span>
+        </div>
         {donationTypes &&
           donationTypes.map((item, index) => (
             <MenuItem key={index} value={item.type_hi}>
@@ -809,7 +833,9 @@ const ManualCheque = ({ setopendashboard }) => {
                     className="select_person_divAllHead"
                     style={{ width: '9rem' }}
                   >
-                    All Head
+                    {passhead.length > 0
+                      ? `Selected head ${passhead.length}`
+                      : ' All Head'}
                     <svg
                       width="12"
                       height="7"
@@ -839,7 +865,9 @@ const ManualCheque = ({ setopendashboard }) => {
                     className="select_person_divAllHead"
                     style={{ width: '9rem' }}
                   >
-                    All User
+                    {passuser.length > 0
+                      ? `Selected user ${passuser.length}`
+                      : 'All User '}
                     <svg
                       width="12"
                       height="7"

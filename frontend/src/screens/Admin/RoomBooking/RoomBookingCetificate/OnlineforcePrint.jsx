@@ -31,6 +31,12 @@ function OnlineforcePrint({ setopendashboard }) {
       setisData(location.state?.data);
     }
     setopendashboard(true);
+    setTimeout(() => {
+      handlePrint();
+    }, 10);
+    setTimeout(() => {
+      handlePrint();
+    }, 10);
   }, []);
   console.log('certificate', isData);
 
@@ -63,7 +69,9 @@ function OnlineforcePrint({ setopendashboard }) {
         className="button_div_print_download10"
         style={{ marginBottom: '-10rem' }}
       >
-        <button onClick={() => navigate(-1)}>Back</button>
+        <button onClick={() => navigate('/admin-panel/room/roomshift')}>
+          Back
+        </button>
 
         <div />
       </div>

@@ -78,7 +78,7 @@ const CheckIn = ({ setopendashboard }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [userrole, setuserrole] = useState('');
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(true);
   const [optionss, setoptionss] = useState('Currently Stay');
   const handleClose = () => setOpen(false);
   const handleOepn = () => setOpen(true);
@@ -864,11 +864,13 @@ const CheckIn = ({ setopendashboard }) => {
               {isData ? (
                 <>
                   {(rowsPerPage > 0
-                    ? isData.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage,
-                      )
-                    : isData
+                    ? isData
+                        ?.reverse()
+                        ?.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage,
+                        )
+                    : isData?.reverse()
                   ).map((row, index) => (
                     <TableRow
                       key={row.id}

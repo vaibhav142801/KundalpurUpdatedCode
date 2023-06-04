@@ -104,20 +104,39 @@ const AllConsolidated = ({ setopendashboard }) => {
   };
 
   const ExportToExcel = () => {
-    const fileName = 'HeadReport';
+    const fileName = 'ConsolidatedAllReport';
     const exportType = 'xls';
     var data = [];
     isData.map((item, index) => {
       data.push({
-        Head: item?.type,
-        Count: item?.count,
-        'Amount Cheque': item?.cheque_amount ? item?.cheque_amount : '0',
-        'Amount Electronic': item?.electric_amount
-          ? item?.electric_amount
+        'Type of Donation':
+          item?.donationType == 'manual' ? 'Manual Donation' : 'Donation',
+
+        'Electronic Amount Cheque': item?.electric_cheque_TOTAL_AMOUNT
+          ? item?.electric_cheque_TOTAL_AMOUNT
           : '0',
-        'Amount Item': item?.item_amount ? item?.item_amount : '0',
-        'Amount Cash': item?.cash_amount ? item?.cash_amount : '0',
-        Total: item?.total_amount ? item?.total_amount : '0',
+        'Electronic Amount Bank': item?.electric_bank_TOTAL_AMOUNT
+          ? item?.electric_bank_TOTAL_AMOUNT
+          : '0',
+        'Electronic Amount Cash': item?.electric_item_TOTAL_AMOUNT
+          ? item?.electric_item_TOTAL_AMOUNT
+          : '0',
+
+        'Manual Amount Cheque': item?.manual_cheque_TOTAL_AMOUNT
+          ? item?.manual_cheque_TOTAL_AMOUNT
+          : '0',
+
+        'Manual Amount Bank': item?.manual_bank_TOTAL_AMOUNT
+          ? item?.manual_bank_TOTAL_AMOUNT
+          : '0',
+
+        'Mnaual Amount Item': item?.manual_item_TOTAL_AMOUNT
+          ? item?.manual_item_TOTAL_AMOUNT
+          : '0',
+
+        'Manual Amount Cash': item?.manual_cash_TOTAL_AMOUNT
+          ? item?.manual_cash_TOTAL_AMOUNT
+          : '0',
         'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
       });
     });
@@ -243,6 +262,16 @@ const AllConsolidated = ({ setopendashboard }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
+        <div className="mainuser_item">
+          <input
+            style={{ marginLeft: '1.2rem' }}
+            type="checkbox"
+            onClick={() => {
+              setpassuser('');
+            }}
+          />
+          <span>All Users</span>
+        </div>
         {empylist &&
           empylist.map((item, index) => (
             <MenuItem key={item?.id}>
@@ -270,6 +299,16 @@ const AllConsolidated = ({ setopendashboard }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
+        <div className="mainuser_item">
+          <input
+            style={{ marginLeft: '1.3rem' }}
+            type="checkbox"
+            onClick={() => {
+              setpasshead('');
+            }}
+          />
+          <span>All Head</span>
+        </div>
         {headlist &&
           headlist.map((item, index) => (
             <MenuItem key={index} value={item.type_hi}>

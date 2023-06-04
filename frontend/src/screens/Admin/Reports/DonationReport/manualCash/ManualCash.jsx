@@ -125,6 +125,10 @@ const donationColorTheme = {
 
 const ManualCash = ({ setopendashboard }) => {
   const navigation = useNavigate();
+  let head = [];
+  let users = [];
+  const [passuser, setpassuser] = useState('');
+  const [passhead, setpasshead] = useState('');
   const [emproleid, setemproleid] = useState('');
   const [loader, setloader] = useState(false);
   const [emplist, setemplist] = useState('');
@@ -176,6 +180,8 @@ const ManualCash = ({ setopendashboard }) => {
   const getall_donation = () => {
     setloader(true);
     setdatefrom('');
+    setpasshead('');
+    setpassuser('');
     setdateto('');
     setvoucherfrom('');
     setvoucherto('');
@@ -289,7 +295,7 @@ const ManualCash = ({ setopendashboard }) => {
 
         if (res.data.status) {
           let filterData = res.data.data.filter(
-            (item) => item.isActive === true,
+            (item) => item.isActive === true && item.modeOfDonation === '2',
           );
           setisData(filterData);
           setisDataDummy(filterData);
@@ -297,23 +303,21 @@ const ManualCash = ({ setopendashboard }) => {
           setloader(false);
         }
       } else {
-        axios.defaults.headers.get[
-          'Authorization'
-        ] = `Bearer ${sessionStorage.getItem('token')}`;
-
-        const res = await axios.get(
-          `${backendApiUrl}user/search-donation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}&modeOfDonation=${2}`,
-        );
-
-        if (res.data.status) {
-          let filterData = res.data.data.filter(
-            (item) => item.isActive === true,
-          );
-          setisData(filterData);
-          setisDataDummy(filterData);
-          setdefaultdata(filterData);
-          setloader(false);
-        }
+        serverInstance(
+          `user/search-donation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}&modeOfDonation=${2}`,
+          'post',
+          { user: passuser, type: passhead },
+        ).then((res) => {
+          if (res.status) {
+            let filterData = res?.data.filter(
+              (item) => item.isActive === true && item.modeOfDonation === '2',
+            );
+            setisData(filterData);
+            setisDataDummy(filterData);
+            setdefaultdata(filterData);
+            setloader(false);
+          }
+        });
       }
     } catch (error) {
       setloader(false);
@@ -396,7 +400,7 @@ const ManualCash = ({ setopendashboard }) => {
         Moment(dt?.donation_date).format('YYYY-MM-DD').indexOf(date) > -1 &&
         dt?.name.toLowerCase().indexOf(name) > -1 &&
         dt?.address.toLowerCase().indexOf(address) > -1 &&
-        // dt?.createdBy?.toLowerCase()?.indexOf(userType) > -1 &&
+        dt?.createdBy?.toLowerCase()?.indexOf(userType) > -1 &&
         dt?.voucherNo?.toLowerCase()?.indexOf(voucherno) > -1,
     );
     console.log(filtered);
@@ -562,6 +566,16 @@ const ManualCash = ({ setopendashboard }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
+        <div className="mainuser_item">
+          <input
+            style={{ marginLeft: '1.2rem' }}
+            type="checkbox"
+            onClick={() => {
+              setpassuser('');
+            }}
+          />
+          <span>All Users</span>
+        </div>
         {emplist &&
           emplist.map((item, index) => (
             <MenuItem key={item?.id}>
@@ -589,6 +603,16 @@ const ManualCash = ({ setopendashboard }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
+        <div className="mainuser_item">
+          <input
+            style={{ marginLeft: '1.3rem' }}
+            type="checkbox"
+            onClick={() => {
+              setpasshead('');
+            }}
+          />
+          <span>All Head</span>
+        </div>
         {donationTypes &&
           donationTypes.map((item, index) => (
             <MenuItem key={index} value={item.type_hi}>
@@ -738,7 +762,9 @@ const ManualCash = ({ setopendashboard }) => {
                     className="select_person_divAllHead"
                     style={{ width: '9rem' }}
                   >
-                    All Head
+                    {passhead.length > 0
+                      ? `Selected head ${passhead.length}`
+                      : ' All Head'}
                     <svg
                       width="12"
                       height="7"
@@ -768,7 +794,9 @@ const ManualCash = ({ setopendashboard }) => {
                     className="select_person_divAllHead"
                     style={{ width: '9rem' }}
                   >
-                    All User
+                    {passuser.length > 0
+                      ? `Selected user ${passuser.length}`
+                      : 'All User '}
                     <svg
                       width="12"
                       height="7"

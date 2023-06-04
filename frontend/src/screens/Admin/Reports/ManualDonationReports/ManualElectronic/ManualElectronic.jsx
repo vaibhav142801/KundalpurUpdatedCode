@@ -132,6 +132,10 @@ const donationColorTheme = {
 
 const ManualElectronic = ({ setopendashboard }) => {
   const navigation = useNavigate();
+  let head = [];
+  let users = [];
+  const [passuser, setpassuser] = useState('');
+  const [passhead, setpasshead] = useState('');
   const [loader, setloader] = useState(false);
   const [emproleid, setemproleid] = useState('');
   const [emplist, setemplist] = useState('');
@@ -207,6 +211,8 @@ const ManualElectronic = ({ setopendashboard }) => {
   const getall_donation = () => {
     setloader(true);
     setsearchvalue('');
+    setpasshead('');
+    setpassuser('');
     setdatefrom('');
     setdateto('');
     setvoucherfrom('');
@@ -323,15 +329,21 @@ const ManualElectronic = ({ setopendashboard }) => {
           setisDataDummy(res.data.data);
         }
       } else {
-        const res = await axios.get(
-          `${backendApiUrl}user/manual-search-donation?fromDate=${datefrom}&toDate=${dateto}&fromReceipt=${voucherfrom}&toReceipt=${voucherto}&modeOfDonation=${1}`,
-        );
-
-        if (res.data.status) {
-          setloader(false);
-          setisData(res.data.data);
-          setisDataDummy(res.data.data);
-        }
+        serverInstance(
+          `user/manual-search-donation?fromDate=${datefrom}&toDate=${dateto}&fromReceipt=${voucherfrom}&toReceipt=${voucherto}&modeOfDonation=${1}`,
+          'post',
+          { user: passuser, type: passhead },
+        ).then((res) => {
+          console.log('filter', res);
+          if (res.status) {
+            let filterData = res.data.filter(
+              (item) => item.modeOfDonation === '1',
+            );
+            setloader(false);
+            setisData(filterData);
+            setisDataDummy(filterData);
+          }
+        });
       }
     } catch (error) {
       setloader(false);
@@ -416,8 +428,8 @@ const ManualElectronic = ({ setopendashboard }) => {
         dt?.phoneNo.toLowerCase().indexOf(phone) > -1 &&
         Moment(dt?.donation_date).format('YYYY-MM-DD').indexOf(date) > -1 &&
         dt?.name?.toLowerCase().indexOf(name) > -1 &&
-        dt?.address.toLowerCase().indexOf(address) > -1,
-      // dt?.CreatedBy?.toLowerCase()?.indexOf(userType) > -1,
+        dt?.address.toLowerCase().indexOf(address) > -1 &&
+        dt?.CreatedBy?.toLowerCase()?.indexOf(userType) > -1,
     );
     console.log(filtered);
     if (type) {
@@ -649,6 +661,16 @@ const ManualElectronic = ({ setopendashboard }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
+        <div className="mainuser_item">
+          <input
+            style={{ marginLeft: '1.2rem' }}
+            type="checkbox"
+            onClick={() => {
+              setpassuser('');
+            }}
+          />
+          <span>All Users</span>
+        </div>
         {emplist &&
           emplist.map((item, index) => (
             <MenuItem key={item?.id}>
@@ -676,6 +698,16 @@ const ManualElectronic = ({ setopendashboard }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
+        <div className="mainuser_item">
+          <input
+            style={{ marginLeft: '1.3rem' }}
+            type="checkbox"
+            onClick={() => {
+              setpasshead('');
+            }}
+          />
+          <span>All Head</span>
+        </div>
         {donationTypes &&
           donationTypes.map((item, index) => (
             <MenuItem key={index} value={item.type_hi}>
@@ -865,7 +897,9 @@ const ManualElectronic = ({ setopendashboard }) => {
                     className="select_person_divAllHead"
                     style={{ width: '9rem' }}
                   >
-                    All Head
+                    {passhead.length > 0
+                      ? `Selected head ${passhead.length}`
+                      : ' All Head'}
                     <svg
                       width="12"
                       height="7"
@@ -895,7 +929,9 @@ const ManualElectronic = ({ setopendashboard }) => {
                     className="select_person_divAllHead"
                     style={{ width: '9rem' }}
                   >
-                    All User
+                    {passuser.length > 0
+                      ? `Selected user ${passuser.length}`
+                      : 'All User '}
                     <svg
                       width="12"
                       height="7"

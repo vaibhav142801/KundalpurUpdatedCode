@@ -22,7 +22,7 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
                 src={f1}
                 alt="fast"
               />
-              Offline Checkin History
+              Offline Checkout History
             </NavLink>
             <NavLink
               style={{ width: '15rem' }}
@@ -34,7 +34,7 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
                 src={f1}
                 alt="fast"
               />
-              Online Checkin History
+              Online Checkout History
             </NavLink>
             <NavLink
               to="/admin-panel/Room/Holdhistory"
