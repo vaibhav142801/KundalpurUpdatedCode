@@ -693,7 +693,7 @@ const Itemdonation = ({ setopendashboard }) => {
       >
         <div className="mainuser_item">
           <input
-            style={{ marginLeft: '1.2rem' }}
+            style={{ marginLeft: '1.2rem', marginRight: '1rem' }}
             type="checkbox"
             onClick={() => {
               setpassuser('');
@@ -730,7 +730,7 @@ const Itemdonation = ({ setopendashboard }) => {
       >
         <div className="mainuser_item">
           <input
-            style={{ marginLeft: '1.3rem' }}
+            style={{ marginLeft: '1.2rem', marginRight: '1rem' }}
             type="checkbox"
             onClick={() => {
               setpasshead('');

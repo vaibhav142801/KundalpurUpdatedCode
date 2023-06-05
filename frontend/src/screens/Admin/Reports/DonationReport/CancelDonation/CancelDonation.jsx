@@ -125,6 +125,10 @@ const donationColorTheme = {
 const CancelDonation = ({ setopendashboard }) => {
   const navigation = useNavigate();
   let filterData;
+  let head = [];
+  let users = [];
+  const [passuser, setpassuser] = useState('');
+  const [passhead, setpasshead] = useState('');
   const [loader, setloader] = useState(false);
   const [empid, setempid] = useState('');
   const [emproleid, setemproleid] = useState('');
@@ -300,29 +304,27 @@ const CancelDonation = ({ setopendashboard }) => {
           setisDataDummy(filterData);
         }
       } else {
-        axios.defaults.headers.get[
-          'Authorization'
-        ] = `Bearer ${sessionStorage.getItem('token')}`;
-
-        const res = await axios.get(
-          `${backendApiUrl}user/search-donation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}&modeOfDonation=${2}`,
-        );
-
-        if (res.data.status) {
-          setloader(false);
-          if (emproleid === 7) {
-            filterData = res.data.filter(
-              (item) =>
-                item.modeOfDonation === '1' &&
-                item.isActive === false &&
-                item.created_by === empid,
-            );
-          } else {
-            filterData = res.data.filter((item) => item.isActive === false);
+        serverInstance(
+          `user/search-donation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}&modeOfDonation=${1}`,
+          'post',
+          { user: passuser, type: passhead },
+        ).then((res) => {
+          if (res.status) {
+            setloader(false);
+            if (emproleid === 7) {
+              filterData = res?.data?.filter(
+                (item) =>
+                  item.modeOfDonation === '1' &&
+                  item.isActive === false &&
+                  item.created_by === empid,
+              );
+            } else {
+              filterData = res?.data?.filter((item) => item.isActive === false);
+            }
+            setisData(filterData);
+            setisDataDummy(filterData);
           }
-          setisData(filterData);
-          setisDataDummy(filterData);
-        }
+        });
       }
     } catch (error) {
       setloader(false);
@@ -571,6 +573,16 @@ const CancelDonation = ({ setopendashboard }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
+        <div className="mainuser_item">
+          <input
+            style={{ marginLeft: '1.2rem', marginRight: '1rem' }}
+            type="checkbox"
+            onClick={() => {
+              setpassuser('');
+            }}
+          />
+          <span>All Users</span>
+        </div>
         {emplist &&
           emplist.map((item, index) => (
             <MenuItem key={item?.id}>
@@ -598,6 +610,16 @@ const CancelDonation = ({ setopendashboard }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
+        <div className="mainuser_item">
+          <input
+            style={{ marginLeft: '1.2rem', marginRight: '1rem' }}
+            type="checkbox"
+            onClick={() => {
+              setpasshead('');
+            }}
+          />
+          <span>All Head</span>
+        </div>
         {donationTypes &&
           donationTypes.map((item, index) => (
             <MenuItem key={index} value={item.type_hi}>
@@ -746,7 +768,9 @@ const CancelDonation = ({ setopendashboard }) => {
                     className="select_person_divAllHead"
                     style={{ width: '9rem' }}
                   >
-                    All Head
+                    {passhead.length > 0
+                      ? `Selected head ${passhead.length}`
+                      : ' All Head'}
                     <svg
                       width="12"
                       height="7"
@@ -776,7 +800,9 @@ const CancelDonation = ({ setopendashboard }) => {
                     className="select_person_divAllHead"
                     style={{ width: '9rem' }}
                   >
-                    All User
+                    {passuser.length > 0
+                      ? `Selected user ${passuser.length}`
+                      : 'All User '}
                     <svg
                       width="12"
                       height="7"
