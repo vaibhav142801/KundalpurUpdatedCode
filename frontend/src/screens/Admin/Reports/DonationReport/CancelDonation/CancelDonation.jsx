@@ -1117,7 +1117,7 @@ const CancelDonation = ({ setopendashboard }) => {
                           0,
                         )}
                       </TableCell>
-                      <TableCell>&nbsp;</TableCell>
+                      <TableCell>{row?.createdBy}</TableCell>
                       <TableCell>
                         {row.elecItemDetails.map((row) => {
                           return (

@@ -293,7 +293,7 @@ function RoomBookingscreen() {
   let difference = today.getTime() - today1.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
 
-  console.log('days', TotalDays);
+  let days = TotalDays === 1 ? 1 : TotalDays - 1;
   return (
     <>
       <div className="main_div_head_tyopeeeebook">
@@ -403,6 +403,7 @@ function RoomBookingscreen() {
                     <p>
                       {roomno} Room x {TotalDays} days
                     </p>
+
                     <p> ₹ {roomno * isData?.roomDetails?.Rate * TotalDays} </p>
                   </div>
 

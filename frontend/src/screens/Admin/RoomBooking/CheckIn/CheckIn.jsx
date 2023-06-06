@@ -98,8 +98,8 @@ const CheckIn = ({ setopendashboard }) => {
   const [changedata8, setchangedata8] = useState('');
   const handleClose8 = () => setOpen8(false);
   const handleOepn8 = async (data) => {
-    // setOpen8(true);
-    // setchangedata8(data);
+    setOpen8(true);
+    setchangedata8(data);
     // console.log('for change room', data);
     // try {
     //   console.log('click');
@@ -1021,7 +1021,7 @@ const CheckIn = ({ setopendashboard }) => {
                                     >
                                       RoomChange
                                     </button> */}
-                                    <Tooltip title="Print">
+                                    <Tooltip title="Room Shift">
                                       <img
                                         onClick={() => handleOepn8(row)}
                                         src={Edit}

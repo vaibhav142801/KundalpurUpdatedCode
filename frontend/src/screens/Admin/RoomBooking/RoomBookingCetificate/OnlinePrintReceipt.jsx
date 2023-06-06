@@ -324,13 +324,11 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmount) *
-                                    Number(1)}
-                                  .00
+                                  {Number(isData && isData?.roomAmount)}.00
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmount) *
-                                    (Number(1) + Number(1))}
+                                  {Number(isData && isData?.advanceAmount) +
+                                    Number(isData && isData?.roomAmount)}
                                   .00
                                 </td>
 

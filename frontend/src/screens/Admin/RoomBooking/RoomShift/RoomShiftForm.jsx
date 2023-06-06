@@ -210,7 +210,7 @@ function RoomShiftForm({ setOpen, changedata }) {
     return `${currentDate}  ${currentTime}`;
   }
   const getalldharamshala = () => {
-    serverInstance('room/dharmashala', 'get').then((res) => {
+    serverInstance('room/get-dharmasalas', 'get').then((res) => {
       console.log('dharmshala', res.data);
       if (res.data) {
         setDharamshala(res.data);
@@ -218,8 +218,10 @@ function RoomShiftForm({ setOpen, changedata }) {
     });
   };
 
-  const getallcategory = () => {
-    serverInstance('room/category', 'get').then((res) => {
+  const getallcategory = (id) => {
+    serverInstance('room/get-avail-categories', 'post', {
+      id: id,
+    }).then((res) => {
       console.log('category', res.data);
       if (res.data) {
         setcategory(res.data);
@@ -395,7 +397,10 @@ function RoomShiftForm({ setOpen, changedata }) {
                       }}
                       value={dharamshalaname}
                       name="dharamshalaname"
-                      onChange={(e) => setdharamshalaname(e.target.value)}
+                      onChange={(e) => {
+                        setdharamshalaname(e.target.value);
+                        getallcategory(e.target.value);
+                      }}
                       displayEmpty
                     >
                       <MenuItem

@@ -333,11 +333,13 @@ const CheckoutReceipt = ({ setopendashboard }) => {
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmount) *
                                     Number(days)}
+                                  .00
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.advanceAmount) +
                                     Number(isData && isData?.roomAmount) *
                                       Number(days)}
+                                  .00
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.advanceAmount) +

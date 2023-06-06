@@ -250,7 +250,7 @@ function CheckinForm({ setOpen }) {
   });
 
   const getalldharamshala = () => {
-    serverInstance('room/dharmashala', 'get').then((res) => {
+    serverInstance('room/get-dharmasalas', 'get').then((res) => {
       if (res.data) {
         setDharamshala(res.data);
       }
@@ -266,8 +266,11 @@ function CheckinForm({ setOpen }) {
       }
     });
   };
-  const getallcategory = () => {
-    serverInstance('room/category', 'get').then((res) => {
+
+  const getallcategory = (id) => {
+    serverInstance('room/get-avail-categories', 'Post', {
+      id: id,
+    }).then((res) => {
       console.log('category', res.data);
       if (res.data) {
         setcategory(res.data);
@@ -537,7 +540,10 @@ function CheckinForm({ setOpen }) {
                           }}
                           value={dharamshalaname}
                           name="dharamshalaname"
-                          onChange={(e) => setdharamshalaname(e.target.value)}
+                          onChange={(e) => {
+                            setdharamshalaname(e.target.value);
+                            getallcategory(e.target.value);
+                          }}
                           displayEmpty
                         >
                           <MenuItem
