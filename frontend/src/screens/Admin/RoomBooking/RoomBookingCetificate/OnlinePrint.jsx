@@ -75,9 +75,9 @@ function OnlinePrint({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginLeft: '0rem', marginTop: '5rem' }}
+            style={{ marginLeft: '0rem', marginTop: '9rem' }}
           >
-            <div style={{ backgroundColor: '#FFC100' }}>
+            <div>
               <p className="yadda_text lineheight">यात्री आगमन रसीद (ओनलाईन)</p>
             </div>
 
@@ -192,15 +192,19 @@ function OnlinePrint({ setopendashboard }) {
                   </tr>
                   <tr>
                     <td className="table_tddd lineheight10">
-                      {isData && isData?.dharmasala?.name}
+                      {isData && isData?.dharmasala?.name
+                        ? isData && isData?.dharmasala?.name
+                        : isData?.dharmasalaName}
                     </td>
                     <td className="table_tddd lineheight10">
+                      {isData && isData?.categoryName}
                       {isData &&
                         isData?.facility_name &&
                         isData?.facility_name.map((element, index) => (
                           <span key={index}> {element}</span>
                         ))}
                       -{isData && isData?.category_name}
+                      {isData && isData?.facilityName}
                     </td>
                     <td className="table_tddd lineheight10">
                       {isData && isData?.RoomNo}

@@ -775,6 +775,7 @@ const RoomShift = ({ setopendashboard }) => {
                       {/* <TableCell>
                         {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
                       </TableCell> */}
+
                       <TableCell>
                         {Moment(row?.coutDate).format('DD-MM-YYYY')}&nbsp;&nbsp;
                         {moment(row?.coutTime, 'HH:mm:ss').format('hh:mm:ss')}
@@ -852,23 +853,29 @@ const RoomShift = ({ setopendashboard }) => {
                               Forcecheckout
                             </button> */}
 
-                            <Tooltip title="Force Checkout">
-                              <img
-                                onClick={() =>
-                                  navigation('/admin-panel/Room/OnlineForce', {
-                                    state: {
-                                      data: row,
-                                    },
-                                  })
-                                }
-                                src={Checkout21}
-                                alt="print"
-                                style={{
-                                  width: '25px',
-                                  // marginRight: '0.3rem',
-                                }}
-                              />
-                            </Tooltip>
+                            {userrole === 1 && (
+                              <Tooltip title="Force Checkout">
+                                <img
+                                  onClick={() =>
+                                    navigation(
+                                      '/admin-panel/Room/OnlineForce',
+                                      {
+                                        state: {
+                                          data: row,
+                                        },
+                                      },
+                                    )
+                                  }
+                                  src={Checkout21}
+                                  alt="print"
+                                  style={{
+                                    width: '25px',
+                                    // marginRight: '0.3rem',
+                                  }}
+                                />
+                              </Tooltip>
+                            )}
+
                             {/* <button
                               style={{
                                 width: '6rem',
@@ -880,6 +887,7 @@ const RoomShift = ({ setopendashboard }) => {
                             >
                               Cancel
                             </button> */}
+
                             <Tooltip title="Cancel">
                               <CloseIcon
                                 onClick={() => handleClickOpen3(row?.id)}

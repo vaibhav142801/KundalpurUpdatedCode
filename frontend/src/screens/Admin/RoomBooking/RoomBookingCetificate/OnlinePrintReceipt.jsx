@@ -293,9 +293,12 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                               </tr>
                               <tr>
                                 <td className="table_tddd lineheight10">
-                                  {isData && isData?.dharmasala?.name}
+                                  {isData && isData?.dharmasala?.name
+                                    ? isData && isData?.dharmasala?.name
+                                    : isData?.dharmasalaName}
                                 </td>
                                 <td className="table_tddd lineheight10">
+                                  {isData && isData?.categoryName}
                                   {isData &&
                                     isData?.facility_name &&
                                     isData?.facility_name.map(
@@ -304,6 +307,7 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                                       ),
                                     )}
                                   -{isData && isData?.category_name}
+                                  {isData && isData?.facilityName}
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   {isData && isData?.RoomNo}

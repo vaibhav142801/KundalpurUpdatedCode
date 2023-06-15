@@ -61,6 +61,18 @@ const ManualDonationTap = ({ setopendashboard }) => {
               />
               Manual Item Report
             </NavLink>
+
+            <NavLink
+              to="/admin-panel/Room/CombineManual"
+              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+            >
+              <img
+                style={{ marginRight: '4%', width: '20px' }}
+                src={f1}
+                alt="fast"
+              />
+              Combine Report
+            </NavLink>
             {role === 3 && (
               <>
                 <NavLink

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { serverInstance } from '../../../../API/ServerInstance';
+import Swal from 'sweetalert2';
 import './PaymentSuccess.css';
 
 function PaymentSuccess() {
@@ -30,19 +31,19 @@ function PaymentSuccess() {
             setisData(res?.data);
           }
         });
+      } else {
+        let bookingId = new URLSearchParams(search).get('booking_id');
+        if (bookingId) {
+          serverInstance('/room/cancel-checkin', 'DELETE', {
+            bookingId: bookingId,
+          }).then((res) => {});
+        }
       }
     } else {
       setTransactionID(false);
     }
   }, [search]);
-  console.log(
-    'PaymentId',
-    paymentid,
-    'id',
-    bookingid,
-    'bookigndaat',
-    bookdetails,
-  );
+
   useEffect(() => {
     if (location.state) {
       setcheckinda(location?.state?.checkindata);

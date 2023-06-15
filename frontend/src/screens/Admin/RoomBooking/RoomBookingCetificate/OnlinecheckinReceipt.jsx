@@ -8,6 +8,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../../../Admin/Reciept/cashrecipt.css';
 const converter = new Converter(hiIN);
+
 const OnlinecheckinReceipt = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const location = useLocation();

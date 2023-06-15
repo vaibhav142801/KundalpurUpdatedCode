@@ -76,9 +76,9 @@ function ForcePrint({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginTop: '6rem' }}
+            style={{ marginTop: '9rem' }}
           >
-            <div style={{ backgroundColor: '#92D14C' }}>
+            <div>
               <p className="yadda_text lineheight">
                 यात्री प्रस्थान रसीद (फोर्स चेकआउट)
               </p>

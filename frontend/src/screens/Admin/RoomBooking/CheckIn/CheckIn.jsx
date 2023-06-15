@@ -1002,13 +1002,6 @@ const CheckIn = ({ setopendashboard }) => {
                                     >
                                       Cancel
                                     </button> */}
-                                    <Tooltip title="Cancel">
-                                      <CloseIcon
-                                        onClick={() =>
-                                          handleClickOpen3(row?.id)
-                                        }
-                                      />
-                                    </Tooltip>
 
                                     {/* <button
                                       style={{
@@ -1072,6 +1065,13 @@ const CheckIn = ({ setopendashboard }) => {
                                     >
                                       RoomChange
                                     </button> */}
+                                    <Tooltip title="Cancel">
+                                      <CloseIcon
+                                        onClick={() =>
+                                          handleClickOpen3(row?.id)
+                                        }
+                                      />
+                                    </Tooltip>
                                     <Tooltip title="Room Shift">
                                       <img
                                         onClick={() => handleOepn8(row)}

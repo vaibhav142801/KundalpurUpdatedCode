@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
@@ -18,19 +18,16 @@ import Cancel from '../../../compoments/Cancel';
 import DownloadIcon from '@mui/icons-material/Download';
 import ClearIcon from '@mui/icons-material/Clear';
 import exportFromJSON from 'export-from-json';
-import ItemDonation from '../../../Donation/Donation/ItemDonation/index';
+import Moment from 'moment-js';
+import CashDonation from '../../../Donation/Donation/CashDonation';
 import { backendApiUrl } from '../../../../../config/config';
 import axios from 'axios';
-import './Itemdonation.css';
-import Moment from 'moment-js';
 import { ExportPdfmanul } from '../../../compoments/ExportPdf';
 import Print from '../../../../../assets/Print.png';
 import ExportPdf from '../../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../../assets/ExportExcel.png';
 import Edit from '../../../../../assets/Edit.png';
 import eye from '../../../../../assets/eye.png';
-import { ReactSpinner } from 'react-spinning-wheel';
-import 'react-spinning-wheel/dist/style.css';
 import ElectronicTotal from '../../../compoments/ElectronicTotal';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
@@ -40,8 +37,9 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import DonationReportTap from '../DonationReportTap';
 import LoadingSpinner1 from '../../../../../components/Loading/LoadingSpinner1';
-import Button from '@mui/material/Button';
 import { MenuItem, Menu } from '@mui/material';
+import 'react-spinning-wheel/dist/style.css';
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -88,7 +86,7 @@ const style5 = {
   position: 'absolute',
   top: '50%',
   left: '50%',
-  width: '70%',
+  width: 'auto',
   transform: 'translate(-50%, -50%)',
   bgcolor: 'background.paper',
   p: 2,
@@ -121,23 +119,25 @@ const openupadtestyle = {
 };
 
 const donationColorTheme = {
-  item: '#d6cb00',
+  cash: '#48a828',
 };
-const Itemdonation = ({ setopendashboard }) => {
+
+const Combine = ({ setopendashboard }) => {
+  const navigation = useNavigate();
   let head = [];
   let users = [];
   const [passuser, setpassuser] = useState('');
   const [passhead, setpasshead] = useState('');
-  const [loader, setloader] = useState(false);
   const [emproleid, setemproleid] = useState('');
+  const [loader, setloader] = useState(false);
   const [emplist, setemplist] = useState('');
   const [isData, setisData] = React.useState('');
   const [isDataDummy, setisDataDummy] = React.useState([]);
+  const [defaultdata, setdefaultdata] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [showalert, setshowalert] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const navigation = useNavigate();
   const [updateData, setupdateData] = useState('');
   const [openupdate, setopenupdate] = useState(false);
   const [showUpdateBtn, setshowUpdateBtn] = useState(true);
@@ -145,11 +145,11 @@ const Itemdonation = ({ setopendashboard }) => {
   const [updateId, setupdateId] = useState('');
   const [userrole, setuserrole] = useState('');
   const [datefrom, setdatefrom] = useState('');
-  const [searchvalue, setsearchvalue] = useState('');
   const [dateto, setdateto] = useState('');
   const [voucherfrom, setvoucherfrom] = useState('');
   const [voucherto, setvoucherto] = useState('');
   const [open5, setOpen5] = React.useState(false);
+  const [searchvalue, setsearchvalue] = useState('');
   const handleOpen5 = () => setOpen5(true);
   const handleClose5 = () => setOpen5(false);
   const [voucherno, setVoucherno] = useState('');
@@ -162,13 +162,10 @@ const Itemdonation = ({ setopendashboard }) => {
   const [remark, setRemark] = useState('');
   const [type, setType] = useState('');
   const [userType, setUserType] = useState('');
-  const [fsize, setfsize] = useState('');
-  const [funit, setfunit] = useState('');
-  const [fno, setfno] = useState('');
-  const [fitem, setfitem] = useState('');
+
   const handleOpen = (id) => {
-    setOpen(true);
     setupdateId(id);
+    setOpen(true);
   };
   const handleClose = () => setOpen(false);
   const upadteClose = () => {
@@ -190,29 +187,16 @@ const Itemdonation = ({ setopendashboard }) => {
     setsearchvalue('');
     serverInstance('user/add-elecDonation', 'get').then((res) => {
       if (res.status) {
+        let filterData = res.data.filter((item) => item.isActive === true);
         setloader(false);
-        // let currentMonth, filterData;
-        // (currentMonth = new Date().getMonth() + 1),
-        //   (filterData = res?.data?.filter((e) => {
-        //     var [_, month] = e.donation_date.split('-'); // Or, var month = e.date.split('-')[1];
-        //     return (
-        //       currentMonth === +month &&
-        //       e.modeOfDonation === '4' &&
-        //       e.isActive === true
-        //     );
-        //   }));
-        let filterData = res.data.filter(
-          (item) => item.modeOfDonation === '4' && item.isActive === true,
-        );
-
         setisData(filterData);
         setisDataDummy(filterData);
+        setdefaultdata(filterData);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
       }
     });
   };
-
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open11 = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -232,6 +216,7 @@ const Itemdonation = ({ setopendashboard }) => {
     setAnchorEl1(null);
     setpasshead(head);
   };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -240,6 +225,7 @@ const Itemdonation = ({ setopendashboard }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
   const printreceipt = (row) => {
     if (row.active === '0') {
     } else {
@@ -252,9 +238,8 @@ const Itemdonation = ({ setopendashboard }) => {
   };
 
   const ExportToExcel = () => {
-    const fileName = 'DonationItemReport';
+    const fileName = 'DonationCashReport';
     const exportType = 'xls';
-    console.log('click');
     var data = [];
     isData.map((item, index) => {
       data.push({
@@ -271,14 +256,8 @@ const Itemdonation = ({ setopendashboard }) => {
           (n, { amount }) => parseFloat(n) + parseFloat(amount),
           0,
         ),
-        ItemType: item?.elecItemDetails.map((row) => {
-          return row?.itemType;
-        }),
-        Size: item?.elecItemDetails[0].size,
-        unit: item?.elecItemDetails[0]?.unit,
-        Quantity: item?.elecItemDetails[0]?.quantity,
         remark: item?.elecItemDetails.map((row) => {
-          return row?.remark;
+          return row.remark;
         }),
         Staff: item?.createdBy,
         'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
@@ -286,6 +265,7 @@ const Itemdonation = ({ setopendashboard }) => {
     });
     exportFromJSON({ data, fileName, exportType });
   };
+
   const filterdata = async (e) => {
     setloader(true);
     e.preventDefault();
@@ -296,29 +276,29 @@ const Itemdonation = ({ setopendashboard }) => {
         ] = `Bearer ${sessionStorage.getItem('token')}`;
 
         const res = await axios.get(
-          `${backendApiUrl}admin/search-electric?search=${searchvalue}&type=${4}`,
+          `${backendApiUrl}admin/search-electric?search=${searchvalue}&type=${2}`,
         );
 
         if (res.data.status) {
           let filterData = res.data.data.filter(
-            (item) => item.isActive === true && item.modeOfDonation === '4',
+            (item) => item.isActive === true,
           );
           setisData(filterData);
           setisDataDummy(filterData);
+          setdefaultdata(filterData);
           setloader(false);
         }
       } else {
         serverInstance(
-          `user/search-donation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}&modeOfDonation=${4}`,
+          `user/search-donation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}&modeOfDonation=${2}`,
           'post',
           { user: passuser, type: passhead },
         ).then((res) => {
           if (res.status) {
-            let filterData = res?.data.filter(
-              (item) => item.isActive === true && item.modeOfDonation === '4',
-            );
+            let filterData = res?.data.filter((item) => item.isActive === true);
             setisData(filterData);
             setisDataDummy(filterData);
+            setdefaultdata(filterData);
             setloader(false);
           }
         });
@@ -327,9 +307,10 @@ const Itemdonation = ({ setopendashboard }) => {
       setloader(false);
     }
   };
+
   const get_donation_tyeps = () => {
     try {
-      Promise.all([serverInstance('admin/donation-type?type=2', 'get')]).then(
+      Promise.all([serverInstance('admin/donation-type?type=1', 'get')]).then(
         ([res, item]) => {
           if (res.status) {
             setDonationTypes(res.data);
@@ -354,7 +335,6 @@ const Itemdonation = ({ setopendashboard }) => {
       console.log(res);
     });
   };
-  console.log('data is', isData);
   useEffect(() => {
     getallemp_list();
     getall_donation();
@@ -362,8 +342,7 @@ const Itemdonation = ({ setopendashboard }) => {
     get_donation_tyeps();
     setuserrole(Number(sessionStorage.getItem('userrole')));
     setemproleid(Number(sessionStorage.getItem('empRoleid')));
-  }, [showalert, open, openupdate]);
-
+  }, [showalert, openupdate, open]);
   const onSearchByOther = (e, type) => {
     if (type === 'Date') {
       setDate(e.target.value);
@@ -395,22 +374,9 @@ const Itemdonation = ({ setopendashboard }) => {
     if (type === 'UserType') {
       setUserType(e.target.value.toLowerCase());
     }
-
-    if (type === 'size') {
-      setfsize(e.target.value);
-    }
-    if (type === 'unit') {
-      setfunit(e.target.value?.toLowerCase());
-    }
-    if (type === 'item') {
-      setfitem(e.target.value?.toLowerCase());
-    }
-    if (type === 'no') {
-      setfno(e.target.value);
-    }
   };
+
   useEffect(() => {
-    console.log(voucherno);
     var filtered = isDataDummy?.filter(
       (dt) =>
         dt?.ReceiptNo.toLowerCase().indexOf(receiptNo) > -1 &&
@@ -421,7 +387,7 @@ const Itemdonation = ({ setopendashboard }) => {
         dt?.createdBy?.toLowerCase()?.indexOf(userType) > -1 &&
         dt?.voucherNo?.toLowerCase()?.indexOf(voucherno) > -1,
     );
-    console.log(type);
+    console.log(filtered);
     if (type) {
       filtered = filtered?.map((item) => {
         if (item?.elecItemDetails?.find((typ) => typ.type == type)) {
@@ -432,6 +398,7 @@ const Itemdonation = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
+
     if (amount) {
       filtered = filtered?.map((item) => {
         console.log(
@@ -463,53 +430,7 @@ const Itemdonation = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
-    if (fsize) {
-      filtered = filtered?.map((item) => {
-        if (item?.elecItemDetails?.find((typ) => typ.size == fsize)) {
-          return item;
-        } else {
-          return;
-        }
-      });
-      filtered = filtered?.filter((x) => x !== undefined);
-    }
-    if (funit) {
-      filtered = filtered?.map((item) => {
-        if (
-          item?.elecItemDetails?.find((typ) => typ.unit?.toLowerCase() == funit)
-        ) {
-          return item;
-        } else {
-          return;
-        }
-      });
-      filtered = filtered?.filter((x) => x !== undefined);
-    }
-    if (fno) {
-      filtered = filtered?.map((item) => {
-        if (item?.elecItemDetails?.find((typ) => typ.quantity == fno)) {
-          return item;
-        } else {
-          return;
-        }
-      });
-      filtered = filtered?.filter((x) => x !== undefined);
-    }
-    if (fitem) {
-      filtered = filtered?.map((item) => {
-        if (
-          item?.elecItemDetails?.find(
-            (typ) => typ.itemType?.toLowerCase() == fitem,
-          )
-        ) {
-          return item;
-        } else {
-          return;
-        }
-      });
-      filtered = filtered?.filter((x) => x !== undefined);
-    }
-    console.log('filter', filtered);
+
     setisData(filtered);
   }, [
     phone,
@@ -522,10 +443,6 @@ const Itemdonation = ({ setopendashboard }) => {
     remark,
     userType,
     voucherno,
-    fitem,
-    fno,
-    fsize,
-    funit,
   ]);
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
@@ -622,64 +539,6 @@ const Itemdonation = ({ setopendashboard }) => {
     setSortConfig({ key: key, direction: direction });
   };
 
-  console.log('data from  filyter', isData);
-  const sortDataItemtype = (key) => {
-    let direction = 'ascending';
-    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
-    }
-    setisData(
-      [...isData].sort((a, b) => {
-        if (a[key][0]?.itemType < b[key][0]?.itemType) {
-          return direction === 'ascending' ? -1 : 1;
-        }
-        if (a[key][0]?.itemType > b[key][0]?.itemType) {
-          return direction === 'ascending' ? 1 : -1;
-        }
-        return 0;
-      }),
-    );
-    setSortConfig({ key: key, direction: direction });
-  };
-
-  const sortDataSize = (key) => {
-    let direction = 'ascending';
-    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
-    }
-    setisData(
-      [...isData].sort((a, b) => {
-        if (a[key][0]?.size < b[key][0]?.size) {
-          return direction === 'ascending' ? -1 : 1;
-        }
-        if (a[key][0]?.size > b[key][0]?.size) {
-          return direction === 'ascending' ? 1 : -1;
-        }
-        return 0;
-      }),
-    );
-    setSortConfig({ key: key, direction: direction });
-  };
-
-  const sortRDataQuantity = (key) => {
-    let direction = 'ascending';
-    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
-    }
-    setisData(
-      [...isData].sort((a, b) => {
-        if (a[key][0]?.quantity < b[key][0]?.quantity) {
-          return direction === 'ascending' ? -1 : 1;
-        }
-        if (a[key][0]?.quantity > b[key][0]?.quantity) {
-          return direction === 'ascending' ? 1 : -1;
-        }
-        return 0;
-      }),
-    );
-    setSortConfig({ key: key, direction: direction });
-  };
-
   return (
     <>
       <Menu
@@ -746,15 +605,16 @@ const Itemdonation = ({ setopendashboard }) => {
                   style={{ marginRight: '1rem' }}
                   type="checkbox"
                   onClick={() => {
-                    head.push(item?.itemType_hi);
+                    head.push(item.type_hi);
                     console.log(head);
                   }}
                 />
-                <span> {item?.itemType_hi}</span>
+                <span> {item.type_hi}</span>
               </div>
             </MenuItem>
           ))}
       </Menu>
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -768,6 +628,7 @@ const Itemdonation = ({ setopendashboard }) => {
           </Box>
         </Fade>
       </Modal>
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -782,7 +643,7 @@ const Itemdonation = ({ setopendashboard }) => {
                 <h2>Cancel electronic donation </h2>
                 <CloseIcon onClick={() => handleClose()} />
               </div>
-              <Cancel handleClose={handleClose} updateId={updateId} type={4} />
+              <Cancel handleClose={handleClose} updateId={updateId} type={2} />
             </div>
           </Box>
         </Fade>
@@ -801,17 +662,16 @@ const Itemdonation = ({ setopendashboard }) => {
               width: {
                 xs: '90%',
                 sm: '70%',
-                md: '70%',
+                md: '60%',
               },
             }}
           >
-            <ItemDonation
+            <CashDonation
               handleClose={upadteClose}
-              themeColor={donationColorTheme.item}
+              themeColor={donationColorTheme.cash}
               updateData={updateData}
               showUpdateBtn={showUpdateBtn}
               setopendashboard={setopendashboard}
-              donationTypes={donationTypes}
             />
           </Box>
         </Fade>
@@ -875,7 +735,6 @@ const Itemdonation = ({ setopendashboard }) => {
                   }}
                 />
               </div>
-
               <div className="Center_main_dic_filetr">
                 <label>&nbsp;</label>
                 <div
@@ -940,6 +799,7 @@ const Itemdonation = ({ setopendashboard }) => {
                   </div>
                 </div>
               </div>
+
               <div className="Center_main_dic_filetr">
                 <label>&nbsp;</label>
                 <Search>
@@ -955,6 +815,7 @@ const Itemdonation = ({ setopendashboard }) => {
                   />
                 </Search>
               </div>
+
               <div className="Center_main_dic_filetr">
                 <label>&nbsp;</label>
                 <button>Search</button>
@@ -1011,9 +872,10 @@ const Itemdonation = ({ setopendashboard }) => {
             &nbsp;&nbsp;
           </div>
         </div>
+
         <div className="table-div-maain">
           <Table
-            sx={{ minWidth: 650, width: '100%', fontSize: '5px' }}
+            sx={{ minWidth: 650, width: '100%' }}
             aria-label="simple table"
           >
             <TableHead style={{ background: '#FFEEE0' }}>
@@ -1029,21 +891,19 @@ const Itemdonation = ({ setopendashboard }) => {
                 <TableCell>
                   ReceiptNo
                   <i
-                    style={{ marginLeft: '0rem' }}
+                    style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('ReceiptNo')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-
                 <TableCell>
                   VoucherNo
                   <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('ReceiptNo')}
+                    style={{ marginLeft: '0px' }}
+                    onClick={() => sortData('voucherNo')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-
                 <TableCell>
                   Phone No
                   <i
@@ -1085,35 +945,10 @@ const Itemdonation = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  ItemType{' '}
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortDataItemtype('elecItemDetails')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  Size{' '}
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortDataSize('elecItemDetails')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-
-                <TableCell>
-                  Quantity{' '}
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortRDataQuantity('elecItemDetails')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
                   User
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('createdBy')}
+                    onClick={() => sortData('CreatedBy')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -1125,9 +960,7 @@ const Itemdonation = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
-                  Action <Button>&nbsp;</Button>
-                </TableCell>
+                <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -1189,55 +1022,19 @@ const Itemdonation = ({ setopendashboard }) => {
                   <option value="">All Head</option>
 
                   {donationTypes.map((item, idx) => {
-                    return (
-                      <option value={item.itemType_hi}>
-                        {item.itemType_hi}
-                      </option>
-                    );
+                    return <option value={item.type_hi}>{item.type_hi}</option>;
                   })}
                 </select>
               </TableCell>
               <TableCell>
                 <input
-                  style={{ width: '100px' }}
                   className="cuolms_search"
                   type="text"
                   onChange={(e) => onSearchByOther(e, 'Amount')}
                   placeholder="Search Amount"
                 />
               </TableCell>
-              <TableCell>
-                <input
-                  className="cuolms_search"
-                  type="text"
-                  onChange={(e) => onSearchByOther(e, 'item')}
-                  placeholder="Item"
-                />
-              </TableCell>
-              <TableCell>
-                <input
-                  className="cuolms_search"
-                  type="text"
-                  onChange={(e) => onSearchByOther(e, 'size')}
-                  placeholder="Size"
-                />
-              </TableCell>
-              {/* <TableCell>
-                <input
-                  className="cuolms_search"
-                  type="text"
-                  onChange={(e) => onSearchByOther(e, 'unit')}
-                  placeholder="Unit"
-                />
-              </TableCell> */}
-              <TableCell>
-                <input
-                  className="cuolms_search"
-                  type="text"
-                  onChange={(e) => onSearchByOther(e, 'no')}
-                  placeholder="No"
-                />
-              </TableCell>
+
               <TableCell>
                 <select
                   name="cars"
@@ -1276,84 +1073,38 @@ const Itemdonation = ({ setopendashboard }) => {
                     : isData
                   )
                     ?.reverse()
-                    .map((row, index) => (
+                    ?.map((row, index) => (
                       <TableRow
                         key={row.id}
                         sx={{
                           '&:last-child td, &:last-child th': { border: 0 },
                         }}
                       >
-                        <TableCell style={{ fontSize: '13px' }}>
+                        <TableCell>
                           {Moment(row?.donation_date).format('DD/MM/YYYY')}
                         </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row?.ReceiptNo}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row?.voucherNo}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row?.phoneNo}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row?.name}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {' '}
-                          {row?.address}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
+                        <TableCell>{row?.ReceiptNo}</TableCell>
+                        <TableCell>{row?.voucherNo}</TableCell>
+                        <TableCell>{row?.phoneNo}</TableCell>
+                        <TableCell>{row?.name}</TableCell>
+                        <TableCell> {row?.address}</TableCell>
+                        <TableCell>
                           {row.elecItemDetails.map((row) => {
                             return (
                               <li style={{ listStyle: 'none' }}>{row?.type}</li>
                             );
                           })}
                         </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
+                        <TableCell>
                           {row.elecItemDetails.reduce(
                             (n, { amount }) =>
                               parseFloat(n) + parseFloat(amount),
                             0,
                           )}
                         </TableCell>
+
+                        <TableCell>{row?.createdBy}</TableCell>
                         <TableCell>
-                          {row.elecItemDetails.map((row) => {
-                            return (
-                              <li style={{ listStyle: 'none' }}>
-                                {row.itemType}{' '}
-                              </li>
-                            );
-                          })}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row.elecItemDetails.map((row) => {
-                            return (
-                              <li style={{ listStyle: 'none' }}>
-                                {row?.size}-{row?.unit}{' '}
-                              </li>
-                            );
-                          })}
-                        </TableCell>
-                        {/* <TableCell style={{ fontSize: '13px' }}>
-                        {row.elecItemDetails.map((row) => {
-                          return (
-                            <li style={{ listStyle: 'none' }}>{row?.unit} </li>
-                          );
-                        })}
-                      </TableCell> */}
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row.elecItemDetails.map((row) => {
-                            return (
-                              <li style={{ listStyle: 'none' }}>
-                                {row?.quantity}{' '}
-                              </li>
-                            );
-                          })}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row?.createdBy}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
                           {row.elecItemDetails.map((row) => {
                             return (
                               <li style={{ listStyle: 'none' }}>
@@ -1362,39 +1113,51 @@ const Itemdonation = ({ setopendashboard }) => {
                             );
                           })}
                         </TableCell>
+
                         <TableCell>
-                          {/* <img
-                          onClick={() =>
-                            navigation(`/admin-panel/infoElectronic/${row?.id}`)
-                          }
-                          src={eye}
-                          alt="print"
-                          style={{ width: '20px', marginRight: '2px' }}
-                        /> */}
+                          {/* <Tooltip title="Vew Details">
+                          <img
+                            onClick={() =>
+                              navigation(
+                                `/admin-panel/infoElectronic/${row?.id}`,
+                              )
+                            }
+                            src={eye}
+                            alt="print"
+                            style={{ width: '20px', marginRight: '2px' }}
+                          />
+                        </Tooltip> */}
 
                           {userrole === 1 || emproleid === 0 ? (
-                            <img
-                              onClick={() => upadteOpen(row)}
-                              src={Edit}
-                              alt="print"
-                              style={{ width: '20px', marginRight: '2px' }}
-                            />
+                            <Tooltip title="Edit Donation">
+                              <img
+                                onClick={() => upadteOpen(row)}
+                                src={Edit}
+                                alt="print"
+                                style={{ width: '20px', marginRight: '2px' }}
+                              />
+                            </Tooltip>
                           ) : (
                             ''
                           )}
 
-                          <img
-                            onClick={() =>
-                              navigation('/admin-panel/reports/printcontent', {
-                                state: {
-                                  data: row,
-                                },
-                              })
-                            }
-                            src={Print}
-                            alt="print"
-                            style={{ width: '20px', marginRight: '2px' }}
-                          />
+                          <Tooltip title="Print Certificate">
+                            <img
+                              onClick={() =>
+                                navigation(
+                                  '/admin-panel/reports/printcontent',
+                                  {
+                                    state: {
+                                      data: row,
+                                    },
+                                  },
+                                )
+                              }
+                              src={Print}
+                              alt="print"
+                              style={{ width: '20px', marginRight: '2px' }}
+                            />
+                          </Tooltip>
                           {row.isActive ? (
                             <DownloadIcon
                               onClick={() => {
@@ -1405,14 +1168,15 @@ const Itemdonation = ({ setopendashboard }) => {
                             <ClearIcon />
                           )}
                           {userrole === 1 || emproleid === 0 ? (
-                            <CancelIcon onClick={() => handleOpen(row?.id)} />
+                            <Tooltip title="Cancel Certificate">
+                              <CancelIcon onClick={() => handleOpen(row?.id)} />
+                            </Tooltip>
                           ) : (
                             ''
                           )}
                         </TableCell>
                       </TableRow>
                     ))}
-
                   <TableRow>
                     <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>
@@ -1433,11 +1197,11 @@ const Itemdonation = ({ setopendashboard }) => {
                 </>
               ) : (
                 <>
-                  <TableRow>
+                  {/* <TableRow>
                     <TableCell colSpan={12} align="center">
                       <ReactSpinner />
                     </TableCell>
-                  </TableRow>
+                  </TableRow> */}
                 </>
               )}
             </TableBody>
@@ -1474,4 +1238,4 @@ const Itemdonation = ({ setopendashboard }) => {
   );
 };
 
-export default Itemdonation;
+export default Combine;

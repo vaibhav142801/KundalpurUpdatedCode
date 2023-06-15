@@ -76,6 +76,17 @@ const DonationReportTap = ({ setopendashboard }) => {
                   Item Report
                 </NavLink>
                 <NavLink
+                  to="/admin-panel/Room/Combine"
+                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                >
+                  <img
+                    style={{ marginRight: '4%', width: '20px' }}
+                    src={f1}
+                    alt="fast"
+                  />
+                  Combine Report
+                </NavLink>
+                <NavLink
                   to="/admin-panel/electronic/report/cancel-donations"
                   className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
                 >
@@ -84,8 +95,9 @@ const DonationReportTap = ({ setopendashboard }) => {
                     src={f1}
                     alt="fast"
                   />
-                  Cancelled donations
+                  Cancelled
                 </NavLink>
+
                 <NavLink
                   to="/admin-panel/electronic/report/headreport"
                   className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}

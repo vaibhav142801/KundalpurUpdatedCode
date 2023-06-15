@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { serverInstance } from '../../../../../API/ServerInstance';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,38 +9,42 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
-import CancelIcon from '@mui/icons-material/Cancel';
 import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
-import Cancel from '../../../compoments/Cancel';
 import DownloadIcon from '@mui/icons-material/Download';
 import ClearIcon from '@mui/icons-material/Clear';
-import exportFromJSON from 'export-from-json';
-import ItemDonation from '../../../Donation/Donation/ItemDonation/index';
-import { backendApiUrl } from '../../../../../config/config';
-import axios from 'axios';
-import './Itemdonation.css';
 import Moment from 'moment-js';
+import exportFromJSON from 'export-from-json';
 import { ExportPdfmanul } from '../../../compoments/ExportPdf';
+import UpdateCash from '../../../Donation/ManualDonation/UpdateComponents/UpdateCash';
+import UpdateChe from '../../../Donation/ManualDonation/UpdateComponents/UpdateChe';
+import UpdateElec from '../../../Donation/ManualDonation/UpdateComponents/UpdateElec';
+import UpdateTtem from '../../../Donation/ManualDonation/UpdateComponents/UpdateTtem';
 import Print from '../../../../../assets/Print.png';
 import ExportPdf from '../../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../../assets/ExportExcel.png';
 import Edit from '../../../../../assets/Edit.png';
-import eye from '../../../../../assets/eye.png';
-import { ReactSpinner } from 'react-spinning-wheel';
-import 'react-spinning-wheel/dist/style.css';
-import ElectronicTotal from '../../../compoments/ElectronicTotal';
+import { ExportPdfmanulElectronic } from '../../../compoments/ExportPdf';
+import ManualTotal from '../../../compoments/ManualTotal';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-import PrintElectronic from '../../../compoments/PrintElectronic';
+import PrintManual from '../../../compoments/PrintManual';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import DonationReportTap from '../DonationReportTap';
+import axios from 'axios';
+import { backendApiUrl } from '../../../../../config/config';
+import ManualDonationTap from '../ManualDonationTap';
+import Delete from '../../../../../assets/Delete.png';
+import { Button } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import LoadingSpinner1 from '../../../../../components/Loading/LoadingSpinner1';
-import Button from '@mui/material/Button';
 import { MenuItem, Menu } from '@mui/material';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -96,6 +100,18 @@ const style5 = {
   boxShadow: 24,
   borderRadius: '15px',
 };
+
+const style2 = {
+  position: 'absolute',
+  top: '40%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '30%',
+  bgcolor: 'background.paper',
+  p: 2,
+  boxShadow: 24,
+  borderRadius: '5px',
+};
 const style = {
   position: 'absolute',
   top: '40%',
@@ -113,7 +129,7 @@ const openupadtestyle = {
   top: '40%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '30%',
+
   bgcolor: 'background.paper',
   p: 2,
   boxShadow: 24,
@@ -121,14 +137,15 @@ const openupadtestyle = {
 };
 
 const donationColorTheme = {
-  item: '#d6cb00',
+  cash: '#48a828',
 };
-const Itemdonation = ({ setopendashboard }) => {
+
+const Combine = ({ setopendashboard }) => {
+  const navigation = useNavigate();
   let head = [];
   let users = [];
   const [passuser, setpassuser] = useState('');
   const [passhead, setpasshead] = useState('');
-  const [loader, setloader] = useState(false);
   const [emproleid, setemproleid] = useState('');
   const [emplist, setemplist] = useState('');
   const [isData, setisData] = React.useState('');
@@ -137,38 +154,25 @@ const Itemdonation = ({ setopendashboard }) => {
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [showalert, setshowalert] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const navigation = useNavigate();
   const [updateData, setupdateData] = useState('');
   const [openupdate, setopenupdate] = useState(false);
   const [showUpdateBtn, setshowUpdateBtn] = useState(true);
   const [donationTypes, setDonationTypes] = useState([]);
   const [updateId, setupdateId] = useState('');
-  const [userrole, setuserrole] = useState('');
   const [datefrom, setdatefrom] = useState('');
-  const [searchvalue, setsearchvalue] = useState('');
   const [dateto, setdateto] = useState('');
+  const [loader, setloader] = useState(false);
+  const [userrole, setuserrole] = useState('');
   const [voucherfrom, setvoucherfrom] = useState('');
   const [voucherto, setvoucherto] = useState('');
   const [open5, setOpen5] = React.useState(false);
+  const [searchvalue, setsearchvalue] = useState('');
   const handleOpen5 = () => setOpen5(true);
   const handleClose5 = () => setOpen5(false);
-  const [voucherno, setVoucherno] = useState('');
-  const [date, setDate] = useState('');
-  const [receiptNo, setReceiptNo] = useState('');
-  const [phone, setPhone] = useState('');
-  const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
-  const [amount, setAmount] = useState('');
-  const [remark, setRemark] = useState('');
-  const [type, setType] = useState('');
-  const [userType, setUserType] = useState('');
-  const [fsize, setfsize] = useState('');
-  const [funit, setfunit] = useState('');
-  const [fno, setfno] = useState('');
-  const [fitem, setfitem] = useState('');
+
   const handleOpen = (id) => {
-    setOpen(true);
     setupdateId(id);
+    setOpen(true);
   };
   const handleClose = () => setOpen(false);
   const upadteClose = () => {
@@ -178,41 +182,69 @@ const Itemdonation = ({ setopendashboard }) => {
     setupdateData(row);
     setopenupdate(true);
   };
+  const [date, setDate] = useState('');
+  const [receiptNo, setReceiptNo] = useState('');
+  const [phone, setPhone] = useState('');
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+  const [amount, setAmount] = useState('');
+  const [remark, setRemark] = useState('');
+  const [type, setType] = useState('');
+  const [userType, setUserType] = useState('');
 
   const getall_donation = () => {
     setloader(true);
-    setdatefrom('');
+    setsearchvalue('');
     setpasshead('');
     setpassuser('');
+    setdatefrom('');
     setdateto('');
     setvoucherfrom('');
     setvoucherto('');
-    setsearchvalue('');
-    serverInstance('user/add-elecDonation', 'get').then((res) => {
+    serverInstance('admin/manual-donation', 'get').then((res) => {
       if (res.status) {
         setloader(false);
         // let currentMonth, filterData;
         // (currentMonth = new Date().getMonth() + 1),
         //   (filterData = res?.data?.filter((e) => {
         //     var [_, month] = e.donation_date.split('-'); // Or, var month = e.date.split('-')[1];
-        //     return (
-        //       currentMonth === +month &&
-        //       e.modeOfDonation === '4' &&
-        //       e.isActive === true
-        //     );
+        //     return currentMonth === +month && e.modeOfDonation === '2';
         //   }));
-        let filterData = res.data.filter(
-          (item) => item.modeOfDonation === '4' && item.isActive === true,
-        );
+        let filterData = res.data.filter((item) => item.modeOfDonation === '2');
 
         setisData(filterData);
         setisDataDummy(filterData);
       } else {
         Swal('Error', 'somthing went  wrong', 'error');
       }
+      console.log('all donation', res);
     });
   };
 
+  const [deleteId, setdeleteId] = useState('');
+  const [open3, setOpen3] = React.useState(false);
+
+  const handleClickOpen3 = (id) => {
+    setOpen3(true);
+    setdeleteId(id);
+  };
+
+  const handleClose6 = () => setOpen3(false);
+  const handleClose4 = () => {
+    setOpen3(false);
+    serverInstance('admin/delete-meanual-donation', 'post', { id: deleteId })
+      .then((res) => {
+        if (res.data.status) {
+          Swal.fire('Great!', res.data.message, 'success');
+          getall_donation();
+        } else {
+          Swal('Error', 'somthing went  wrong', 'error');
+        }
+      })
+      .catch((error) => {
+        Swal('Error', 'somthing went  wrong', 'error');
+      });
+  };
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open11 = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -232,6 +264,7 @@ const Itemdonation = ({ setopendashboard }) => {
     setAnchorEl1(null);
     setpasshead(head);
   };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -240,10 +273,11 @@ const Itemdonation = ({ setopendashboard }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
   const printreceipt = (row) => {
     if (row.active === '0') {
     } else {
-      navigation('/reciept', {
+      navigation('/manualreceipt', {
         state: {
           userdata: row,
         },
@@ -252,74 +286,64 @@ const Itemdonation = ({ setopendashboard }) => {
   };
 
   const ExportToExcel = () => {
-    const fileName = 'DonationItemReport';
+    const fileName = 'ManaulCashReport';
     const exportType = 'xls';
-    console.log('click');
     var data = [];
     isData.map((item, index) => {
       data.push({
         Date: Moment(item.donation_date).format('DD-MM-YYYY'),
         'Receipt No': item?.ReceiptNo,
-        'Voucher No': item?.voucherNo,
+
         'Phone No': item?.phoneNo,
         name: item?.name,
         Address: item?.address,
-        'Head/Item': item?.elecItemDetails.map((row) => {
+        'Head/Item': item?.manualItemDetails.map((row) => {
           return row.type;
         }),
-        Amount: item?.elecItemDetails.reduce(
+        Amount: item?.manualItemDetails.reduce(
           (n, { amount }) => parseFloat(n) + parseFloat(amount),
           0,
         ),
-        ItemType: item?.elecItemDetails.map((row) => {
-          return row?.itemType;
+        remark: item?.manualItemDetails.map((row) => {
+          return row.remark;
         }),
-        Size: item?.elecItemDetails[0].size,
-        unit: item?.elecItemDetails[0]?.unit,
-        Quantity: item?.elecItemDetails[0]?.quantity,
-        remark: item?.elecItemDetails.map((row) => {
-          return row?.remark;
-        }),
-        Staff: item?.createdBy,
+        Staff: item?.CreatedBy,
         'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
       });
     });
     exportFromJSON({ data, fileName, exportType });
   };
+
   const filterdata = async (e) => {
     setloader(true);
     e.preventDefault();
     try {
+      axios.defaults.headers.get[
+        'Authorization'
+      ] = `Bearer ${sessionStorage.getItem('token')}`;
       if (searchvalue) {
-        axios.defaults.headers.get[
-          'Authorization'
-        ] = `Bearer ${sessionStorage.getItem('token')}`;
-
         const res = await axios.get(
-          `${backendApiUrl}admin/search-electric?search=${searchvalue}&type=${4}`,
+          `${backendApiUrl}/admin/search-manual?search=${searchvalue}&type=${2}`,
         );
 
         if (res.data.status) {
-          let filterData = res.data.data.filter(
-            (item) => item.isActive === true && item.modeOfDonation === '4',
-          );
-          setisData(filterData);
-          setisDataDummy(filterData);
           setloader(false);
+          setisData(res.data.data);
+          setisDataDummy(res.data.data);
         }
       } else {
         serverInstance(
-          `user/search-donation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}&modeOfDonation=${4}`,
+          `user/manual-search-donation?fromDate=${datefrom}&toDate=${dateto}&fromReceipt=${voucherfrom}&toReceipt=${voucherto}&modeOfDonation=${2}`,
           'post',
           { user: passuser, type: passhead },
         ).then((res) => {
           if (res.status) {
-            let filterData = res?.data.filter(
-              (item) => item.isActive === true && item.modeOfDonation === '4',
+            let filterData = res.data.filter(
+              (item) => item.modeOfDonation === '2',
             );
+            setloader(false);
             setisData(filterData);
             setisDataDummy(filterData);
-            setloader(false);
           }
         });
       }
@@ -327,9 +351,10 @@ const Itemdonation = ({ setopendashboard }) => {
       setloader(false);
     }
   };
+
   const get_donation_tyeps = () => {
     try {
-      Promise.all([serverInstance('admin/donation-type?type=2', 'get')]).then(
+      Promise.all([serverInstance('admin/donation-type?type=1', 'get')]).then(
         ([res, item]) => {
           if (res.status) {
             setDonationTypes(res.data);
@@ -354,7 +379,6 @@ const Itemdonation = ({ setopendashboard }) => {
       console.log(res);
     });
   };
-  console.log('data is', isData);
   useEffect(() => {
     getallemp_list();
     getall_donation();
@@ -362,14 +386,11 @@ const Itemdonation = ({ setopendashboard }) => {
     get_donation_tyeps();
     setuserrole(Number(sessionStorage.getItem('userrole')));
     setemproleid(Number(sessionStorage.getItem('empRoleid')));
-  }, [showalert, open, openupdate]);
+  }, [showalert, openupdate, open]);
 
   const onSearchByOther = (e, type) => {
     if (type === 'Date') {
       setDate(e.target.value);
-    }
-    if (type === 'Voucher') {
-      setVoucherno(e.target.value);
     }
     if (type === 'Receipt') {
       setReceiptNo(e.target.value.toLowerCase());
@@ -395,22 +416,8 @@ const Itemdonation = ({ setopendashboard }) => {
     if (type === 'UserType') {
       setUserType(e.target.value.toLowerCase());
     }
-
-    if (type === 'size') {
-      setfsize(e.target.value);
-    }
-    if (type === 'unit') {
-      setfunit(e.target.value?.toLowerCase());
-    }
-    if (type === 'item') {
-      setfitem(e.target.value?.toLowerCase());
-    }
-    if (type === 'no') {
-      setfno(e.target.value);
-    }
   };
   useEffect(() => {
-    console.log(voucherno);
     var filtered = isDataDummy?.filter(
       (dt) =>
         dt?.ReceiptNo.toLowerCase().indexOf(receiptNo) > -1 &&
@@ -418,13 +425,12 @@ const Itemdonation = ({ setopendashboard }) => {
         Moment(dt?.donation_date).format('YYYY-MM-DD').indexOf(date) > -1 &&
         dt?.name.toLowerCase().indexOf(name) > -1 &&
         dt?.address.toLowerCase().indexOf(address) > -1 &&
-        dt?.createdBy?.toLowerCase()?.indexOf(userType) > -1 &&
-        dt?.voucherNo?.toLowerCase()?.indexOf(voucherno) > -1,
+        dt?.CreatedBy?.toLowerCase()?.indexOf(userType) > -1,
     );
-    console.log(type);
+    console.log(filtered);
     if (type) {
       filtered = filtered?.map((item) => {
-        if (item?.elecItemDetails?.find((typ) => typ.type == type)) {
+        if (item?.manualItemDetails?.find((typ) => typ.type == type)) {
           return item;
         } else {
           return;
@@ -432,16 +438,17 @@ const Itemdonation = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
+
     if (amount) {
       filtered = filtered?.map((item) => {
         console.log(
-          item.elecItemDetails.reduce(
+          item.manualItemDetails.reduce(
             (n, { amount }) => parseFloat(n) + parseFloat(amount),
             0,
           ),
         );
         if (
-          item.elecItemDetails.reduce(
+          item.manualItemDetails.reduce(
             (n, { amount }) => parseFloat(n) + parseFloat(amount),
             0,
           ) == amount
@@ -455,7 +462,7 @@ const Itemdonation = ({ setopendashboard }) => {
     }
     if (remark) {
       filtered = filtered?.map((item) => {
-        if (item?.elecItemDetails?.find((typ) => typ.remark == remark)) {
+        if (item?.manualItemDetails?.find((typ) => typ.remark == remark)) {
           return item;
         } else {
           return;
@@ -463,70 +470,9 @@ const Itemdonation = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
-    if (fsize) {
-      filtered = filtered?.map((item) => {
-        if (item?.elecItemDetails?.find((typ) => typ.size == fsize)) {
-          return item;
-        } else {
-          return;
-        }
-      });
-      filtered = filtered?.filter((x) => x !== undefined);
-    }
-    if (funit) {
-      filtered = filtered?.map((item) => {
-        if (
-          item?.elecItemDetails?.find((typ) => typ.unit?.toLowerCase() == funit)
-        ) {
-          return item;
-        } else {
-          return;
-        }
-      });
-      filtered = filtered?.filter((x) => x !== undefined);
-    }
-    if (fno) {
-      filtered = filtered?.map((item) => {
-        if (item?.elecItemDetails?.find((typ) => typ.quantity == fno)) {
-          return item;
-        } else {
-          return;
-        }
-      });
-      filtered = filtered?.filter((x) => x !== undefined);
-    }
-    if (fitem) {
-      filtered = filtered?.map((item) => {
-        if (
-          item?.elecItemDetails?.find(
-            (typ) => typ.itemType?.toLowerCase() == fitem,
-          )
-        ) {
-          return item;
-        } else {
-          return;
-        }
-      });
-      filtered = filtered?.filter((x) => x !== undefined);
-    }
-    console.log('filter', filtered);
+
     setisData(filtered);
-  }, [
-    phone,
-    receiptNo,
-    date,
-    name,
-    address,
-    type,
-    amount,
-    remark,
-    userType,
-    voucherno,
-    fitem,
-    fno,
-    fsize,
-    funit,
-  ]);
+  }, [phone, receiptNo, date, name, address, type, amount, remark, userType]);
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
@@ -622,64 +568,6 @@ const Itemdonation = ({ setopendashboard }) => {
     setSortConfig({ key: key, direction: direction });
   };
 
-  console.log('data from  filyter', isData);
-  const sortDataItemtype = (key) => {
-    let direction = 'ascending';
-    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
-    }
-    setisData(
-      [...isData].sort((a, b) => {
-        if (a[key][0]?.itemType < b[key][0]?.itemType) {
-          return direction === 'ascending' ? -1 : 1;
-        }
-        if (a[key][0]?.itemType > b[key][0]?.itemType) {
-          return direction === 'ascending' ? 1 : -1;
-        }
-        return 0;
-      }),
-    );
-    setSortConfig({ key: key, direction: direction });
-  };
-
-  const sortDataSize = (key) => {
-    let direction = 'ascending';
-    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
-    }
-    setisData(
-      [...isData].sort((a, b) => {
-        if (a[key][0]?.size < b[key][0]?.size) {
-          return direction === 'ascending' ? -1 : 1;
-        }
-        if (a[key][0]?.size > b[key][0]?.size) {
-          return direction === 'ascending' ? 1 : -1;
-        }
-        return 0;
-      }),
-    );
-    setSortConfig({ key: key, direction: direction });
-  };
-
-  const sortRDataQuantity = (key) => {
-    let direction = 'ascending';
-    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
-    }
-    setisData(
-      [...isData].sort((a, b) => {
-        if (a[key][0]?.quantity < b[key][0]?.quantity) {
-          return direction === 'ascending' ? -1 : 1;
-        }
-        if (a[key][0]?.quantity > b[key][0]?.quantity) {
-          return direction === 'ascending' ? 1 : -1;
-        }
-        return 0;
-      }),
-    );
-    setSortConfig({ key: key, direction: direction });
-  };
-
   return (
     <>
       <Menu
@@ -746,15 +634,36 @@ const Itemdonation = ({ setopendashboard }) => {
                   style={{ marginRight: '1rem' }}
                   type="checkbox"
                   onClick={() => {
-                    head.push(item?.itemType_hi);
+                    head.push(item.type_hi);
                     console.log(head);
                   }}
                 />
-                <span> {item?.itemType_hi}</span>
+                <span> {item.type_hi}</span>
               </div>
             </MenuItem>
           ))}
       </Menu>
+      <Dialog
+        open={open3}
+        onClose={handleClose6}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {'Do you want to delete'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            After delete you cannot get again
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose6}>Disagree</Button>
+          <Button onClick={handleClose4} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -764,29 +673,11 @@ const Itemdonation = ({ setopendashboard }) => {
       >
         <Fade in={open5}>
           <Box sx={style5}>
-            <PrintElectronic isData={isData} handleClose={handleClose5} />
+            <PrintManual isData={isData} handleClose={handleClose5} />
           </Box>
         </Fade>
       </Modal>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-      >
-        <Fade in={open}>
-          <Box sx={style}>
-            <div>
-              <div className="add-div-close-div1">
-                <h2>Cancel electronic donation </h2>
-                <CloseIcon onClick={() => handleClose()} />
-              </div>
-              <Cancel handleClose={handleClose} updateId={updateId} type={4} />
-            </div>
-          </Box>
-        </Fade>
-      </Modal>
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -801,24 +692,61 @@ const Itemdonation = ({ setopendashboard }) => {
               width: {
                 xs: '90%',
                 sm: '70%',
-                md: '70%',
+                md: '60%',
               },
             }}
           >
-            <ItemDonation
-              handleClose={upadteClose}
-              themeColor={donationColorTheme.item}
-              updateData={updateData}
-              showUpdateBtn={showUpdateBtn}
-              setopendashboard={setopendashboard}
-              donationTypes={donationTypes}
-            />
+            {updateData?.modeOfDonation === '2' && (
+              <>
+                <UpdateCash
+                  handleClose={upadteClose}
+                  themeColor={donationColorTheme.cash}
+                  updateData={updateData}
+                  showUpdateBtn={showUpdateBtn}
+                  donationTypes={donationTypes}
+                />
+              </>
+            )}
+            {updateData?.modeOfDonation === '3' && (
+              <>
+                <UpdateChe
+                  handleClose={upadteClose}
+                  themeColor={donationColorTheme.cash}
+                  updateData={updateData}
+                  showUpdateBtn={showUpdateBtn}
+                  donationTypes={donationTypes}
+                />
+              </>
+            )}
+            {updateData?.modeOfDonation === '1' && (
+              <>
+                <UpdateElec
+                  handleClose={upadteClose}
+                  themeColor={donationColorTheme.cash}
+                  updateData={updateData}
+                  showUpdateBtn={showUpdateBtn}
+                  donationTypes={donationTypes}
+                />
+              </>
+            )}
+
+            {updateData?.modeOfDonation === '4' && (
+              <>
+                <UpdateTtem
+                  handleClose={upadteClose}
+                  themeColor={donationColorTheme.cash}
+                  updateData={updateData}
+                  showUpdateBtn={showUpdateBtn}
+                  donationTypes={donationTypes}
+                />
+              </>
+            )}
           </Box>
         </Fade>
       </Modal>
-      <DonationReportTap setopendashboard={setopendashboard} />
+      <ManualDonationTap setopendashboard={setopendashboard} />
       <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
-        <div className="search-header ">
+        <div className="search-header">
           <div className="search-inner-div-reports">
             <form className="search-inner-div-reports" onSubmit={filterdata}>
               <div className="Center_main_dic_filetr">
@@ -835,6 +763,7 @@ const Itemdonation = ({ setopendashboard }) => {
                   }}
                 />
               </div>
+
               <div className="Center_main_dic_filetr">
                 <label htmlFor="donation-date">To Date</label>
                 <input
@@ -875,7 +804,6 @@ const Itemdonation = ({ setopendashboard }) => {
                   }}
                 />
               </div>
-
               <div className="Center_main_dic_filetr">
                 <label>&nbsp;</label>
                 <div
@@ -955,6 +883,7 @@ const Itemdonation = ({ setopendashboard }) => {
                   />
                 </Search>
               </div>
+
               <div className="Center_main_dic_filetr">
                 <label>&nbsp;</label>
                 <button>Search</button>
@@ -966,9 +895,15 @@ const Itemdonation = ({ setopendashboard }) => {
               <button onClick={() => getall_donation()}>Reset</button>
             </div>
           </div>
+          {/* <div></div> */}
         </div>
 
-        <div className="search-header-print">
+        <div
+          className="search-header-prin"
+          style={{
+            paddingBottom: '1rem',
+          }}
+        >
           <div
             className="search-header-print"
             style={{
@@ -984,14 +919,17 @@ const Itemdonation = ({ setopendashboard }) => {
                   onClick={() => ExportToExcel()}
                   src={ExportExcel}
                   alt="cc"
-                  style={{ width: '30px', marginLeft: '0rem' }}
+                  style={{ width: '30px' }}
                 />
               </IconButton>
             </Tooltip>
+            &nbsp;&nbsp;
             <Tooltip title="Export Pdf File">
               <IconButton>
                 <img
-                  onClick={() => ExportPdfmanul(isData, 'Report')}
+                  onClick={() =>
+                    ExportPdfmanulElectronic(isData, 'ManualCashReport')
+                  }
                   src={ExportPdf}
                   alt="cc"
                   style={{ width: '30px' }}
@@ -1008,12 +946,12 @@ const Itemdonation = ({ setopendashboard }) => {
                 />
               </IconButton>
             </Tooltip>
-            &nbsp;&nbsp;
           </div>
         </div>
+
         <div className="table-div-maain">
           <Table
-            sx={{ minWidth: 650, width: '100%', fontSize: '5px' }}
+            sx={{ minWidth: 650, width: '100%' }}
             aria-label="simple table"
           >
             <TableHead style={{ background: '#FFEEE0' }}>
@@ -1029,16 +967,7 @@ const Itemdonation = ({ setopendashboard }) => {
                 <TableCell>
                   ReceiptNo
                   <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('ReceiptNo')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-
-                <TableCell>
-                  VoucherNo
-                  <i
-                    style={{ marginLeft: '0rem' }}
+                    style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('ReceiptNo')}
                     class={`fa fa-sort`}
                   />
@@ -1069,10 +998,10 @@ const Itemdonation = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Head
+                  Head/Item
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortDataHead('elecItemDetails')}
+                    onClick={() => sortDataHead('manualItemDetails')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -1080,32 +1009,7 @@ const Itemdonation = ({ setopendashboard }) => {
                   Amount
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortDataAmount('elecItemDetails')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  ItemType{' '}
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortDataItemtype('elecItemDetails')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  Size{' '}
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortDataSize('elecItemDetails')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-
-                <TableCell>
-                  Quantity{' '}
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortRDataQuantity('elecItemDetails')}
+                    onClick={() => sortDataAmount('manualItemDetails')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -1113,7 +1017,7 @@ const Itemdonation = ({ setopendashboard }) => {
                   User
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('createdBy')}
+                    onClick={() => sortData('CreatedBy')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -1121,13 +1025,11 @@ const Itemdonation = ({ setopendashboard }) => {
                   Remark
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortRemark('elecItemDetails')}
+                    onClick={() => sortRemark('manualItemDetails')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
-                  Action <Button>&nbsp;</Button>
-                </TableCell>
+                <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -1140,7 +1042,6 @@ const Itemdonation = ({ setopendashboard }) => {
                   placeholder="Search Date"
                 />
               </TableCell>
-
               <TableCell>
                 <input
                   className="cuolms_search"
@@ -1149,14 +1050,7 @@ const Itemdonation = ({ setopendashboard }) => {
                   placeholder="Search Receipt"
                 />
               </TableCell>
-              <TableCell>
-                <input
-                  className="cuolms_search"
-                  type="text"
-                  onChange={(e) => onSearchByOther(e, 'Voucher')}
-                  placeholder="Search Voucher"
-                />
-              </TableCell>
+
               <TableCell>
                 <input
                   className="cuolms_search"
@@ -1189,53 +1083,16 @@ const Itemdonation = ({ setopendashboard }) => {
                   <option value="">All Head</option>
 
                   {donationTypes.map((item, idx) => {
-                    return (
-                      <option value={item.itemType_hi}>
-                        {item.itemType_hi}
-                      </option>
-                    );
+                    return <option value={item.type_hi}>{item.type_hi}</option>;
                   })}
                 </select>
               </TableCell>
               <TableCell>
                 <input
-                  style={{ width: '100px' }}
                   className="cuolms_search"
                   type="text"
                   onChange={(e) => onSearchByOther(e, 'Amount')}
                   placeholder="Search Amount"
-                />
-              </TableCell>
-              <TableCell>
-                <input
-                  className="cuolms_search"
-                  type="text"
-                  onChange={(e) => onSearchByOther(e, 'item')}
-                  placeholder="Item"
-                />
-              </TableCell>
-              <TableCell>
-                <input
-                  className="cuolms_search"
-                  type="text"
-                  onChange={(e) => onSearchByOther(e, 'size')}
-                  placeholder="Size"
-                />
-              </TableCell>
-              {/* <TableCell>
-                <input
-                  className="cuolms_search"
-                  type="text"
-                  onChange={(e) => onSearchByOther(e, 'unit')}
-                  placeholder="Unit"
-                />
-              </TableCell> */}
-              <TableCell>
-                <input
-                  className="cuolms_search"
-                  type="text"
-                  onChange={(e) => onSearchByOther(e, 'no')}
-                  placeholder="No"
                 />
               </TableCell>
               <TableCell>
@@ -1257,6 +1114,7 @@ const Itemdonation = ({ setopendashboard }) => {
 
               <TableCell>
                 <input
+                  style={{ width: '100%' }}
                   className="cuolms_search"
                   type="text"
                   placeholder="Remark"
@@ -1267,125 +1125,64 @@ const Itemdonation = ({ setopendashboard }) => {
               {isData ? (
                 <>
                   {(rowsPerPage > 0
-                    ? isData
-                        ?.reverse()
-                        ?.slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage,
-                        )
+                    ? isData.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage,
+                      )
                     : isData
-                  )
-                    ?.reverse()
-                    .map((row, index) => (
-                      <TableRow
-                        key={row.id}
-                        sx={{
-                          '&:last-child td, &:last-child th': { border: 0 },
-                        }}
-                      >
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {Moment(row?.donation_date).format('DD/MM/YYYY')}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row?.ReceiptNo}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row?.voucherNo}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row?.phoneNo}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row?.name}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {' '}
-                          {row?.address}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row.elecItemDetails.map((row) => {
-                            return (
-                              <li style={{ listStyle: 'none' }}>{row?.type}</li>
-                            );
-                          })}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row.elecItemDetails.reduce(
-                            (n, { amount }) =>
-                              parseFloat(n) + parseFloat(amount),
-                            0,
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {row.elecItemDetails.map((row) => {
-                            return (
-                              <li style={{ listStyle: 'none' }}>
-                                {row.itemType}{' '}
-                              </li>
-                            );
-                          })}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row.elecItemDetails.map((row) => {
-                            return (
-                              <li style={{ listStyle: 'none' }}>
-                                {row?.size}-{row?.unit}{' '}
-                              </li>
-                            );
-                          })}
-                        </TableCell>
-                        {/* <TableCell style={{ fontSize: '13px' }}>
-                        {row.elecItemDetails.map((row) => {
+                  ).map((row, index) => (
+                    <TableRow
+                      key={row.id}
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell>
+                        {Moment(row.donation_date).format('DD/MM/YYYY')}
+                      </TableCell>
+                      <TableCell>{row.ReceiptNo}</TableCell>
+
+                      <TableCell>{row.phoneNo}</TableCell>
+                      <TableCell>{row.name}</TableCell>
+                      <TableCell> {row.address}</TableCell>
+                      <TableCell>
+                        {row.manualItemDetails.map((row) => {
                           return (
-                            <li style={{ listStyle: 'none' }}>{row?.unit} </li>
+                            <li style={{ listStyle: 'none' }}>{row.type}</li>
                           );
                         })}
-                      </TableCell> */}
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row.elecItemDetails.map((row) => {
-                            return (
-                              <li style={{ listStyle: 'none' }}>
-                                {row?.quantity}{' '}
-                              </li>
-                            );
-                          })}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row?.createdBy}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13px' }}>
-                          {row.elecItemDetails.map((row) => {
-                            return (
-                              <li style={{ listStyle: 'none' }}>
-                                {row?.remark}{' '}
-                              </li>
-                            );
-                          })}
-                        </TableCell>
-                        <TableCell>
-                          {/* <img
-                          onClick={() =>
-                            navigation(`/admin-panel/infoElectronic/${row?.id}`)
-                          }
-                          src={eye}
-                          alt="print"
-                          style={{ width: '20px', marginRight: '2px' }}
-                        /> */}
-
-                          {userrole === 1 || emproleid === 0 ? (
+                      </TableCell>
+                      <TableCell>
+                        {row.manualItemDetails.reduce(
+                          (n, { amount }) => parseFloat(n) + parseFloat(amount),
+                          0,
+                        )}
+                      </TableCell>
+                      <TableCell>{row?.CreatedBy}</TableCell>
+                      <TableCell>
+                        {row.manualItemDetails.map((row) => {
+                          return (
+                            <li style={{ listStyle: 'none' }}>{row.remark} </li>
+                          );
+                        })}
+                      </TableCell>
+                      <TableCell>
+                        {userrole === 1 || emproleid === 0 ? (
+                          <Tooltip title="Edit">
                             <img
                               onClick={() => upadteOpen(row)}
                               src={Edit}
                               alt="print"
                               style={{ width: '20px', marginRight: '2px' }}
                             />
-                          ) : (
-                            ''
-                          )}
-
+                          </Tooltip>
+                        ) : (
+                          ''
+                        )}
+                        <Tooltip title="Print">
                           <img
                             onClick={() =>
-                              navigation('/admin-panel/reports/printcontent', {
+                              navigation('/admin-panel/printContentmanul', {
                                 state: {
                                   data: row,
                                 },
@@ -1395,51 +1192,52 @@ const Itemdonation = ({ setopendashboard }) => {
                             alt="print"
                             style={{ width: '20px', marginRight: '2px' }}
                           />
-                          {row.isActive ? (
+                        </Tooltip>
+
+                        {row.isActive ? (
+                          <Tooltip title="Download">
                             <DownloadIcon
                               onClick={() => {
                                 printreceipt(row);
                               }}
                             />
-                          ) : (
-                            <ClearIcon />
-                          )}
-                          {userrole === 1 || emproleid === 0 ? (
-                            <CancelIcon onClick={() => handleOpen(row?.id)} />
-                          ) : (
-                            ''
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-
-                  <TableRow>
-                    <TableCell> &nbsp;</TableCell>
-                    <TableCell> &nbsp;</TableCell>
-                    <TableCell> &nbsp;</TableCell>
-                    <TableCell> &nbsp;</TableCell>
-                    <TableCell> &nbsp;</TableCell>
-                    <TableCell> &nbsp;</TableCell>
-                    <TableCell style={{ fontWeight: 700 }}>
-                      Total Amount
-                    </TableCell>
-                    <TableCell style={{ fontWeight: 700 }}>
-                      <ElectronicTotal data={isData} />
-                    </TableCell>
-                    <TableCell> &nbsp;</TableCell>
-                    <TableCell> &nbsp;</TableCell>
-                    <TableCell> &nbsp;</TableCell>
-                  </TableRow>
+                          </Tooltip>
+                        ) : (
+                          <ClearIcon />
+                        )}
+                        {userrole === 1 || emproleid === 0 ? (
+                          <Tooltip title="Delete">
+                            <img
+                              src={Delete}
+                              style={{ width: '20px' }}
+                              onClick={() => handleClickOpen3(row.id)}
+                              alt="dd"
+                            />
+                          </Tooltip>
+                        ) : (
+                          ''
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </>
               ) : (
-                <>
-                  <TableRow>
-                    <TableCell colSpan={12} align="center">
-                      <ReactSpinner />
-                    </TableCell>
-                  </TableRow>
-                </>
+                <></>
               )}
+              <TableRow>
+                <TableCell> &nbsp;</TableCell>
+                <TableCell> &nbsp;</TableCell>
+                <TableCell> &nbsp;</TableCell>
+                <TableCell> &nbsp;</TableCell>
+                <TableCell> &nbsp;</TableCell>
+                <TableCell style={{ fontWeight: 700 }}> Total Amount</TableCell>
+                <TableCell style={{ fontWeight: 700 }}>
+                  <ManualTotal data={isData} />
+                </TableCell>
+                <TableCell> &nbsp;</TableCell>
+                <TableCell> &nbsp;</TableCell>
+                <TableCell> &nbsp;</TableCell>
+              </TableRow>
             </TableBody>
             <TableFooter>
               <TableRow>
@@ -1474,4 +1272,4 @@ const Itemdonation = ({ setopendashboard }) => {
   );
 };
 
-export default Itemdonation;
+export default Combine;

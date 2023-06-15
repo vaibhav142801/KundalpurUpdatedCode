@@ -83,6 +83,9 @@ import OnlinecheckinReceipt from '../screens/Admin/RoomBooking/RoomBookingCetifi
 import OnlinecheckinPrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/OnlinecheckinPrint';
 import CanceledHistory from '../screens/Admin/RoomBooking/RoomBookingReports/CanceledHistory';
 import Holdhistory from '../screens/Admin/RoomBooking/RoomBookingReports/Holdhistory';
+
+import Combine from '../screens/Admin/Reports/DonationReport/Combile/Combine';
+import CombineManual from '../screens/Admin/Reports/ManualDonationReports/Combine/Combine';
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -692,6 +695,23 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <Holdhistory setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/Room/Combine"
+          element={
+            <Adminprivateroute>
+              <Combine setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Room/CombineManual"
+          element={
+            <Adminprivateroute>
+              <CombineManual setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />

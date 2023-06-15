@@ -63,6 +63,7 @@ function OnlineforcePrint({ setopendashboard }) {
 
   let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+
   return (
     <>
       <div
@@ -80,9 +81,9 @@ function OnlineforcePrint({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginTop: '7rem' }}
+            style={{ marginTop: '9rem' }}
           >
-            <div style={{ backgroundColor: '#92D14C' }}>
+            <div>
               <p className="yadda_text">
                 यात्री प्रस्थान रसीद (ओनलाईन,फोर्स चेकआउट)
               </p>
@@ -238,18 +239,18 @@ function OnlineforcePrint({ setopendashboard }) {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount)}
+                      {Number(isData && isData?.roomAmount)}.00
+                    </td>
+                    <td className="table_tddd lineheight10">
+                      {Number(isData && isData?.advanceAmount) +
+                        Number(isData && isData?.roomAmount)}
                       .00
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.advanceAmount)}
-                      .00
-                    </td>
-                    <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) *
-                        (Number(1) + Number(1)) -
-                        Number(isData && isData?.roomAmount) *
-                          (Number(1) + Number(1))}
+                      {Number(isData && isData?.advanceAmount) +
+                        Number(isData && isData?.roomAmount) -
+                        (Number(isData && isData?.advanceAmount) +
+                          Number(isData && isData?.roomAmount))}
                       .00
                     </td>
                     {/* <td className="table_tddd">

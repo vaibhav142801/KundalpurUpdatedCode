@@ -622,7 +622,19 @@ const CheckinReports = ({ setopendashboard }) => {
                           className="chaneRoom"
                           onClick={() => downloadrecept(row)}
                         >
-                          Print
+                          Checkin Print
+                        </button>
+
+                        <button
+                          style={{
+                            width: '6rem',
+                            marginBottom: '4px',
+                            backgroundColor: '#000080',
+                          }}
+                          className="chaneRoom"
+                          onClick={() => downloadrecept(row)}
+                        >
+                          Checkout Print
                         </button>
                       </TableCell>
                     </TableRow>

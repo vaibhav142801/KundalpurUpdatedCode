@@ -58,7 +58,7 @@ const MasterTap = ({ setopendashboard }) => {
               />
               Donation Item Master
             </button>
-            <button
+            {/* <button
               className={toggleState === 4 ? 'tabs2 ' : 'tabs1'}
               onClick={() => toggleTab(4)}
             >
@@ -68,9 +68,9 @@ const MasterTap = ({ setopendashboard }) => {
                 alt="fast"
               />
               Receipt Master
-            </button>
+            </button> */}
 
-            <button
+            {/* <button
               className={toggleState === 5 ? 'tabs2 ' : 'tabs1'}
               onClick={() => toggleTab(5)}
             >
@@ -80,7 +80,7 @@ const MasterTap = ({ setopendashboard }) => {
                 alt="fast"
               />
               Category Master
-            </button>
+            </button> */}
 
             <button
               className={toggleState === 6 ? 'tabs2 ' : 'tabs1'}

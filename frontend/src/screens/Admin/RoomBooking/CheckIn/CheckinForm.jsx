@@ -108,6 +108,7 @@ const idproff = [
 
 function CheckinForm({ setOpen }) {
   const navigate = useNavigate();
+  const [fetchuserdetail, setfetchuserdetail] = useState(true);
   const [formerror, setFormerror] = useState({});
   const [mainRate, setmainRate] = useState('');
   const [mainAvanceRate, setmainAvanceRate] = useState('');
@@ -293,6 +294,7 @@ function CheckinForm({ setOpen }) {
       }
     });
   };
+
   const handleclick = async () => {
     setFormerror(validate());
     if (fullname && phoneno && address) {
@@ -318,11 +320,36 @@ function CheckinForm({ setOpen }) {
     return errors;
   };
 
+  const getDonatedUserDetails = () => {
+    serverInstance(`room/checkin-history-by-num/${phoneno}`, 'get').then(
+      (res) => {
+        if (res?.data[0]) {
+          setfullname(res?.data[0]?.name);
+          setfathers(res?.data[0]?.Fname);
+          setaddress(res?.data[0]?.address);
+          setcity(res?.data[0]?.city);
+          setstate(res?.data[0]?.state);
+          setpincode(res?.data[0]?.state);
+          setemail(res?.data[0]?.email);
+          setidproffname(res?.data[0]?.proof);
+          setidproffno(res?.data[0]?.idNumber);
+        }
+
+        console.log('getby num booking details', res?.data[0]);
+      },
+    );
+  };
+
+  if (phoneno?.length === 10 && fetchuserdetail === true) {
+    getDonatedUserDetails();
+    setfetchuserdetail(false);
+  }
+
   useEffect(() => {
     getalldharamshala();
     getallfacility();
     getallcategory();
-  }, []);
+  }, [fetchuserdetail]);
   return (
     <>
       <Modal

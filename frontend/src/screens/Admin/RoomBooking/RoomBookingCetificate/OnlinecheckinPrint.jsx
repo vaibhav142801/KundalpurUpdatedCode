@@ -77,9 +77,9 @@ function OnlinecheckinPrint({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginLeft: '0rem', marginTop: '6rem' }}
+            style={{ marginLeft: '0rem', marginTop: '9rem' }}
           >
-            <div style={{ backgroundColor: '#FE0002' }}>
+            <div>
               <p className="yadda_text lineheight">
                 यात्री प्रस्थान रसीद (ओनलाईन)
               </p>

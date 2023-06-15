@@ -165,6 +165,8 @@ function RoomShiftForm({ setOpen, changedata }) {
         dharmasala: dharamshalid,
         modeOfBooking: changedata?.modeOfBooking,
         RoomNo: roomnumber,
+        roomAmount: rate,
+        advanceAmount: advancerate,
       };
       axios.defaults.headers.put[
         'Authorization'
@@ -180,6 +182,7 @@ function RoomShiftForm({ setOpen, changedata }) {
       }
 
       if (res?.data?.data?.status === false) {
+        setOpen(false);
         Swal.fire(
           'Great!',
           'Room failed to checkout (Time Limit Elapsed)',
@@ -407,7 +410,7 @@ function RoomShiftForm({ setOpen, changedata }) {
                         sx={{
                           fontSize: 14,
                         }}
-                        value={''}
+                        value=""
                       >
                         Please select
                       </MenuItem>
@@ -519,7 +522,8 @@ function RoomShiftForm({ setOpen, changedata }) {
                               <tr key={item?.id}>
                                 <td className="table_tddd">
                                   <input
-                                    type="checkbox"
+                                    type="radio"
+                                    name="ssss"
                                     onClick={() => {
                                       setroomnumber(item?.RoomNo);
                                       setdharamshalanameroom(item?.name);
