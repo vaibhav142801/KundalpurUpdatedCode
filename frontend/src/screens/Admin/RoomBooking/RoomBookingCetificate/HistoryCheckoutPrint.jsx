@@ -5,7 +5,7 @@ import jsPDF from 'jspdf';
 import { useReactToPrint } from 'react-to-print';
 import './RoomBookingCetificate.css';
 
-function PrintOnlysetup({ setopendashboard }) {
+function HistoryCheckoutPrint({ setopendashboard }) {
   const navigate = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
@@ -30,10 +30,10 @@ function PrintOnlysetup({ setopendashboard }) {
     if (location.state) {
       setisData(location.state?.data);
     }
-    setopendashboard(true);
     setTimeout(() => {
       handlePrint();
     }, 10);
+    setopendashboard(true);
   }, []);
   console.log('certificate', isData);
 
@@ -48,7 +48,7 @@ function PrintOnlysetup({ setopendashboard }) {
     hour12: true,
   });
 
-  var today1 = new Date(isData && isData?.coutDate);
+  var today1 = new Date();
   const currDatecheckout = today1
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -60,6 +60,7 @@ function PrintOnlysetup({ setopendashboard }) {
 
   let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+  let days = TotalDays === 1 ? 1 : TotalDays - 1;
   return (
     <>
       <div
@@ -75,19 +76,20 @@ function PrintOnlysetup({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginLeft: '0rem', marginTop: '9rem' }}
+            style={{ marginTop: '9rem' }}
           >
             <div>
-              <p className="yadda_text lineheight">यात्री आगमन रसीद</p>
+              <p className="yadda_text lineheight">यात्री प्रस्थान रसीद</p>
             </div>
-
             <div className="innear_div_texx">
               <div className="innear_div_texx_dd">
                 <div>
                   <p className="lineheight" style={{ color: 'gray' }}>
                     आवास क्र :
                   </p>
-
+                  <p style={{ color: 'gray' }} className="lineheight">
+                    मोबाईल न :
+                  </p>
                   <p style={{ color: 'gray' }} className="lineheight">
                     यात्री का नाम :
                   </p>
@@ -96,8 +98,8 @@ function PrintOnlysetup({ setopendashboard }) {
                   </p>
                 </div>
                 <div className="main_left">
-                  <p className="lineheight">{isData && isData?.RoomNo}</p>
-
+                  <p className="lineheight">{isData && isData?.booking_id}</p>
+                  <p className="lineheight">{isData && isData?.contactNo}</p>
                   <p className="lineheight">{isData && isData?.name}</p>
                   <p className="lineheight">{isData && isData?.Fname}</p>
                 </div>
@@ -105,10 +107,14 @@ function PrintOnlysetup({ setopendashboard }) {
               <div className="innear_div_texx_dd" style={{ marginLeft: '0px' }}>
                 <div>
                   <p style={{ color: 'gray' }} className="lineheight">
-                    आगमन दिनांक:
+                    प्रस्थान दिनाँक :
                   </p>
                   <p style={{ color: 'gray' }} className="lineheight">
-                    मोबाईल न :
+                    आगमन दिनांक:
+                  </p>
+
+                  <p style={{ color: 'gray' }} className="lineheight">
+                    स्टे :
                   </p>
                   <p style={{ color: 'gray' }} className="lineheight">
                     पता :
@@ -116,15 +122,19 @@ function PrintOnlysetup({ setopendashboard }) {
                 </div>
                 <div className="main_left">
                   <p className="lineheight">
+                    {currDatecheckout} / {currTimecheckout}
+                  </p>
+                  <p className="lineheight">
                     {currDate} / {currTime}
                   </p>
-                  <p className="lineheight">{isData && isData?.contactNo}</p>
+
+                  <p className="lineheight">{days}&nbsp; Days</p>
                   <p className="lineheight">{isData && isData?.city}</p>
                 </div>
               </div>
             </div>
 
-            <div className="yyy_text_div">
+            {/* <div className="yyy_text_div">
               <p className="lineheight">यात्री संख्या </p>
               <p className="lineheight">Male: {isData?.male}</p>
               <p className="lineheight">Female: {isData?.female}</p>
@@ -135,7 +145,7 @@ function PrintOnlysetup({ setopendashboard }) {
                   Number(isData?.female) +
                   Number(isData?.child)}
               </p>
-            </div>
+            </div> */}
 
             <div>
               <table className="table_ddd">
@@ -143,9 +153,8 @@ function PrintOnlysetup({ setopendashboard }) {
                   <tr>
                     <td className="table_tddd lineheight10">धर्मशाला नाम</td>
                     <td className="table_tddd lineheight10">
-                      रूम टाईप & फेसिलिटी
+                      रूम टाईप & रूम न.
                     </td>
-                    <td className="table_tddd lineheight10">रूम न</td>
                     {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
                     {/* <td className="table_tddd lineheight10">
                                   रुम न.
@@ -171,6 +180,17 @@ function PrintOnlysetup({ setopendashboard }) {
                                   </p> */}
                     </td>
 
+                    <td className="table_tddd lineheight10">
+                      शेष राशि वापिसी
+                      {/* <p className="lineheight10">
+                                    {Number(isData && isData?.roomAmount) *
+                                      (Number(isData && isData?.nRoom) +
+                                        Number(isData && isData?.nRoom))}
+                                    -
+                                    {Number(isData && isData?.roomAmount) *
+                                      Number(isData && isData?.nRoom)}
+                                  </p> */}
+                    </td>
                     {/* <td className="table_tddd">
                             अमानत राशि
                             <p>
@@ -183,21 +203,19 @@ function PrintOnlysetup({ setopendashboard }) {
                   </tr>
                   <tr>
                     <td className="table_tddd lineheight10">
-                      {isData && isData?.dharmasala?.name
-                        ? isData && isData?.dharmasala?.name
-                        : isData?.dharmasalaName}
+                      {isData && isData?.dharmasala?.name}
+                      {isData && isData?.dharmasalaName}
                     </td>
                     <td className="table_tddd lineheight10">
-                      {isData && isData?.categoryName}
+                      (
                       {isData &&
                         isData?.facility_name &&
                         isData?.facility_name.map((element, index) => (
                           <span key={index}> {element}</span>
                         ))}
-                      -{isData && isData?.category_name}
+                      {isData && isData?.categoryName},
                       {isData && isData?.facilityName}
-                    </td>
-                    <td className="table_tddd lineheight10">
+                      {isData && isData?.category_name})-
                       {isData && isData?.RoomNo}
                     </td>
                     {/* <td className="table_tddd">
@@ -216,14 +234,21 @@ function PrintOnlysetup({ setopendashboard }) {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount)}.00
+                      {Number(isData && isData?.roomAmount) * days}
+                      .00
                     </td>
                     <td className="table_tddd lineheight10">
                       {Number(isData && isData?.advanceAmount) +
-                        Number(isData && isData?.roomAmount)}
+                        Number(isData && isData?.roomAmount) * days}
                       .00
                     </td>
-
+                    <td className="table_tddd lineheight10">
+                      {Number(isData && isData?.advanceAmount) +
+                        Number(isData && isData?.roomAmount) * days -
+                        (Number(isData && isData?.advanceAmount) +
+                          Number(isData && isData?.roomAmount) * days)}
+                      .00
+                    </td>
                     {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *
                               Number(isData && isData[0]?.nRoom)}
@@ -239,7 +264,7 @@ function PrintOnlysetup({ setopendashboard }) {
                   marginBottom: '0.5rem',
                 }}
               >
-                {isData && isData?.bookedByName}
+                {isData && isData?.checkoutByName}
                 {isData && isData?.cancelByName}
               </p>
             </div>
@@ -253,4 +278,4 @@ function PrintOnlysetup({ setopendashboard }) {
   );
 }
 
-export default PrintOnlysetup;
+export default HistoryCheckoutPrint;

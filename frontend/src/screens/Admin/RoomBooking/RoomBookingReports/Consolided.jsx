@@ -40,7 +40,7 @@ const style = {
   borderRadius: '5px',
 };
 
-const CanceledHistory = ({ setopendashboard }) => {
+const Consolided = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
@@ -77,17 +77,16 @@ const CanceledHistory = ({ setopendashboard }) => {
   const getall_donation = () => {
     setloader(true);
 
-    serverInstance('room/cancel-history', 'get').then((res) => {
+    serverInstance('room/get-room-history-admin', 'post').then((res) => {
       console.log(res);
       if (res.data) {
         setloader(false);
-        // let filterData = res.data.filter((item) => item.modeOfBooking === 1);
-        setisData(res.data);
-        setisDataDummy(res.data);
+        let filterData = res.data.filter((item) => item.modeOfBooking === 2);
+        setisData(filterData);
+        setisDataDummy(filterData);
       }
     });
   };
-
   const ExportPdfmanul = (isData, fileName) => {
     const doc = new jsPDF();
 
@@ -214,16 +213,9 @@ const CanceledHistory = ({ setopendashboard }) => {
     setopendashboard(true);
     setuserrole(Number(sessionStorage.getItem('userrole')));
   }, [open, open1, open3, open4, open8, optionss]);
-  const downloadreceptonlyprint = (row) => {
-    navigation('/admin-panel/Room/printReceipt', {
-      state: {
-        data: row,
-      },
-    });
-  };
 
   const downloadrecept = (row) => {
-    navigation('/admin-panel/Room/HistoryCheckout', {
+    navigation('/admin-panel/Room/OnlinePrintReceipt', {
       state: {
         data: row,
       },
@@ -422,71 +414,55 @@ const CanceledHistory = ({ setopendashboard }) => {
               <TableRow>
                 <TableCell>S.No</TableCell>
                 <TableCell>
-                  BookingId
+                  Employee Name
                   <i
-                    style={{ marginLeft: '0rem' }}
+                    style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('booking_id')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
                 <TableCell>
-                  Mobile
+                  Check In Amount (Advance)
                   <i
-                    style={{ marginLeft: '0rem' }}
+                    style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('contactNo')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
                 <TableCell>
-                  CustomerName
+                  Check Out Amount (Return)
                   <i
-                    style={{ marginLeft: '0rem' }}
+                    style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('holderName')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
                 <TableCell>
-                  CheckinDate$Time
+                  Rate Amount (Room)
                   <i
-                    style={{ marginLeft: '0rem' }}
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('holderName')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Cancel Amount
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('date')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
 
                 <TableCell>
-                  CheckoutDate$Time
+                  Total Amount
                   <i
-                    style={{ marginLeft: '0rem' }}
+                    style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('coutDate')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
 
-                <TableCell>
-                  Rate
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('roomAmount')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  AdvanceRate
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('advanceAmount')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  RoomNo
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('RoomNo')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
@@ -499,7 +475,7 @@ const CanceledHistory = ({ setopendashboard }) => {
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => onSearchByOther(e, 'bookid')}
-                    placeholder="Search bookid"
+                    placeholder="Search name"
                   />
                 </TableCell>
                 <TableCell>
@@ -508,7 +484,7 @@ const CanceledHistory = ({ setopendashboard }) => {
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => onSearchByOther(e, 'mobileno')}
-                    placeholder="Search  mobileno"
+                    placeholder="Search  Checkin"
                   />
                 </TableCell>
                 <TableCell>
@@ -517,62 +493,38 @@ const CanceledHistory = ({ setopendashboard }) => {
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => onSearchByOther(e, 'customername')}
-                    placeholder="Search  name"
+                    placeholder="Search Checkout"
                   />
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '9rem' }}
+                    style={{ width: '7rem' }}
                     className="cuolms_search"
-                    type="date"
-                    onChange={(e) => onSearchByOther(e, 'checkindate')}
-                    placeholder="Search  checkin date"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'customername')}
+                    placeholder="Search Rate"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '7rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'customername')}
+                    placeholder="Search Cancel "
                   />
                 </TableCell>
 
                 <TableCell>
                   <input
-                    style={{ width: '9rem' }}
+                    style={{ width: '7rem' }}
                     className="cuolms_search"
-                    type="date"
-                    onChange={(e) => onSearchByOther(e, 'checkoutdate')}
-                    placeholder="Search checkout date"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'customername')}
+                    placeholder="Search Total"
                   />
                 </TableCell>
 
-                <TableCell>
-                  <input
-                    style={{ width: '7rem' }}
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => {
-                      onSearchByOther(e, 'rate');
-                    }}
-                    placeholder="Rate"
-                  />
-                </TableCell>
-                <TableCell>
-                  <input
-                    style={{ width: '7rem' }}
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => {
-                      onSearchByOther(e, 'advanceRate');
-                    }}
-                    placeholder="Advance"
-                  />
-                </TableCell>
-                <TableCell>
-                  <input
-                    style={{ width: '7rem' }}
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => {
-                      onSearchByOther(e, 'roomNo');
-                    }}
-                    placeholder="roomNo"
-                  />
-                </TableCell>
                 <TableCell>
                   <button
                     style={{
@@ -585,78 +537,56 @@ const CanceledHistory = ({ setopendashboard }) => {
                   </button>
                 </TableCell>
               </TableRow>
-              {isData.length > 0 && (
+              {isData ? (
                 <>
-                  {isData.length > 0 ? (
-                    <>
-                      {(rowsPerPage > 0
-                        ? isData.length > 0 &&
-                          isData.slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage,
-                          )
-                        : isData
-                      ).map((row, index) => (
-                        <TableRow
-                          key={row.id}
-                          sx={{
-                            '&:last-child td, &:last-child th': { border: 0 },
+                  {(rowsPerPage > 0
+                    ? isData.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage,
+                      )
+                    : isData
+                  ).map((row, index) => (
+                    <TableRow
+                      key={row.id}
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>{row?.booking_id}</TableCell>
+                      <TableCell>{row?.contactNo}</TableCell>
+                      <TableCell>{row?.name}</TableCell>
+                      <TableCell>
+                        {handledisable(row?.date)}
+                        {Moment(row?.date).format('YYYY-MM-DD')}&nbsp;&nbsp;
+                        {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
+                      </TableCell>
+
+                      <TableCell>
+                        {Moment(row?.coutDate).format('DD-MM-YYYY')}&nbsp;&nbsp;
+                        {moment(row?.coutTime, 'HH:mm:ss').format('hh:mm:ss')}
+                      </TableCell>
+
+                      <TableCell
+                        style={{ display: 'flex', flexDirection: 'column' }}
+                      >
+                        <button
+                          style={{
+                            width: '6rem',
+                            marginBottom: '4px',
+                            backgroundColor: '#000080',
                           }}
+                          className="chaneRoom"
+                          onClick={() => downloadrecept(row)}
                         >
-                          <TableCell>{index + 1}</TableCell>
-                          <TableCell>{row?.booking_id}</TableCell>
-                          <TableCell>{row?.contactNo}</TableCell>
-                          <TableCell>{row?.name}</TableCell>
-                          <TableCell>
-                            {handledisable(row?.date)}
-                            {Moment(row?.date).format('YYYY-MM-DD')}&nbsp;&nbsp;
-                            {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
-                          </TableCell>
-
-                          <TableCell>
-                            {Moment(row?.coutDate).format('DD-MM-YYYY')}
-                            &nbsp;&nbsp;
-                            {moment(row?.coutTime, 'HH:mm:ss').format(
-                              'hh:mm:ss',
-                            )}
-                          </TableCell>
-
-                          <TableCell> {row?.roomAmount}</TableCell>
-                          <TableCell> {row?.advanceAmount}</TableCell>
-                          <TableCell> {row?.RoomNo}</TableCell>
-                          <TableCell
-                            style={{ display: 'flex', flexDirection: 'column' }}
-                          >
-                            <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#000080',
-                              }}
-                              className="chaneRoom"
-                              onClick={() => downloadreceptonlyprint(row)}
-                            >
-                              Checkin Print
-                            </button>
-                            <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#000080',
-                              }}
-                              className="chaneRoom"
-                              onClick={() => downloadrecept(row)}
-                            >
-                              Cancel Print
-                            </button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </>
-                  ) : (
-                    <></>
-                  )}
+                          Print
+                        </button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </>
+              ) : (
+                <></>
               )}
             </TableBody>
             <TableFooter>
@@ -692,4 +622,4 @@ const CanceledHistory = ({ setopendashboard }) => {
   );
 };
 
-export default CanceledHistory;
+export default Consolided;

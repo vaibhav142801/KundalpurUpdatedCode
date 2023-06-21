@@ -86,6 +86,10 @@ import Holdhistory from '../screens/Admin/RoomBooking/RoomBookingReports/Holdhis
 
 import Combine from '../screens/Admin/Reports/DonationReport/Combile/Combine';
 import CombineManual from '../screens/Admin/Reports/ManualDonationReports/Combine/Combine';
+
+import Consolided from '../screens/Admin/RoomBooking/RoomBookingReports/Consolided';
+import HistoryCheckout from '../screens/Admin/RoomBooking/RoomBookingCetificate/HistoryCheckout';
+import HistoryCheckoutPrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/HistoryCheckoutPrint';
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -707,11 +711,36 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
             </Adminprivateroute>
           }
         />
+
         <Route
           path="/admin-panel/Room/CombineManual"
           element={
             <Adminprivateroute>
               <CombineManual setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Room/Consolided"
+          element={
+            <Adminprivateroute>
+              <Consolided setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Room/HistoryCheckout"
+          element={
+            <Adminprivateroute>
+              <HistoryCheckout setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Room/HistoryCheckoutPrint"
+          element={
+            <Adminprivateroute>
+              <HistoryCheckoutPrint setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />

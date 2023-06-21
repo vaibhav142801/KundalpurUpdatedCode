@@ -108,6 +108,9 @@ const idproff = [
 
 function CheckinForm({ setOpen }) {
   const navigate = useNavigate();
+  const [bankname, setbankname] = useState('');
+  const [transactionid, settransactionid] = useState('');
+  const [remarks, setremarks] = useState('');
   const [fetchuserdetail, setfetchuserdetail] = useState(true);
   const [formerror, setFormerror] = useState({});
   const [mainRate, setmainRate] = useState('');
@@ -191,6 +194,9 @@ function CheckinForm({ setOpen }) {
       };
 
       serverInstance('room/checkin', 'post', {
+        bankName: bankname,
+        transactionId: transactionid,
+        remarks: remarks,
         date: today,
         time: time,
         contactNo: phoneno,
@@ -431,6 +437,83 @@ function CheckinForm({ setOpen }) {
                     Rate for (online) Room Booking and Advance rate for
                     (offline) room booking and amount not refundable
                   </p>
+                  <div style={{ marginTop: '1rem' }}>
+                    <span style={{ marginRight: '1rem' }}>Payment mode</span>
+
+                    <button
+                      className={
+                        Paymode === 'Cash'
+                          ? 'cash_div_room_book'
+                          : 'cash_div_room_book_disable'
+                      }
+                      onClick={() => {
+                        setpaymentmode('');
+                        setPaymode('Cash');
+                        setpaymentmode(2);
+                      }}
+                    >
+                      Cash
+                    </button>
+                    <button
+                      className={
+                        Paymode === 'Online'
+                          ? 'online_div_room_book'
+                          : 'cash_div_room_book_disable'
+                      }
+                      onClick={() => {
+                        setpaymentmode('');
+                        setPaymode('Online');
+                        setpaymentmode(1);
+                      }}
+                    >
+                      online
+                    </button>
+                  </div>
+                  {Paymode === 'Online' ? (
+                    <>
+                      <div className="minddle_div_room">
+                        <div className="minddle_div_room_innear">
+                          <label htmlFor="phoneno">Bank Name</label>
+                          <CustomInput
+                            id="phoneno"
+                            type="text"
+                            name="phoneno"
+                            required
+                            placeholder="Enter the bank name"
+                            value={bankname}
+                            onChange={(e) => setbankname(e.target.value)}
+                          />
+                        </div>
+                        <div className="minddle_div_room_innear">
+                          <label htmlFor="phoneno">Transaction Id</label>
+                          <CustomInput
+                            id="phoneno"
+                            type="text"
+                            name="phoneno"
+                            required
+                            placeholder="Enter the transaction id"
+                            value={transactionid}
+                            onChange={(e) => settransactionid(e.target.value)}
+                          />
+                        </div>
+                        <div className="minddle_div_room_innear">
+                          <label htmlFor="phoneno">Remark</label>
+                          <CustomInput
+                            id="phoneno"
+                            type="text"
+                            name="phoneno"
+                            required
+                            placeholder="Enter the remark"
+                            value={remarks}
+                            onChange={(e) => setremarks(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+
                   <div className="main_show_details_divs">
                     <div className="main_show_details_divs_inear">
                       <h2>Guest Details</h2>
@@ -772,37 +855,6 @@ function CheckinForm({ setOpen }) {
           <>
             <div className="cash-donation-container-innser">
               <div className="main_div_checkin_div">
-                <span style={{ marginRight: '1rem' }}>Payment mode</span>
-
-                <button
-                  className={
-                    Paymode === 'Cash'
-                      ? 'cash_div_room_book'
-                      : 'cash_div_room_book_disable'
-                  }
-                  onClick={() => {
-                    setpaymentmode('');
-                    setPaymode('Cash');
-                    setpaymentmode(2);
-                  }}
-                >
-                  Cash
-                </button>
-                <button
-                  className={
-                    Paymode === 'Online'
-                      ? 'online_div_room_book'
-                      : 'cash_div_room_book_disable'
-                  }
-                  onClick={() => {
-                    setpaymentmode('');
-                    setPaymode('Online');
-                    setpaymentmode(1);
-                  }}
-                >
-                  online
-                </button>
-                <p>Details</p>
                 <div>
                   <div className="date_and_time_div">
                     <div className="inpur_div_room">

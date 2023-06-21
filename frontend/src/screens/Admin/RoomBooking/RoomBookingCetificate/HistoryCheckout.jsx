@@ -2,14 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Converter, hiIN } from 'any-number-to-words';
 import { backendApiUrl } from '../../../../config/config';
-import { serverInstance } from '../../../../API/ServerInstance';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../../../Admin/Reciept/cashrecipt.css';
 const converter = new Converter(hiIN);
-const Onlyprint = ({ setopendashboard }) => {
+const HistoryCheckout = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
@@ -17,14 +16,23 @@ const Onlyprint = ({ setopendashboard }) => {
 
   const handlesubmit = async () => {
     try {
-      serverInstance('/room/force-checkout', 'POST', {
+      axios.defaults.headers.post[
+        'Authorization'
+      ] = `Bearer ${sessionStorage.getItem('token')}`;
+
+      const res = await axios.post(`${backendApiUrl}room/checkOut`, {
         id: isData?.id,
-      }).then((res) => {
-        console.log(res);
-        if (res.data?.status === true) {
-          Swal.fire('Great!', res?.data?.message, 'success');
-        }
+        checkoutDate: new Date(),
+        advanceAmount: isData?.advanceAmount,
       });
+
+      if (res.data.data.message) {
+        navigation('/admin-panel/Room/HistoryCheckoutPrint', {
+          state: {
+            data: isData,
+          },
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -52,7 +60,7 @@ const Onlyprint = ({ setopendashboard }) => {
     hour12: true,
   });
 
-  var today1 = new Date(isData && isData?.coutDate);
+  var today1 = new Date();
   const currDatecheckout = today1
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -64,7 +72,7 @@ const Onlyprint = ({ setopendashboard }) => {
 
   let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
-
+  let days = TotalDays === 1 ? 1 : TotalDays - 1;
   useEffect(() => {
     if (location.state) {
       setisData(location?.state?.data);
@@ -88,17 +96,7 @@ const Onlyprint = ({ setopendashboard }) => {
         >
           <button onClick={() => navigation(-1)}>Back</button>
           <button onClick={() => down()}>Download</button>
-          <button
-            onClick={() =>
-              navigation('/admin-panel/Room/PrintOnlysetup', {
-                state: {
-                  data: isData,
-                },
-              })
-            }
-          >
-            Print
-          </button>
+          <button onClick={() => handlesubmit()}>Receipt</button>
         </div>
         <div style={{ height: '10rem' }} />
         <div style={{ padding: '1rem' }} ref={componentRef}>
@@ -133,9 +131,9 @@ const Onlyprint = ({ setopendashboard }) => {
                       style={{ width: '100%' }}
                     >
                       <div className="maxxin_room_receipt_innear">
-                        <div style={{ backgroundColor: '#01B0F1' }}>
+                        <div style={{ backgroundColor: '#FE0002' }}>
                           <p className="yadda_text lineheight">
-                            यात्री आगमन रसीद
+                            यात्री प्रस्थान रसीद
                           </p>
                         </div>
 
@@ -148,7 +146,12 @@ const Onlyprint = ({ setopendashboard }) => {
                               >
                                 आवास क्र :
                               </p>
-
+                              <p
+                                style={{ color: 'gray' }}
+                                className="lineheight"
+                              >
+                                मोबाईल न :
+                              </p>
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
@@ -166,7 +169,9 @@ const Onlyprint = ({ setopendashboard }) => {
                               <p className="lineheight">
                                 {isData && isData?.booking_id}
                               </p>
-
+                              <p className="lineheight">
+                                {isData && isData?.contactNo}
+                              </p>
                               <p className="lineheight">
                                 {isData && isData?.name}
                               </p>
@@ -181,13 +186,20 @@ const Onlyprint = ({ setopendashboard }) => {
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                आगमन दिनांक :
+                                प्रस्थान दिनाँक :
                               </p>
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                मोबाईल न :
+                                आगमन दिनांक :
+                              </p>
+
+                              <p
+                                style={{ color: 'gray' }}
+                                className="lineheight"
+                              >
+                                स्टे :
                               </p>
                               <p
                                 style={{ color: 'gray' }}
@@ -198,11 +210,13 @@ const Onlyprint = ({ setopendashboard }) => {
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
-                                {currDate} / {currTime}
+                                {currDatecheckout} / {currTimecheckout}
                               </p>
                               <p className="lineheight">
-                                {isData && isData?.contactNo}
+                                {currDate} / {currTime}
                               </p>
+
+                              <p className="lineheight">{days} Days</p>
                               <p className="lineheight">
                                 {isData && isData?.city}
                               </p>
@@ -210,7 +224,7 @@ const Onlyprint = ({ setopendashboard }) => {
                           </div>
                         </div>
 
-                        <div className="yyy_text_div">
+                        {/* <div className="yyy_text_div">
                           <p className="lineheight">यात्री संख्या</p>
                           <p className="lineheight">
                             Male: {isData && isData?.male}
@@ -227,7 +241,7 @@ const Onlyprint = ({ setopendashboard }) => {
                               Number(isData && isData?.female) +
                               Number(isData && isData?.child)}
                           </p>
-                        </div>
+                        </div> */}
 
                         <div>
                           <table className="table_ddd">
@@ -237,10 +251,7 @@ const Onlyprint = ({ setopendashboard }) => {
                                   धर्मशाला नाम
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  रूम टाईप & फेसिलिटी
-                                </td>
-                                <td className="table_tddd lineheight10">
-                                  रूम न
+                                  रूम टाईप & रूम न.
                                 </td>
                                 {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
                                 {/* <td className="table_tddd lineheight10">
@@ -267,6 +278,17 @@ const Onlyprint = ({ setopendashboard }) => {
                                   </p> */}
                                 </td>
 
+                                <td className="table_tddd lineheight10">
+                                  शेष राशि वापिसी
+                                  {/* <p className="lineheight10">
+                                    {Number(isData && isData?.roomAmount) *
+                                      (Number(isData && isData?.nRoom) +
+                                        Number(isData && isData?.nRoom))}
+                                    -
+                                    {Number(isData && isData?.roomAmount) *
+                                      Number(isData && isData?.nRoom)}
+                                  </p> */}
+                                </td>
                                 {/* <td className="table_tddd">
                             अमानत राशि
                             <p>
@@ -279,12 +301,11 @@ const Onlyprint = ({ setopendashboard }) => {
                               </tr>
                               <tr>
                                 <td className="table_tddd lineheight10">
-                                  {isData && isData?.dharmasala?.name
-                                    ? isData && isData?.dharmasala?.name
-                                    : isData?.dharmasalaName}
+                                  {isData && isData?.dharmasala?.name}
+                                  {isData && isData?.dharmasalaName}
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {isData && isData?.categoryName}
+                                  (
                                   {isData &&
                                     isData?.facility_name &&
                                     isData?.facility_name.map(
@@ -292,10 +313,9 @@ const Onlyprint = ({ setopendashboard }) => {
                                         <span key={index}> {element}</span>
                                       ),
                                     )}
-                                  -{isData && isData?.category_name}
+                                  {isData && isData?.categoryName},
                                   {isData && isData?.facilityName}
-                                </td>
-                                <td className="table_tddd lineheight10">
+                                  {isData && isData?.category_name})-
                                   {isData && isData?.RoomNo}
                                 </td>
                                 {/* <td className="table_tddd">
@@ -314,14 +334,24 @@ const Onlyprint = ({ setopendashboard }) => {
                                 {isData && isData[0]?.nRoom}
                               </td> */}
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmount)}.00
+                                  {Number(isData && isData?.roomAmount) *
+                                    Number(days)}
+                                  .00
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.advanceAmount) +
-                                    Number(isData && isData?.roomAmount)}
+                                    Number(isData && isData?.roomAmount) *
+                                      Number(days)}
                                   .00
                                 </td>
-
+                                <td className="table_tddd lineheight10">
+                                  {Number(isData && isData?.advanceAmount) +
+                                    Number(isData && isData?.roomAmount) *
+                                      days -
+                                    Number(isData && isData?.roomAmount) *
+                                      Number(days)}
+                                  .00
+                                </td>
                                 {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *
                               Number(isData && isData[0]?.nRoom)}
@@ -337,7 +367,7 @@ const Onlyprint = ({ setopendashboard }) => {
                               marginBottom: '0.5rem',
                             }}
                           >
-                            {isData && isData?.bookedByName}
+                            {isData && isData?.checkoutByName}
                             {isData && isData?.cancelByName}
                           </p>
                         </div>
@@ -438,4 +468,4 @@ const Onlyprint = ({ setopendashboard }) => {
   );
 };
 
-export default Onlyprint;
+export default HistoryCheckout;

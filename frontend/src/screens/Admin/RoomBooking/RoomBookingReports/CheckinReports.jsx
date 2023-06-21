@@ -222,6 +222,14 @@ const CheckinReports = ({ setopendashboard }) => {
     });
   };
 
+  const downloadcheckout = (row) => {
+    navigation('/admin-panel/Room/HistoryCheckout', {
+      state: {
+        data: row,
+      },
+    });
+  };
+
   const [bookid, setbookid] = useState('');
   const [mobileno, setmobileno] = useState('');
   const [customername, setcustomername] = useState('');
@@ -632,7 +640,7 @@ const CheckinReports = ({ setopendashboard }) => {
                             backgroundColor: '#000080',
                           }}
                           className="chaneRoom"
-                          onClick={() => downloadrecept(row)}
+                          onClick={() => downloadcheckout(row)}
                         >
                           Checkout Print
                         </button>

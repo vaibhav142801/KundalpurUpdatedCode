@@ -222,6 +222,14 @@ const Onlinecheckin = ({ setopendashboard }) => {
     });
   };
 
+  const downloadcheckout = (row) => {
+    navigation('/admin-panel/Room/HistoryCheckout', {
+      state: {
+        data: row,
+      },
+    });
+  };
+
   const [bookid, setbookid] = useState('');
   const [mobileno, setmobileno] = useState('');
   const [customername, setcustomername] = useState('');
@@ -622,7 +630,19 @@ const Onlinecheckin = ({ setopendashboard }) => {
                           className="chaneRoom"
                           onClick={() => downloadrecept(row)}
                         >
-                          Print
+                          Checkin Print
+                        </button>
+
+                        <button
+                          style={{
+                            width: '6rem',
+                            marginBottom: '4px',
+                            backgroundColor: '#000080',
+                          }}
+                          className="chaneRoom"
+                          onClick={() => downloadcheckout(row)}
+                        >
+                          Checkout Print
                         </button>
                       </TableCell>
                     </TableRow>

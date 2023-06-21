@@ -944,46 +944,34 @@ const CheckIn = ({ setopendashboard }) => {
                             </Tooltip>
 
                             {userrole === 1 && (
-                              // <button
-                              //   style={{
-                              //     width: '6rem',
-                              //     marginBottom: '4px',
-                              //     backgroundColor: '#800000',
-                              //   }}
-                              //   onClick={() =>
-                              //     navigation(
-                              //       '/admin-panel/Room/ForceRoomChequeOut',
-                              //       {
-                              //         state: {
-                              //           data: row,
-                              //         },
-                              //       },
-                              //     )
-                              //   }
-                              //   className="chaneRoom"
-                              // >
-                              //   Forcecheckout
-                              // </button>
-                              <Tooltip title="Force Checkout">
-                                <img
-                                  onClick={() =>
-                                    navigation(
-                                      '/admin-panel/Room/ForceRoomChequeOut',
-                                      {
-                                        state: {
-                                          data: row,
+                              <>
+                                <Tooltip title="Cancel">
+                                  <CloseIcon
+                                    onClick={() => handleClickOpen3(row?.id)}
+                                  />
+                                </Tooltip>
+
+                                <Tooltip title="Force Checkout">
+                                  <img
+                                    onClick={() =>
+                                      navigation(
+                                        '/admin-panel/Room/ForceRoomChequeOut',
+                                        {
+                                          state: {
+                                            data: row,
+                                          },
                                         },
-                                      },
-                                    )
-                                  }
-                                  src={Checkout21}
-                                  alt="print"
-                                  style={{
-                                    width: '25px',
-                                    marginRight: '0.3rem',
-                                  }}
-                                />
-                              </Tooltip>
+                                      )
+                                    }
+                                    src={Checkout21}
+                                    alt="print"
+                                    style={{
+                                      width: '25px',
+                                      marginRight: '0.3rem',
+                                    }}
+                                  />
+                                </Tooltip>
+                              </>
                             )}
 
                             {userrole === 1 ? (

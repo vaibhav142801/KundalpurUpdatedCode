@@ -51,6 +51,7 @@ const UpdateElec = ({
   const [genderp, setgenderp] = useState('श्री');
   const [genderp1, setgenderp1] = useState('SHRI');
   const [showloader, setshowloader] = useState(false);
+  // const [donationTypes,setDonationTypes] = useState()
   const [donationItems, setDonationItems] = useState([
     {
       type: '',
@@ -208,7 +209,7 @@ const UpdateElec = ({
     setgenderp('');
     setgenderp1('');
     setDonationDate('');
-    setDonationTypes(typesOfDonation);
+    // setDonationTypes(typesOfDonation);
     if (updateData) {
       setAddress(updateData?.address);
       setFullName(updateData?.name);

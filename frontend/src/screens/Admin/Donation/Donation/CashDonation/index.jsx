@@ -310,6 +310,9 @@ const CashDonation = ({
           <Typography variant="body2" my={1}>
             {updateData?.ReceiptNo ? 'Receipt No :' : ' Voucher No :'}
             {updateData?.ReceiptNo ? updateData?.ReceiptNo : receiptNo}
+            &nbsp;&nbsp;
+            {updateData ? 'Voucher No : ' : ''}
+            {updateData ? updateData?.voucherNo : ''}
           </Typography>
           <Box
             sx={{
