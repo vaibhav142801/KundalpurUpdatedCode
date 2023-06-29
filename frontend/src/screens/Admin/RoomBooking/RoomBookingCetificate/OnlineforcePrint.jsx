@@ -137,7 +137,7 @@ function OnlineforcePrint({ setopendashboard }) {
                   </p>
 
                   <p className="lineheight">{TotalDays && TotalDays} Days</p>
-                  <p className="lineheight">{isData && isData?.city}</p>
+                  <p className="lineheight">{isData && isData?.address}</p>
                 </div>
               </div>
             </div>

@@ -5,13 +5,8 @@ function Itemtotal({ data }) {
   if (data) {
     data &&
       data.map((item, inx) => {
-        if (item.manual_item_TOTAL_AMOUNT) {
-          totalAmount = totalAmount + parseFloat(item.manual_item_TOTAL_AMOUNT);
-        }
-
-        if (item.electric_item_TOTAL_AMOUNT) {
-          totalAmount =
-            totalAmount + parseFloat(item.electric_item_TOTAL_AMOUNT);
+        if (item?.item_TOTAL_AMOUNT) {
+          totalAmount = totalAmount + parseFloat(item?.item_TOTAL_AMOUNT);
         }
       });
   }

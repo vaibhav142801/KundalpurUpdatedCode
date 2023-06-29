@@ -118,33 +118,14 @@ const AllHead = ({ setopendashboard }) => {
       data.push({
         Head: item?.type,
 
-        'Electronic Amount Cheque': item?.electric_cheque_TOTAL_AMOUNT
-          ? item?.electric_cheque_TOTAL_AMOUNT
+        'Amount Cheque': item?.cheque_TOTAL_AMOUNT
+          ? item?.cheque_TOTAL_AMOUNT
           : '0',
-        'Electronic Amount Bank': item?.electric_bank_TOTAL_AMOUNT
-          ? item?.electric_bank_TOTAL_AMOUNT
-          : '0',
-        'Electronic Amount Cash': item?.electric_item_TOTAL_AMOUNT
-          ? item?.electric_item_TOTAL_AMOUNT
-          : '0',
+        'Amount Bank': item?.bank_TOTAL_AMOUNT ? item?.bank_TOTAL_AMOUNT : '0',
+        ' Amount Cash': item?.item_TOTAL_AMOUNT ? item?.item_TOTAL_AMOUNT : '0',
+        ' Cheque': item?.cheque_TOTAL_AMOUNT ? item?.cheque_TOTAL_AMOUNT : '0',
 
-        'Manual Amount Cheque': item?.manual_cheque_TOTAL_AMOUNT
-          ? item?.manual_cheque_TOTAL_AMOUNT
-          : '0',
-
-        'Manual Amount Bank': item?.manual_bank_TOTAL_AMOUNT
-          ? item?.manual_bank_TOTAL_AMOUNT
-          : '0',
-
-        'Mnaual Amount Item': item?.manual_item_TOTAL_AMOUNT
-          ? item?.manual_item_TOTAL_AMOUNT
-          : '0',
-
-        'Manual Amount Cash': item?.manual_cash_TOTAL_AMOUNT
-          ? item?.manual_cash_TOTAL_AMOUNT
-          : '0',
-
-        'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
+        // 'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
       });
     });
     exportFromJSON({ data, fileName, exportType });
@@ -220,6 +201,7 @@ const AllHead = ({ setopendashboard }) => {
     setisData('');
     setSearchHead('');
     settype('');
+    filterdata();
   };
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
@@ -453,7 +435,7 @@ const AllHead = ({ setopendashboard }) => {
                 <TableCell>
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('manual_cheque_TOTAL_AMOUNT')}
+                    onClick={() => sortData('cheque_TOTAL_AMOUNT')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -461,7 +443,7 @@ const AllHead = ({ setopendashboard }) => {
                   Amount Electronic
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('manual_bank_TOTAL_AMOUNT')}
+                    onClick={() => sortData('bank_TOTAL_AMOUNT')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -469,7 +451,7 @@ const AllHead = ({ setopendashboard }) => {
                   Amount Item
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('manual_item_TOTAL_AMOUNT')}
+                    onClick={() => sortData('item_TOTAL_AMOUNT')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -477,7 +459,7 @@ const AllHead = ({ setopendashboard }) => {
                   Amount Cash
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('manual_cash_TOTAL_AMOUNT')}
+                    onClick={() => sortData('cash_TOTAL_AMOUNT')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -511,53 +493,25 @@ const AllHead = ({ setopendashboard }) => {
                       </TableCell>
 
                       <TableCell>
-                        {row?.electric_cheque_TOTAL_AMOUNT &&
-                          row?.electric_cheque_TOTAL_AMOUNT}
-                        {row?.manual_cheque_TOTAL_AMOUNT &&
-                          row?.manual_cheque_TOTAL_AMOUNT}
-
-                        {row?.manual_cheque_TOTAL_AMOUNT === '' &&
-                          row?.electric_cheque_TOTAL_AMOUNT === '' &&
-                          '0'}
+                        {row?.cheque_TOTAL_AMOUNT
+                          ? row?.cheque_TOTAL_AMOUNT
+                          : '0'}
                       </TableCell>
                       <TableCell>
-                        {row?.manual_bank_TOTAL_AMOUNT &&
-                          row?.manual_bank_TOTAL_AMOUNT}
-                        {row?.electric_bank_TOTAL_AMOUNT &&
-                          row?.electric_bank_TOTAL_AMOUNT}
-                        {row?.electric_bank_TOTAL_AMOUNT === '' &&
-                          row?.electric_bank_TOTAL_AMOUNT === '' &&
-                          '0'}
+                        {row?.bank_TOTAL_AMOUNT ? row?.bank_TOTAL_AMOUNT : '0'}
                       </TableCell>
                       <TableCell>
-                        {row?.manual_item_TOTAL_AMOUNT &&
-                          row?.manual_item_TOTAL_AMOUNT}
-                        {row?.electric_item_TOTAL_AMOUNT &&
-                          row?.electric_item_TOTAL_AMOUNT}
+                        {row?.item_TOTAL_AMOUNT ? row?.item_TOTAL_AMOUNT : '0'}
                       </TableCell>
                       <TableCell>
-                        {row?.manual_cash_TOTAL_AMOUNT &&
-                          row?.manual_cash_TOTAL_AMOUNT}
-                        {row?.electric_cash_TOTAL_AMOUNT &&
-                          row?.electric_cash_TOTAL_AMOUNT}
-                        {row?.electric_cash_TOTAL_AMOUNT === '' &&
-                          row?.electric_cash_TOTAL_AMOUNT === '' &&
-                          '0'}
-                        {row?.cheque === '' && '0'}
-                        {row?.online === '' && '0'}
+                        {row?.cash_TOTAL_AMOUNT ? row?.cash_TOTAL_AMOUNT : '0'}
                       </TableCell>
 
                       <TableCell>
-                        {row?.donationType == 'electric' &&
-                          parseFloat(row?.electric_cheque_TOTAL_AMOUNT) +
-                            parseFloat(row?.electric_bank_TOTAL_AMOUNT) +
-                            parseFloat(row?.electric_item_TOTAL_AMOUNT) +
-                            parseFloat(row?.electric_cash_TOTAL_AMOUNT)}
-                        {row?.donationType == 'manual' &&
-                          parseFloat(row?.manual_cheque_TOTAL_AMOUNT) +
-                            parseFloat(row?.manual_bank_TOTAL_AMOUNT) +
-                            parseFloat(row?.manual_item_TOTAL_AMOUNT) +
-                            parseFloat(row?.manual_cash_TOTAL_AMOUNT)}
+                        {Number(row?.cheque_TOTAL_AMOUNT) +
+                          Number(row?.bank_TOTAL_AMOUNT) +
+                          Number(row?.item_TOTAL_AMOUNT) +
+                          Number(row?.cash_TOTAL_AMOUNT)}
                       </TableCell>
                     </TableRow>
                   ))}

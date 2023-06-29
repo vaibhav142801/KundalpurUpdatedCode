@@ -145,9 +145,13 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                         <div style={{ backgroundColor: '#01B0F1' }}>
                           <p className="yadda_text lineheight">
                             यात्री आगमन रसीद
+                            <span style={{ fontSize: '13px' }}>
+                              (
+                              {isData[0]?.paymentMode === 2 ? 'Cash' : 'Online'}
+                              )
+                            </span>
                           </p>
                         </div>
-
                         <div className="innear_div_texx">
                           <div className="innear_div_texx_ddd">
                             <div>
@@ -239,7 +243,7 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                                 {TotalDays && TotalDays} Days
                               </p> */}
                               <p className="lineheight">
-                                {isData && isData[0]?.city}
+                                {isData && isData[0]?.address}
                               </p>
                             </div>
                           </div>

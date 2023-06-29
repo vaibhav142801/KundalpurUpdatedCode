@@ -422,7 +422,15 @@ const CanceledHistory = ({ setopendashboard }) => {
               <TableRow>
                 <TableCell>S.No</TableCell>
                 <TableCell>
-                  BookingId
+                  Checkin
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('date')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  B_Id
                   <i
                     style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('booking_id')}
@@ -438,47 +446,30 @@ const CanceledHistory = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  CustomerName
+                  Customer
                   <i
                     style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('holderName')}
+                    onClick={() => sortData('name')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
                 <TableCell>
-                  CheckinDate$Time
+                  Address
                   <i
                     style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('date')}
+                    onClick={() => sortData('address')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Dharamshala
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('dharmasala?.name')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
 
-                <TableCell>
-                  CheckoutDate$Time
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('coutDate')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-
-                <TableCell>
-                  Rate
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('roomAmount')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  AdvanceRate
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('advanceAmount')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
                 <TableCell>
                   RoomNo
                   <i
@@ -487,6 +478,24 @@ const CanceledHistory = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
+                <TableCell>
+                  Rent
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('roomAmount')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Advance
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('advanceAmount')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+
+                <TableCell>PayMode</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
@@ -497,9 +506,17 @@ const CanceledHistory = ({ setopendashboard }) => {
                   <input
                     style={{ width: '5rem' }}
                     className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'date')}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '4rem' }}
+                    className="cuolms_search"
                     type="text"
-                    onChange={(e) => onSearchByOther(e, 'bookid')}
-                    placeholder="Search bookid"
+                    onChange={(e) => onSearchByOther(e, 'booking_id')}
+                    placeholder="BookingId"
                   />
                 </TableCell>
                 <TableCell>
@@ -507,76 +524,77 @@ const CanceledHistory = ({ setopendashboard }) => {
                     style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
-                    onChange={(e) => onSearchByOther(e, 'mobileno')}
-                    placeholder="Search  mobileno"
+                    onChange={(e) => onSearchByOther(e, 'contactNo')}
+                    placeholder="Mobile No"
                   />
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '7rem' }}
+                    style={{ width: '6rem' }}
                     className="cuolms_search"
                     type="text"
-                    onChange={(e) => onSearchByOther(e, 'customername')}
-                    placeholder="Search  name"
+                    onChange={(e) => onSearchByOther(e, 'name')}
+                    placeholder="Name"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '6rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'address')}
+                    placeholder="Address"
                   />
                 </TableCell>
                 <TableCell>
                   <input
                     style={{ width: '9rem' }}
                     className="cuolms_search"
-                    type="date"
-                    onChange={(e) => onSearchByOther(e, 'checkindate')}
-                    placeholder="Search  checkin date"
+                    type="text"
+                    onChange={(e) => {
+                      onSearchByOther(e, 'dharmasalaName');
+                    }}
+                    placeholder="Dharamshala Name"
                   />
                 </TableCell>
-
                 <TableCell>
                   <input
-                    style={{ width: '9rem' }}
-                    className="cuolms_search"
-                    type="date"
-                    onChange={(e) => onSearchByOther(e, 'checkoutdate')}
-                    placeholder="Search checkout date"
-                  />
-                </TableCell>
-
-                <TableCell>
-                  <input
-                    style={{ width: '7rem' }}
+                    style={{ width: '5rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
-                      onSearchByOther(e, 'rate');
+                      onSearchByOther(e, 'RoomNo');
                     }}
-                    placeholder="Rate"
+                    placeholder="Room No"
                   />
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '7rem' }}
+                    style={{ width: '5rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
-                      onSearchByOther(e, 'advanceRate');
+                      onSearchByOther(e, 'roomAmount');
                     }}
-                    placeholder="Advance"
+                    placeholder="Rent"
                   />
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '7rem' }}
+                    style={{ width: '5rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
                       onSearchByOther(e, 'roomNo');
                     }}
-                    placeholder="roomNo"
+                    placeholder="Rent"
                   />
                 </TableCell>
+                <TableCell>&nbsp;</TableCell>
                 <TableCell>
                   <button
                     style={{
-                      width: '6rem',
+                      width: '5rem',
                     }}
                     className="chaneRoom"
                     onClick={() => getall_donation()}
@@ -604,26 +622,20 @@ const CanceledHistory = ({ setopendashboard }) => {
                           }}
                         >
                           <TableCell>{index + 1}</TableCell>
+                          <TableCell>
+                            {Moment(row?.date).format('DD-MM-YYYY')}&nbsp;&nbsp;
+                          </TableCell>
                           <TableCell>{row?.booking_id}</TableCell>
                           <TableCell>{row?.contactNo}</TableCell>
                           <TableCell>{row?.name}</TableCell>
-                          <TableCell>
-                            {handledisable(row?.date)}
-                            {Moment(row?.date).format('YYYY-MM-DD')}&nbsp;&nbsp;
-                            {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
-                          </TableCell>
-
-                          <TableCell>
-                            {Moment(row?.coutDate).format('DD-MM-YYYY')}
-                            &nbsp;&nbsp;
-                            {moment(row?.coutTime, 'HH:mm:ss').format(
-                              'hh:mm:ss',
-                            )}
-                          </TableCell>
-
+                          <TableCell>{row?.address}</TableCell>
+                          <TableCell> {row?.dharmasalaName}</TableCell>
+                          <TableCell> {row?.RoomNo}</TableCell>
                           <TableCell> {row?.roomAmount}</TableCell>
                           <TableCell> {row?.advanceAmount}</TableCell>
-                          <TableCell> {row?.RoomNo}</TableCell>
+                          <TableCell>
+                            {row?.paymentMode === 2 ? 'Cash' : 'Online'}
+                          </TableCell>
                           <TableCell
                             style={{ display: 'flex', flexDirection: 'column' }}
                           >

@@ -5,13 +5,8 @@ function Cashtotal({ data }) {
   if (data) {
     data &&
       data.map((item, inx) => {
-        if (item.manual_cash_TOTAL_AMOUNT) {
-          totalAmount = totalAmount + parseFloat(item.manual_cash_TOTAL_AMOUNT);
-        }
-
-        if (item.electric_cash_TOTAL_AMOUNT) {
-          totalAmount =
-            totalAmount + parseFloat(item.electric_cash_TOTAL_AMOUNT);
+        if (item?.cash_TOTAL_AMOUNT) {
+          totalAmount = totalAmount + parseFloat(item?.cash_TOTAL_AMOUNT);
         }
       });
   }

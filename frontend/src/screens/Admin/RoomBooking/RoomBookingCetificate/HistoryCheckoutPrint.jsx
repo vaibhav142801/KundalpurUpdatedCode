@@ -106,9 +106,15 @@ function HistoryCheckoutPrint({ setopendashboard }) {
               </div>
               <div className="innear_div_texx_dd" style={{ marginLeft: '0px' }}>
                 <div>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    प्रस्थान दिनाँक :
-                  </p>
+                  {isData?.cancelByName ? (
+                    ''
+                  ) : (
+                    <>
+                      <p style={{ color: 'gray' }} className="lineheight">
+                        प्रस्थान दिनाँक :
+                      </p>
+                    </>
+                  )}
                   <p style={{ color: 'gray' }} className="lineheight">
                     आगमन दिनांक:
                   </p>
@@ -121,9 +127,17 @@ function HistoryCheckoutPrint({ setopendashboard }) {
                   </p>
                 </div>
                 <div className="main_left">
-                  <p className="lineheight">
-                    {currDatecheckout} / {currTimecheckout}
-                  </p>
+                  {isData?.cancelByName ? (
+                    <></>
+                  ) : (
+                    <>
+                      <p style={{ color: 'gray' }} className="lineheight">
+                        <p className="lineheight">
+                          {currDatecheckout} / {currTimecheckout}
+                        </p>
+                      </p>
+                    </>
+                  )}
                   <p className="lineheight">
                     {currDate} / {currTime}
                   </p>

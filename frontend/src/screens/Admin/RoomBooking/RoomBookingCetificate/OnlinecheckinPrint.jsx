@@ -133,23 +133,10 @@ function OnlinecheckinPrint({ setopendashboard }) {
                   </p>
 
                   <p className="lineheight">{TotalDays && TotalDays} Days</p>
-                  <p className="lineheight">{isData && isData?.city}</p>
+                  <p className="lineheight">{isData && isData?.address}</p>
                 </div>
               </div>
             </div>
-
-            {/* <div className="yyy_text_div">
-              <p className="lineheight">यात्री संख्या </p>
-              <p className="lineheight">Male: {isData?.male}</p>
-              <p className="lineheight">Female: {isData?.female}</p>
-              <p className="lineheight">Child: {isData?.child}</p>
-              <p className="lineheight">
-                Total:
-                {Number(isData?.male) +
-                  Number(isData?.female) +
-                  Number(isData?.child)}
-              </p>
-            </div> */}
 
             <div>
               <table className="table_ddd">

@@ -131,7 +131,7 @@ function ForcePrint({ setopendashboard }) {
                   </p>
 
                   <p className="lineheight">{days}&nbsp; Days</p>
-                  <p className="lineheight">{isData && isData?.city}</p>
+                  <p className="lineheight">{isData && isData?.address}</p>
                 </div>
               </div>
             </div>

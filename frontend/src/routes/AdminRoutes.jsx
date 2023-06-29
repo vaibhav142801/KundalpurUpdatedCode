@@ -90,6 +90,10 @@ import CombineManual from '../screens/Admin/Reports/ManualDonationReports/Combin
 import Consolided from '../screens/Admin/RoomBooking/RoomBookingReports/Consolided';
 import HistoryCheckout from '../screens/Admin/RoomBooking/RoomBookingCetificate/HistoryCheckout';
 import HistoryCheckoutPrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/HistoryCheckoutPrint';
+
+//boli management
+import Boli from '../screens/Admin/BoliManagement/Boli/Boli';
+import PendingBoli from '../screens/Admin/BoliManagement/PendingBoli/PendingBoli';
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -741,6 +745,24 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <HistoryCheckoutPrint setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/boli"
+          element={
+            <Adminprivateroute>
+              <Boli setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/boli/pendingboli"
+          element={
+            <Adminprivateroute>
+              <PendingBoli setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />

@@ -135,7 +135,12 @@ const Onlyprint = ({ setopendashboard }) => {
                       <div className="maxxin_room_receipt_innear">
                         <div style={{ backgroundColor: '#01B0F1' }}>
                           <p className="yadda_text lineheight">
-                            यात्री आगमन रसीद
+                            यात्री आगमन रसीद{' '}
+                            <span style={{ fontSize: '13px' }}>
+                              (
+                              {isData[0]?.paymentMode === 2 ? 'Cash' : 'Online'}
+                              )
+                            </span>
                           </p>
                         </div>
 
@@ -204,7 +209,7 @@ const Onlyprint = ({ setopendashboard }) => {
                                 {isData && isData?.contactNo}
                               </p>
                               <p className="lineheight">
-                                {isData && isData?.city}
+                                {isData && isData?.address}
                               </p>
                             </div>
                           </div>
@@ -337,8 +342,7 @@ const Onlyprint = ({ setopendashboard }) => {
                               marginBottom: '0.5rem',
                             }}
                           >
-                            {isData && isData?.bookedByName}
-                            {isData && isData?.cancelByName}
+                            {isData?.bookedByName}
                           </p>
                         </div>
                       </div>

@@ -78,7 +78,12 @@ function PrintOnlysetup({ setopendashboard }) {
             style={{ marginLeft: '0rem', marginTop: '9rem' }}
           >
             <div>
-              <p className="yadda_text lineheight">यात्री आगमन रसीद</p>
+              <p className="yadda_text lineheight">
+                यात्री आगमन रसीद{' '}
+                <span style={{ fontSize: '13px' }}>
+                  ({isData[0]?.paymentMode === 2 ? 'Cash' : 'Online'})
+                </span>
+              </p>
             </div>
 
             <div className="innear_div_texx">
@@ -119,7 +124,7 @@ function PrintOnlysetup({ setopendashboard }) {
                     {currDate} / {currTime}
                   </p>
                   <p className="lineheight">{isData && isData?.contactNo}</p>
-                  <p className="lineheight">{isData && isData?.city}</p>
+                  <p className="lineheight">{isData && isData?.address}</p>
                 </div>
               </div>
             </div>
@@ -239,8 +244,7 @@ function PrintOnlysetup({ setopendashboard }) {
                   marginBottom: '0.5rem',
                 }}
               >
-                {isData && isData?.bookedByName}
-                {isData && isData?.cancelByName}
+                {isData?.bookedByName}
               </p>
             </div>
           </div>

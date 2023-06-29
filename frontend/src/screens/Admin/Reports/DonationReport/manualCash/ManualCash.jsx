@@ -1081,58 +1081,53 @@ const ManualCash = ({ setopendashboard }) => {
               {isData ? (
                 <>
                   {(rowsPerPage > 0
-                    ? isData
-                        ?.reverse()
-                        ?.slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage,
-                        )
+                    ? isData?.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage,
+                      )
                     : isData
-                  )
-                    ?.reverse()
-                    ?.map((row, index) => (
-                      <TableRow
-                        key={row.id}
-                        sx={{
-                          '&:last-child td, &:last-child th': { border: 0 },
-                        }}
-                      >
-                        <TableCell>
-                          {Moment(row?.donation_date).format('DD/MM/YYYY')}
-                        </TableCell>
-                        <TableCell>{row?.ReceiptNo}</TableCell>
-                        <TableCell>{row?.voucherNo}</TableCell>
-                        <TableCell>{row?.phoneNo}</TableCell>
-                        <TableCell>{row?.name}</TableCell>
-                        <TableCell> {row?.address}</TableCell>
-                        <TableCell>
-                          {row.elecItemDetails.map((row) => {
-                            return (
-                              <li style={{ listStyle: 'none' }}>{row?.type}</li>
-                            );
-                          })}
-                        </TableCell>
-                        <TableCell>
-                          {row.elecItemDetails.reduce(
-                            (n, { amount }) =>
-                              parseFloat(n) + parseFloat(amount),
-                            0,
-                          )}
-                        </TableCell>
+                  )?.map((row, index) => (
+                    <TableRow
+                      key={row.id}
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell>
+                        {Moment(row?.donation_date).format('DD/MM/YYYY')}
+                      </TableCell>
+                      <TableCell>{row?.ReceiptNo}</TableCell>
+                      <TableCell>{row?.voucherNo}</TableCell>
+                      <TableCell>{row?.phoneNo}</TableCell>
+                      <TableCell>{row?.name}</TableCell>
+                      <TableCell> {row?.address}</TableCell>
+                      <TableCell>
+                        {row.elecItemDetails.map((row) => {
+                          return (
+                            <li style={{ listStyle: 'none' }}>{row?.type}</li>
+                          );
+                        })}
+                      </TableCell>
+                      <TableCell>
+                        {row.elecItemDetails.reduce(
+                          (n, { amount }) => parseFloat(n) + parseFloat(amount),
+                          0,
+                        )}
+                      </TableCell>
 
-                        <TableCell>{row?.createdBy}</TableCell>
-                        <TableCell>
-                          {row.elecItemDetails.map((row) => {
-                            return (
-                              <li style={{ listStyle: 'none' }}>
-                                {row?.remark}{' '}
-                              </li>
-                            );
-                          })}
-                        </TableCell>
+                      <TableCell>{row?.createdBy}</TableCell>
+                      <TableCell>
+                        {row.elecItemDetails.map((row) => {
+                          return (
+                            <li style={{ listStyle: 'none' }}>
+                              {row?.remark}{' '}
+                            </li>
+                          );
+                        })}
+                      </TableCell>
 
-                        <TableCell>
-                          {/* <Tooltip title="Vew Details">
+                      <TableCell>
+                        {/* <Tooltip title="Vew Details">
                           <img
                             onClick={() =>
                               navigation(
@@ -1145,55 +1140,52 @@ const ManualCash = ({ setopendashboard }) => {
                           />
                         </Tooltip> */}
 
-                          {userrole === 1 || emproleid === 0 ? (
-                            <Tooltip title="Edit Donation">
-                              <img
-                                onClick={() => upadteOpen(row)}
-                                src={Edit}
-                                alt="print"
-                                style={{ width: '20px', marginRight: '2px' }}
-                              />
-                            </Tooltip>
-                          ) : (
-                            ''
-                          )}
-
-                          <Tooltip title="Print Certificate">
+                        {userrole === 1 || emproleid === 0 ? (
+                          <Tooltip title="Edit Donation">
                             <img
-                              onClick={() =>
-                                navigation(
-                                  '/admin-panel/reports/printcontent',
-                                  {
-                                    state: {
-                                      data: row,
-                                    },
-                                  },
-                                )
-                              }
-                              src={Print}
+                              onClick={() => upadteOpen(row)}
+                              src={Edit}
                               alt="print"
                               style={{ width: '20px', marginRight: '2px' }}
                             />
                           </Tooltip>
-                          {row.isActive ? (
-                            <DownloadIcon
-                              onClick={() => {
-                                printreceipt(row);
-                              }}
-                            />
-                          ) : (
-                            <ClearIcon />
-                          )}
-                          {userrole === 1 || emproleid === 0 ? (
-                            <Tooltip title="Cancel Certificate">
-                              <CancelIcon onClick={() => handleOpen(row?.id)} />
-                            </Tooltip>
-                          ) : (
-                            ''
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                        ) : (
+                          ''
+                        )}
+
+                        <Tooltip title="Print Certificate">
+                          <img
+                            onClick={() =>
+                              navigation('/admin-panel/reports/printcontent', {
+                                state: {
+                                  data: row,
+                                },
+                              })
+                            }
+                            src={Print}
+                            alt="print"
+                            style={{ width: '20px', marginRight: '2px' }}
+                          />
+                        </Tooltip>
+                        {row.isActive ? (
+                          <DownloadIcon
+                            onClick={() => {
+                              printreceipt(row);
+                            }}
+                          />
+                        ) : (
+                          <ClearIcon />
+                        )}
+                        {userrole === 1 || emproleid === 0 ? (
+                          <Tooltip title="Cancel Certificate">
+                            <CancelIcon onClick={() => handleOpen(row?.id)} />
+                          </Tooltip>
+                        ) : (
+                          ''
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
                   <TableRow>
                     <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>

@@ -196,6 +196,41 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
     },
   ];
 
+  const navigationboliTabs = [
+    {
+      id: 12,
+      name: 'Boli Management',
+      active: false,
+      icon: <img src={f2} alt="f2" style={{ width: '25px' }} />,
+      subTabs: [
+        {
+          id: 12.1,
+          name: 'Boli',
+          link: 'boli',
+          active: false,
+          icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+          subTabs: [],
+        },
+        {
+          id: 12.2,
+          name: 'Pending Boli',
+          link: 'boli/pendingboli',
+          active: false,
+          icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+          subTabs: [],
+        },
+        {
+          id: 12.3,
+          name: 'Boli History',
+          link: 'manual/report/cash',
+          active: false,
+          icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+          subTabs: [],
+        },
+      ],
+    },
+  ];
+
   let navigationEmpTabs = [];
   {
     userrole === 3 && emproleid === 7 && (
@@ -1253,6 +1288,59 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
       <List>
         {userrole === 1 || (userrole === 3 && emproleid === 0)
           ? navigationreportTabs.map((Tab, i) => (
+              <React.Fragment key={i}>
+                <Tooltip title={Tab?.name} placement="left-end">
+                  <StyledListItemButton
+                    selected={Tab.id === activeTabId}
+                    onClick={() => {
+                      setActiveTabId(Tab.id);
+                      setOpenedTab(openedTab === Tab.id ? 0 : Tab.id);
+                    }}
+                  >
+                    <ListItemIcon>{Tab.icon}</ListItemIcon>
+                    <ListItemText primary={Tab.name} />
+
+                    {Tab.id === activeTabId && openedTab !== 0 ? (
+                      <ExpandLess />
+                    ) : (
+                      <ChevronRightIcon />
+                    )}
+                  </StyledListItemButton>
+                </Tooltip>
+
+                <Collapse
+                  in={Tab.id === openedTab}
+                  timeout="auto"
+                  unmountOnExit
+                >
+                  <List component="div" disablePadding>
+                    {Tab.subTabs.map((subTab, index) => (
+                      <React.Fragment key={index}>
+                        <Tooltip title={subTab?.name} placement="left-end">
+                          <StyledListItemButton
+                            selected={subTab.id === activeTabId}
+                            onClick={() => {
+                              navigate('/admin-panel/' + subTab.link);
+                              setActiveTabId(subTab.id);
+                              handleDrawerClose();
+                            }}
+                            sx={{ pl: 4 }}
+                          >
+                            <ListItemIcon>{subTab.icon}</ListItemIcon>
+                            <ListItemText primary={subTab.name} />
+                          </StyledListItemButton>
+                        </Tooltip>
+                      </React.Fragment>
+                    ))}
+                  </List>
+                </Collapse>
+              </React.Fragment>
+            ))
+          : ''}
+      </List>
+      <List>
+        {userrole === 1 || (userrole === 3 && emproleid === 0)
+          ? navigationboliTabs.map((Tab, i) => (
               <React.Fragment key={i}>
                 <Tooltip title={Tab?.name} placement="left-end">
                   <StyledListItemButton

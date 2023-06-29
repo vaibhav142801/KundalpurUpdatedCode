@@ -130,7 +130,7 @@ function OnlinePrint({ setopendashboard }) {
               <p style={{ color: 'gray' }} className="lineheight">
                 पता-
               </p>
-              <p className="lineheight">{isData && isData?.city}</p>
+              <p className="lineheight">{isData && isData?.address}</p>
 
               <p className="lineheight">
                 यात्री संख्या- Male: {isData && isData?.male}

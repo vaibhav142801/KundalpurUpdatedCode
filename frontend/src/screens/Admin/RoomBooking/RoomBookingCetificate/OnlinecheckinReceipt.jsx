@@ -223,7 +223,7 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
                                 {TotalDays && TotalDays} Days
                               </p>
                               <p className="lineheight">
-                                {isData && isData?.city}
+                                {isData && isData?.address}
                               </p>
                             </div>
                           </div>

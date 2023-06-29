@@ -469,50 +469,6 @@ function CheckinForm({ setOpen }) {
                       online
                     </button>
                   </div>
-                  {Paymode === 'Online' ? (
-                    <>
-                      <div className="minddle_div_room">
-                        <div className="minddle_div_room_innear">
-                          <label htmlFor="phoneno">Bank Name</label>
-                          <CustomInput
-                            id="phoneno"
-                            type="text"
-                            name="phoneno"
-                            required
-                            placeholder="Enter the bank name"
-                            value={bankname}
-                            onChange={(e) => setbankname(e.target.value)}
-                          />
-                        </div>
-                        <div className="minddle_div_room_innear">
-                          <label htmlFor="phoneno">Transaction Id</label>
-                          <CustomInput
-                            id="phoneno"
-                            type="text"
-                            name="phoneno"
-                            required
-                            placeholder="Enter the transaction id"
-                            value={transactionid}
-                            onChange={(e) => settransactionid(e.target.value)}
-                          />
-                        </div>
-                        <div className="minddle_div_room_innear">
-                          <label htmlFor="phoneno">Remark</label>
-                          <CustomInput
-                            id="phoneno"
-                            type="text"
-                            name="phoneno"
-                            required
-                            placeholder="Enter the remark"
-                            value={remarks}
-                            onChange={(e) => setremarks(e.target.value)}
-                          />
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <></>
-                  )}
 
                   <div className="main_show_details_divs">
                     <div className="main_show_details_divs_inear">
@@ -607,22 +563,72 @@ function CheckinForm({ setOpen }) {
                             roomno.length * Number(mainAvanceRate)}
                         </p>
                       </div>
-
-                      <div style={{ marginTop: '1rem' }}>
-                        <button
-                          onClick={() => handlesubmit()}
-                          className="online_div_room_bookContinue"
-                        >
-                          {showprocess ? (
-                            <CircularProgress
-                              style={{ width: '21px', height: '21px' }}
-                            />
-                          ) : (
-                            'Save'
-                          )}
-                        </button>
-                      </div>
                     </div>
+                  </div>
+
+                  {Paymode === 'Online' ? (
+                    <>
+                      <div className="minddle_div_room">
+                        <div className="minddle_div_room_innear">
+                          <label htmlFor="phoneno">Bank Name</label>
+                          <CustomInput
+                            id="phoneno"
+                            type="text"
+                            name="phoneno"
+                            required
+                            placeholder="Enter the bank name"
+                            value={bankname}
+                            onChange={(e) => setbankname(e.target.value)}
+                          />
+                        </div>
+                        <div className="minddle_div_room_innear">
+                          <label htmlFor="phoneno">Transaction Id</label>
+                          <CustomInput
+                            id="phoneno"
+                            type="text"
+                            name="phoneno"
+                            required
+                            placeholder="Enter the transaction id"
+                            value={transactionid}
+                            onChange={(e) => settransactionid(e.target.value)}
+                          />
+                        </div>
+                        <div className="minddle_div_room_innear">
+                          <label htmlFor="phoneno">Remark</label>
+                          <CustomInput
+                            id="phoneno"
+                            type="text"
+                            name="phoneno"
+                            required
+                            placeholder="Enter the remark"
+                            value={remarks}
+                            onChange={(e) => setremarks(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  <div
+                    style={{
+                      marginTop: '1rem',
+                      display: 'flex',
+                      justifyContent: 'right',
+                    }}
+                  >
+                    <button
+                      onClick={() => handlesubmit()}
+                      className="online_div_room_bookContinue"
+                    >
+                      {showprocess ? (
+                        <CircularProgress
+                          style={{ width: '21px', height: '21px' }}
+                        />
+                      ) : (
+                        'Save'
+                      )}
+                    </button>
                   </div>
                 </>
               ) : (

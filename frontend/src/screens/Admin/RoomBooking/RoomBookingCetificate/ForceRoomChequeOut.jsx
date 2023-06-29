@@ -222,7 +222,7 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
 
                               <p className="lineheight">{days}&nbsp; Days</p>
                               <p className="lineheight">
-                                {isData && isData?.city}
+                                {isData && isData?.address}
                               </p>
                             </div>
                           </div>

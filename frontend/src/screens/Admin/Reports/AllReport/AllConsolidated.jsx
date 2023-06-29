@@ -111,32 +111,12 @@ const AllConsolidated = ({ setopendashboard }) => {
       data.push({
         'Type of Donation':
           item?.donationType == 'manual' ? 'Manual Donation' : 'Donation',
-
-        'Electronic Amount Cheque': item?.electric_cheque_TOTAL_AMOUNT
-          ? item?.electric_cheque_TOTAL_AMOUNT
+        'Amount Cheque': item?.cheque_TOTAL_AMOUNT
+          ? item?.cheque_TOTAL_AMOUNT
           : '0',
-        'Electronic Amount Bank': item?.electric_bank_TOTAL_AMOUNT
-          ? item?.electric_bank_TOTAL_AMOUNT
-          : '0',
-        'Electronic Amount Cash': item?.electric_item_TOTAL_AMOUNT
-          ? item?.electric_item_TOTAL_AMOUNT
-          : '0',
-
-        'Manual Amount Cheque': item?.manual_cheque_TOTAL_AMOUNT
-          ? item?.manual_cheque_TOTAL_AMOUNT
-          : '0',
-
-        'Manual Amount Bank': item?.manual_bank_TOTAL_AMOUNT
-          ? item?.manual_bank_TOTAL_AMOUNT
-          : '0',
-
-        'Mnaual Amount Item': item?.manual_item_TOTAL_AMOUNT
-          ? item?.manual_item_TOTAL_AMOUNT
-          : '0',
-
-        'Manual Amount Cash': item?.manual_cash_TOTAL_AMOUNT
-          ? item?.manual_cash_TOTAL_AMOUNT
-          : '0',
+        'Amount Bank': item?.bank_TOTAL_AMOUNT ? item?.bank_TOTAL_AMOUNT : '0',
+        ' Amount Cash': item?.item_TOTAL_AMOUNT ? item?.item_TOTAL_AMOUNT : '0',
+        ' Cheque': item?.cheque_TOTAL_AMOUNT ? item?.cheque_TOTAL_AMOUNT : '0',
         'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
       });
     });
@@ -229,6 +209,8 @@ const AllConsolidated = ({ setopendashboard }) => {
     setempId('');
     setSearchHead('');
     filterdata();
+
+    console.log('client reset');
   };
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
@@ -475,7 +457,7 @@ const AllConsolidated = ({ setopendashboard }) => {
                   Amount Cheque{' '}
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('manual_cheque_TOTAL_AMOUNT')}
+                    onClick={() => sortData('cheque_TOTAL_AMOUNT')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -483,7 +465,7 @@ const AllConsolidated = ({ setopendashboard }) => {
                   Amount Electronic{' '}
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('manual_bank_TOTAL_AMOUNT')}
+                    onClick={() => sortData('bank_TOTAL_AMOUNT')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -491,7 +473,7 @@ const AllConsolidated = ({ setopendashboard }) => {
                   Amount Item{' '}
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('manual_item_TOTAL_AMOUNT')}
+                    onClick={() => sortData('item_TOTAL_AMOUNT')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -499,7 +481,7 @@ const AllConsolidated = ({ setopendashboard }) => {
                   Amount Cash
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('manual_cash_TOTAL_AMOUNT')}
+                    onClick={() => sortData('cash_TOTAL_AMOUNT')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -542,54 +524,17 @@ const AllConsolidated = ({ setopendashboard }) => {
                       <TableCell>
                         {row.CHEQUE_TOTAL_AMOUNT ? row.CHEQUE_TOTAL_AMOUNT : ''}
                       </TableCell> */}
+                      <TableCell>{row?.cheque_TOTAL_AMOUNT}</TableCell>
+                      <TableCell>{row?.bank_TOTAL_AMOUNT}</TableCell>
+                      <TableCell>{row?.item_TOTAL_AMOUNT}</TableCell>
+                      <TableCell>{row?.cash_TOTAL_AMOUNT}</TableCell>
                       <TableCell>
-                        {row?.electric_cheque_TOTAL_AMOUNT &&
-                          row?.electric_cheque_TOTAL_AMOUNT}
-                        {row?.manual_cheque_TOTAL_AMOUNT &&
-                          row?.manual_cheque_TOTAL_AMOUNT}
-                        {row?.manual_cheque_TOTAL_AMOUNT === '' &&
-                          row?.manual_cheque_TOTAL_AMOUNT === '' &&
-                          '0'}
-                      </TableCell>
-                      <TableCell>
-                        {row?.manual_bank_TOTAL_AMOUNT &&
-                          row?.manual_bank_TOTAL_AMOUNT}
-                        {row?.electric_bank_TOTAL_AMOUNT &&
-                          row?.electric_bank_TOTAL_AMOUNT}
-
-                        {row?.electric_bank_TOTAL_AMOUNT === '' &&
-                          row?.electric_bank_TOTAL_AMOUNT === '' &&
-                          '0'}
-                      </TableCell>
-                      <TableCell>
-                        {row?.manual_item_TOTAL_AMOUNT &&
-                          row?.manual_item_TOTAL_AMOUNT}
-                        {row?.electric_item_TOTAL_AMOUNT &&
-                          row?.electric_item_TOTAL_AMOUNT}
-                        {row?.electric_item_TOTAL_AMOUNT === '' &&
-                          row?.electric_item_TOTAL_AMOUNT === '' &&
-                          '0'}
-                      </TableCell>
-                      <TableCell>
-                        {row?.manual_cash_TOTAL_AMOUNT &&
-                          row?.manual_cash_TOTAL_AMOUNT}
-                        {row?.electric_cash_TOTAL_AMOUNT &&
-                          row?.electric_cash_TOTAL_AMOUNT}
-                        {row?.electric_cash_TOTAL_AMOUNT === '' &&
-                          row?.electric_cash_TOTAL_AMOUNT === '' &&
-                          '0'}
-                      </TableCell>
-                      <TableCell>
-                        {row?.donationType == 'electric' &&
-                          parseFloat(row?.electric_cheque_TOTAL_AMOUNT) +
-                            parseFloat(row?.electric_bank_TOTAL_AMOUNT) +
-                            parseFloat(row?.electric_item_TOTAL_AMOUNT) +
-                            parseFloat(row?.electric_cash_TOTAL_AMOUNT)}
-                        {row?.donationType == 'manual' &&
-                          parseFloat(row?.manual_cheque_TOTAL_AMOUNT) +
-                            parseFloat(row?.manual_bank_TOTAL_AMOUNT) +
-                            parseFloat(row?.manual_item_TOTAL_AMOUNT) +
-                            parseFloat(row?.manual_cash_TOTAL_AMOUNT)}
+                        <TableCell>
+                          {Number(row?.cheque_TOTAL_AMOUNT) +
+                            Number(row?.bank_TOTAL_AMOUNT) +
+                            Number(row?.item_TOTAL_AMOUNT) +
+                            Number(row?.cash_TOTAL_AMOUNT)}
+                        </TableCell>
                       </TableCell>
                     </TableRow>
                   ))}

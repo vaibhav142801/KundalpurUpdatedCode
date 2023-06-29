@@ -79,7 +79,12 @@ function RoomBookingPrint({ setopendashboard }) {
             style={{ marginTop: '6rem' }}
           >
             <div style={{ backgroundColor: '#01B0F1' }}>
-              <p className="yadda_text lineheight">यात्री आगमन रसीद</p>
+              <p className="yadda_text lineheight">
+                यात्री आगमन रसीद
+                <span style={{ fontSize: '13px' }}>
+                  ({isData[0]?.paymentMode === 2 ? 'Cash' : 'Online'})
+                </span>
+              </p>
             </div>
 
             <div className="innear_div_texx">
@@ -122,7 +127,7 @@ function RoomBookingPrint({ setopendashboard }) {
                     {currDate} / {currTime}
                   </p>
                   <p className="lineheight">{isData && isData[0]?.contactNo}</p>
-                  <p className="lineheight">{isData && isData[0]?.city}</p>
+                  <p className="lineheight">{isData && isData[0]?.address}</p>
                 </div>
               </div>
             </div>

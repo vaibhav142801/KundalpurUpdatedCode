@@ -5,44 +5,20 @@ function AllTotal({ data }) {
   if (data) {
     data &&
       data.map((item, inx) => {
-        if (item?.manual_cash_TOTAL_AMOUNT) {
-          totalAmount =
-            totalAmount + parseFloat(item?.manual_cash_TOTAL_AMOUNT);
+        if (item?.cash_TOTAL_AMOUNT) {
+          totalAmount = totalAmount + parseFloat(item?.cash_TOTAL_AMOUNT);
         }
 
-        if (item?.electric_cash_TOTAL_AMOUNT) {
-          totalAmount =
-            totalAmount + parseFloat(item?.electric_cash_TOTAL_AMOUNT);
+        if (item?.cheque_TOTAL_AMOUNT) {
+          totalAmount = totalAmount + parseFloat(item?.cheque_TOTAL_AMOUNT);
         }
 
-        if (item?.electric_cheque_TOTAL_AMOUNT) {
-          totalAmount =
-            totalAmount + parseFloat(item?.electric_cheque_TOTAL_AMOUNT);
+        if (item?.bank_TOTAL_AMOUNT) {
+          totalAmount = totalAmount + parseFloat(item?.bank_TOTAL_AMOUNT);
         }
 
-        if (item?.manual_cheque_TOTAL_AMOUNT) {
-          totalAmount =
-            totalAmount + parseFloat(item?.manual_cheque_TOTAL_AMOUNT);
-        }
-
-        if (item?.electric_bank_TOTAL_AMOUNT) {
-          totalAmount =
-            totalAmount + parseFloat(item?.electric_bank_TOTAL_AMOUNT);
-        }
-
-        if (item?.manual_bank_TOTAL_AMOUNT) {
-          totalAmount =
-            totalAmount + parseFloat(item?.manual_bank_TOTAL_AMOUNT);
-        }
-
-        if (item?.manual_item_TOTAL_AMOUNT) {
-          totalAmount =
-            totalAmount + parseFloat(item?.manual_item_TOTAL_AMOUNT);
-        }
-
-        if (item?.electric_item_TOTAL_AMOUNT) {
-          totalAmount =
-            totalAmount + parseFloat(item?.electric_item_TOTAL_AMOUNT);
+        if (item?.item_TOTAL_AMOUNT) {
+          totalAmount = totalAmount + parseFloat(item?.item_TOTAL_AMOUNT);
         }
       });
   }

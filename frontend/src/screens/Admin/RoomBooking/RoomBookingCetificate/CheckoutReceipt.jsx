@@ -218,7 +218,7 @@ const CheckoutReceipt = ({ setopendashboard }) => {
 
                               <p className="lineheight">{days} Days</p>
                               <p className="lineheight">
-                                {isData && isData?.city}
+                                {isData && isData?.address}
                               </p>
                             </div>
                           </div>

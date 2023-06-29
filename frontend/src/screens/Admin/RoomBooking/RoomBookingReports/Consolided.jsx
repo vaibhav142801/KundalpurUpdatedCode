@@ -42,6 +42,10 @@ const style = {
 
 const Consolided = ({ setopendashboard }) => {
   const navigation = useNavigate();
+  const [emplist, setemplist] = useState('');
+  const [fromdate, setfromdate] = useState('');
+  const [toDate, settoDate] = useState('');
+  const [empidsearch, setempidsearch] = useState('');
   const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [isDataDummy, setisDataDummy] = React.useState([]);
@@ -77,13 +81,16 @@ const Consolided = ({ setopendashboard }) => {
   const getall_donation = () => {
     setloader(true);
 
-    serverInstance('room/get-room-history-admin', 'post').then((res) => {
+    serverInstance(
+      'room/consolidated?date=&name=&advanceAmount=&roomAmount=&cancelAmount=',
+      'get',
+    ).then((res) => {
       console.log(res);
       if (res.data) {
         setloader(false);
-        let filterData = res.data.filter((item) => item.modeOfBooking === 2);
-        setisData(filterData);
-        setisDataDummy(filterData);
+
+        setisData(res.data);
+        setisDataDummy(res.data);
       }
     });
   };
@@ -208,7 +215,23 @@ const Consolided = ({ setopendashboard }) => {
     console.log('date daisble', date);
   };
 
+  const getallemp_list = () => {
+    serverInstance('admin/add-employee', 'get').then((res) => {
+      if (res.status) {
+        setemplist(res.data);
+      } else {
+        Swal('Error', 'somthing went  wrong', 'error');
+      }
+    });
+  };
+
+  const reset = () => {
+    setfromdate('');
+    setempidsearch('');
+    getall_donation();
+  };
   useEffect(() => {
+    getallemp_list();
     getall_donation();
     setopendashboard(true);
     setuserrole(Number(sessionStorage.getItem('userrole')));
@@ -222,6 +245,19 @@ const Consolided = ({ setopendashboard }) => {
     });
   };
 
+  const filterdata = (e) => {
+    e.preventDefault();
+    serverInstance(
+      `/room/consolidated?date=${fromdate}&employeeName=${empidsearch}`,
+      'get',
+    ).then((res) => {
+      if (res.status) {
+        setemplist(res.data);
+      } else {
+        Swal('Error', 'somthing went  wrong', 'error');
+      }
+    });
+  };
   const [bookid, setbookid] = useState('');
   const [mobileno, setmobileno] = useState('');
   const [customername, setcustomername] = useState('');
@@ -232,6 +268,7 @@ const Consolided = ({ setopendashboard }) => {
   const [roomNo, setroomNo] = useState('');
   const [rate, setrate] = useState('');
   const [advanceRate, setadvanceRate] = useState('');
+
   const onSearchByOther = (e, type) => {
     if (type === 'rate') {
       setrate(e.target.value);
@@ -361,7 +398,77 @@ const Consolided = ({ setopendashboard }) => {
       </Modal>
       <RoomBookingReportsTab setopendashboard={setopendashboard} />
       <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
-        <div className="search-header-print">
+        <div
+          className="search-header "
+          style={{ paddingLeft: '1.5%', paddingRight: '1.3rem' }}
+        >
+          <div className="search-inner-div-reports">
+            <form className="search-inner-div-reports" onSubmit={filterdata}>
+              <div className="Center_main_dic_filetr">
+                <label htmlFor="donation-date">From Date</label>
+                <input
+                  id="donation-date"
+                  style={{ width: '17rem' }}
+                  type="date"
+                  placeholder="From"
+                  value={fromdate}
+                  name="fromdate"
+                  onChange={(e) => {
+                    setfromdate(e.target.value);
+                  }}
+                />
+              </div>
+              {/* <div className="Center_main_dic_filetr">
+                <label htmlFor="donation-date">To Date</label>
+                <input
+                  id="donation-date"
+                  style={{ width: '17rem' }}
+                  type="date"
+                  placeholder="From"
+                  value={toDate}
+                  name="toDate"
+                  onChange={(e) => {
+                    settoDate(e.target.value);
+                  }}
+                />
+              </div> */}
+              <div className="Center_main_dic_filetr">
+                <label>Employee Name</label>
+                <select
+                  name="cars"
+                  id="cars"
+                  className="cuolms_search"
+                  onChange={(e) => setempidsearch(e.target.value)}
+                >
+                  <option value="">All user</option>
+                  {emplist &&
+                    emplist.map((item, idx) => {
+                      return (
+                        <option value={item.Username}>{item.Username}</option>
+                      );
+                    })}
+                </select>
+              </div>
+
+              <div className="Center_main_dic_filetr">
+                <label>&nbsp;</label>
+                <button>Search</button>
+              </div>
+            </form>
+            <div className="Center_main_dic_filetr">
+              <label>&nbsp;</label>
+              <button onClick={() => reset()}>Reset</button>
+            </div>
+          </div>
+        </div>
+        <div
+          className="search-header-print"
+          style={{
+            paddingRight: '1.5%',
+            paddingBottom: '1rem',
+            paddingLeft: '1.5%',
+          }}
+        >
           <div
             className="search-header-print"
             style={{
@@ -384,7 +491,7 @@ const Consolided = ({ setopendashboard }) => {
             <Tooltip title="Export Pdf File">
               <IconButton>
                 <img
-                  onClick={() => ExportPdfmanul(isData, 'CheckinData')}
+                  onClick={() => ExportPdfmanul(isData, 'Report')}
                   src={ExportPdf}
                   alt="cc"
                   style={{ width: '30px' }}
@@ -395,7 +502,7 @@ const Consolided = ({ setopendashboard }) => {
               <IconButton>
                 <img
                   style={{ width: '30px' }}
-                  onClick={() => handleOepn1()}
+                  // onClick={() => handleOpen5()}
                   src={Print}
                   alt=" Print"
                 />
@@ -413,6 +520,15 @@ const Consolided = ({ setopendashboard }) => {
             <TableHead style={{ background: '#F1F0F0' }}>
               <TableRow>
                 <TableCell>S.No</TableCell>
+
+                <TableCell>
+                  Date
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('booking_id')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
                 <TableCell>
                   Employee Name
                   <i
@@ -430,6 +546,14 @@ const Consolided = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
+                  Rent Amount (Room)
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('holderName')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
                   Check Out Amount (Return)
                   <i
                     style={{ marginLeft: '0.5rem' }}
@@ -437,22 +561,15 @@ const Consolided = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
-                  Rate Amount (Room)
-                  <i
-                    style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('holderName')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
+
+                {/* <TableCell>
                   Cancel Amount
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('date')}
                     class={`fa fa-sort`}
                   />
-                </TableCell>
+                </TableCell> */}
 
                 <TableCell>
                   Total Amount
@@ -462,8 +579,6 @@ const Consolided = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-
-                <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -473,8 +588,17 @@ const Consolided = ({ setopendashboard }) => {
                   <input
                     style={{ width: '5rem' }}
                     className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'date')}
+                    placeholder="Search name"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '5rem' }}
+                    className="cuolms_search"
                     type="text"
-                    onChange={(e) => onSearchByOther(e, 'bookid')}
+                    onChange={(e) => onSearchByOther(e, 'employeeName')}
                     placeholder="Search name"
                   />
                 </TableCell>
@@ -483,7 +607,7 @@ const Consolided = ({ setopendashboard }) => {
                     style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
-                    onChange={(e) => onSearchByOther(e, 'mobileno')}
+                    onChange={(e) => onSearchByOther(e, 'checkinAmount')}
                     placeholder="Search  Checkin"
                   />
                 </TableCell>
@@ -492,16 +616,7 @@ const Consolided = ({ setopendashboard }) => {
                     style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
-                    onChange={(e) => onSearchByOther(e, 'customername')}
-                    placeholder="Search Checkout"
-                  />
-                </TableCell>
-                <TableCell>
-                  <input
-                    style={{ width: '7rem' }}
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => onSearchByOther(e, 'customername')}
+                    onChange={(e) => onSearchByOther(e, 'rateAmount')}
                     placeholder="Search Rate"
                   />
                 </TableCell>
@@ -510,31 +625,29 @@ const Consolided = ({ setopendashboard }) => {
                     style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
-                    onChange={(e) => onSearchByOther(e, 'customername')}
-                    placeholder="Search Cancel "
+                    onChange={(e) => onSearchByOther(e, 'checkoutAmount')}
+                    placeholder="Search Checkout"
                   />
                 </TableCell>
+                {/* 
+                <TableCell>
+                  <input
+                    style={{ width: '7rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'cancelAmount')}
+                    placeholder="Search Cancel "
+                  />
+                </TableCell> */}
 
                 <TableCell>
                   <input
                     style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
-                    onChange={(e) => onSearchByOther(e, 'customername')}
+                    onChange={(e) => onSearchByOther(e, 'totalAmount')}
                     placeholder="Search Total"
                   />
-                </TableCell>
-
-                <TableCell>
-                  <button
-                    style={{
-                      width: '6rem',
-                    }}
-                    className="chaneRoom"
-                    onClick={() => getall_donation()}
-                  >
-                    Reset
-                  </button>
                 </TableCell>
               </TableRow>
               {isData ? (
@@ -553,35 +666,16 @@ const Consolided = ({ setopendashboard }) => {
                       }}
                     >
                       <TableCell>{index + 1}</TableCell>
-                      <TableCell>{row?.booking_id}</TableCell>
-                      <TableCell>{row?.contactNo}</TableCell>
-                      <TableCell>{row?.name}</TableCell>
                       <TableCell>
-                        {handledisable(row?.date)}
-                        {Moment(row?.date).format('YYYY-MM-DD')}&nbsp;&nbsp;
-                        {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
+                        {Moment(row?.date).format('YYYY-MM-DD')}
                       </TableCell>
+                      <TableCell>{row?.Username}</TableCell>
+                      <TableCell>{row?.checkinAmount}</TableCell>
+                      <TableCell>{row?.rateAmount}</TableCell>
+                      <TableCell>{row?.checkoutAmount}</TableCell>
 
-                      <TableCell>
-                        {Moment(row?.coutDate).format('DD-MM-YYYY')}&nbsp;&nbsp;
-                        {moment(row?.coutTime, 'HH:mm:ss').format('hh:mm:ss')}
-                      </TableCell>
-
-                      <TableCell
-                        style={{ display: 'flex', flexDirection: 'column' }}
-                      >
-                        <button
-                          style={{
-                            width: '6rem',
-                            marginBottom: '4px',
-                            backgroundColor: '#000080',
-                          }}
-                          className="chaneRoom"
-                          onClick={() => downloadrecept(row)}
-                        >
-                          Print
-                        </button>
-                      </TableCell>
+                      {/* <TableCell>{row?.cancelAmount}</TableCell> */}
+                      <TableCell>{row?.totalAmount}</TableCell>
                     </TableRow>
                   ))}
                 </>
