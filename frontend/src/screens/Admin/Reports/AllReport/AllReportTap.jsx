@@ -68,6 +68,19 @@ const AllReportTap = ({ setopendashboard }) => {
                   />
                   Online(Donator)
                 </NavLink>
+
+                <NavLink
+                  style={{ width: '20rem' }}
+                  to="/admin-panel/Room/Consolided"
+                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                >
+                  <img
+                    style={{ marginRight: '4%', width: '20px' }}
+                    src={f1}
+                    alt="fast"
+                  />
+                  Consolidated(Room Booking)
+                </NavLink>
               </>
             )}
           </div>

@@ -114,21 +114,12 @@ const OnlineRoomBooking = ({ setopendashboard }) => {
           >
             <TableHead>
               <TableRow>
-                <TableCell>
-                  {isData[0]?.modeOfBooking === 2 ? 'Amout' : ''}
-                </TableCell>
-                <TableCell>
-                  {isData[1]?.modeOfBooking === 2 ? 'Amout' : ''}
-                </TableCell>
+                <TableCell>Online Amount</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableCell>
-                {isData[0]?.modeOfBooking === 2 ? isData[0]?.total_amount : ''}
-              </TableCell>
-
-              <TableCell>
-                {isData[1]?.modeOfBooking === 2 ? isData[0]?.total_amount : ''}
+                {isData[1]?.modeOfBooking === 2 ? isData[1]?.total_amount : ''}
               </TableCell>
             </TableBody>
             <TableFooter>

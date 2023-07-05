@@ -6,6 +6,8 @@ import { useReactToPrint } from 'react-to-print';
 import './RoomBookingCetificate.css';
 
 function ForcePrint({ setopendashboard }) {
+  const adminName = sessionStorage.getItem('adminName');
+  const empName = sessionStorage.getItem('empName');
   const navigate = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
@@ -263,7 +265,7 @@ function ForcePrint({ setopendashboard }) {
                   marginBottom: '0.5rem',
                 }}
               >
-                {isData && isData?.bookedByName}
+                {empName ? empName : adminName}
               </p>
             </div>
           </div>

@@ -219,7 +219,7 @@ function ReceiptMater() {
         <div className="right_input_label">
           <div className="ineear_dave_receipt_no">
             <label htmlFor="eleReceiptNo">
-              Enter reciept no for electronic donation
+              Enter reciept no format for electronic donation
             </label>
             <input
               type="text"
@@ -234,7 +234,7 @@ function ReceiptMater() {
           </div>
           <div className="ineear_dave_receipt_no">
             <label htmlFor="cacgReceiptNo">
-              Enter reciept no for Cash donation
+              Enter reciept no format for Cash donation
             </label>
             <input
               type="text"
@@ -249,7 +249,7 @@ function ReceiptMater() {
           </div>
           <div className="ineear_dave_receipt_no">
             <label htmlFor="itemReceiptNo">
-              Enter reciept no for Item donation
+              Enter reciept no format for Item donation
             </label>
             <input
               type="text"
@@ -264,7 +264,7 @@ function ReceiptMater() {
           </div>
           <div className="ineear_dave_receipt_no">
             <label htmlFor="chequeReceiptNo">
-              Enter reciept no for cheque donation
+              Enter reciept no format for cheque donation
             </label>
             <input
               type="text"
@@ -281,7 +281,7 @@ function ReceiptMater() {
           </div>
           <div className="ineear_dave_receipt_no">
             <label htmlFor="onlineReceiptNo">
-              Enter reciept no for online donation
+              Enter reciept no format for online donation
             </label>
             <input
               type="text"
@@ -298,7 +298,7 @@ function ReceiptMater() {
           </div>
           <div className="ineear_dave_receipt_no">
             <label htmlFor="onlineChequeReceiptNo">
-              Enter reciept no for online cheque donation
+              Enter reciept no format for online cheque donation
             </label>
             <input
               type="text"
@@ -310,6 +310,23 @@ function ReceiptMater() {
               onChange={(e) => setOnlineChequeReceiptNo(e.target.value)}
             />
             <button onClick={() => handleSubmit('onlineChequeReceiptNo')}>
+              Save
+            </button>
+          </div>
+          <div className="ineear_dave_receipt_no">
+            <label htmlFor="chequeReceiptNo">
+              Enter reciept no format for boli
+            </label>
+            <input
+              type="text"
+              id="chequeReceiptNo"
+              required
+              value={chequeReceiptNo}
+              name="chequeReceiptNo"
+              placeholder="reciept no for boli"
+              onChange={(e) => setchequeReceiptNo(e.target.value)}
+            />
+            <button onClick={() => handleSubmit('chequeReceiptNo')}>
               Save
             </button>
           </div>

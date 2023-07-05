@@ -333,15 +333,7 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                                   {checkindata &&
                                     checkindata?.dharamshala[0]?.category_name}
                                 </td>
-                                {/* <td className="table_tddd">
-                                {checkinda &&
-                                  checkinda?.category[0]?.facilities &&
-                                  checkinda?.category[0]?.facilities.map(
-                                    (element, index) => (
-                                      <span key={index}> {element},</span>
-                                    ),
-                                  )}
-                              </td> */}
+
                                 <td className="table_tddd lineheight10">
                                   {isData && isData[0]?.nRoom === 1 ? (
                                     <>
@@ -360,9 +352,6 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                                   )}
                                 </td>
 
-                                {/* <td className="table_tddd">
-                                {isData && isData[0]?.nRoom}
-                              </td> */}
                                 <td className="table_tddd lineheight10">
                                   {isData[0]?.nRoom *
                                     Number(isData[0]?.roomAmount) *
@@ -376,11 +365,6 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                                     Number(isData && isData[0]?.advanceAmount) *
                                       Number(isData[0]?.nRoom)}
                                 </td>
-
-                                {/* <td className="table_tddd">
-                            {Number(isData && isData[0]?.roomAmount) *
-                              Number(isData && isData[0]?.nRoom)}
-                          </td> */}
                               </tr>
                             </tbody>
                           </table>

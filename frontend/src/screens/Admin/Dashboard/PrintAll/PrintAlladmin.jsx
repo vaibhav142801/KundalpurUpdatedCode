@@ -844,10 +844,9 @@ function PrintAlladmin({ handleClose }) {
                           style={{ borderBottom: '1px solid gray' }}
                           key={index}
                         >
-                          <td>{row?.userName}</td>
-                          <td>{row?.bank}</td>
+                          <td>{row?.Username}</td>
                           <td>{row?.cash}</td>
-                          {/* <td>{Number(row?.cash) + Number(row?.bank)}</td> */}
+                          <td>{row?.online}</td>
                         </tr>
                       ))}
                   </>
@@ -860,7 +859,7 @@ function PrintAlladmin({ handleClose }) {
                   <th>
                     {bookingadmin
                       ? bookingadmin.reduce(
-                          (n, { bank }) => parseFloat(n) + parseFloat(bank),
+                          (n, { cash }) => parseFloat(n) + parseFloat(cash),
                           0,
                         )
                       : '0'}
@@ -869,7 +868,7 @@ function PrintAlladmin({ handleClose }) {
                     {' '}
                     {bookingadmin
                       ? bookingadmin.reduce(
-                          (n, { cash }) => parseFloat(n) + parseFloat(cash),
+                          (n, { online }) => parseFloat(n) + parseFloat(online),
                           0,
                         )
                       : '0'}
@@ -1124,10 +1123,9 @@ function PrintAlladmin({ handleClose }) {
                               style={{ borderBottom: '1px solid gray' }}
                               key={index}
                             >
-                              <td>{row?.userName}</td>
-                              <td>{row?.bank}</td>
+                              <td>{row?.Username}</td>
                               <td>{row?.cash}</td>
-                              {/* <td>{Number(row?.cash) + Number(row?.bank)}</td> */}
+                              <td>{row?.online}</td>
                             </tr>
                           ))}
                       </>
@@ -1140,7 +1138,7 @@ function PrintAlladmin({ handleClose }) {
                       <th>
                         {bookemp
                           ? bookemp.reduce(
-                              (n, { bank }) => parseFloat(n) + parseFloat(bank),
+                              (n, { cash }) => parseFloat(n) + parseFloat(cash),
                               0,
                             )
                           : '0'}
@@ -1148,7 +1146,8 @@ function PrintAlladmin({ handleClose }) {
                       <th>
                         {bookemp
                           ? bookemp.reduce(
-                              (n, { cash }) => parseFloat(n) + parseFloat(cash),
+                              (n, { online }) =>
+                                parseFloat(n) + parseFloat(online),
                               0,
                             )
                           : '0'}

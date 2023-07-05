@@ -3,12 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { useReactToPrint } from 'react-to-print';
-import './RoomBookingCetificate.css';
 
-function OnlineforcePrint({ setopendashboard }) {
+function CancelPrintout({ setopendashboard }) {
   const navigate = useNavigate();
-  const adminName = sessionStorage.getItem('adminName');
-  const empName = sessionStorage.getItem('empName');
   const location = useLocation();
   const componentRef = useRef();
   const [isData, setisData] = useState('');
@@ -33,9 +30,6 @@ function OnlineforcePrint({ setopendashboard }) {
       setisData(location.state?.data);
     }
     setopendashboard(true);
-    setTimeout(() => {
-      handlePrint();
-    }, 10);
     setTimeout(() => {
       handlePrint();
     }, 10);
@@ -65,16 +59,13 @@ function OnlineforcePrint({ setopendashboard }) {
 
   let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
-
   return (
     <>
       <div
         className="button_div_print_download10"
         style={{ marginBottom: '-10rem' }}
       >
-        <button onClick={() => navigate('/admin-panel/room/roomshift')}>
-          Back
-        </button>
+        <button onClick={() => navigate(-1)}>Back</button>
 
         <div />
       </div>
@@ -83,11 +74,14 @@ function OnlineforcePrint({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginTop: '9rem' }}
+            style={{ marginLeft: '0rem', marginTop: '9rem' }}
           >
             <div>
-              <p className="yadda_text">
-                यात्री प्रस्थान रसीद (ओनलाईन,फोर्स चेकआउट)
+              <p className="yadda_text lineheight">
+                यात्री आगमन रसीद{' '}
+                <span style={{ fontSize: '13px' }}>
+                  ({isData[0]?.paymentMode === 2 ? 'Cash' : 'Online'})
+                </span>
               </p>
             </div>
 
@@ -97,9 +91,7 @@ function OnlineforcePrint({ setopendashboard }) {
                   <p className="lineheight" style={{ color: 'gray' }}>
                     आवास क्र :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    मोबाईल न :
-                  </p>
+
                   <p style={{ color: 'gray' }} className="lineheight">
                     यात्री का नाम :
                   </p>
@@ -108,8 +100,8 @@ function OnlineforcePrint({ setopendashboard }) {
                   </p>
                 </div>
                 <div className="main_left">
-                  <p className="lineheight">{isData && isData?.booking_id}</p>
-                  <p className="lineheight">{isData && isData?.contactNo}</p>
+                  <p className="lineheight">{isData && isData?.RoomNo}</p>
+
                   <p className="lineheight">{isData && isData?.name}</p>
                   <p className="lineheight">{isData && isData?.Fname}</p>
                 </div>
@@ -117,14 +109,10 @@ function OnlineforcePrint({ setopendashboard }) {
               <div className="innear_div_texx_dd" style={{ marginLeft: '0px' }}>
                 <div>
                   <p style={{ color: 'gray' }} className="lineheight">
-                    प्रस्थान दिनाँक :
-                  </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
                     आगमन दिनांक:
                   </p>
-
                   <p style={{ color: 'gray' }} className="lineheight">
-                    स्टे :
+                    मोबाईल न :
                   </p>
                   <p style={{ color: 'gray' }} className="lineheight">
                     पता :
@@ -132,19 +120,15 @@ function OnlineforcePrint({ setopendashboard }) {
                 </div>
                 <div className="main_left">
                   <p className="lineheight">
-                    {currDatecheckout} / {currTimecheckout}
-                  </p>
-                  <p className="lineheight">
                     {currDate} / {currTime}
                   </p>
-
-                  <p className="lineheight">{TotalDays && TotalDays} Days</p>
+                  <p className="lineheight">{isData && isData?.contactNo}</p>
                   <p className="lineheight">{isData && isData?.address}</p>
                 </div>
               </div>
             </div>
 
-            {/* <div className="yyy_text_div">
+            <div className="yyy_text_div">
               <p className="lineheight">यात्री संख्या </p>
               <p className="lineheight">Male: {isData?.male}</p>
               <p className="lineheight">Female: {isData?.female}</p>
@@ -155,7 +139,7 @@ function OnlineforcePrint({ setopendashboard }) {
                   Number(isData?.female) +
                   Number(isData?.child)}
               </p>
-            </div> */}
+            </div>
 
             <div>
               <table className="table_ddd">
@@ -163,8 +147,9 @@ function OnlineforcePrint({ setopendashboard }) {
                   <tr>
                     <td className="table_tddd lineheight10">धर्मशाला नाम</td>
                     <td className="table_tddd lineheight10">
-                      रूम टाईप & रूम न.
+                      रूम टाईप & फेसिलिटी
                     </td>
+                    <td className="table_tddd lineheight10">रूम न</td>
                     {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
                     {/* <td className="table_tddd lineheight10">
                                   रुम न.
@@ -190,17 +175,6 @@ function OnlineforcePrint({ setopendashboard }) {
                                   </p> */}
                     </td>
 
-                    <td className="table_tddd lineheight10">
-                      शेष राशि वापिसी
-                      {/* <p className="lineheight10">
-                                    {Number(isData && isData?.roomAmount) *
-                                      (Number(isData && isData?.nRoom) +
-                                        Number(isData && isData?.nRoom))}
-                                    -
-                                    {Number(isData && isData?.roomAmount) *
-                                      Number(isData && isData?.nRoom)}
-                                  </p> */}
-                    </td>
                     {/* <td className="table_tddd">
                             अमानत राशि
                             <p>
@@ -213,16 +187,21 @@ function OnlineforcePrint({ setopendashboard }) {
                   </tr>
                   <tr>
                     <td className="table_tddd lineheight10">
-                      {isData && isData?.dharmasala?.name}
+                      {isData && isData?.dharmasala?.name
+                        ? isData && isData?.dharmasala?.name
+                        : isData?.dharmasalaName}
                     </td>
                     <td className="table_tddd lineheight10">
-                      ({' '}
+                      {isData && isData?.categoryName}
                       {isData &&
                         isData?.facility_name &&
                         isData?.facility_name.map((element, index) => (
                           <span key={index}> {element}</span>
                         ))}
-                      ,{isData && isData?.category_name})-
+                      -{isData && isData?.category_name}
+                      {isData && isData?.facilityName}
+                    </td>
+                    <td className="table_tddd lineheight10">
                       {isData && isData?.RoomNo}
                     </td>
                     {/* <td className="table_tddd">
@@ -248,13 +227,7 @@ function OnlineforcePrint({ setopendashboard }) {
                         Number(isData && isData?.roomAmount)}
                       .00
                     </td>
-                    <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.advanceAmount) +
-                        Number(isData && isData?.roomAmount) -
-                        (Number(isData && isData?.advanceAmount) +
-                          Number(isData && isData?.roomAmount))}
-                      .00
-                    </td>
+
                     {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *
                               Number(isData && isData[0]?.nRoom)}
@@ -270,7 +243,7 @@ function OnlineforcePrint({ setopendashboard }) {
                   marginBottom: '0.5rem',
                 }}
               >
-                {empName ? empName : adminName}
+                {isData?.bookedByName}
               </p>
             </div>
           </div>
@@ -283,4 +256,4 @@ function OnlineforcePrint({ setopendashboard }) {
   );
 }
 
-export default OnlineforcePrint;
+export default CancelPrintout;

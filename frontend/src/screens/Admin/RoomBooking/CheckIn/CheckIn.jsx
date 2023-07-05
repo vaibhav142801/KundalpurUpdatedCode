@@ -43,6 +43,7 @@ import Edit from '../../../../assets/Edit.png';
 import Checkout21 from '../../../../assets/Checkout21.png';
 import fordd from '../../../../assets/for.jpeg';
 import './Checkin.css';
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -69,6 +70,7 @@ const style1 = {
 
 const CheckIn = ({ setopendashboard }) => {
   const navigation = useNavigate();
+  const [Dharamshala, setDharamshala] = useState('');
   const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [isDataDummy, setisDataDummy] = React.useState([]);
@@ -97,47 +99,6 @@ const CheckIn = ({ setopendashboard }) => {
   const handleOepn8 = async (data) => {
     setOpen8(true);
     setchangedata8(data);
-    // console.log('for change room', data);
-    // try {
-    //   console.log('click');
-    //   const data = {
-    //     id: data?.id,
-    //     contactNo: data?.contactNo,
-    //     name: data?.name,
-    //     email: email,
-    //     address: address,
-    //     stayD: 3,
-    //     pin: 555555,
-    //     city: city,
-    //     state: state,
-    //     proof: idproffname,
-    //     idNumber: idproffnumber,
-    //     male: maleno ? Number(maleno) : 0,
-    //     female: femaleno ? Number(femaleno) : 0,
-    //     child: Children ? Number(Children) : 0,
-    //     dharmasala: dharamshalid,
-    //     modeOfBooking: changedata?.modeOfBooking,
-    //     RoomNo: roomnumber,
-    //   };
-    //   axios.defaults.headers.put[
-    //     'Authorization'
-    //   ] = `Bearer ${sessionStorage.getItem('token')}`;
-    //   const res = await axios.put(`${backendApiUrl}room/checkin`, data);
-    //   console.log('room shift', res);
-    //   if (res?.data?.data?.status) {
-    //     setOpen(false);
-    //     Swal.fire('Great!', res.data.data.message, 'success');
-    //   }
-    //   if (res?.data?.data?.status === false) {
-    //     Swal.fire(
-    //       'Great!',
-    //       'Room failed to checkout (Time Limit Elapsed)',
-    //       'success',
-    //     );
-    //   }
-    // } catch (error) {
-    //   // Swal.fire('Error!', error, 'error');
-    // }
   };
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
   var today = new Date();
@@ -304,11 +265,15 @@ const CheckIn = ({ setopendashboard }) => {
     });
   };
 
-  const handledisable = (date) => {
-    console.log('date daisble', date);
+  const getalldharamshala = () => {
+    serverInstance('room/get-dharmasalas', 'get').then((res) => {
+      if (res.data) {
+        setDharamshala(res.data);
+      }
+    });
   };
-
   useEffect(() => {
+    getalldharamshala();
     getall_donation();
     setopendashboard(true);
     setuserrole(Number(sessionStorage.getItem('userrole')));
@@ -318,6 +283,7 @@ const CheckIn = ({ setopendashboard }) => {
     navigation('/admin-panel/Room/printReceipt', {
       state: {
         data: row,
+        roomdata: isData,
       },
     });
   };
@@ -326,42 +292,38 @@ const CheckIn = ({ setopendashboard }) => {
   const [mobileno, setmobileno] = useState('');
   const [customername, setcustomername] = useState('');
   const [checkindate, setcheckindate] = useState('');
-  const [checkintime, setcheckintime] = useState('');
-  const [checkoutdate, setcheckoutdate] = useState('');
-  const [checkouttime, setcheckouttime] = useState();
+  const [dharamshalanamee, setdharamshalanamee] = useState('');
   const [roomNo, setroomNo] = useState('');
   const [rate, setrate] = useState('');
   const [advanceRate, setadvanceRate] = useState('');
+  const [address, setaddress] = useState('');
   const onSearchByOther = (e, type) => {
-    if (type === 'rate') {
+    if (type === 'roomAmount') {
       setrate(e.target.value);
     }
-    if (type === 'advanceRate') {
+    if (type === 'advanceAmount') {
       setadvanceRate(e.target.value);
     }
-    if (type === 'bookid') {
+    if (type === 'booking_id') {
       setbookid(e.target.value.toLowerCase());
     }
-    if (type === 'mobileno') {
+    if (type === 'contactNo') {
       setmobileno(e.target.value.toLowerCase());
     }
-    if (type === 'customername') {
+    if (type === 'name') {
       setcustomername(e.target.value.toLowerCase());
     }
-    if (type === 'checkindate') {
+    if (type === 'date') {
       setcheckindate(e.target.value.toLowerCase());
     }
-    if (type === 'checkintime') {
-      setcheckintime(e.target.value.toLowerCase());
+    if (type === 'address') {
+      setaddress(e.target.value.toLowerCase());
     }
-    if (type === 'checkoutdate') {
-      setcheckoutdate(e.target.value.toLowerCase());
-    }
-    if (type === 'checkouttime') {
-      setcheckouttime(e.target.value);
-    }
-    if (type === 'roomNo') {
+    if (type === 'RoomNo') {
       setroomNo(e.target.value);
+    }
+    if (type === 'dharmasala') {
+      setdharamshalanamee(e.target.value.toLowerCase());
     }
   };
 
@@ -370,8 +332,9 @@ const CheckIn = ({ setopendashboard }) => {
       (dt) =>
         dt?.booking_id?.toLowerCase().indexOf(bookid) > -1 &&
         Moment(dt?.date).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
-        Moment(dt?.coutDate).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
-        dt?.name?.toLowerCase().indexOf(customername) > -1,
+        dt?.name?.toLowerCase().indexOf(customername) > -1 &&
+        dt?.address?.toLowerCase().indexOf(address) > -1 &&
+        dt?.dharmasala?.name?.toLowerCase().indexOf(dharamshalanamee) > -1,
     );
 
     if (roomNo) {
@@ -395,7 +358,7 @@ const CheckIn = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
-
+    //row?.dharmasala?.name
     if (advanceRate) {
       filtered = filtered?.map((item) => {
         if (item.advanceAmount == Number(advanceRate)) {
@@ -418,17 +381,18 @@ const CheckIn = ({ setopendashboard }) => {
       filtered = filtered?.filter((x) => x !== undefined);
     }
     setisData(filtered);
+
+    console.log('data is', filtered);
   }, [
     bookid,
     checkindate,
-    checkintime,
-    checkoutdate,
-    checkouttime,
     roomNo,
     mobileno,
     customername,
     rate,
     advanceRate,
+    address,
+    dharamshalanamee,
   ]);
 
   return (
@@ -592,48 +556,6 @@ const CheckIn = ({ setopendashboard }) => {
       </Modal>
       <RoomBookingTap setopendashboard={setopendashboard} />
       <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
-        {/* <div className="main_amin_gain">
-          <div className="main_amin_gain1">
-            Total Guest : <Totalguest data={isData} />
-          </div>
-          <div className="main_amin_gain2">
-            Total Advance : <TotalAdvance data={isData} />
-          </div>
-          <Select
-            id="donation-type"
-            required
-            sx={{
-              width: '280px',
-              fontSize: 14,
-              '& .MuiSelect-select': {
-                padding: '10px 0px 10px 10px',
-                background: '#fff',
-              },
-            }}
-            value={optionss}
-            name="optionss"
-            onChange={(e) => setoptionss(e.target.value)}
-          >
-            <MenuItem
-              sx={{
-                fontSize: 14,
-              }}
-              value={'Currently Stay'}
-            >
-              Currently Stay
-            </MenuItem>
-
-            <MenuItem
-              sx={{
-                fontSize: 14,
-              }}
-              value={'History'}
-            >
-              History
-            </MenuItem>
-          </Select>
-        </div> */}
-
         <div className="search-header-print">
           <div
             className="search-header-print"
@@ -767,6 +689,14 @@ const CheckIn = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
+                <TableCell>
+                  Employee
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('bookedByName')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
 
                 <TableCell>PayMode</TableCell>
                 <TableCell>Action</TableCell>
@@ -777,7 +707,7 @@ const CheckIn = ({ setopendashboard }) => {
                 <TableCell>&nbsp;</TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '5rem' }}
+                    style={{ width: '4rem' }}
                     className="cuolms_search"
                     type="date"
                     onChange={(e) => onSearchByOther(e, 'date')}
@@ -794,7 +724,7 @@ const CheckIn = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '7rem' }}
+                    style={{ width: '6rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => onSearchByOther(e, 'contactNo')}
@@ -821,13 +751,13 @@ const CheckIn = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '9rem' }}
+                    style={{ width: '6rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
-                      onSearchByOther(e, 'dharmasala?.name');
+                      onSearchByOther(e, 'dharmasala');
                     }}
-                    placeholder="Dharamshala Name"
+                    placeholder="Dharamshala"
                   />
                 </TableCell>
                 <TableCell>
@@ -843,7 +773,7 @@ const CheckIn = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '5rem' }}
+                    style={{ width: '4rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
@@ -854,13 +784,24 @@ const CheckIn = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
+                    style={{ width: '4rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => {
+                      onSearchByOther(e, 'advanceAmount');
+                    }}
+                    placeholder="Advance"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
                     style={{ width: '5rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
-                      onSearchByOther(e, 'roomNo');
+                      onSearchByOther(e, 'bookedByName');
                     }}
-                    placeholder="Rent"
+                    placeholder="Emp"
                   />
                 </TableCell>
                 <TableCell>&nbsp;</TableCell>
@@ -896,7 +837,9 @@ const CheckIn = ({ setopendashboard }) => {
                       <TableCell>{index + 1}</TableCell>
 
                       <TableCell>
-                        {Moment(row?.date).format('DD-MM-YYYY')}&nbsp;&nbsp;
+                        {Moment(Date(row?.date))?.format('DD-MM-YYYY')}
+                        &nbsp;&nbsp;
+                        {console.log(Date(row?.date))}
                       </TableCell>
                       <TableCell>{row?.booking_id}</TableCell>
                       <TableCell>{row?.contactNo}</TableCell>
@@ -905,26 +848,16 @@ const CheckIn = ({ setopendashboard }) => {
                       <TableCell> {row?.dharmasala?.name}</TableCell>
                       <TableCell> {row?.RoomNo}</TableCell>
                       <TableCell> {row?.roomAmount}</TableCell>
-                      <TableCell> {row?.advanceAmount}</TableCell>
+                      <TableCell>
+                        {Number(row?.roomAmount) + Number(row?.advanceAmount)}
+                      </TableCell>
+                      <TableCell>{row?.bookedByName}</TableCell>
                       <TableCell>
                         {row?.paymentMode === 2 ? 'Cash' : 'Online'}
                       </TableCell>
-                      <TableCell
-                      // style={{ display: 'flex', flexDirection: 'column' }}
-                      >
+                      <TableCell>
                         {optionss === 'History' ? (
                           <>
-                            {/* <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#000080',
-                              }}
-                              className="chaneRoom"
-                              onClick={() => downloadrecept(row)}
-                            >
-                              Print
-                            </button> */}
                             <Tooltip title="Print">
                               <img
                                 onClick={() => downloadrecept(row)}
@@ -936,17 +869,6 @@ const CheckIn = ({ setopendashboard }) => {
                           </>
                         ) : (
                           <>
-                            {/* <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#000080',
-                              }}
-                              className="chaneRoom"
-                              onClick={() => downloadrecept(row)}
-                            >
-                              Print
-                            </button> */}
                             <Tooltip title="Print">
                               <img
                                 onClick={() => downloadrecept(row)}
@@ -992,29 +914,6 @@ const CheckIn = ({ setopendashboard }) => {
                                 {new Date(row?.date).getHours() !=
                                 new Date(row?.date).getHours() + 2 ? (
                                   <>
-                                    {/* <button
-                                      style={{
-                                        width: '6rem',
-                                        marginBottom: '4px',
-                                        backgroundColor: '#FF0000',
-                                      }}
-                                      onClick={() => handleClickOpen3(row?.id)}
-                                      className="chaneRoom"
-                                    >
-                                      Cancel
-                                    </button> */}
-
-                                    {/* <button
-                                      style={{
-                                        width: '6rem',
-                                        marginBottom: '4px',
-                                        backgroundColor: '#800080',
-                                      }}
-                                      onClick={() => handleOepn8(row)}
-                                      className="chaneRoom"
-                                    >
-                                      RoomChange
-                                    </button> */}
                                     <Tooltip title="Room Shift">
                                       <img
                                         onClick={() => handleOepn8(row)}
@@ -1036,36 +935,6 @@ const CheckIn = ({ setopendashboard }) => {
                                 {new Date(row?.date).getHours() !=
                                 new Date(row?.date).getHours() + 2 ? (
                                   <>
-                                    {/* <button
-                                      style={{
-                                        width: '6rem',
-                                        marginBottom: '4px',
-                                        backgroundColor: '#FF0000',
-                                      }}
-                                      onClick={() =>
-                                        handleClickOpen3(row?.booking_id)
-                                      }
-                                      className="chaneRoom"
-                                    >
-                                      Cancel
-                                    </button> */}
-
-                                    {/* <CloseIcon
-                                      onClick={() =>
-                                        handleClickOpen3(row?.booking_id)
-                                      }
-                                    />
-                                    <button
-                                      style={{
-                                        width: '6rem',
-                                        marginBottom: '4px',
-                                        backgroundColor: '#800080',
-                                      }}
-                                      onClick={() => handleOepn8(row)}
-                                      className="chaneRoom"
-                                    >
-                                      RoomChange
-                                    </button> */}
                                     <Tooltip title="Cancel">
                                       <CloseIcon
                                         onClick={() =>
@@ -1091,26 +960,6 @@ const CheckIn = ({ setopendashboard }) => {
                               </>
                             )}
 
-                            {/* <button
-                              style={{
-                                backgroundColor: '#FA7401',
-                                width: '6rem',
-                                marginBottom: '4px',
-                              }}
-                              onClick={() =>
-                                navigation(
-                                  '/admin-panel/Room/CheckoutReceipt',
-                                  {
-                                    state: {
-                                      data: row,
-                                    },
-                                  },
-                                )
-                              }
-                              className="chaneRoom"
-                            >
-                              checkout
-                            </button> */}
                             <Tooltip title="Checkout">
                               <img
                                 onClick={() =>
@@ -1137,6 +986,40 @@ const CheckIn = ({ setopendashboard }) => {
               ) : (
                 <></>
               )}
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell>TotalAmount</TableCell>
+                <TableCell style={{ fontWeight: 800 }}>
+                  {isData &&
+                    isData?.reduce(
+                      (n, { roomAmount }) =>
+                        parseFloat(n) + parseFloat(roomAmount),
+                      0,
+                    )}
+                </TableCell>
+                <TableCell style={{ fontWeight: 800 }}>
+                  {isData &&
+                    isData?.reduce(
+                      (n, { roomAmount }) =>
+                        parseFloat(n) + parseFloat(roomAmount),
+                      0,
+                    ) +
+                      isData?.reduce(
+                        (n, { advanceAmount }) =>
+                          parseFloat(n) + parseFloat(advanceAmount),
+                        0,
+                      )}
+                </TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+              </TableRow>
             </TableBody>
             <TableFooter>
               <TableRow>

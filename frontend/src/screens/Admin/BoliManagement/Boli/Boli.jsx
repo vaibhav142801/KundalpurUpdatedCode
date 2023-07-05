@@ -535,9 +535,9 @@ const Boli = ({ setopendashboard }) => {
                 sx={{
                   ...style,
                   width: {
-                    xs: '90%',
-                    sm: '70%',
-                    md: '70%',
+                    xs: '80%',
+                    sm: '80%',
+                    md: '80%',
                   },
                 }}
               >
@@ -909,14 +909,11 @@ const Boli = ({ setopendashboard }) => {
                             <img
                               style={{ width: '20px' }}
                               onClick={() =>
-                                navigation(
-                                  '/admin-panel/reports/printcontent',
-                                  {
-                                    state: {
-                                      data: row,
-                                    },
+                                navigation('/admin-panel/boli/certificate', {
+                                  state: {
+                                    data: row,
                                   },
-                                )
+                                })
                               }
                               src={Print}
                               alt=" Print"

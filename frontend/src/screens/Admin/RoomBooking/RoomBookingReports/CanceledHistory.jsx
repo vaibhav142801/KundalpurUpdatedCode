@@ -215,7 +215,7 @@ const CanceledHistory = ({ setopendashboard }) => {
     setuserrole(Number(sessionStorage.getItem('userrole')));
   }, [open, open1, open3, open4, open8, optionss]);
   const downloadreceptonlyprint = (row) => {
-    navigation('/admin-panel/Room/printReceipt', {
+    navigation('/admin-panel/CancelReceipt', {
       state: {
         data: row,
       },
@@ -234,42 +234,38 @@ const CanceledHistory = ({ setopendashboard }) => {
   const [mobileno, setmobileno] = useState('');
   const [customername, setcustomername] = useState('');
   const [checkindate, setcheckindate] = useState('');
-  const [checkintime, setcheckintime] = useState('');
-  const [checkoutdate, setcheckoutdate] = useState('');
-  const [checkouttime, setcheckouttime] = useState();
+  const [dharamshalanamee, setdharamshalanamee] = useState('');
   const [roomNo, setroomNo] = useState('');
   const [rate, setrate] = useState('');
   const [advanceRate, setadvanceRate] = useState('');
+  const [address, setaddress] = useState('');
   const onSearchByOther = (e, type) => {
-    if (type === 'rate') {
+    if (type === 'roomAmount') {
       setrate(e.target.value);
     }
-    if (type === 'advanceRate') {
+    if (type === 'advanceAmount') {
       setadvanceRate(e.target.value);
     }
-    if (type === 'bookid') {
+    if (type === 'booking_id') {
       setbookid(e.target.value.toLowerCase());
     }
-    if (type === 'mobileno') {
+    if (type === 'contactNo') {
       setmobileno(e.target.value.toLowerCase());
     }
-    if (type === 'customername') {
+    if (type === 'name') {
       setcustomername(e.target.value.toLowerCase());
     }
-    if (type === 'checkindate') {
+    if (type === 'date') {
       setcheckindate(e.target.value.toLowerCase());
     }
-    if (type === 'checkintime') {
-      setcheckintime(e.target.value.toLowerCase());
+    if (type === 'address') {
+      setaddress(e.target.value.toLowerCase());
     }
-    if (type === 'checkoutdate') {
-      setcheckoutdate(e.target.value.toLowerCase());
-    }
-    if (type === 'checkouttime') {
-      setcheckouttime(e.target.value);
-    }
-    if (type === 'roomNo') {
+    if (type === 'RoomNo') {
       setroomNo(e.target.value);
+    }
+    if (type === 'dharmasalaName') {
+      setdharamshalanamee(e.target.value.toLowerCase());
     }
   };
 
@@ -278,8 +274,9 @@ const CanceledHistory = ({ setopendashboard }) => {
       (dt) =>
         dt?.booking_id?.toLowerCase().indexOf(bookid) > -1 &&
         Moment(dt?.date).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
-        Moment(dt?.coutDate).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
-        dt?.name?.toLowerCase().indexOf(customername) > -1,
+        dt?.name?.toLowerCase().indexOf(customername) > -1 &&
+        dt?.address?.toLowerCase().indexOf(address) > -1 &&
+        dt?.dharmasalaName?.toLowerCase().indexOf(dharamshalanamee) > -1,
     );
 
     if (roomNo) {
@@ -303,7 +300,7 @@ const CanceledHistory = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
-
+    //row?.dharmasala?.name
     if (advanceRate) {
       filtered = filtered?.map((item) => {
         if (item.advanceAmount == Number(advanceRate)) {
@@ -326,17 +323,18 @@ const CanceledHistory = ({ setopendashboard }) => {
       filtered = filtered?.filter((x) => x !== undefined);
     }
     setisData(filtered);
+
+    console.log('data is', filtered);
   }, [
     bookid,
     checkindate,
-    checkintime,
-    checkoutdate,
-    checkouttime,
     roomNo,
     mobileno,
     customername,
     rate,
     advanceRate,
+    address,
+    dharamshalanamee,
   ]);
 
   return (
@@ -632,7 +630,9 @@ const CanceledHistory = ({ setopendashboard }) => {
                           <TableCell> {row?.dharmasalaName}</TableCell>
                           <TableCell> {row?.RoomNo}</TableCell>
                           <TableCell> {row?.roomAmount}</TableCell>
-                          <TableCell> {row?.advanceAmount}</TableCell>
+                          <TableCell>
+                            {row?.advanceAmount + row?.roomAmount}
+                          </TableCell>
                           <TableCell>
                             {row?.paymentMode === 2 ? 'Cash' : 'Online'}
                           </TableCell>
@@ -670,6 +670,40 @@ const CanceledHistory = ({ setopendashboard }) => {
                   )}
                 </>
               )}
+
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell>TotalAmount</TableCell>
+                <TableCell style={{ fontWeight: 800 }}>
+                  {isData &&
+                    isData?.reduce(
+                      (n, { roomAmount }) =>
+                        parseFloat(n) + parseFloat(roomAmount),
+                      0,
+                    )}
+                </TableCell>
+                <TableCell style={{ fontWeight: 800 }}>
+                  {isData &&
+                    isData?.reduce(
+                      (n, { roomAmount }) =>
+                        parseFloat(n) + parseFloat(roomAmount),
+                      0,
+                    ) +
+                      isData?.reduce(
+                        (n, { advanceAmount }) =>
+                          parseFloat(n) + parseFloat(advanceAmount),
+                        0,
+                      )}
+                </TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+              </TableRow>
             </TableBody>
             <TableFooter>
               <TableRow>

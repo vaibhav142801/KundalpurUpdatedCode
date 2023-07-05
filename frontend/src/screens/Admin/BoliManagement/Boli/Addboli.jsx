@@ -13,13 +13,35 @@ import Swal from 'sweetalert2';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { CustomInput, CustomInputLabel } from '../../Donation/Donation/common';
-
+import {
+  CustomInput,
+  CustomInputLabel,
+  CustomTableInput,
+} from '../../Donation/Donation/common';
+import TotalAmountRow from '../../Donation/Donation/common/TotalAmountRow';
+import TotalpayAmountRow from './TotalpayAmountRow';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
 import { ReactTransliterate } from 'react-transliterate';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+const paymode = [
+  {
+    id: 1,
+    type: 'online',
+  },
+  {
+    id: 2,
+    type: 'offline',
+  },
+];
 const Addboli = ({
   handleClose,
   themeColor,
@@ -75,18 +97,22 @@ const Addboli = ({
     {
       type: '',
       amount: '',
+      payamount: '',
       remark: '',
+      pmode: '',
     },
   ]);
 
-  console.log('from cash ', donationTypes, receiptNo);
+  console.log('from cash ', donationItems, receiptNo);
   function addDonationItem() {
     setDonationItems([
       ...donationItems,
       {
         type: '',
         amount: '',
+        payamount: '',
         remark: '',
+        pmode: '',
       },
     ]);
   }
@@ -355,61 +381,52 @@ const Addboli = ({
                 placeholder="Enter Mobile No"
               />
             </Grid>
+
             <Grid item xs={6} md={3}>
-              <CustomInputLabel htmlFor="donation-time">
-                Full Name
-              </CustomInputLabel>
+              <CustomInputLabel htmlFor="donation-date">Email</CustomInputLabel>
               <CustomInput
                 disabled={role === 3 ? true : false}
                 type="text"
-                id="donation-time"
-                // value={donationTime}
+                id="donation-date"
+                // value={donationDate}
                 // onChange={(event) => {
-                //   setDonationTime(event.target.value);
+                //   setDonationDate(
+                //     new Date(event.target.value).toISOString().substring(0, 10),
+                //   );
                 // }}
-                placeholder="Enter FullName"
+                placeholder="Enter Email"
               />
             </Grid>
+
             <Grid item xs={12} md={6}>
-              <CustomInputLabel htmlFor="mobile-no">Head</CustomInputLabel>
-              <Select
-                required
-                sx={{
-                  width: '100%',
-                  fontSize: 14,
-                  '& .MuiSelect-select': {
-                    padding: '9px',
-                  },
-                }}
-                // value={item.type}
-                // onChange={(e) =>
-                //   handleDonationItemUpdate(item, 'type', e.target.value)
-                // }
-                displayEmpty
-              >
-                <MenuItem
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={''}
-                >
-                  Please select
-                </MenuItem>
-                {donationTypes &&
-                  donationTypes.map((item, idx) => {
-                    return (
-                      <MenuItem
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        key={item.id}
-                        value={item.type_hi}
-                      >
-                        {item.type_hi}
-                      </MenuItem>
-                    );
-                  })}
-              </Select>
+              {!newMember ? (
+                <>
+                  Full Name
+                  <ReactTransliterate
+                    style={custumstyle}
+                    id="full-name"
+                    required
+                    value={fullName}
+                    onChangeText={(fullName) => {
+                      setFullName(fullName);
+                    }}
+                    onChange={(e) => setFullName(e.target.value)}
+                    lang="hi"
+                    placeholder="Enter Address"
+                  />
+                </>
+              ) : (
+                <>
+                  Full Name
+                  <CustomInput
+                    id="full-name"
+                    required
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Enter Address"
+                  />
+                </>
+              )}
             </Grid>
             <Grid item xs={12} md={6}>
               {!newMember ? (
@@ -441,6 +458,7 @@ const Addboli = ({
                 </>
               )}
             </Grid>
+
             <Grid item xs={12} md={6}>
               <CustomInputLabel required htmlFor="address">
                 Boli Amount
@@ -448,69 +466,24 @@ const Addboli = ({
 
               <CustomInput
                 required
+                disabled={true}
                 id="address"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="Enter Boli Amount"
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomInputLabel required htmlFor="address">
-                Initial Amount
-              </CustomInputLabel>
-
-              <CustomInput
-                required
-                id="address"
-                value={address}
+                value={
+                  donationItems?.reduce(
+                    (n, { amount }) => parseFloat(n) + parseFloat(amount),
+                    0,
+                  )
+                    ? donationItems?.reduce(
+                        (n, { amount }) => parseFloat(n) + parseFloat(amount),
+                        0,
+                      )
+                    : '0'
+                }
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="Enter Initail Amount"
               />
             </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomInputLabel required htmlFor="address">
-                Payment Mode
-              </CustomInputLabel>
 
-              <Select
-                required
-                sx={{
-                  width: '100%',
-                  fontSize: 14,
-                  '& .MuiSelect-select': {
-                    padding: '9px',
-                  },
-                }}
-                // value={item.type}
-                // onChange={(e) =>
-                //   handleDonationItemUpdate(item, 'type', e.target.value)
-                // }
-                displayEmpty
-              >
-                <MenuItem
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={''}
-                >
-                  Please select
-                </MenuItem>
-                {donationTypes &&
-                  donationTypes.map((item, idx) => {
-                    return (
-                      <MenuItem
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        key={item.id}
-                        value={item.type_hi}
-                      >
-                        {item.type_hi}
-                      </MenuItem>
-                    );
-                  })}
-              </Select>
-            </Grid>
             <Grid item xs={12} md={6}>
               <CustomInputLabel required htmlFor="address">
                 Pending Amount
@@ -519,27 +492,391 @@ const Addboli = ({
               <CustomInput
                 required
                 id="address"
-                value={address}
+                value={
+                  donationItems?.reduce(
+                    (n, { amount }) => parseFloat(n) + parseFloat(amount),
+                    0,
+                  )
+                    ? donationItems?.reduce(
+                        (n, { amount }) => parseFloat(n) + parseFloat(amount),
+                        0,
+                      ) -
+                      donationItems?.reduce(
+                        (n, { payamount }) =>
+                          parseFloat(n) + parseFloat(payamount),
+                        0,
+                      )
+                    : '0'
+                }
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="Enter Pending Amount"
               />
             </Grid>
-
-            <Grid item xs={12} md={6}>
-              <CustomInputLabel htmlFor="donation-time">
-                Remark
-              </CustomInputLabel>
-
-              <CustomInput
-                id="full-name"
-                required
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                placeholder="Enter Remark"
-              />
-            </Grid>
           </Grid>
+          <TableContainer
+            sx={{
+              mt: 4,
+            }}
+          >
+            <Table
+              stickyHeader
+              sx={{
+                border: '1px solid #C4C4C4',
+                '& th': {
+                  padding: 0,
+                  fontSize: 14,
+                  fontWeight: 500,
+                  backgroundColor: '#E4E3E3',
+                  color: '#05313C',
+                  outline: '1px solid #C4C4C4',
+                },
+                '& td': {
+                  padding: 0,
+                  fontSize: 14,
+                },
+              }}
+              aria-label="customized table"
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{ width: '20%' }}>
+                    <Box
+                      sx={{
+                        paddingInline: '10px',
+                        minWidth: 200,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                    >
+                      Boli Head*
+                      <IconButton aria-label="add" size="small">
+                        <AddBoxIcon color="primary" onClick={addDonationItem} />
+                      </IconButton>
+                    </Box>
+                  </TableCell>
+                  <TableCell align="center">Boli Amount*</TableCell>
+                  <TableCell align="center">Pay Amount*</TableCell>
+                  <TableCell align="center">Payment Date</TableCell>
+                  <TableCell style={{ width: '10%' }} align="center">
+                    Pay Mode
+                  </TableCell>
+                  {donationItems[0]?.pmode === 'online' && (
+                    <>
+                      <TableCell align="center">Bank Name</TableCell>
+                      <TableCell align="center">Transaction Id</TableCell>
+                    </>
+                  )}
 
+                  <TableCell align="center">Mark Paid</TableCell>
+                  <TableCell align="center">Remark</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {donationItems.map((item, idx) => (
+                  <TableRow key={idx}>
+                    <TableCell
+                      style={{
+                        paddingInline: 8,
+                      }}
+                    >
+                      <Select
+                        required
+                        sx={{
+                          width: '100%',
+                          fontSize: 14,
+                          '& .MuiSelect-select': {
+                            padding: '1px',
+                          },
+                        }}
+                        value={item.type}
+                        onChange={(e) =>
+                          handleDonationItemUpdate(item, 'type', e.target.value)
+                        }
+                        displayEmpty
+                      >
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={''}
+                        >
+                          Please select
+                        </MenuItem>
+                        {donationTypes &&
+                          donationTypes.map((item, idx) => {
+                            return (
+                              <MenuItem
+                                sx={{
+                                  fontSize: 14,
+                                }}
+                                key={item.id}
+                                value={item.type_hi}
+                              >
+                                {item.type_hi}
+                              </MenuItem>
+                            );
+                          })}
+                      </Select>
+                    </TableCell>
+
+                    <TableCell align="center">
+                      <CustomTableInput
+                        required
+                        type="number"
+                        value={item.amount}
+                        onChange={(e) =>
+                          handleDonationItemUpdate(
+                            item,
+                            'amount',
+                            e.target.value,
+                          )
+                        }
+                      />
+                    </TableCell>
+                    <TableCell align="center">
+                      <CustomTableInput
+                        required
+                        type="number"
+                        value={item.payamount}
+                        onChange={(e) =>
+                          handleDonationItemUpdate(
+                            item,
+                            'payamount',
+                            e.target.value,
+                          )
+                        }
+                      />
+                    </TableCell>
+                    <TableCell align="center">
+                      <CustomTableInput
+                        required
+                        type="date"
+                        value={item.amount}
+                        onChange={(e) =>
+                          handleDonationItemUpdate(
+                            item,
+                            'amount',
+                            e.target.value,
+                          )
+                        }
+                      />
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        paddingInline: 8,
+                      }}
+                    >
+                      <Select
+                        required
+                        sx={{
+                          width: '100%',
+                          fontSize: 14,
+                          '& .MuiSelect-select': {
+                            padding: '1px',
+                          },
+                        }}
+                        value={item.pmode}
+                        onChange={(e) =>
+                          handleDonationItemUpdate(
+                            item,
+                            'pmode',
+                            e.target.value,
+                          )
+                        }
+                        displayEmpty
+                      >
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={''}
+                        >
+                          Please select
+                        </MenuItem>
+                        {paymode &&
+                          paymode.map((item, idx) => {
+                            return (
+                              <MenuItem
+                                sx={{
+                                  fontSize: 14,
+                                }}
+                                key={item.id}
+                                value={item.type}
+                              >
+                                {item.type}
+                              </MenuItem>
+                            );
+                          })}
+                      </Select>
+                    </TableCell>
+                    {donationItems[0]?.pmode === 'online' && (
+                      <>
+                        <TableCell align="center">
+                          <CustomTableInput
+                            required
+                            type="number"
+                            value={item.amount}
+                            onChange={(e) =>
+                              handleDonationItemUpdate(
+                                item,
+                                'amount',
+                                e.target.value,
+                              )
+                            }
+                          />
+                        </TableCell>
+                        <TableCell align="center">
+                          <CustomTableInput
+                            required
+                            type="number"
+                            value={item.amount}
+                            onChange={(e) =>
+                              handleDonationItemUpdate(
+                                item,
+                                'amount',
+                                e.target.value,
+                              )
+                            }
+                          />
+                        </TableCell>
+                      </>
+                    )}
+                    <TableCell align="center">
+                      <input
+                        required
+                        type="checkbox"
+                        value={item.amount}
+                        onChange={(e) =>
+                          handleDonationItemUpdate(
+                            item,
+                            'amount',
+                            e.target.value,
+                          )
+                        }
+                      />
+                    </TableCell>
+                    <TableCell align="center">
+                      {!newMember ? (
+                        <>
+                          {showUpdateBtn ? (
+                            <>
+                              <div
+                                className="centerMain_remove_item"
+                                style={{ width: '35%' }}
+                              >
+                                <ReactTransliterate
+                                  style={custommStyleInputTable}
+                                  value={item.remark}
+                                  onChangeText={(item) => {
+                                    handleDonationItemUpdate(
+                                      item,
+                                      'remark',
+                                      e.target.value,
+                                    );
+                                  }}
+                                  onChange={(e) =>
+                                    handleDonationItemUpdate(
+                                      item,
+                                      'remark',
+                                      e.target.value,
+                                    )
+                                  }
+                                  lang="hi"
+                                />
+                                <div className="centerMain_remove_item_overLay">
+                                  {idx > 0 && (
+                                    <IconButton
+                                      sx={{
+                                        padding: '4px',
+                                      }}
+                                      onClick={() => removeDonationItem(item)}
+                                    >
+                                      <RemoveCircleOutlineIcon
+                                        color="primary"
+                                        fontSize="small"
+                                      />
+                                    </IconButton>
+                                  )}
+                                </div>
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <div className="centerMain_remove_item">
+                                <ReactTransliterate
+                                  style={custommStyleInputTable}
+                                  value={item.remark}
+                                  onChangeText={(hindiremark) => {
+                                    sethindiremark(hindiremark);
+                                  }}
+                                  onChange={(e) =>
+                                    handleDonationItemUpdate(
+                                      item,
+                                      'remark',
+                                      e.target.value,
+                                    )
+                                  }
+                                  lang="hi"
+                                />
+                                <div className="centerMain_remove_item_overLay">
+                                  {idx > 0 && (
+                                    <IconButton
+                                      sx={{
+                                        padding: '4px',
+                                      }}
+                                      onClick={() => removeDonationItem(item)}
+                                    >
+                                      <RemoveCircleOutlineIcon
+                                        color="primary"
+                                        fontSize="small"
+                                      />
+                                    </IconButton>
+                                  )}
+                                </div>
+                              </div>
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          <CustomTableInput
+                            value={item.remark}
+                            onChange={(e) =>
+                              handleDonationItemUpdate(
+                                item,
+                                'remark',
+                                e.target.value,
+                              )
+                            }
+                            endAdornment={
+                              idx > 0 && (
+                                <InputAdornment position="start">
+                                  <IconButton
+                                    sx={{
+                                      padding: '4px',
+                                    }}
+                                    onClick={() => removeDonationItem(item)}
+                                  >
+                                    <RemoveCircleOutlineIcon
+                                      color="primary"
+                                      fontSize="small"
+                                    />
+                                  </IconButton>
+                                </InputAdornment>
+                              )
+                            }
+                          />
+                        </>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+
+                <TotalAmountRow donationItems={donationItems} />
+              </TableBody>
+            </Table>
+          </TableContainer>
           <Box
             sx={{
               display: 'flex',

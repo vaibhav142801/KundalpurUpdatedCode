@@ -17,6 +17,7 @@ import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
 import moment from 'moment';
 import Print from '../../../../assets/Print.png';
+import Checkout21 from '../../../../assets/Checkout21.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../assets/ExportExcel.png';
 import Tooltip from '@mui/material/Tooltip';
@@ -28,6 +29,7 @@ import 'jspdf-autotable';
 import { format } from 'date-fns';
 import Printcheckin from '../CheckIn/Printcheckin';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
+
 const style = {
   position: 'absolute',
   top: '47%',
@@ -42,6 +44,7 @@ const style = {
 
 const CheckinReports = ({ setopendashboard }) => {
   const navigation = useNavigate();
+
   const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [isDataDummy, setisDataDummy] = React.useState([]);
@@ -215,7 +218,7 @@ const CheckinReports = ({ setopendashboard }) => {
   }, [open, open1, open3, open4, open8, optionss]);
 
   const downloadrecept = (row) => {
-    navigation('/admin-panel/Room/printReceipt', {
+    navigation('/admin-panel/CheckinCheckout', {
       state: {
         data: row,
       },
@@ -229,47 +232,42 @@ const CheckinReports = ({ setopendashboard }) => {
       },
     });
   };
-
   const [bookid, setbookid] = useState('');
   const [mobileno, setmobileno] = useState('');
   const [customername, setcustomername] = useState('');
   const [checkindate, setcheckindate] = useState('');
-  const [checkintime, setcheckintime] = useState('');
-  const [checkoutdate, setcheckoutdate] = useState('');
-  const [checkouttime, setcheckouttime] = useState();
+  const [dharamshalanamee, setdharamshalanamee] = useState('');
   const [roomNo, setroomNo] = useState('');
   const [rate, setrate] = useState('');
   const [advanceRate, setadvanceRate] = useState('');
+  const [address, setaddress] = useState('');
   const onSearchByOther = (e, type) => {
-    if (type === 'rate') {
+    if (type === 'roomAmount') {
       setrate(e.target.value);
     }
-    if (type === 'advanceRate') {
+    if (type === 'advanceAmount') {
       setadvanceRate(e.target.value);
     }
-    if (type === 'bookid') {
+    if (type === 'booking_id') {
       setbookid(e.target.value.toLowerCase());
     }
-    if (type === 'mobileno') {
+    if (type === 'contactNo') {
       setmobileno(e.target.value.toLowerCase());
     }
-    if (type === 'customername') {
+    if (type === 'name') {
       setcustomername(e.target.value.toLowerCase());
     }
-    if (type === 'checkindate') {
+    if (type === 'date') {
       setcheckindate(e.target.value.toLowerCase());
     }
-    if (type === 'checkintime') {
-      setcheckintime(e.target.value.toLowerCase());
+    if (type === 'address') {
+      setaddress(e.target.value.toLowerCase());
     }
-    if (type === 'checkoutdate') {
-      setcheckoutdate(e.target.value.toLowerCase());
-    }
-    if (type === 'checkouttime') {
-      setcheckouttime(e.target.value);
-    }
-    if (type === 'roomNo') {
+    if (type === 'RoomNo') {
       setroomNo(e.target.value);
+    }
+    if (type === 'dharmasalaName') {
+      setdharamshalanamee(e.target.value.toLowerCase());
     }
   };
 
@@ -278,8 +276,9 @@ const CheckinReports = ({ setopendashboard }) => {
       (dt) =>
         dt?.booking_id?.toLowerCase().indexOf(bookid) > -1 &&
         Moment(dt?.date).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
-        Moment(dt?.coutDate).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
-        dt?.name?.toLowerCase().indexOf(customername) > -1,
+        dt?.name?.toLowerCase().indexOf(customername) > -1 &&
+        dt?.address?.toLowerCase().indexOf(address) > -1 &&
+        dt?.dharmasalaName?.toLowerCase().indexOf(dharamshalanamee) > -1,
     );
 
     if (roomNo) {
@@ -303,7 +302,7 @@ const CheckinReports = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
-
+    //row?.dharmasala?.name
     if (advanceRate) {
       filtered = filtered?.map((item) => {
         if (item.advanceAmount == Number(advanceRate)) {
@@ -326,17 +325,18 @@ const CheckinReports = ({ setopendashboard }) => {
       filtered = filtered?.filter((x) => x !== undefined);
     }
     setisData(filtered);
+
+    console.log('data is', filtered);
   }, [
     bookid,
     checkindate,
-    checkintime,
-    checkoutdate,
-    checkouttime,
     roomNo,
     mobileno,
     customername,
     rate,
     advanceRate,
+    address,
+    dharamshalanamee,
   ]);
 
   return (
@@ -430,6 +430,15 @@ const CheckinReports = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
+                  Checkout
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('coutDate')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+
+                <TableCell>
                   B_Id
                   <i
                     style={{ marginLeft: '0rem' }}
@@ -495,10 +504,20 @@ const CheckinReports = ({ setopendashboard }) => {
                   />
                 </TableCell>
 
+                <TableCell>
+                  Emp
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('bookedByName')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+
                 <TableCell>PayMode</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
+            {/* date booking_id contactNo name address dharmasalaName RoomNo roomAmount advanceAmount */}
             <TableBody>
               <TableRow>
                 <TableCell>&nbsp;</TableCell>
@@ -508,6 +527,14 @@ const CheckinReports = ({ setopendashboard }) => {
                     className="cuolms_search"
                     type="date"
                     onChange={(e) => onSearchByOther(e, 'date')}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '5rem' }}
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'coutDate')}
                   />
                 </TableCell>
                 <TableCell>
@@ -548,13 +575,13 @@ const CheckinReports = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '9rem' }}
+                    style={{ width: '6rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
                       onSearchByOther(e, 'dharmasalaName');
                     }}
-                    placeholder="Dharamshala Name"
+                    placeholder="Dharamshala"
                   />
                 </TableCell>
                 <TableCell>
@@ -585,16 +612,27 @@ const CheckinReports = ({ setopendashboard }) => {
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
-                      onSearchByOther(e, 'roomNo');
+                      onSearchByOther(e, 'bookedByName');
                     }}
-                    placeholder="Rent"
+                    placeholder="emp"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '4rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => {
+                      onSearchByOther(e, 'bookedByName');
+                    }}
+                    placeholder="Emp"
                   />
                 </TableCell>
                 <TableCell>&nbsp;</TableCell>
                 <TableCell>
                   <button
                     style={{
-                      width: '5rem',
+                      width: '4rem',
                     }}
                     className="chaneRoom"
                     onClick={() => getall_donation()}
@@ -622,6 +660,9 @@ const CheckinReports = ({ setopendashboard }) => {
                       <TableCell>
                         {Moment(row?.date).format('DD-MM-YYYY')}&nbsp;&nbsp;
                       </TableCell>
+                      <TableCell>
+                        {Moment(row?.coutDate).format('DD-MM-YYYY')}&nbsp;&nbsp;
+                      </TableCell>
                       <TableCell>{row?.booking_id}</TableCell>
                       <TableCell>{row?.contactNo}</TableCell>
                       <TableCell>{row?.name}</TableCell>
@@ -629,36 +670,26 @@ const CheckinReports = ({ setopendashboard }) => {
                       <TableCell> {row?.dharmasalaName}</TableCell>
                       <TableCell> {row?.RoomNo}</TableCell>
                       <TableCell> {row?.roomAmount}</TableCell>
-                      <TableCell> {row?.advanceAmount}</TableCell>
+
+                      <TableCell>
+                        {row?.advanceAmount + row?.roomAmount}
+                      </TableCell>
+                      <TableCell> {row?.bookedByName}</TableCell>
                       <TableCell>
                         {row?.paymentMode === 2 ? 'Cash' : 'Online'}
                       </TableCell>
-                      <TableCell
-                        style={{ display: 'flex', flexDirection: 'column' }}
-                      >
-                        <button
-                          style={{
-                            width: '6rem',
-                            marginBottom: '4px',
-                            backgroundColor: '#000080',
-                          }}
-                          className="chaneRoom"
+                      <TableCell style={{ display: 'flex' }}>
+                        <img
                           onClick={() => downloadrecept(row)}
-                        >
-                          Checkin Print
-                        </button>
+                          src={Print}
+                          style={{ width: '25px', marginRight: '0.5rem' }}
+                        />
 
-                        <button
-                          style={{
-                            width: '6rem',
-                            marginBottom: '4px',
-                            backgroundColor: '#000080',
-                          }}
-                          className="chaneRoom"
+                        <img
                           onClick={() => downloadcheckout(row)}
-                        >
-                          Checkout Print
-                        </button>
+                          src={Checkout21}
+                          style={{ width: '25px' }}
+                        />
                       </TableCell>
                     </TableRow>
                   ))}
@@ -666,6 +697,41 @@ const CheckinReports = ({ setopendashboard }) => {
               ) : (
                 <></>
               )}
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell>TotalAmount</TableCell>
+                <TableCell style={{ fontWeight: 800 }}>
+                  {isData &&
+                    isData?.reduce(
+                      (n, { roomAmount }) =>
+                        parseFloat(n) + parseFloat(roomAmount),
+                      0,
+                    )}
+                </TableCell>
+                <TableCell style={{ fontWeight: 800 }}>
+                  {isData &&
+                    isData?.reduce(
+                      (n, { roomAmount }) =>
+                        parseFloat(n) + parseFloat(roomAmount),
+                      0,
+                    ) +
+                      isData?.reduce(
+                        (n, { advanceAmount }) =>
+                          parseFloat(n) + parseFloat(advanceAmount),
+                        0,
+                      )}
+                </TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+              </TableRow>
             </TableBody>
             <TableFooter>
               <TableRow>

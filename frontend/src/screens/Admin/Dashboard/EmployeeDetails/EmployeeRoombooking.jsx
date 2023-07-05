@@ -163,10 +163,12 @@ const EmployeeRoombooking = ({ setopendashboard }) => {
                     '&:last-child td, &:last-child th': { border: 0 },
                   }}
                 >
-                  <TableCell>{row?.userName}</TableCell>
-                  <TableCell>{row?.bank}</TableCell>
+                  <TableCell>{row?.Username}</TableCell>
                   <TableCell>{row?.cash}</TableCell>
-                  <TableCell>{Number(row?.cash) + Number(row?.bank)}</TableCell>
+                  <TableCell>{row?.online}</TableCell>
+                  <TableCell>
+                    {Number(row?.cash) + Number(row?.online)}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

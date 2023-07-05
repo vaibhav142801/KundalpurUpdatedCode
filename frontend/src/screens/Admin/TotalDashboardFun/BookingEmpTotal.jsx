@@ -7,8 +7,8 @@ function BookingEmpTotal({ data }) {
   if (data) {
     data &&
       data.map((item, inx) => {
-        if (item?.bank) {
-          totalAmount = totalAmount + parseFloat(item?.bank);
+        if (item?.online) {
+          totalAmount = totalAmount + parseFloat(item?.online);
         }
 
         if (item?.cash) {
@@ -16,6 +16,7 @@ function BookingEmpTotal({ data }) {
         }
       });
   }
+
   return (
     <>
       <span>₹{totalAmount}</span>

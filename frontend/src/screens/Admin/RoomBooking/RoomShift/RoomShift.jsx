@@ -289,42 +289,38 @@ const RoomShift = ({ setopendashboard }) => {
   const [mobileno, setmobileno] = useState('');
   const [customername, setcustomername] = useState('');
   const [checkindate, setcheckindate] = useState('');
-  const [checkintime, setcheckintime] = useState('');
-  const [checkoutdate, setcheckoutdate] = useState('');
-  const [checkouttime, setcheckouttime] = useState();
+  const [dharamshalanamee, setdharamshalanamee] = useState('');
   const [roomNo, setroomNo] = useState('');
   const [rate, setrate] = useState('');
   const [advanceRate, setadvanceRate] = useState('');
+  const [address, setaddress] = useState('');
   const onSearchByOther = (e, type) => {
-    if (type === 'rate') {
+    if (type === 'roomAmount') {
       setrate(e.target.value);
     }
-    if (type === 'advanceRate') {
+    if (type === 'advanceAmount') {
       setadvanceRate(e.target.value);
     }
-    if (type === 'bookid') {
+    if (type === 'booking_id') {
       setbookid(e.target.value.toLowerCase());
     }
-    if (type === 'mobileno') {
+    if (type === 'contactNo') {
       setmobileno(e.target.value.toLowerCase());
     }
-    if (type === 'customername') {
+    if (type === 'name') {
       setcustomername(e.target.value.toLowerCase());
     }
-    if (type === 'checkindate') {
+    if (type === 'date') {
       setcheckindate(e.target.value.toLowerCase());
     }
-    if (type === 'checkintime') {
-      setcheckintime(e.target.value.toLowerCase());
+    if (type === 'address') {
+      setaddress(e.target.value.toLowerCase());
     }
-    if (type === 'checkoutdate') {
-      setcheckoutdate(e.target.value.toLowerCase());
-    }
-    if (type === 'checkouttime') {
-      setcheckouttime(e.target.value);
-    }
-    if (type === 'roomNo') {
+    if (type === 'RoomNo') {
       setroomNo(e.target.value);
+    }
+    if (type === 'dharmasala') {
+      setdharamshalanamee(e.target.value.toLowerCase());
     }
   };
 
@@ -333,10 +329,9 @@ const RoomShift = ({ setopendashboard }) => {
       (dt) =>
         dt?.booking_id?.toLowerCase().indexOf(bookid) > -1 &&
         Moment(dt?.date).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
-        Moment(dt?.coutDate).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
-        dt?.name?.toLowerCase().indexOf(customername) > -1,
-      // dt?.time?.toLowerCase().indexOf(checkintime) > -1 &&
-      // dt?.coutTime?.toLowerCase().indexOf(checkouttime) > -1 &&
+        dt?.name?.toLowerCase().indexOf(customername) > -1 &&
+        dt?.address?.toLowerCase().indexOf(address) > -1 &&
+        dt?.dharmasala?.name?.toLowerCase().indexOf(dharamshalanamee) > -1,
     );
 
     if (roomNo) {
@@ -349,6 +344,7 @@ const RoomShift = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
+
     if (rate) {
       filtered = filtered?.map((item) => {
         if (item.roomAmount == Number(rate)) {
@@ -359,7 +355,7 @@ const RoomShift = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
-
+    //row?.dharmasala?.name
     if (advanceRate) {
       filtered = filtered?.map((item) => {
         if (item.advanceAmount == Number(advanceRate)) {
@@ -370,6 +366,7 @@ const RoomShift = ({ setopendashboard }) => {
       });
       filtered = filtered?.filter((x) => x !== undefined);
     }
+
     if (mobileno) {
       filtered = filtered?.map((item) => {
         if (item.contactNo == mobileno) {
@@ -381,17 +378,18 @@ const RoomShift = ({ setopendashboard }) => {
       filtered = filtered?.filter((x) => x !== undefined);
     }
     setisData(filtered);
+
+    console.log('data is', filtered);
   }, [
     bookid,
     checkindate,
-    checkintime,
-    checkoutdate,
-    checkouttime,
     roomNo,
     mobileno,
     customername,
     rate,
     advanceRate,
+    address,
+    dharamshalanamee,
   ]);
   return (
     <>
@@ -489,49 +487,6 @@ const RoomShift = ({ setopendashboard }) => {
 
       <RoomBookingTap setopendashboard={setopendashboard} />
       <div style={{ marginLeft: '5rem', marginRight: '1.2rem' }}>
-        {/* <div className="main_amin_gain">
-          <div className="main_amin_gain1">
-            Total Guest : <Totalguest data={isData} />
-          </div>
-          <div className="main_amin_gain2">
-            Total Advance : <TotalAdvance data={isData} />
-          </div>
-          <Select
-            id="donation-type"
-            required
-            sx={{
-              width: '280px',
-              fontSize: 14,
-              '& .MuiSelect-select': {
-                // borderColor: !!formerror.donationtype ? 'red' : '',
-                padding: '10px 0px 10px 10px',
-                background: '#fff',
-              },
-            }}
-            value={optionss}
-            name="optionss"
-            onChange={(e) => setoptionss(e.target.value)}
-          >
-            <MenuItem
-              sx={{
-                fontSize: 14,
-              }}
-              value={'Currently Stay'}
-            >
-              Currently Stay
-            </MenuItem>
-
-            <MenuItem
-              sx={{
-                fontSize: 14,
-              }}
-              value={'History'}
-            >
-              History
-            </MenuItem>
-          </Select>
-        </div> */}
-
         <div className="search-header-print">
           <div
             className="search-header-print"
@@ -715,7 +670,7 @@ const RoomShift = ({ setopendashboard }) => {
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
-                      onSearchByOther(e, 'dharmasala?.name');
+                      onSearchByOther(e, 'dharmasala');
                     }}
                     placeholder="Dharamshala Name"
                   />
@@ -748,12 +703,13 @@ const RoomShift = ({ setopendashboard }) => {
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
-                      onSearchByOther(e, 'roomNo');
+                      onSearchByOther(e, 'advanceAmount');
                     }}
-                    placeholder="Rent"
+                    placeholder="Advance"
                   />
                 </TableCell>
                 <TableCell>&nbsp;</TableCell>
+
                 <TableCell>
                   <button
                     style={{
@@ -794,27 +750,15 @@ const RoomShift = ({ setopendashboard }) => {
                       <TableCell> {row?.dharmasala?.name}</TableCell>
                       <TableCell> {row?.RoomNo}</TableCell>
                       <TableCell> {row?.roomAmount}</TableCell>
-                      <TableCell> {row?.advanceAmount}</TableCell>
+                      <TableCell>
+                        {Number(row?.roomAmount) + Number(row?.advanceAmount)}
+                      </TableCell>
                       <TableCell>
                         {row?.paymentMode === 2 ? 'Cash' : 'Online'}
                       </TableCell>
-                      <TableCell
-                      // style={{ display: 'flex', flexDirection: 'column' }}
-                      >
+                      <TableCell>
                         {optionss === 'History' ? (
                           <>
-                            {/* <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#000080',
-                              }}
-                              className="chaneRoom"
-                              onClick={() => downloadrecept(row)}
-                            >
-                              Print
-                            </button> */}
-
                             <Tooltip title="Print">
                               <img
                                 onClick={() => downloadrecept(row)}
@@ -826,18 +770,6 @@ const RoomShift = ({ setopendashboard }) => {
                           </>
                         ) : (
                           <>
-                            {/* <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#000080',
-                              }}
-                              className="chaneRoom"
-                              onClick={() => downloadrecept(row)}
-                            >
-                              Print
-                            </button> */}
-
                             <Tooltip title="Print">
                               <img
                                 onClick={() => downloadrecept(row)}
@@ -846,24 +778,6 @@ const RoomShift = ({ setopendashboard }) => {
                                 style={{ width: '25px', marginRight: '0.3rem' }}
                               />
                             </Tooltip>
-
-                            {/* <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#800000',
-                              }}
-                              onClick={() =>
-                                navigation('/admin-panel/Room/OnlineForce', {
-                                  state: {
-                                    data: row,
-                                  },
-                                })
-                              }
-                              className="chaneRoom"
-                            >
-                              Forcecheckout
-                            </button> */}
 
                             {userrole === 1 && (
                               <Tooltip title="Force Checkout">
@@ -888,35 +802,11 @@ const RoomShift = ({ setopendashboard }) => {
                               </Tooltip>
                             )}
 
-                            {/* <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#FF0000',
-                              }}
-                              onClick={() => handleClickOpen3(row?.id)}
-                              className="chaneRoom"
-                            >
-                              Cancel
-                            </button> */}
-
                             <Tooltip title="Cancel">
                               <CloseIcon
                                 onClick={() => handleClickOpen3(row?.id)}
                               />
                             </Tooltip>
-                            {/* 
-                            <button
-                              style={{
-                                width: '6rem',
-                                marginBottom: '4px',
-                                backgroundColor: '#800080',
-                              }}
-                              onClick={() => handleOepn(row)}
-                              className="chaneRoom"
-                            >
-                              RoomChange
-                            </button> */}
 
                             <Tooltip title="Print">
                               <img
@@ -929,26 +819,6 @@ const RoomShift = ({ setopendashboard }) => {
                                 }}
                               />
                             </Tooltip>
-                            {/* <button
-                              style={{
-                                backgroundColor: '#FA7401',
-                                width: '6rem',
-                                marginBottom: '4px',
-                              }}
-                              onClick={() =>
-                                navigation(
-                                  '/admin-panel/Room/OnlinecheckinReceipt',
-                                  {
-                                    state: {
-                                      data: row,
-                                    },
-                                  },
-                                )
-                              }
-                              className="chaneRoom"
-                            >
-                              checkout
-                            </button> */}
 
                             <Tooltip title="Checkout">
                               <img
@@ -976,6 +846,39 @@ const RoomShift = ({ setopendashboard }) => {
               ) : (
                 <></>
               )}
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell>TotalAmount</TableCell>
+                <TableCell style={{ fontWeight: 800 }}>
+                  {isData &&
+                    isData?.reduce(
+                      (n, { roomAmount }) =>
+                        parseFloat(n) + parseFloat(roomAmount),
+                      0,
+                    )}
+                </TableCell>
+                <TableCell style={{ fontWeight: 800 }}>
+                  {isData &&
+                    isData?.reduce(
+                      (n, { roomAmount }) =>
+                        parseFloat(n) + parseFloat(roomAmount),
+                      0,
+                    ) +
+                      isData?.reduce(
+                        (n, { advanceAmount }) =>
+                          parseFloat(n) + parseFloat(advanceAmount),
+                        0,
+                      )}
+                </TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+              </TableRow>
             </TableBody>
             <TableFooter>
               <TableRow>

@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Converter, hiIN } from 'any-number-to-words';
+import { backendApiUrl } from '../../../../config/config';
 import { serverInstance } from '../../../../API/ServerInstance';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import axios from 'axios';
 import Swal from 'sweetalert2';
-import '../../../Admin/Reciept/cashrecipt.css';
+
 const converter = new Converter(hiIN);
-const OnlineForce = ({ setopendashboard }) => {
+const CheckinCheckout = ({ setopendashboard }) => {
   const navigation = useNavigate();
-  const adminName = sessionStorage.getItem('adminName');
-  const empName = sessionStorage.getItem('empName');
   const location = useLocation();
   const componentRef = useRef();
   const [isData, setisData] = React.useState('');
@@ -22,19 +22,7 @@ const OnlineForce = ({ setopendashboard }) => {
       }).then((res) => {
         console.log(res);
         if (res.data?.status === true) {
-          navigation('/admin-panel/Room/OnlineforcePrint', {
-            state: {
-              data: isData,
-            },
-          });
-        }
-
-        if (res?.data?.status === false) {
-          Swal.fire(
-            'Great!',
-            'Room failed to checkout (Time Limit Elapsed)',
-            'success',
-          );
+          Swal.fire('Great!', res?.data?.message, 'success');
         }
       });
     } catch (error) {
@@ -98,11 +86,19 @@ const OnlineForce = ({ setopendashboard }) => {
             width: '100%',
           }}
         >
-          <button onClick={() => navigation('/admin-panel/room/roomshift')}>
-            Back
-          </button>
+          <button onClick={() => navigation(-1)}>Back</button>
           <button onClick={() => down()}>Download</button>
-          <button onClick={() => handlesubmit()}>Force Checkout</button>
+          <button
+            onClick={() =>
+              navigation('/admin-panel/CheckinCheckoutPrint', {
+                state: {
+                  data: isData,
+                },
+              })
+            }
+          >
+            Print
+          </button>
         </div>
         <div style={{ height: '10rem' }} />
         <div style={{ padding: '1rem' }} ref={componentRef}>
@@ -137,9 +133,14 @@ const OnlineForce = ({ setopendashboard }) => {
                       style={{ width: '100%' }}
                     >
                       <div className="maxxin_room_receipt_innear">
-                        <div style={{ backgroundColor: '#92D14C' }}>
-                          <p className="yadda_text">
-                            यात्री प्रस्थान रसीद (ओनलाईन,फोर्स चेकआउट)
+                        <div style={{ backgroundColor: '#01B0F1' }}>
+                          <p className="yadda_text lineheight">
+                            यात्री आगमन रसीद{' '}
+                            <span style={{ fontSize: '13px' }}>
+                              (
+                              {isData[0]?.paymentMode === 2 ? 'Cash' : 'Online'}
+                              )
+                            </span>
                           </p>
                         </div>
 
@@ -152,12 +153,7 @@ const OnlineForce = ({ setopendashboard }) => {
                               >
                                 आवास क्र :
                               </p>
-                              <p
-                                style={{ color: 'gray' }}
-                                className="lineheight"
-                              >
-                                मोबाईल न :
-                              </p>
+
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
@@ -175,9 +171,7 @@ const OnlineForce = ({ setopendashboard }) => {
                               <p className="lineheight">
                                 {isData && isData?.booking_id}
                               </p>
-                              <p className="lineheight">
-                                {isData && isData?.contactNo}
-                              </p>
+
                               <p className="lineheight">
                                 {isData && isData?.name}
                               </p>
@@ -192,20 +186,13 @@ const OnlineForce = ({ setopendashboard }) => {
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                प्रस्थान दिनाँक :
-                              </p>
-                              <p
-                                style={{ color: 'gray' }}
-                                className="lineheight"
-                              >
                                 आगमन दिनांक :
                               </p>
-
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                स्टे :
+                                मोबाईल न :
                               </p>
                               <p
                                 style={{ color: 'gray' }}
@@ -216,14 +203,10 @@ const OnlineForce = ({ setopendashboard }) => {
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
-                                {currDatecheckout} / {currTimecheckout}
-                              </p>
-                              <p className="lineheight">
                                 {currDate} / {currTime}
                               </p>
-
                               <p className="lineheight">
-                                {TotalDays && TotalDays} Days
+                                {isData && isData?.contactNo}
                               </p>
                               <p className="lineheight">
                                 {isData && isData?.address}
@@ -232,7 +215,7 @@ const OnlineForce = ({ setopendashboard }) => {
                           </div>
                         </div>
 
-                        {/* <div className="yyy_text_div">
+                        <div className="yyy_text_div">
                           <p className="lineheight">यात्री संख्या</p>
                           <p className="lineheight">
                             Male: {isData && isData?.male}
@@ -249,7 +232,7 @@ const OnlineForce = ({ setopendashboard }) => {
                               Number(isData && isData?.female) +
                               Number(isData && isData?.child)}
                           </p>
-                        </div> */}
+                        </div>
 
                         <div>
                           <table className="table_ddd">
@@ -259,7 +242,10 @@ const OnlineForce = ({ setopendashboard }) => {
                                   धर्मशाला नाम
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  रूम टाईप & रूम न.
+                                  रूम टाईप & फेसिलिटी
+                                </td>
+                                <td className="table_tddd lineheight10">
+                                  रूम न
                                 </td>
                                 {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
                                 {/* <td className="table_tddd lineheight10">
@@ -286,17 +272,6 @@ const OnlineForce = ({ setopendashboard }) => {
                                   </p> */}
                                 </td>
 
-                                <td className="table_tddd lineheight10">
-                                  शेष राशि वापिसी
-                                  {/* <p className="lineheight10">
-                                    {Number(isData && isData?.roomAmount) *
-                                      (Number(isData && isData?.nRoom) +
-                                        Number(isData && isData?.nRoom))}
-                                    -
-                                    {Number(isData && isData?.roomAmount) *
-                                      Number(isData && isData?.nRoom)}
-                                  </p> */}
-                                </td>
                                 {/* <td className="table_tddd">
                             अमानत राशि
                             <p>
@@ -309,10 +284,12 @@ const OnlineForce = ({ setopendashboard }) => {
                               </tr>
                               <tr>
                                 <td className="table_tddd lineheight10">
-                                  {isData && isData?.dharmasala?.name}
+                                  {isData && isData?.dharmasala?.name
+                                    ? isData && isData?.dharmasala?.name
+                                    : isData?.dharmasalaName}
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  ({' '}
+                                  {isData && isData?.categoryName}
                                   {isData &&
                                     isData?.facility_name &&
                                     isData?.facility_name.map(
@@ -320,7 +297,10 @@ const OnlineForce = ({ setopendashboard }) => {
                                         <span key={index}> {element}</span>
                                       ),
                                     )}
-                                  ,{isData && isData?.category_name})-
+                                  -{isData && isData?.category_name}
+                                  {isData && isData?.facilityName}
+                                </td>
+                                <td className="table_tddd lineheight10">
                                   {isData && isData?.RoomNo}
                                 </td>
                                 {/* <td className="table_tddd">
@@ -346,13 +326,7 @@ const OnlineForce = ({ setopendashboard }) => {
                                     Number(isData && isData?.roomAmount)}
                                   .00
                                 </td>
-                                <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.advanceAmount) +
-                                    Number(isData && isData?.roomAmount) -
-                                    (Number(isData && isData?.advanceAmount) +
-                                      Number(isData && isData?.roomAmount))}
-                                  .00
-                                </td>
+
                                 {/* <td className="table_tddd">
                             {Number(isData && isData[0]?.roomAmount) *
                               Number(isData && isData[0]?.nRoom)}
@@ -368,7 +342,7 @@ const OnlineForce = ({ setopendashboard }) => {
                               marginBottom: '0.5rem',
                             }}
                           >
-                            {empName ? empName : adminName}
+                            {isData?.bookedByName}
                           </p>
                         </div>
                       </div>
@@ -384,9 +358,7 @@ const OnlineForce = ({ setopendashboard }) => {
               </p>
             </div>
             <div className="main-certificatenote">
-              <h2 className="h2text">
-                ऑनलाईन आवास व्यवस्था हेतु नियम/सावधानियां
-              </h2>
+              <h2 className="h2text">आवास व्यवस्था हेतु नियम/सावधानियां</h2>
               <p>
                 1. कमरें खुले ना छोड़े, स्वयं के ताले का उपयोग करें, सामान की
                 सुरक्षा स्वयं करें ।
@@ -470,4 +442,4 @@ const OnlineForce = ({ setopendashboard }) => {
   );
 };
 
-export default OnlineForce;
+export default CheckinCheckout;

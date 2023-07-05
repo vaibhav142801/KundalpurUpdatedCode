@@ -79,10 +79,12 @@ function PrintRoomBooking({ handleClose, isData }) {
                           style={{ borderBottom: '1px solid gray' }}
                           key={index}
                         >
-                          <td>{row?.userName}</td>
-                          <td>{row?.bank}</td>
-                          <td>{row?.cash}</td>
-                          {/* <td>{Number(row?.cash) + Number(row?.bank)}</td> */}
+                          <TableCell>{row?.Username}</TableCell>
+                          <TableCell>{row?.cash}</TableCell>
+                          <TableCell>{row?.online}</TableCell>
+                          <TableCell>
+                            {Number(row?.cash) + Number(row?.online)}
+                          </TableCell>
                         </tr>
                       ))}
                   </>
@@ -95,7 +97,7 @@ function PrintRoomBooking({ handleClose, isData }) {
                   <th>
                     {isData
                       ? isData.reduce(
-                          (n, { bank }) => parseFloat(n) + parseFloat(bank),
+                          (n, { cash }) => parseFloat(n) + parseFloat(cash),
                           0,
                         )
                       : '0'}
@@ -104,7 +106,7 @@ function PrintRoomBooking({ handleClose, isData }) {
                     {' '}
                     {isData
                       ? isData.reduce(
-                          (n, { cash }) => parseFloat(n) + parseFloat(cash),
+                          (n, { online }) => parseFloat(n) + parseFloat(online),
                           0,
                         )
                       : '0'}

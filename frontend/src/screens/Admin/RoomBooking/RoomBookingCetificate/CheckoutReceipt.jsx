@@ -10,6 +10,8 @@ import '../../../Admin/Reciept/cashrecipt.css';
 const converter = new Converter(hiIN);
 const CheckoutReceipt = ({ setopendashboard }) => {
   const navigation = useNavigate();
+  const adminName = sessionStorage.getItem('adminName');
+  const empName = sessionStorage.getItem('empName');
   const location = useLocation();
   const componentRef = useRef();
   const [isData, setisData] = React.useState('');
@@ -364,7 +366,7 @@ const CheckoutReceipt = ({ setopendashboard }) => {
                               marginBottom: '0.5rem',
                             }}
                           >
-                            {isData && isData?.bookedByName}
+                            {empName ? empName : adminName}
                           </p>
                         </div>
                       </div>

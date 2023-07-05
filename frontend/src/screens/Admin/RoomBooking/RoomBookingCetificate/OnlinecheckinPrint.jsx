@@ -7,6 +7,8 @@ import './RoomBookingCetificate.css';
 
 function OnlinecheckinPrint({ setopendashboard }) {
   const navigate = useNavigate();
+  const adminName = sessionStorage.getItem('adminName');
+  const empName = sessionStorage.getItem('empName');
   const location = useLocation();
   const componentRef = useRef();
   const [isData, setisData] = useState('');
@@ -250,7 +252,7 @@ function OnlinecheckinPrint({ setopendashboard }) {
                   marginBottom: '0.5rem',
                 }}
               >
-                Admin
+                {empName ? empName : adminName}
               </p>
             </div>
           </div>

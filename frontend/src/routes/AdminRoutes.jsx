@@ -94,6 +94,14 @@ import HistoryCheckoutPrint from '../screens/Admin/RoomBooking/RoomBookingCetifi
 //boli management
 import Boli from '../screens/Admin/BoliManagement/Boli/Boli';
 import PendingBoli from '../screens/Admin/BoliManagement/PendingBoli/PendingBoli';
+import BoliCertificate from '../screens/Admin/BoliManagement/Certificate/BoliCertificate';
+import BoliCertificatePrint from '../screens/Admin/BoliManagement/Certificate/BoliCertificatePrint';
+
+///checkout receipt import
+import CheckinCheckout from '../screens/Admin/RoomBooking/RoomBookingCetificate/CheckinCheckout';
+import CheckinCheckoutPrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/CheckinCheckoutPrint';
+import CancelPrintout from '../screens/Admin/RoomBooking/RoomBookingCetificate/CancelPrintout';
+import CancelReceipt from '../screens/Admin/RoomBooking/RoomBookingCetificate/CancelReceipt';
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -763,6 +771,58 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <PendingBoli setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/boli/certificate"
+          element={
+            <Adminprivateroute>
+              <BoliCertificate setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/boli/certificate/print"
+          element={
+            <Adminprivateroute>
+              <BoliCertificatePrint setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/CheckinCheckout"
+          element={
+            <Adminprivateroute>
+              <CheckinCheckout setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/CheckinCheckoutPrint"
+          element={
+            <Adminprivateroute>
+              <CheckinCheckoutPrint setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/CancelReceipt"
+          element={
+            <Adminprivateroute>
+              <CancelReceipt setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/CancelPrintout"
+          element={
+            <Adminprivateroute>
+              <CancelPrintout setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />

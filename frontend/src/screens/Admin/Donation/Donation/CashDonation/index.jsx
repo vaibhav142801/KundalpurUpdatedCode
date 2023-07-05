@@ -677,6 +677,7 @@ const CashDonation = ({
                   </TableRow>
                 ))}
 
+
                 <TotalAmountRow donationItems={donationItems} />
               </TableBody>
             </Table>

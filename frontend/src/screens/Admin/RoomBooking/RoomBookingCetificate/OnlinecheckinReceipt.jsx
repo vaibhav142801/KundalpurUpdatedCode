@@ -12,6 +12,8 @@ const converter = new Converter(hiIN);
 const OnlinecheckinReceipt = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const location = useLocation();
+  const adminName = sessionStorage.getItem('adminName');
+  const empName = sessionStorage.getItem('empName');
   const componentRef = useRef();
   const [isData, setisData] = React.useState('');
 
@@ -364,7 +366,7 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
                               marginBottom: '0.5rem',
                             }}
                           >
-                            Admin
+                            {empName ? empName : adminName}
                           </p>
                         </div>
                       </div>

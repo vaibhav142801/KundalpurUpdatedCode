@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Swal from 'sweetalert2';
 import { serverInstance } from '../../../../API/ServerInstance';
 import { useNavigate } from 'react-router-dom';
@@ -22,12 +22,13 @@ import ExportExcel from '../../../../assets/ExportExcel.png';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import { Select, MenuItem } from '@mui/material';
-import RoomBookingReportsTab from './RoomBookingReportsTab';
+import RoomBookingReportsTab from '../../Reports/AllReport/AllReportTap';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
 import Printcheckin from '../CheckIn/Printcheckin';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
+import { useReactToPrint } from 'react-to-print';
 const style = {
   position: 'absolute',
   top: '47%',
@@ -42,6 +43,7 @@ const style = {
 
 const Consolided = ({ setopendashboard }) => {
   const navigation = useNavigate();
+  const componentRef = useRef();
   const [emplist, setemplist] = useState('');
   const [fromdate, setfromdate] = useState('');
   const [toDate, settoDate] = useState('');
@@ -78,17 +80,18 @@ const Consolided = ({ setopendashboard }) => {
     minute: 'numeric',
     hour12: true,
   });
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   const getall_donation = () => {
     setloader(true);
-
     serverInstance(
-      'room/consolidated?date=&name=&advanceAmount=&roomAmount=&cancelAmount=',
+      `room/consolidated?date=&name=&advanceAmount=&roomAmount=&cancelAmount=`,
       'get',
     ).then((res) => {
       console.log(res);
       if (res.data) {
         setloader(false);
-
         setisData(res.data);
         setisDataDummy(res.data);
       }
@@ -98,32 +101,24 @@ const Consolided = ({ setopendashboard }) => {
     const doc = new jsPDF();
 
     const tableColumn = [
-      'booking_id',
-      'contactNo',
-      'name',
-      'date',
-      'time',
-      'coutDate',
-      'coutTime',
-      'roomAmount',
-      'advanceAmount',
-      'RoomNo',
+      'Date',
+      'Employee',
+      'CheckinAmount',
+      'RentAmount',
+      'CheckoutAmount',
+      'TotalAmount',
     ];
 
     const tableRows = [];
 
     isData.forEach((item) => {
       const ticketData = [
-        item?.booking_id,
-        item?.contactNo,
-        item?.name,
         Moment(item?.date).format('DD-MM-YYYY'),
-        moment(item?.time, 'HH:mm:ss').format('hh:mm:ss'),
-        Moment(item?.coutDate).format('DD-MM-YYYY'),
-        moment(item?.coutTime, 'HH:mm:ss').format('hh:mm:ss'),
-        item?.roomAmount,
-        item?.advanceAmount,
-        item?.RoomNo,
+        item?.Username,
+        item?.totalCheckinAmount,
+        item?.totalRateAmount,
+        item?.totalCheckoutAmount,
+        item?.finalAmount,
       ];
 
       tableRows.push(ticketData);
@@ -149,22 +144,18 @@ const Consolided = ({ setopendashboard }) => {
   };
 
   const ExportToExcel = () => {
-    const fileName = 'CheckinGuest';
+    const fileName = 'Consolidated';
     const exportType = 'xls';
     var data = [];
-
+    // date Username totalCheckinAmount totalRateAmount totalCheckoutAmount finalAmount
     isData.map((item, index) => {
       data.push({
-        bookingid: item?.booking_id,
-        contactNo: item?.contactNo,
-        Customer: item?.name,
-        CheckinDate: Moment(item?.date).format('DD-MM-YYYY'),
-        CheckinTime: moment(item?.time, 'HH:mm:ss').format('hh:mm:ss'),
-        CheckOutDate: Moment(item?.coutDate).format('DD-MM-YYYY'),
-        CheckOutTime: moment(item?.coutTime, 'HH:mm:ss').format('hh:mm:ss'),
-        Rate: item?.roomAmount,
-        Advance: item?.advanceAmount,
-        RoomNo: item?.RoomNo,
+        Date: Moment(item?.date).format('DD-MM-YYYY'),
+        Employee: item?.Username,
+        CheckinAmount: item?.totalCheckinAmount,
+        RentAmount: item?.totalRateAmount,
+        CheckoutAmount: item?.totalCheckoutAmount,
+        TotalAmount: item?.finalAmount,
       });
     });
     exportFromJSON({ data, fileName, exportType });
@@ -175,18 +166,6 @@ const Consolided = ({ setopendashboard }) => {
   const handleClickOpen3 = (id) => {
     setOpen3(true);
     setcancelid(id);
-  };
-  const handleClose5 = () => setOpen3(false);
-
-  const handleClose4 = () => {
-    setOpen3(false);
-
-    // serverInstance('/room/force-checkout', 'POST', {
-    //   id: deleteId,
-    // }).then((res) => {
-    //   console.log(res);
-    //   // setOpen(false);
-    // });
   };
 
   const [checkforceid, setcheckforceid] = useState('');
@@ -237,83 +216,59 @@ const Consolided = ({ setopendashboard }) => {
     setuserrole(Number(sessionStorage.getItem('userrole')));
   }, [open, open1, open3, open4, open8, optionss]);
 
-  const downloadrecept = (row) => {
-    navigation('/admin-panel/Room/OnlinePrintReceipt', {
-      state: {
-        data: row,
-      },
-    });
-  };
-
   const filterdata = (e) => {
+    setloader(true);
     e.preventDefault();
     serverInstance(
       `/room/consolidated?date=${fromdate}&employeeName=${empidsearch}`,
       'get',
     ).then((res) => {
-      if (res.status) {
-        setemplist(res.data);
-      } else {
-        Swal('Error', 'somthing went  wrong', 'error');
+      if (res?.data) {
+        setisData(res?.data);
+        setloader(false);
       }
     });
   };
-  const [bookid, setbookid] = useState('');
-  const [mobileno, setmobileno] = useState('');
+
   const [customername, setcustomername] = useState('');
-  const [checkindate, setcheckindate] = useState('');
-  const [checkintime, setcheckintime] = useState('');
-  const [checkoutdate, setcheckoutdate] = useState('');
-  const [checkouttime, setcheckouttime] = useState();
-  const [roomNo, setroomNo] = useState('');
-  const [rate, setrate] = useState('');
-  const [advanceRate, setadvanceRate] = useState('');
+  const [date, setdate] = useState('');
+  const [checkinamount, setcheckinamount] = useState('');
+  const [checkoutamount, setcheckoutamount] = useState('');
+  const [rentamount, setrentamount] = useState('');
+  const [finalamount, setfinalamount] = useState('');
 
   const onSearchByOther = (e, type) => {
-    if (type === 'rate') {
-      setrate(e.target.value);
+    if (type === 'date') {
+      setdate(e.target.value.toLowerCase());
     }
-    if (type === 'advanceRate') {
-      setadvanceRate(e.target.value);
-    }
-    if (type === 'bookid') {
-      setbookid(e.target.value.toLowerCase());
-    }
-    if (type === 'mobileno') {
-      setmobileno(e.target.value.toLowerCase());
-    }
-    if (type === 'customername') {
+    if (type === 'Username') {
       setcustomername(e.target.value.toLowerCase());
     }
-    if (type === 'checkindate') {
-      setcheckindate(e.target.value.toLowerCase());
+    if (type === 'totalCheckinAmount') {
+      setcheckinamount(e.target.value);
     }
-    if (type === 'checkintime') {
-      setcheckintime(e.target.value.toLowerCase());
+    if (type === 'totalRateAmount') {
+      setrentamount(e.target.value);
     }
-    if (type === 'checkoutdate') {
-      setcheckoutdate(e.target.value.toLowerCase());
+    if (type === 'totalCheckoutAmount') {
+      setcheckoutamount(e.target.value);
     }
-    if (type === 'checkouttime') {
-      setcheckouttime(e.target.value);
-    }
-    if (type === 'roomNo') {
-      setroomNo(e.target.value);
+
+    if (type === 'finalAmount') {
+      setfinalamount(e.target.value);
     }
   };
 
   useEffect(() => {
     var filtered = isDataDummy?.filter(
       (dt) =>
-        dt?.booking_id?.toLowerCase().indexOf(bookid) > -1 &&
-        Moment(dt?.date).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
-        Moment(dt?.coutDate).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
-        dt?.name?.toLowerCase().indexOf(customername) > -1,
+        Moment(dt?.date).format('YYYY-MM-DD').indexOf(date) > -1 &&
+        dt?.Username?.toLowerCase().indexOf(customername) > -1,
     );
 
-    if (roomNo) {
+    if (checkinamount) {
       filtered = filtered?.map((item) => {
-        if (item.RoomNo == Number(roomNo)) {
+        if (item.totalCheckinAmount == Number(checkinamount)) {
           return item;
         } else {
           return;
@@ -322,9 +277,9 @@ const Consolided = ({ setopendashboard }) => {
       filtered = filtered?.filter((x) => x !== undefined);
     }
 
-    if (rate) {
+    if (checkoutamount) {
       filtered = filtered?.map((item) => {
-        if (item.roomAmount == Number(rate)) {
+        if (item.totalCheckoutAmount == Number(checkoutamount)) {
           return item;
         } else {
           return;
@@ -333,9 +288,9 @@ const Consolided = ({ setopendashboard }) => {
       filtered = filtered?.filter((x) => x !== undefined);
     }
 
-    if (advanceRate) {
+    if (rentamount) {
       filtered = filtered?.map((item) => {
-        if (item.advanceAmount == Number(advanceRate)) {
+        if (item.totalRateAmount == Number(rentamount)) {
           return item;
         } else {
           return;
@@ -344,9 +299,9 @@ const Consolided = ({ setopendashboard }) => {
       filtered = filtered?.filter((x) => x !== undefined);
     }
 
-    if (mobileno) {
+    if (finalamount) {
       filtered = filtered?.map((item) => {
-        if (item.contactNo == mobileno) {
+        if (item.finalAmount == Number(finalamount)) {
           return item;
         } else {
           return;
@@ -356,18 +311,33 @@ const Consolided = ({ setopendashboard }) => {
     }
     setisData(filtered);
   }, [
-    bookid,
-    checkindate,
-    checkintime,
-    checkoutdate,
-    checkouttime,
-    roomNo,
-    mobileno,
+    date,
     customername,
-    rate,
-    advanceRate,
+    finalamount,
+    checkinamount,
+    rentamount,
+    checkoutamount,
   ]);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setisData(
+      [...isData].sort((a, b) => {
+        if (a[key] < b[key]) {
+          return direction === 'ascending' ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }),
+    );
+    setSortConfig({ key: key, direction: direction });
+  };
   return (
     <>
       <Modal
@@ -418,20 +388,7 @@ const Consolided = ({ setopendashboard }) => {
                   }}
                 />
               </div>
-              {/* <div className="Center_main_dic_filetr">
-                <label htmlFor="donation-date">To Date</label>
-                <input
-                  id="donation-date"
-                  style={{ width: '17rem' }}
-                  type="date"
-                  placeholder="From"
-                  value={toDate}
-                  name="toDate"
-                  onChange={(e) => {
-                    settoDate(e.target.value);
-                  }}
-                />
-              </div> */}
+
               <div className="Center_main_dic_filetr">
                 <label>Employee Name</label>
                 <select
@@ -491,7 +448,7 @@ const Consolided = ({ setopendashboard }) => {
             <Tooltip title="Export Pdf File">
               <IconButton>
                 <img
-                  onClick={() => ExportPdfmanul(isData, 'Report')}
+                  onClick={() => ExportPdfmanul(isData, 'Consolidated')}
                   src={ExportPdf}
                   alt="cc"
                   style={{ width: '30px' }}
@@ -502,7 +459,7 @@ const Consolided = ({ setopendashboard }) => {
               <IconButton>
                 <img
                   style={{ width: '30px' }}
-                  // onClick={() => handleOpen5()}
+                  onClick={() => handlePrint()}
                   src={Print}
                   alt=" Print"
                 />
@@ -514,6 +471,7 @@ const Consolided = ({ setopendashboard }) => {
 
         <div className="table-div-maain">
           <Table
+            ref={componentRef}
             sx={{ minWidth: 650, width: '100%' }}
             aria-label="simple table"
           >
@@ -525,7 +483,7 @@ const Consolided = ({ setopendashboard }) => {
                   Date
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('booking_id')}
+                    onClick={() => sortData('date')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -533,7 +491,7 @@ const Consolided = ({ setopendashboard }) => {
                   Employee Name
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('booking_id')}
+                    onClick={() => sortData('Username')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -541,7 +499,7 @@ const Consolided = ({ setopendashboard }) => {
                   Check In Amount (Advance)
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('contactNo')}
+                    onClick={() => sortData('totalCheckinAmount')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -549,7 +507,7 @@ const Consolided = ({ setopendashboard }) => {
                   Rent Amount (Room)
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('holderName')}
+                    onClick={() => sortData('totalRateAmount')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -557,25 +515,15 @@ const Consolided = ({ setopendashboard }) => {
                   Check Out Amount (Return)
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('holderName')}
+                    onClick={() => sortData('totalCheckoutAmount')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-
-                {/* <TableCell>
-                  Cancel Amount
-                  <i
-                    style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('date')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell> */}
-
                 <TableCell>
                   Total Amount
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('coutDate')}
+                    onClick={() => sortData('finalAmount')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -598,7 +546,7 @@ const Consolided = ({ setopendashboard }) => {
                     style={{ width: '5rem' }}
                     className="cuolms_search"
                     type="text"
-                    onChange={(e) => onSearchByOther(e, 'employeeName')}
+                    onChange={(e) => onSearchByOther(e, 'Username')}
                     placeholder="Search name"
                   />
                 </TableCell>
@@ -607,7 +555,7 @@ const Consolided = ({ setopendashboard }) => {
                     style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
-                    onChange={(e) => onSearchByOther(e, 'checkinAmount')}
+                    onChange={(e) => onSearchByOther(e, 'totalCheckinAmount')}
                     placeholder="Search  Checkin"
                   />
                 </TableCell>
@@ -616,7 +564,7 @@ const Consolided = ({ setopendashboard }) => {
                     style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
-                    onChange={(e) => onSearchByOther(e, 'rateAmount')}
+                    onChange={(e) => onSearchByOther(e, 'totalRateAmount')}
                     placeholder="Search Rate"
                   />
                 </TableCell>
@@ -625,27 +573,16 @@ const Consolided = ({ setopendashboard }) => {
                     style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
-                    onChange={(e) => onSearchByOther(e, 'checkoutAmount')}
+                    onChange={(e) => onSearchByOther(e, 'totalCheckoutAmount')}
                     placeholder="Search Checkout"
                   />
                 </TableCell>
-                {/* 
                 <TableCell>
                   <input
                     style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
-                    onChange={(e) => onSearchByOther(e, 'cancelAmount')}
-                    placeholder="Search Cancel "
-                  />
-                </TableCell> */}
-
-                <TableCell>
-                  <input
-                    style={{ width: '7rem' }}
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => onSearchByOther(e, 'totalAmount')}
+                    onChange={(e) => onSearchByOther(e, 'finalAmount')}
                     placeholder="Search Total"
                   />
                 </TableCell>
@@ -670,18 +607,53 @@ const Consolided = ({ setopendashboard }) => {
                         {Moment(row?.date).format('YYYY-MM-DD')}
                       </TableCell>
                       <TableCell>{row?.Username}</TableCell>
-                      <TableCell>{row?.checkinAmount}</TableCell>
-                      <TableCell>{row?.rateAmount}</TableCell>
-                      <TableCell>{row?.checkoutAmount}</TableCell>
-
-                      {/* <TableCell>{row?.cancelAmount}</TableCell> */}
-                      <TableCell>{row?.totalAmount}</TableCell>
+                      <TableCell>{row?.totalCheckinAmount}</TableCell>
+                      <TableCell>{row?.totalRateAmount}</TableCell>
+                      <TableCell>{row?.totalCheckoutAmount}</TableCell>
+                      <TableCell>{row?.finalAmount}</TableCell>
                     </TableRow>
                   ))}
                 </>
               ) : (
                 <></>
               )}
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell>Total Amount</TableCell>
+                <TableCell style={{ fontWeight: 800 }}>
+                  {isData &&
+                    isData?.reduce(
+                      (n, { totalCheckinAmount }) =>
+                        parseFloat(n) + parseFloat(totalCheckinAmount),
+                      0,
+                    )}
+                </TableCell>
+                <TableCell style={{ fontWeight: 800 }}>
+                  {isData &&
+                    isData?.reduce(
+                      (n, { totalRateAmount }) =>
+                        parseFloat(n) + parseFloat(totalRateAmount),
+                      0,
+                    )}
+                </TableCell>
+                <TableCell style={{ fontWeight: 800 }}>
+                  {isData &&
+                    isData?.reduce(
+                      (n, { totalCheckoutAmount }) =>
+                        parseFloat(n) + parseFloat(totalCheckoutAmount),
+                      0,
+                    )}
+                </TableCell>
+                <TableCell style={{ fontWeight: 800 }}>
+                  {isData &&
+                    isData?.reduce(
+                      (n, { finalAmount }) =>
+                        parseFloat(n) + parseFloat(finalAmount),
+                      0,
+                    )}
+                </TableCell>
+              </TableRow>
             </TableBody>
             <TableFooter>
               <TableRow>

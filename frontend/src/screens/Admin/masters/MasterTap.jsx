@@ -6,6 +6,7 @@ import ReceiptMater from './Receiptmaster/ReceiptMater';
 import UserMaster from './Usermaster/UserMaster';
 import AddCategory from '../masters/AddCategory/AddCategory';
 import AddFacilities from '../masters/AddFacilities/AddFacilities';
+import BoliHead from '../masters/BoliHead/BoliHead';
 import f1 from '../../../assets/f5.png';
 import './MasterTap.css';
 
@@ -58,7 +59,18 @@ const MasterTap = ({ setopendashboard }) => {
               />
               Donation Item Master
             </button>
-            {/* <button
+            <button
+              className={toggleState === 7 ? 'tabs2 ' : 'tabs1'}
+              onClick={() => toggleTab(7)}
+            >
+              <img
+                style={{ marginRight: '4%', width: '20px' }}
+                src={f1}
+                alt="fast"
+              />
+              Boli Head Master
+            </button>
+            <button
               className={toggleState === 4 ? 'tabs2 ' : 'tabs1'}
               onClick={() => toggleTab(4)}
             >
@@ -68,9 +80,9 @@ const MasterTap = ({ setopendashboard }) => {
                 alt="fast"
               />
               Receipt Master
-            </button> */}
+            </button>
 
-            {/* <button
+            <button
               className={toggleState === 5 ? 'tabs2 ' : 'tabs1'}
               onClick={() => toggleTab(5)}
             >
@@ -80,7 +92,7 @@ const MasterTap = ({ setopendashboard }) => {
                 alt="fast"
               />
               Category Master
-            </button> */}
+            </button>
 
             <button
               className={toggleState === 6 ? 'tabs2 ' : 'tabs1'}
@@ -138,6 +150,14 @@ const MasterTap = ({ setopendashboard }) => {
               }
             >
               <AddFacilities setopendashboard={setopendashboard} />
+            </div>
+
+            <div
+              className={
+                toggleState === 7 ? 'content  active-content' : 'content'
+              }
+            >
+              <BoliHead setopendashboard={setopendashboard} />
             </div>
           </div>
         </div>

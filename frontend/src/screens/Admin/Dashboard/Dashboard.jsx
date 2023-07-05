@@ -110,6 +110,7 @@ const Dashboard = ({ setopendashboard }) => {
       setonlineamount(res?.data);
     });
   };
+
   useEffect(() => {
     setopendashboard(true);
     setuserrole(Number(sessionStorage.getItem('userrole')));
@@ -200,9 +201,6 @@ const Dashboard = ({ setopendashboard }) => {
                 <div className="main_repue_img">
                   <p>
                     ₹
-                    {onlineamount[0]?.modeOfBooking === 2
-                      ? onlineamount[0]?.total_amount
-                      : ''}{' '}
                     {onlineamount[1]?.modeOfBooking === 2
                       ? onlineamount[1]?.total_amount
                       : ''}

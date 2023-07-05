@@ -7,6 +7,8 @@ import './RoomBookingCetificate.css';
 
 function PrintRoomBooking({ setopendashboard }) {
   const navigate = useNavigate();
+  const adminName = sessionStorage.getItem('adminName');
+  const empName = sessionStorage.getItem('empName');
   const location = useLocation();
   const componentRef = useRef();
   const [isData, setisData] = useState('');
@@ -261,7 +263,7 @@ function PrintRoomBooking({ setopendashboard }) {
                   marginBottom: '0.5rem',
                 }}
               >
-                {isData && isData?.bookedByName}
+                {empName ? empName : adminName}
               </p>
             </div>
           </div>

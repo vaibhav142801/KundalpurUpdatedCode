@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import { useReactToPrint } from 'react-to-print';
 import moment from 'moment';
 import Moment from 'moment-js';
+//date  booking_id contactNo name address dharmasala?.name RoomNo roomAmount advanceAmount
 function Printcheckin({ isData, setOpen1 }) {
   const componentRef = useRef();
 

@@ -36,7 +36,7 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
               />
               Online Checkout History
             </NavLink>
-
+            {/* 
             <NavLink
               style={{ width: '15rem' }}
               to="/admin-panel/Room/Consolided"
@@ -48,7 +48,7 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
                 alt="fast"
               />
               Consolidated
-            </NavLink>
+            </NavLink> */}
             <NavLink
               to="/admin-panel/Room/Holdhistory"
               className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}

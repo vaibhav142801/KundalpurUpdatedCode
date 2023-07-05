@@ -1101,6 +1101,7 @@ const ManualCash = ({ setopendashboard }) => {
                       <TableCell>{row?.phoneNo}</TableCell>
                       <TableCell>{row?.name}</TableCell>
                       <TableCell> {row?.address}</TableCell>
+
                       <TableCell>
                         {row.elecItemDetails.map((row) => {
                           return (
