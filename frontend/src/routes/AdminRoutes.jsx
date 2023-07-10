@@ -102,6 +102,14 @@ import CheckinCheckout from '../screens/Admin/RoomBooking/RoomBookingCetificate/
 import CheckinCheckoutPrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/CheckinCheckoutPrint';
 import CancelPrintout from '../screens/Admin/RoomBooking/RoomBookingCetificate/CancelPrintout';
 import CancelReceipt from '../screens/Admin/RoomBooking/RoomBookingCetificate/CancelReceipt';
+
+///Combine report routes
+import ComBineTap from '../screens/Admin/Reports/CombineReports/ComBineTap';
+import DonationCombine from '../screens/Admin/Reports/CombineReports/Donatinon/DonationCombine';
+import OnlineCombine from '../screens/Admin/Reports/CombineReports/Online/OnlineCombine';
+import ManulCombine from '../screens/Admin/Reports/CombineReports/Manual/ManulCombine';
+import HoldCertificate from '../screens/Admin/RoomBooking/RoomBookingCetificate/HoldCertificate';
+import Holdprint from '../screens/Admin/RoomBooking/RoomBookingCetificate/Holdprint';
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -823,6 +831,49 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <CancelPrintout setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/DonationCombine"
+          element={
+            <Adminprivateroute>
+              <DonationCombine setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/ManulCombine"
+          element={
+            <Adminprivateroute>
+              <ManulCombine setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/OnlineCombine"
+          element={
+            <Adminprivateroute>
+              <OnlineCombine setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/HoldCertificate"
+          element={
+            <Adminprivateroute>
+              <HoldCertificate setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Holdprint"
+          element={
+            <Adminprivateroute>
+              <Holdprint setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />

@@ -52,14 +52,17 @@ function Printcheckin({ isData, setOpen1 }) {
           >
             <TableHead style={{ background: '#F1F0F0' }}>
               <TableRow>
-                <TableCell>BookingId</TableCell>
+                <TableCell>Checkin</TableCell>
+                <TableCell>Booking_Id</TableCell>
                 <TableCell>Mobile</TableCell>
-                <TableCell>CustomerName</TableCell>
-                <TableCell>CheckinDate$Time</TableCell>
-                <TableCell>CheckoutDate$Time</TableCell>
-                <TableCell>Rate</TableCell>
-                <TableCell>AdvanceRate</TableCell>
+                <TableCell>Customer</TableCell>
+                <TableCell>Address</TableCell>
+                <TableCell>Dharamshala</TableCell>
                 <TableCell>RoomNo</TableCell>
+                <TableCell>Rent</TableCell>
+                <TableCell>Advance</TableCell>
+                <TableCell>Employee</TableCell>
+                <TableCell>PayMode</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -72,22 +75,28 @@ function Printcheckin({ isData, setOpen1 }) {
                         '&:last-child td, &:last-child th': { border: 0 },
                       }}
                     >
+                      <TableCell>
+                        {Moment(row?.date)?.format('DD-MM-YYYY')}
+                        {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
+                        &nbsp;&nbsp;
+                      </TableCell>
                       <TableCell>{row?.booking_id}</TableCell>
                       <TableCell>{row?.contactNo}</TableCell>
                       <TableCell>{row?.name}</TableCell>
-                      <TableCell>
-                        {Moment(row?.date).format('YYYY-MM-DD')}&nbsp;&nbsp;
-                        {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
-                      </TableCell>
-
-                      <TableCell>
-                        {Moment(row?.coutDate).format('DD-MM-YYYY')}&nbsp;&nbsp;
-                        {moment(row?.coutTime, 'HH:mm:ss').format('hh:mm:ss')}
-                      </TableCell>
-
-                      <TableCell> {row?.roomAmount}</TableCell>
-                      <TableCell> {row?.advanceAmount}</TableCell>
+                      <TableCell>{row?.address}</TableCell>
+                      <TableCell> {row?.dharmasala?.name}</TableCell>
                       <TableCell> {row?.RoomNo}</TableCell>
+                      <TableCell> {row?.roomAmount}</TableCell>
+                      <TableCell>
+                        {Number(row?.roomAmount) + Number(row?.advanceAmount)}
+                      </TableCell>
+                      <TableCell>
+                        {row?.bookedByName}
+                        {row?.dharmasalaName}
+                      </TableCell>
+                      <TableCell>
+                        {row?.paymentMode === 2 ? 'Cash' : 'Online'}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </>

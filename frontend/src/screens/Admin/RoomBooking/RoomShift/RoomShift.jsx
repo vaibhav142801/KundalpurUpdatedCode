@@ -143,16 +143,18 @@ const RoomShift = ({ setopendashboard }) => {
 
     isData.map((item, index) => {
       data.push({
-        bookingid: item?.booking_id,
-        contactNo: item?.contactNo,
-        Customer: item?.name,
-        CheckinDate: Moment(item?.date).format('DD-MM-YYYY'),
+        Checkin: Moment(item?.date).format('DD-MM-YYYY'),
         CheckinTime: moment(item?.time, 'HH:mm:ss').format('hh:mm:ss'),
-        CheckOutDate: Moment(item?.coutDate).format('DD-MM-YYYY'),
-        CheckOutTime: moment(item?.coutTime, 'HH:mm:ss').format('hh:mm:ss'),
-        Rate: item?.roomAmount,
-        Advance: item?.advanceAmount,
+        Booking_Id: item?.booking_id,
+        Mobile: item?.contactNo,
+        Customer: item?.name,
+        Address: item?.address,
+        Dharamshala: item?.dharmasala?.name,
         RoomNo: item?.RoomNo,
+        Rent: item?.roomAmount,
+        Advance: item?.advanceAmount,
+        Employee: item?.bookedByName,
+        PayMode: 'Online',
       });
     });
     exportFromJSON({ data, fileName, exportType });
@@ -741,7 +743,9 @@ const RoomShift = ({ setopendashboard }) => {
                     >
                       <TableCell>{index + 1}</TableCell>
                       <TableCell>
-                        {Moment(row?.date).format('DD-MM-YYYY')}&nbsp;&nbsp;
+                        {Moment(row?.date).format('DD-MM-YYYY')}:
+                        {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
+                        &nbsp;&nbsp;
                       </TableCell>
                       <TableCell>{row?.booking_id}</TableCell>
                       <TableCell>{row?.contactNo}</TableCell>

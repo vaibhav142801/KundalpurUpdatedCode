@@ -27,6 +27,7 @@ import ExportPdf from '../../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../../assets/ExportExcel.png';
 import Edit from '../../../../../assets/Edit.png';
 import eye from '../../../../../assets/eye.png';
+import Delete from '../../../../../assets/Delete.png';
 import axios from 'axios';
 import ElectronicTotal from '../../../compoments/ElectronicTotal';
 import { styled, alpha } from '@mui/material/styles';
@@ -39,6 +40,11 @@ import Button from '@mui/material/Button';
 import DonationReportTap from '../DonationReportTap';
 import LoadingSpinner1 from '../../../../../components/Loading/LoadingSpinner1';
 import { MenuItem, Menu } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import 'react-spinning-wheel/dist/style.css';
 import './Electornic.css';
 
@@ -676,8 +682,53 @@ const Electornic = ({ setopendashboard }) => {
     );
     setSortConfig({ key: key, direction: direction });
   };
+  const [open2, setOpen2] = React.useState(false);
+  const [deleteId, setdeleteId] = useState('');
+  const handleClickOpen1 = (id) => {
+    setOpen2(true);
+    setdeleteId(id);
+  };
+  const handleClose3 = () => {
+    setOpen2(false);
+  };
+
+  const handleClose2 = () => {
+    setOpen2(false);
+    serverInstance(`user/delete-elecDonation?id=${deleteId}`, 'delete').then(
+      (res) => {
+        if (res.status === true) {
+          Swal.fire('Great!', 'User delete successfully', 'success');
+          getall_donation();
+        } else {
+          Swal('Error', 'somthing went  wrong', 'error');
+        }
+        console.log(res);
+      },
+    );
+  };
   return (
     <>
+      <Dialog
+        open={open2}
+        onClose={handleClose3}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {'Do you want to delete'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            After delete you cannot get again
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose3}>Disagree</Button>
+          <Button onClick={handleClose2} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -1339,6 +1390,18 @@ const Electornic = ({ setopendashboard }) => {
                         {userrole === 1 || emproleid === 0 ? (
                           <Tooltip title="Cancel Certificate">
                             <CancelIcon onClick={() => handleOpen(row?.id)} />
+                          </Tooltip>
+                        ) : (
+                          ''
+                        )}
+                        {userrole === 1 || emproleid === 0 ? (
+                          <Tooltip title="Delete Certificate">
+                            <img
+                              onClick={() => handleClickOpen1(row.id)}
+                              src={Delete}
+                              alt="delete"
+                              style={{ width: '20px', marginRight: '2px' }}
+                            />
                           </Tooltip>
                         ) : (
                           ''

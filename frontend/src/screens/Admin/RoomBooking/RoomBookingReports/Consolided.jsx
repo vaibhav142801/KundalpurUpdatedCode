@@ -520,6 +520,14 @@ const Consolided = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
+                  Cancel Amount
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('totalCancelledAmount')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
                   Total Amount
                   <i
                     style={{ marginLeft: '0.5rem' }}
@@ -582,6 +590,15 @@ const Consolided = ({ setopendashboard }) => {
                     style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
+                    onChange={(e) => onSearchByOther(e, 'totalCancelledAmount')}
+                    placeholder="Search Cancel"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '7rem' }}
+                    className="cuolms_search"
+                    type="text"
                     onChange={(e) => onSearchByOther(e, 'finalAmount')}
                     placeholder="Search Total"
                   />
@@ -604,12 +621,13 @@ const Consolided = ({ setopendashboard }) => {
                     >
                       <TableCell>{index + 1}</TableCell>
                       <TableCell>
-                        {Moment(row?.date).format('YYYY-MM-DD')}
+                        {Moment(row?.date).format('DD-MM-YYYY')}
                       </TableCell>
                       <TableCell>{row?.Username}</TableCell>
                       <TableCell>{row?.totalCheckinAmount}</TableCell>
                       <TableCell>{row?.totalRateAmount}</TableCell>
                       <TableCell>{row?.totalCheckoutAmount}</TableCell>
+                      <TableCell>{row?.totalCancelledAmount}</TableCell>
                       <TableCell>{row?.finalAmount}</TableCell>
                     </TableRow>
                   ))}
@@ -645,6 +663,15 @@ const Consolided = ({ setopendashboard }) => {
                       0,
                     )}
                 </TableCell>
+
+                <TableCell style={{ fontWeight: 800 }}>
+                  {isData &&
+                    isData?.reduce(
+                      (n, { totalCancelledAmount }) =>
+                        parseFloat(n) + parseFloat(totalCancelledAmount),
+                      0,
+                    )}
+                </TableCell>
                 <TableCell style={{ fontWeight: 800 }}>
                   {isData &&
                     isData?.reduce(
@@ -653,6 +680,7 @@ const Consolided = ({ setopendashboard }) => {
                       0,
                     )}
                 </TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableBody>
             <TableFooter>

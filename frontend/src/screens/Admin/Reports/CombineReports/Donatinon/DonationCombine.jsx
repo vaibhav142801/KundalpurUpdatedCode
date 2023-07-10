@@ -26,8 +26,8 @@ import { ExportPdfmanul } from '../../../compoments/ExportPdf';
 import Print from '../../../../../assets/Print.png';
 import ExportPdf from '../../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../../assets/ExportExcel.png';
-import Edit from '../../../../../assets/Edit.png';
 import eye from '../../../../../assets/eye.png';
+import Edit from '../../../../../assets/Edit.png';
 import Delete from '../../../../../assets/Delete.png';
 import ElectronicTotal from '../../../compoments/ElectronicTotal';
 import { styled, alpha } from '@mui/material/styles';
@@ -36,7 +36,7 @@ import InputBase from '@mui/material/InputBase';
 import PrintElectronic from '../../../compoments/PrintElectronic';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import DonationReportTap from '../DonationReportTap';
+import DonationReportTap from '../ComBineTap';
 import LoadingSpinner1 from '../../../../../components/Loading/LoadingSpinner1';
 import { MenuItem, Menu } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
@@ -45,7 +45,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import 'react-spinning-wheel/dist/style.css';
-import './ManualCash.css';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -128,8 +127,18 @@ const openupadtestyle = {
 const donationColorTheme = {
   cash: '#48a828',
 };
+// modeOfDonation = 1 for electronic donation
+// modeOfDonation = 2 for cash donation
+// modeOfDonation = 3 for cheque donation
+// modeOfDonation = 4 for item donation
+const dinationTypedata = [
+  { id: 1, type: 'electronic donation' },
+  { id: 2, type: ' cash donation' },
+  { id: 3, type: 'cheque donation' },
+  { id: 4, type: 'item donation' },
+];
 
-const ManualCash = ({ setopendashboard }) => {
+const DonationCombine = ({ setopendashboard }) => {
   const navigation = useNavigate();
   let head = [];
   let users = [];
@@ -169,7 +178,7 @@ const ManualCash = ({ setopendashboard }) => {
   const [remark, setRemark] = useState('');
   const [type, setType] = useState('');
   const [userType, setUserType] = useState('');
-
+  const [typeofdonation, settypeofdonation] = useState(0);
   const handleOpen = (id) => {
     setupdateId(id);
     setOpen(true);
@@ -194,20 +203,7 @@ const ManualCash = ({ setopendashboard }) => {
     setsearchvalue('');
     serverInstance('user/add-elecDonation', 'get').then((res) => {
       if (res.status) {
-        // let currentMonth, filterData;
-        // (currentMonth = new Date().getMonth() + 1),
-        //   (filterData = res?.data?.filter((e) => {
-        //     var [_, month] = e.donation_date.split('-'); // Or, var month = e.date.split('-')[1];
-        //     return (
-        //       currentMonth === +month &&
-        //       e.modeOfDonation === '2' &&
-        //       e.isActive === true
-        //     );
-        //   }));
-        // console.log(filterData);
-        let filterData = res.data.filter(
-          (item) => item.modeOfDonation === '2' && item.isActive === true,
-        );
+        let filterData = res.data.filter((item) => item.isActive === true);
         setloader(false);
         setisData(filterData);
         setisDataDummy(filterData);
@@ -296,12 +292,12 @@ const ManualCash = ({ setopendashboard }) => {
         ] = `Bearer ${sessionStorage.getItem('token')}`;
 
         const res = await axios.get(
-          `${backendApiUrl}admin/search-electric?search=${searchvalue}&type=${2}`,
+          `${backendApiUrl}admin/search-electric?search=${searchvalue}`,
         );
 
         if (res.data.status) {
           let filterData = res.data.data.filter(
-            (item) => item.isActive === true && item.modeOfDonation === '2',
+            (item) => item.isActive === true,
           );
           setisData(filterData);
           setisDataDummy(filterData);
@@ -309,21 +305,42 @@ const ManualCash = ({ setopendashboard }) => {
           setloader(false);
         }
       } else {
-        serverInstance(
-          `user/search-donation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}&modeOfDonation=${2}`,
-          'post',
-          { user: passuser, type: passhead },
-        ).then((res) => {
-          if (res.status) {
-            let filterData = res?.data.filter(
-              (item) => item.isActive === true && item.modeOfDonation === '2',
-            );
-            setisData(filterData);
-            setisDataDummy(filterData);
-            setdefaultdata(filterData);
-            setloader(false);
-          }
-        });
+        if (typeofdonation === 0) {
+          serverInstance(
+            `user/search-donation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}
+            )}`,
+            'post',
+            { user: passuser, type: passhead },
+          ).then((res) => {
+            if (res.status) {
+              let filterData = res?.data.filter(
+                (item) => item.isActive === true,
+              );
+              setisData(filterData);
+              setisDataDummy(filterData);
+              setdefaultdata(filterData);
+              setloader(false);
+            }
+          });
+        } else {
+          serverInstance(
+            `user/search-donation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}&modeOfDonation=${Number(
+              typeofdonation,
+            )}`,
+            'post',
+            { user: passuser, type: passhead },
+          ).then((res) => {
+            if (res.status) {
+              let filterData = res?.data.filter(
+                (item) => item.isActive === true,
+              );
+              setisData(filterData);
+              setisDataDummy(filterData);
+              setdefaultdata(filterData);
+              setloader(false);
+            }
+          });
+        }
       }
     } catch (error) {
       setloader(false);
@@ -359,7 +376,7 @@ const ManualCash = ({ setopendashboard }) => {
   };
   useEffect(() => {
     getallemp_list();
-    getall_donation();
+    // getall_donation();
     setopendashboard(true);
     get_donation_tyeps();
     setuserrole(Number(sessionStorage.getItem('userrole')));
@@ -738,7 +755,6 @@ const ManualCash = ({ setopendashboard }) => {
               updateData={updateData}
               showUpdateBtn={showUpdateBtn}
               setopendashboard={setopendashboard}
-              donationTypes={donationTypes}
             />
           </Box>
         </Fade>
@@ -801,6 +817,22 @@ const ManualCash = ({ setopendashboard }) => {
                     setvoucherto(e.target.value);
                   }}
                 />
+              </div>
+
+              <div className="Center_main_dic_filetr">
+                <label>Donation Type</label>
+
+                <select
+                  style={{ width: '100%' }}
+                  onChange={(e) => {
+                    settypeofdonation(e.target.value);
+                  }}
+                >
+                  <option value={0}>All Donations</option>
+                  {dinationTypedata?.map((item) => {
+                    return <option value={item?.id}>{item?.type}</option>;
+                  })}
+                </select>
               </div>
               <div className="Center_main_dic_filetr">
                 <label>&nbsp;</label>
@@ -889,10 +921,10 @@ const ManualCash = ({ setopendashboard }) => {
               </div>
             </form>
 
-            <div className="Center_main_dic_filetr">
+            {/* <div className="Center_main_dic_filetr">
               <label>&nbsp;</label>
               <button onClick={() => getall_donation()}>Reset</button>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -1131,111 +1163,131 @@ const ManualCash = ({ setopendashboard }) => {
               {isData ? (
                 <>
                   {(rowsPerPage > 0
-                    ? isData?.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage,
-                      )
+                    ? isData
+                        ?.reverse()
+                        ?.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage,
+                        )
                     : isData
-                  )?.map((row, index) => (
-                    <TableRow
-                      key={row.id}
-                      sx={{
-                        '&:last-child td, &:last-child th': { border: 0 },
-                      }}
-                    >
-                      <TableCell>
-                        {Moment(row?.donation_date).format('DD/MM/YYYY')}
-                      </TableCell>
-                      <TableCell>{row?.ReceiptNo}</TableCell>
-                      <TableCell>{row?.voucherNo}</TableCell>
-                      <TableCell>{row?.phoneNo}</TableCell>
-                      <TableCell>{row?.name}</TableCell>
-                      <TableCell> {row?.address}</TableCell>
+                  )
+                    ?.reverse()
+                    ?.map((row, index) => (
+                      <TableRow
+                        key={row.id}
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell>
+                          {Moment(row?.donation_date).format('DD/MM/YYYY')}
+                        </TableCell>
+                        <TableCell>{row?.ReceiptNo}</TableCell>
+                        <TableCell>{row?.voucherNo}</TableCell>
+                        <TableCell>{row?.phoneNo}</TableCell>
+                        <TableCell>{row?.name}</TableCell>
+                        <TableCell> {row?.address}</TableCell>
+                        <TableCell>
+                          {row.elecItemDetails.map((row) => {
+                            return (
+                              <li style={{ listStyle: 'none' }}>{row?.type}</li>
+                            );
+                          })}
+                        </TableCell>
+                        <TableCell>
+                          {row.elecItemDetails.reduce(
+                            (n, { amount }) =>
+                              parseFloat(n) + parseFloat(amount),
+                            0,
+                          )}
+                        </TableCell>
 
-                      <TableCell>
-                        {row.elecItemDetails.map((row) => {
-                          return (
-                            <li style={{ listStyle: 'none' }}>{row?.type}</li>
-                          );
-                        })}
-                      </TableCell>
-                      <TableCell>
-                        {row.elecItemDetails.reduce(
-                          (n, { amount }) => parseFloat(n) + parseFloat(amount),
-                          0,
-                        )}
-                      </TableCell>
+                        <TableCell>{row?.createdBy}</TableCell>
+                        <TableCell>
+                          {row.elecItemDetails.map((row) => {
+                            return (
+                              <li style={{ listStyle: 'none' }}>
+                                {row?.remark}{' '}
+                              </li>
+                            );
+                          })}
+                        </TableCell>
 
-                      <TableCell>{row?.createdBy}</TableCell>
-                      <TableCell>
-                        {row.elecItemDetails.map((row) => {
-                          return (
-                            <li style={{ listStyle: 'none' }}>
-                              {row?.remark}{' '}
-                            </li>
-                          );
-                        })}
-                      </TableCell>
+                        <TableCell>
+                          {/* <Tooltip title="Vew Details">
+                          <img
+                            onClick={() =>
+                              navigation(
+                                `/admin-panel/infoElectronic/${row?.id}`,
+                              )
+                            }
+                            src={eye}
+                            alt="print"
+                            style={{ width: '20px', marginRight: '2px' }}
+                          />
+                        </Tooltip> */}
 
-                      <TableCell>
-                        {userrole === 1 || emproleid === 0 ? (
-                          <Tooltip title="Edit Donation">
+                          {userrole === 1 || emproleid === 0 ? (
+                            <Tooltip title="Edit Donation">
+                              <img
+                                onClick={() => upadteOpen(row)}
+                                src={Edit}
+                                alt="print"
+                                style={{ width: '20px', marginRight: '2px' }}
+                              />
+                            </Tooltip>
+                          ) : (
+                            ''
+                          )}
+
+                          <Tooltip title="Print Certificate">
                             <img
-                              onClick={() => upadteOpen(row)}
-                              src={Edit}
+                              onClick={() =>
+                                navigation(
+                                  '/admin-panel/reports/printcontent',
+                                  {
+                                    state: {
+                                      data: row,
+                                    },
+                                  },
+                                )
+                              }
+                              src={Print}
                               alt="print"
                               style={{ width: '20px', marginRight: '2px' }}
                             />
                           </Tooltip>
-                        ) : (
-                          ''
-                        )}
-                        <Tooltip title="Print Certificate">
-                          <img
-                            onClick={() =>
-                              navigation('/admin-panel/reports/printcontent', {
-                                state: {
-                                  data: row,
-                                },
-                              })
-                            }
-                            src={Print}
-                            alt="print"
-                            style={{ width: '20px', marginRight: '2px' }}
-                          />
-                        </Tooltip>
-                        {row.isActive ? (
-                          <DownloadIcon
-                            onClick={() => {
-                              printreceipt(row);
-                            }}
-                          />
-                        ) : (
-                          <ClearIcon />
-                        )}
-
-                        {userrole === 1 || emproleid === 0 ? (
-                          <Tooltip title="Cancel Certificate">
-                            <CancelIcon onClick={() => handleOpen(row?.id)} />
-                          </Tooltip>
-                        ) : (
-                          ''
-                        )}
-                        {userrole === 1 || emproleid === 0 ? (
-                          <Tooltip title="Delete Certificate">
-                            <img
-                              onClick={() => handleClickOpen1(row.id)}
-                              src={Delete}
-                              alt="delete"
-                              style={{ width: '20px', marginRight: '2px' }}
+                          {row.isActive ? (
+                            <DownloadIcon
+                              onClick={() => {
+                                printreceipt(row);
+                              }}
                             />
-                          </Tooltip>
-                        ) : (
-                          ''
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                          ) : (
+                            <ClearIcon />
+                          )}
+                          {userrole === 1 || emproleid === 0 ? (
+                            <Tooltip title="Cancel Certificate">
+                              <CancelIcon onClick={() => handleOpen(row?.id)} />
+                            </Tooltip>
+                          ) : (
+                            ''
+                          )}
+                          {userrole === 1 || emproleid === 0 ? (
+                            <Tooltip title="Delete Certificate">
+                              <img
+                                onClick={() => handleClickOpen1(row.id)}
+                                src={Delete}
+                                alt="delete"
+                                style={{ width: '20px', marginRight: '2px' }}
+                              />
+                            </Tooltip>
+                          ) : (
+                            ''
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
                   <TableRow>
                     <TableCell> &nbsp;</TableCell>
                     <TableCell> &nbsp;</TableCell>
@@ -1297,4 +1349,4 @@ const ManualCash = ({ setopendashboard }) => {
   );
 };
 
-export default ManualCash;
+export default DonationCombine;

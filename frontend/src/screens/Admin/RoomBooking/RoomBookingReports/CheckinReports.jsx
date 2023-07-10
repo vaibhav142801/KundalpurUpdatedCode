@@ -44,7 +44,7 @@ const style = {
 
 const CheckinReports = ({ setopendashboard }) => {
   const navigation = useNavigate();
-
+  const [emplist, setemplist] = useState('');
   const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [isDataDummy, setisDataDummy] = React.useState([]);
@@ -151,16 +151,18 @@ const CheckinReports = ({ setopendashboard }) => {
 
     isData.map((item, index) => {
       data.push({
-        bookingid: item?.booking_id,
-        contactNo: item?.contactNo,
-        Customer: item?.name,
-        CheckinDate: Moment(item?.date).format('DD-MM-YYYY'),
+        Checkin: Moment(item?.date).format('DD-MM-YYYY'),
         CheckinTime: moment(item?.time, 'HH:mm:ss').format('hh:mm:ss'),
-        CheckOutDate: Moment(item?.coutDate).format('DD-MM-YYYY'),
-        CheckOutTime: moment(item?.coutTime, 'HH:mm:ss').format('hh:mm:ss'),
-        Rate: item?.roomAmount,
-        Advance: item?.advanceAmount,
+        Booking_Id: item?.booking_id,
+        Mobile: item?.contactNo,
+        Customer: item?.name,
+        Address: item?.address,
+        Dharamshala: item?.dharmasalaName,
         RoomNo: item?.RoomNo,
+        Rent: item?.roomAmount,
+        Advance: item?.advanceAmount,
+        Employee: item?.bookedByName,
+        PayMode: item?.paymentMode === 2 ? 'Cash' : 'Online',
       });
     });
     exportFromJSON({ data, fileName, exportType });
@@ -207,11 +209,17 @@ const CheckinReports = ({ setopendashboard }) => {
     });
   };
 
-  const handledisable = (date) => {
-    console.log('date daisble', date);
+  const getallemp_list = () => {
+    serverInstance('admin/add-employee', 'get').then((res) => {
+      if (res.status) {
+        setemplist(res.data);
+      } else {
+        Swal('Error', 'somthing went  wrong', 'error');
+      }
+    });
   };
-
   useEffect(() => {
+    getallemp_list();
     getall_donation();
     setopendashboard(true);
     setuserrole(Number(sessionStorage.getItem('userrole')));
@@ -241,6 +249,8 @@ const CheckinReports = ({ setopendashboard }) => {
   const [rate, setrate] = useState('');
   const [advanceRate, setadvanceRate] = useState('');
   const [address, setaddress] = useState('');
+  const [checkoutBy, setcheckoutBy] = useState('');
+  const [checkoutdate, setcheckoutdate] = useState('');
   const onSearchByOther = (e, type) => {
     if (type === 'roomAmount') {
       setrate(e.target.value);
@@ -269,6 +279,12 @@ const CheckinReports = ({ setopendashboard }) => {
     if (type === 'dharmasalaName') {
       setdharamshalanamee(e.target.value.toLowerCase());
     }
+    if (type === 'checkoutByName') {
+      setcheckoutBy(e.target.value);
+    }
+    if (type == 'coutDate') {
+      setcheckoutdate(e.target.value);
+    }
   };
 
   useEffect(() => {
@@ -276,8 +292,10 @@ const CheckinReports = ({ setopendashboard }) => {
       (dt) =>
         dt?.booking_id?.toLowerCase().indexOf(bookid) > -1 &&
         Moment(dt?.date).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
+        Moment(dt?.coutDate).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
         dt?.name?.toLowerCase().indexOf(customername) > -1 &&
         dt?.address?.toLowerCase().indexOf(address) > -1 &&
+        dt?.checkoutByName?.indexOf(checkoutBy) > -1 &&
         dt?.dharmasalaName?.toLowerCase().indexOf(dharamshalanamee) > -1,
     );
 
@@ -305,7 +323,10 @@ const CheckinReports = ({ setopendashboard }) => {
     //row?.dharmasala?.name
     if (advanceRate) {
       filtered = filtered?.map((item) => {
-        if (item.advanceAmount == Number(advanceRate)) {
+        if (
+          item.advanceAmount + item.roomAmount ==
+          Number(advanceRate) + Number(rate)
+        ) {
           return item;
         } else {
           return;
@@ -337,8 +358,28 @@ const CheckinReports = ({ setopendashboard }) => {
     advanceRate,
     address,
     dharamshalanamee,
+    checkoutBy,
+    checkoutdate,
   ]);
-
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setisData(
+      [...isData].sort((a, b) => {
+        if (a[key] < b[key]) {
+          return direction === 'ascending' ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }),
+    );
+    setSortConfig({ key: key, direction: direction });
+  };
   return (
     <>
       <Modal
@@ -499,7 +540,7 @@ const CheckinReports = ({ setopendashboard }) => {
                   Advance
                   <i
                     style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('advanceAmount')}
+                    onClick={() => sortData('checkoutByName')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -513,7 +554,14 @@ const CheckinReports = ({ setopendashboard }) => {
                   />
                 </TableCell>
 
-                <TableCell>PayMode</TableCell>
+                <TableCell>
+                  PayMode
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('paymentMode')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
@@ -612,21 +660,30 @@ const CheckinReports = ({ setopendashboard }) => {
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
-                      onSearchByOther(e, 'bookedByName');
+                      onSearchByOther(e, 'advanceAmount');
                     }}
-                    placeholder="emp"
+                    placeholder="Advance"
                   />
                 </TableCell>
                 <TableCell>
-                  <input
-                    style={{ width: '4rem' }}
+                  <select
+                    name="cars"
+                    id="cars"
+                    style={{ width: '5rem' }}
                     className="cuolms_search"
-                    type="text"
                     onChange={(e) => {
-                      onSearchByOther(e, 'bookedByName');
+                      onSearchByOther(e, 'checkoutByName');
+                      console.log(e.target.value);
                     }}
-                    placeholder="Emp"
-                  />
+                  >
+                    <option value="">All user</option>
+                    {emplist &&
+                      emplist.map((item, idx) => {
+                        return (
+                          <option value={item.Username}>{item.Username}</option>
+                        );
+                      })}
+                  </select>
                 </TableCell>
                 <TableCell>&nbsp;</TableCell>
                 <TableCell>
@@ -659,9 +716,13 @@ const CheckinReports = ({ setopendashboard }) => {
                       <TableCell>{index + 1}</TableCell>
                       <TableCell>
                         {Moment(row?.date).format('DD-MM-YYYY')}&nbsp;&nbsp;
+                        {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
+                        &nbsp;&nbsp;
                       </TableCell>
                       <TableCell>
                         {Moment(row?.coutDate).format('DD-MM-YYYY')}&nbsp;&nbsp;
+                        {moment(row?.coutTime, 'HH:mm:ss').format('hh:mm:ss')}
+                        &nbsp;&nbsp;
                       </TableCell>
                       <TableCell>{row?.booking_id}</TableCell>
                       <TableCell>{row?.contactNo}</TableCell>
@@ -674,7 +735,7 @@ const CheckinReports = ({ setopendashboard }) => {
                       <TableCell>
                         {row?.advanceAmount + row?.roomAmount}
                       </TableCell>
-                      <TableCell> {row?.bookedByName}</TableCell>
+                      <TableCell> {row?.checkoutByName}</TableCell>
                       <TableCell>
                         {row?.paymentMode === 2 ? 'Cash' : 'Online'}
                       </TableCell>

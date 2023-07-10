@@ -1,16 +1,7 @@
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import FeedbackIcon from '@mui/icons-material/Feedback';
-import HelpIcon from '@mui/icons-material/Help';
-import InterestsIcon from '@mui/icons-material/Interests';
-import PublicIcon from '@mui/icons-material/Public';
 import SellIcon from '@mui/icons-material/Sell';
 import StorefrontIcon from '@mui/icons-material/Storefront';
-import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
-import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import Collapse from '@mui/material/Collapse';
 import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
@@ -36,7 +27,7 @@ import f6 from '../../../assets/f6.png';
 import logo1 from '../../../assets/logo1.png';
 import croppedlogo from '../../../assets/croppedlogo.png';
 import ExpandLess from '@mui/icons-material/ExpandLess';
-import image19 from '../../../assets/image19.png';
+
 const drawerWidth = '17%';
 
 const openedMixin = (theme) => ({
@@ -188,6 +179,15 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
           id: 4.9,
           name: 'Online donation',
           link: 'online/report/online',
+          active: false,
+          icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+          subTabs: [],
+        },
+
+        {
+          id: 12.3,
+          name: 'Combine Report',
+          link: 'DonationCombine',
           active: false,
           icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
           subTabs: [],
@@ -361,6 +361,14 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
               icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
               subTabs: [],
             },
+            {
+              id: 4.2,
+              name: 'Combine Report',
+              link: 'DonationCombine',
+              active: false,
+              icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+              subTabs: [],
+            },
           ],
         })}
       </>
@@ -388,6 +396,14 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
               id: 4.1,
               name: 'Manual Donation',
               link: 'manual/report/cash',
+              active: false,
+              icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+              subTabs: [],
+            },
+            {
+              id: 4.2,
+              name: 'Combine Report',
+              link: 'DonationCombine',
               active: false,
               icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
               subTabs: [],
@@ -427,6 +443,14 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
               id: 4.1,
               name: 'Manual Donation',
               link: 'manual/report/cash',
+              active: false,
+              icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+              subTabs: [],
+            },
+            {
+              id: 4.8,
+              name: 'Combine Report',
+              link: 'DonationCombine',
               active: false,
               icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
               subTabs: [],
@@ -474,6 +498,14 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
               id: 4.9,
               name: 'Online donation',
               link: 'online/report/online',
+              active: false,
+              icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
+              subTabs: [],
+            },
+            {
+              id: 4.11,
+              name: 'Combine Report',
+              link: 'DonationCombine',
               active: false,
               icon: <img src={f4} alt="f2" style={{ width: '25px' }} />,
               subTabs: [],
@@ -596,6 +628,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                     setActiveTabId(20);
                     handleDrawerClose();
                     navigate('/admin-panel/usermanagement');
+                    // window.open('/admin-panel/usermanagement', '_blank');
                   }}
                   sx={{
                     minHeight: 48,
@@ -631,6 +664,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                     setActiveTabId(20);
                     handleDrawerClose();
                     navigate('/admin-panel/usermanagement');
+                    // window.open('/admin-panel/usermanagement', '_blank');
                   }}
                   sx={{
                     minHeight: 48,
@@ -696,6 +730,10 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                             selected={subTab.id === activeTabId}
                             onClick={() => {
                               navigate('/admin-panel/' + subTab.link);
+                              // window.open(
+                              //   '/admin-panel/' + subTab.link,
+                              //   '_blank',
+                              // );
                               setActiveTabId(subTab.id);
                               handleDrawerClose();
                             }}
@@ -745,6 +783,10 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                             selected={subTab.id === activeTabId}
                             onClick={() => {
                               navigate('/admin-panel/' + subTab.link);
+                              // window.open(
+                              //   '/admin-panel/' + subTab.link,
+                              //   '_blank',
+                              // );
                               setActiveTabId(subTab.id);
                               handleDrawerClose();
                             }}
@@ -770,6 +812,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                     setActiveTabId(9);
                     handleDrawerClose();
                     navigate('/admin-panel/masters');
+                    // window.open('/admin-panel/masters', '_blank');
                   }}
                   sx={{
                     minHeight: 48,
@@ -807,6 +850,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                     setActiveTabId(9);
                     handleDrawerClose();
                     navigate('/admin-panel/masters');
+                    // window.open('/admin-panel/masters', '_blank');
                   }}
                   sx={{
                     minHeight: 48,
@@ -844,6 +888,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                     setActiveTabId(10);
                     handleDrawerClose();
                     navigate('/admin-panel/Dharamshala');
+                    // window.open('/admin-panel/Dharamshala', '_blank');
                   }}
                   sx={{
                     minHeight: 48,
@@ -881,6 +926,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                     setActiveTabId(10);
                     handleDrawerClose();
                     navigate('/admin-panel/Dharamshala');
+                    // window.open('/admin-panel/Dharamshala', '_blank');
                   }}
                   sx={{
                     minHeight: 48,
@@ -943,6 +989,10 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                             selected={subTab.id === activeTabId}
                             onClick={() => {
                               navigate('/admin-panel/' + subTab.link);
+                              // window.open(
+                              //   '/admin-panel/' + subTab.link,
+                              //   '_blank',
+                              // );
                               setActiveTabId(subTab.id);
                               handleDrawerClose();
                             }}
@@ -991,7 +1041,11 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                           <StyledListItemButton
                             selected={subTab.id === activeTabId}
                             onClick={() => {
-                              navigate('/admin-panel/' + subTab.link);
+                              // navigate('/admin-panel/' + subTab.link);
+                              window.open(
+                                '/admin-panel/' + subTab.link,
+                                '_blank',
+                              );
                               setActiveTabId(subTab.id);
                               handleDrawerClose();
                             }}
@@ -1019,6 +1073,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                   setActiveTabId(11);
                   handleDrawerClose();
                   navigate('/admin-panel/room/Dashboard');
+                  // window.open('/admin-panel/room/Dashboard', '_blank');
                 }}
                 sx={{
                   minHeight: 48,
@@ -1051,6 +1106,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                   setActiveTabId(55);
                   handleDrawerClose();
                   navigate('/admin-panel/Room/checkinreports');
+                  // window.open('/admin-panel/Room/checkinreports', '_blank');
                 }}
                 sx={{
                   minHeight: 48,
@@ -1088,6 +1144,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                   setActiveTabId(11);
                   handleDrawerClose();
                   navigate('/admin-panel/room/Dashboard');
+                  // window.open('/admin-panel/room/Dashboard', '_blank');
                 }}
                 sx={{
                   minHeight: 48,
@@ -1120,6 +1177,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                   setActiveTabId(55);
                   handleDrawerClose();
                   navigate('/admin-panel/Room/checkinreports');
+                  // window.open('/admin-panel/Room/checkinreports', '_blank');
                 }}
                 sx={{
                   minHeight: 48,
@@ -1157,6 +1215,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                   setActiveTabId(11);
                   handleDrawerClose();
                   navigate('/admin-panel/room/Dashboard');
+                  // window.open('/admin-panel/room/Dashboard', '_blank');
                 }}
                 sx={{
                   minHeight: 48,
@@ -1189,6 +1248,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                   setActiveTabId(55);
                   handleDrawerClose();
                   navigate('/admin-panel/Room/checkinreports');
+                  // window.open('/admin-panel/Room/checkinreports', '_blank');
                 }}
                 sx={{
                   minHeight: 48,
@@ -1226,6 +1286,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                   setActiveTabId(11);
                   handleDrawerClose();
                   navigate('/admin-panel/room/Dashboard');
+                  // window.open('/admin-panel/room/Dashboard', '_blank');
                 }}
                 sx={{
                   minHeight: 48,
@@ -1258,6 +1319,7 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                   setActiveTabId(55);
                   handleDrawerClose();
                   navigate('/admin-panel/Room/checkinreports');
+                  // window.open('/admin-panel/Room/checkinreports', '_blank');
                 }}
                 sx={{
                   minHeight: 48,
@@ -1320,7 +1382,11 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                           <StyledListItemButton
                             selected={subTab.id === activeTabId}
                             onClick={() => {
-                              navigate('/admin-panel/' + subTab.link);
+                              // navigate('/admin-panel/' + subTab.link);
+                              window.open(
+                                '/admin-panel/' + subTab.link,
+                                '_blank',
+                              );
                               setActiveTabId(subTab.id);
                               handleDrawerClose();
                             }}
@@ -1374,6 +1440,10 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
                             selected={subTab.id === activeTabId}
                             onClick={() => {
                               navigate('/admin-panel/' + subTab.link);
+                              // window.open(
+                              //   '/admin-panel/' + subTab.link,
+                              //   '_blank',
+                              // );
                               setActiveTabId(subTab.id);
                               handleDrawerClose();
                             }}

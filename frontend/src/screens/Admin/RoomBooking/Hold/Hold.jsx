@@ -15,7 +15,9 @@ import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
 import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
+import moment from 'moment';
 import Print from '../../../../assets/Print.png';
+import Edit from '../../../../assets/Edit.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../assets/ExportExcel.png';
 import Tooltip from '@mui/material/Tooltip';
@@ -30,6 +32,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import forcheckout from '../../../../assets/Checkout2.png';
+import UpdateHoldForm from './UpdateHoldForm';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
@@ -47,7 +50,8 @@ const style = {
 };
 
 const Hold = ({ setopendashboard }) => {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
+  const [Dharamshala, setDharamshala] = useState('');
   const [isData, setisData] = React.useState('');
   const [isDataDummy, setisDataDummy] = React.useState([]);
   const [page, setPage] = useState(0);
@@ -88,6 +92,16 @@ const Hold = ({ setopendashboard }) => {
       }
     });
   };
+
+  const [updatedata, setupdatedata] = useState('');
+  const [open2, setOpen2] = React.useState(false);
+
+  const handleClickOpen2 = (data) => {
+    setOpen2(true);
+    setupdatedata(data);
+  };
+  const handleClose2 = () => setOpen2(false);
+
   const getall_donation = () => {
     setloader(true);
     serverInstance('room/hold', 'get').then((res) => {
@@ -174,11 +188,20 @@ const Hold = ({ setopendashboard }) => {
     doc.setFontSize(28);
     doc.save(`${fileName}_${dateStr}.pdf`);
   };
+
+  const getalldharamshala = () => {
+    serverInstance('room/get-dharmasalas', 'get').then((res) => {
+      if (res.data) {
+        setDharamshala(res.data);
+      }
+    });
+  };
   useEffect(() => {
+    getalldharamshala();
     getall_donation();
     setopendashboard(true);
     setuserrole(Number(sessionStorage.getItem('userrole')));
-  }, [open, open1]);
+  }, [open, open1, open2]);
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const sortData = (key) => {
@@ -209,7 +232,8 @@ const Hold = ({ setopendashboard }) => {
   const [holdremain, setholdremain] = useState('');
   const [holdby, setholdby] = useState('');
   const [remark, setremark] = useState('');
-
+  const [dharamshalaname, setdharamshalaname] = useState('');
+  const [categoryname, setcategoryname] = useState('');
   const onSearchByOther = (e, type) => {
     if (type === 'mobile') {
       setmobileno(e.target.value.toLowerCase());
@@ -232,6 +256,14 @@ const Hold = ({ setopendashboard }) => {
     if (type === 'remarks') {
       setremark(e.target.value.toLowerCase());
     }
+
+    if (type === 'dharamshala') {
+      setdharamshalaname(e.target.value.toLowerCase());
+    }
+
+    if (type === 'category') {
+      setcategoryname(e.target.value.toLowerCase());
+    }
   };
 
   useEffect(() => {
@@ -239,7 +271,9 @@ const Hold = ({ setopendashboard }) => {
       (dt) =>
         Moment(dt?.since).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
         Moment(dt?.remain).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
-        dt?.name?.toLowerCase().indexOf(customername) > -1,
+        dt?.name?.toLowerCase().indexOf(customername) > -1 &&
+        dt?.tbl_dharmasala?.name?.toLowerCase().indexOf(dharamshalaname) > -1 &&
+        dt?.tbl_rooms_category?.name?.toLowerCase().indexOf(categoryname) > -1,
     );
 
     if (remark) {
@@ -293,6 +327,8 @@ const Hold = ({ setopendashboard }) => {
     holdremain,
     holdsince,
     remark,
+    dharamshalaname,
+    categoryname,
   ]);
   return (
     <>
@@ -343,6 +379,38 @@ const Hold = ({ setopendashboard }) => {
                 </IconButton>
               </div>
               <Holdfrom setOpen={setOpen} />
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open2}
+        onClose={handleClose}
+        closeAfterTransition
+      >
+        <Fade in={open2}>
+          <Box sx={style}>
+            <div>
+              <div className="add-div-close-div">
+                <div>
+                  <h2 style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
+                    Update Hold Room
+                  </h2>
+                  <Typography
+                    style={{ marginLeft: '1rem' }}
+                    variant="body2"
+                    color="primary"
+                  >
+                    {currDate} / {currTime}
+                  </Typography>
+                </div>
+                <IconButton>
+                  <CloseIcon onClick={() => handleClose2()} />
+                </IconButton>
+              </div>
+              <UpdateHoldForm setOpen={setOpen2} data={updatedata} />
             </div>
           </Box>
         </Fade>
@@ -432,7 +500,7 @@ const Hold = ({ setopendashboard }) => {
               <TableRow>
                 <TableCell>S.No</TableCell>
                 <TableCell>
-                  Holder Mobile No
+                  Mobile No
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('mobile')}
@@ -440,10 +508,26 @@ const Hold = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Room holder Name
+                  holder Name
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Dharamshala
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('tbl_dharmasala')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Category
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('Category')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -472,7 +556,7 @@ const Hold = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Hold Approved By
+                  Hold By
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('approvedBy')}
@@ -507,6 +591,28 @@ const Hold = ({ setopendashboard }) => {
                     type="text"
                     onChange={(e) => onSearchByOther(e, 'name')}
                     placeholder="Search name"
+                  />
+                </TableCell>
+                <TableCell>
+                  <select
+                    name="cars"
+                    id="cars"
+                    className="cuolms_search"
+                    onChange={(e) => onSearchByOther(e, 'dharamshala')}
+                  >
+                    <option value="">All Dharamshala</option>
+                    {Dharamshala &&
+                      Dharamshala.map((item, idx) => {
+                        return <option value={item?.name}>{item?.name}</option>;
+                      })}
+                  </select>
+                </TableCell>
+                <TableCell>
+                  <input
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'category')}
+                    placeholder="Category"
                   />
                 </TableCell>
                 <TableCell>
@@ -578,17 +684,39 @@ const Hold = ({ setopendashboard }) => {
                       <TableCell>{index + 1}</TableCell>
                       <TableCell>{row?.mobile}</TableCell>
                       <TableCell>{row?.name}</TableCell>
+                      <TableCell>{row?.tbl_dharmasala?.name}</TableCell>
+                      <TableCell>{row?.tbl_rooms_category?.name}</TableCell>
                       <TableCell>{row?.roomNo}</TableCell>
                       <TableCell>
-                        {Moment(row?.since).format('DD-MM-YYYY')}
+                        {Moment(row?.since).format('DD-MM-YYYY')}{' '}
+                        {moment(row?.since, 'HH:mm:ss').format('hh:mm:ss')}
                       </TableCell>
                       <TableCell>
-                        {Moment(row?.remain).format('DD-MM-YYYY')}
+                        {Moment(row?.remain).format('DD-MM-YYYY')}{' '}
+                        {moment(row?.remain, 'HH:mm:ss').format('hh:mm:ss')}
                       </TableCell>
 
                       <TableCell>{row?.approvedBy}</TableCell>
                       <TableCell> {row?.remarks}</TableCell>
                       <TableCell>
+                        <img
+                          onClick={() =>
+                            navigate('/admin-panel/HoldCertificate', {
+                              state: {
+                                data: row,
+                              },
+                            })
+                          }
+                          src={Print}
+                          alt="print"
+                          style={{ width: '25px', marginRight: '0.3rem' }}
+                        />
+                        <img
+                          onClick={() => handleClickOpen2(row)}
+                          src={Edit}
+                          alt="print"
+                          style={{ width: '25px', marginRight: '0.3rem' }}
+                        />
                         <Tooltip title="Room Release">
                           <img
                             onClick={() => handleClickOpen3(row?.id)}

@@ -205,6 +205,7 @@ function CheckinForm({ setOpen }) {
         email: email,
         address: address,
         city: city,
+        advanceAmount: mainAvanceRate,
         state: state,
         proof: idproffname,
         idNumber: idproffno,
@@ -529,7 +530,14 @@ function CheckinForm({ setOpen }) {
                       </div>
                       <div className="main_div_test22222">
                         <p>Advance rate</p>
-                        <p>₹ {mainAvanceRate}</p>
+
+                        <input
+                          style={{ width: '4rem' }}
+                          type="text"
+                          value={mainAvanceRate}
+                          name="mainAvanceRate"
+                          onChange={(e) => setmainAvanceRate(e.target.value)}
+                        />
                       </div>
                       <div className="main_div_test22222">
                         <p>
