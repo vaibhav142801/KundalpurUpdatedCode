@@ -76,6 +76,7 @@ const ChequeDonation = ({
   const [genderp, setgenderp] = useState('');
   const [genderp1, setgenderp1] = useState('');
   const [showloader, setshowloader] = useState(false);
+  const [userrole, setuserrole] = useState('');
   const [donationItems, setDonationItems] = useState([
     {
       type: '',
@@ -296,6 +297,7 @@ const ChequeDonation = ({
 
       setDonationDate(date);
     }
+    setuserrole(Number(sessionStorage.getItem('userrole')));
     setrole(Number(sessionStorage.getItem('userrole')));
   }, []);
 
@@ -358,7 +360,8 @@ const ChequeDonation = ({
             <Grid item xs={6} md={3}>
               <CustomInputLabel htmlFor="donation-date">Date</CustomInputLabel>
               <CustomInput
-                disabled={role === 3 ? true : false}
+                // disabled={role === 3 ? true : false}
+                disabled={showUpdateBtn && userrole === 3 ? true : false}
                 type="date"
                 id="donation-date"
                 value={donationDate}
@@ -372,7 +375,8 @@ const ChequeDonation = ({
             <Grid item xs={6} md={3}>
               <CustomInputLabel htmlFor="donation-time">Time</CustomInputLabel>
               <CustomInput
-                disabled={role === 3 ? true : false}
+                disabled={showUpdateBtn && userrole === 3 ? true : false}
+                // disabled={role === 3 ? true : false}
                 type="time"
                 id="donation-time"
                 value={donationTime}
@@ -587,6 +591,9 @@ const ChequeDonation = ({
                     <TableCell align="center">
                       <CustomTableInput
                         required
+                        disabled={
+                          showUpdateBtn && userrole === 3 ? true : false
+                        }
                         type="number"
                         value={item.amount}
                         onChange={(e) =>

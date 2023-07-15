@@ -14,6 +14,18 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
           <div className="bloc-tabs1">
             <NavLink
               style={{ width: '15rem' }}
+              to="/admin-panel/Onlycheckin"
+              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+            >
+              <img
+                style={{ marginRight: '4%', width: '20px' }}
+                src={f1}
+                alt="fast"
+              />
+              Checkin History
+            </NavLink>
+            <NavLink
+              style={{ width: '15rem' }}
               to="/admin-panel/Room/checkinreports"
               className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
             >

@@ -110,6 +110,10 @@ import OnlineCombine from '../screens/Admin/Reports/CombineReports/Online/Online
 import ManulCombine from '../screens/Admin/Reports/CombineReports/Manual/ManulCombine';
 import HoldCertificate from '../screens/Admin/RoomBooking/RoomBookingCetificate/HoldCertificate';
 import Holdprint from '../screens/Admin/RoomBooking/RoomBookingCetificate/Holdprint';
+import Onlychecking from '../screens/Admin/RoomBooking/RoomBookingReports/Onlychecking';
+
+import AllCheckoutPrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/AllCheckoutPrint';
+import AllChoutRecript from '../screens/Admin/RoomBooking/RoomBookingCetificate/AllCheckoutReceipt';
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -525,7 +529,7 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           path="/admin-panel/room/cashpaymentsuccess"
           element={
             <Adminprivateroute>
-              <CashPaymentSuccess setopendashboard={setopendashboard} />
+              <CashPaymentSuccess RoomBookingPrint={setopendashboard} />
             </Adminprivateroute>
           }
         />
@@ -874,6 +878,33 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <Holdprint setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/Onlycheckin"
+          element={
+            <Adminprivateroute>
+              <Onlychecking setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/AllCheckoutPrint"
+          element={
+            <Adminprivateroute>
+              <AllCheckoutPrint setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/AllChoutRecript"
+          element={
+            <Adminprivateroute>
+              <AllChoutRecript setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />

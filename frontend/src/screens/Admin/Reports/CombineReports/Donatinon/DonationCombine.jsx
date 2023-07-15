@@ -324,7 +324,7 @@ const DonationCombine = ({ setopendashboard }) => {
           });
         } else {
           serverInstance(
-            `user/search-donation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}&modeOfDonation=${Number(
+            `user/search-donation?name=&fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}&modeOfDonation=${Number(
               typeofdonation,
             )}`,
             'post',

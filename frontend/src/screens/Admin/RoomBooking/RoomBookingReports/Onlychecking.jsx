@@ -21,8 +21,6 @@ import ExportExcel from '../../../../assets/ExportExcel.png';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import CheckinForm from './CheckinForm';
-import RoomBookingTap from '../RoomBookingTap';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -31,16 +29,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import RoomShiftForm from '../RoomShift/RoomShiftForm';
-import Printcheckin from './Printcheckin';
+import Printcheckin from '../CheckIn/Printcheckin';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
-import ForceCheckoutOptions from './ForceCheckoutOptions';
+import ForceCheckoutOptions from '../CheckIn/ForceCheckoutOptions';
 import Print from '../../../../assets/Print.png';
 import Edit from '../../../../assets/Edit.png';
 import Checkout21 from '../../../../assets/Checkout21.png';
 import fordd from '../../../../assets/for.jpeg';
-import Allcheckout from './Allcheckout';
-import multiple1 from '../../../../assets/multiple1.png';
-import './Checkin.css';
+import RoomBookingTap from './RoomBookingReportsTab';
 
 const style = {
   position: 'absolute',
@@ -53,7 +49,6 @@ const style = {
   boxShadow: 24,
   borderRadius: '5px',
 };
-
 const style1 = {
   position: 'absolute',
   top: '50%',
@@ -66,19 +61,7 @@ const style1 = {
   borderRadius: '5px',
 };
 
-const style2 = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 'auto',
-  bgcolor: 'background.paper',
-  p: 2,
-  boxShadow: 24,
-  borderRadius: '5px',
-};
-
-const CheckIn = ({ setopendashboard }) => {
+const Onlychecking = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const [Dharamshala, setDharamshala] = useState('');
   const [emplist, setemplist] = useState('');
@@ -111,16 +94,6 @@ const CheckIn = ({ setopendashboard }) => {
     setOpen8(true);
     setchangedata8(data);
   };
-
-  const [open9, setOpen9] = React.useState(false);
-  const [changedata9, setchangedata9] = useState('');
-  const [bookingid, setbookingid] = useState();
-  const handleClose9 = () => setOpen9(false);
-  const handleOepn9 = async (data, id) => {
-    setOpen9(true);
-    setchangedata9(data);
-    setbookingid(id);
-  };
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
   var today = new Date();
   const currDate = today
@@ -135,7 +108,7 @@ const CheckIn = ({ setopendashboard }) => {
     setloader(true);
     setcheckindate('');
     if (optionss === 'Currently Stay') {
-      serverInstance('room/checkin', 'get').then((res) => {
+      serverInstance('room/checkin-history', 'get').then((res) => {
         if (res.data) {
           setloader(false);
           let filterData = res.data.filter((item) => item.modeOfBooking === 1);
@@ -376,7 +349,6 @@ const CheckIn = ({ setopendashboard }) => {
         dt?.address?.toLowerCase().indexOf(address) > -1 &&
         dt?.dharmasala?.name?.toLowerCase().indexOf(dharamshalanamee) > -1,
     );
-
     if (checkindate) {
       filtered = filtered?.map((item) => {
         if (Moment(item?.date).format('YYYY-MM-DD') == checkindate) {
@@ -472,6 +444,33 @@ const CheckIn = ({ setopendashboard }) => {
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
+        open={open1}
+        onClose={handleClose1}
+        closeAfterTransition
+      >
+        <Fade in={open1}>
+          <Box sx={style}>
+            <div>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <div style={{ width: '100%' }} />
+                <IconButton>
+                  <CloseIcon onClick={() => handleClose1()} />
+                </IconButton>
+              </div>
+              <Printcheckin isData={isData} setOpen1={handleClose1} row={row} />
+              ;
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
         open={open8}
         onClose={handleClose8}
         closeAfterTransition
@@ -497,39 +496,6 @@ const CheckIn = ({ setopendashboard }) => {
                 </IconButton>
               </div>
               <RoomShiftForm setOpen={setOpen8} changedata={changedata8} />
-            </div>
-          </Box>
-        </Fade>
-      </Modal>
-
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open9}
-        onClose={handleClose9}
-        closeAfterTransition
-      >
-        <Fade in={open9}>
-          <Box sx={style2}>
-            <div>
-              <div className="add-div-close-div">
-                <div>
-                  <h2 style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
-                    All Checkout
-                  </h2>
-                  <Typography
-                    style={{ marginLeft: '1rem' }}
-                    variant="body2"
-                    color="primary"
-                  >
-                    {currDate} / {currTime}
-                  </Typography>
-                </div>
-                <IconButton>
-                  <CloseIcon onClick={() => handleClose9()} />
-                </IconButton>
-              </div>
-              <Allcheckout data={changedata9} bookingid={bookingid} />
             </div>
           </Box>
         </Fade>
@@ -574,91 +540,6 @@ const CheckIn = ({ setopendashboard }) => {
         </DialogActions>
       </Dialog>
 
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-      >
-        <Fade in={open}>
-          <Box sx={style}>
-            <div>
-              <div className="add-div-close-div">
-                <div style={{ marginLeft: '1rem', marginBottom: '0rem' }}>
-                  <h2 style={{ marginBottom: '0.5rem' }}>Check In</h2>
-                  <Typography variant="body2" color="primary">
-                    {currDate} / {currTime}
-                  </Typography>
-                </div>
-
-                <IconButton>
-                  <CloseIcon onClick={() => handleClose()} />
-                </IconButton>
-              </div>
-              <CheckinForm setOpen={setOpen} />
-            </div>
-          </Box>
-        </Fade>
-      </Modal>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open1}
-        onClose={handleClose1}
-        closeAfterTransition
-      >
-        <Fade in={open1}>
-          <Box sx={style}>
-            <div>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <div style={{ width: '100%' }} />
-                <IconButton>
-                  <CloseIcon onClick={() => handleClose1()} />
-                </IconButton>
-              </div>
-              <Printcheckin isData={isData} setOpen1={handleClose1} row={row} />
-              ;
-            </div>
-          </Box>
-        </Fade>
-      </Modal>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open2}
-        onClose={handleClose2}
-        closeAfterTransition
-      >
-        <Fade in={open2}>
-          <Box sx={style}>
-            <div>
-              <div className="add-div-close-div">
-                <div style={{ marginLeft: '0rem', marginBottom: '1rem' }}>
-                  <h2 style={{ marginBottom: '0rem' }}>
-                    force Checkout option
-                  </h2>
-                  <Typography variant="body2" color="primary">
-                    {currDate} / {currTime}
-                  </Typography>
-                </div>
-                <IconButton>
-                  <CloseIcon
-                    // style={{ marginBottom: '3rem' }}
-                    onClick={() => setOpen2(false)}
-                  />
-                </IconButton>
-              </div>
-              <ForceCheckoutOptions setOpen={setOpen2} row={row} />
-            </div>
-          </Box>
-        </Fade>
-      </Modal>
       <RoomBookingTap setopendashboard={setopendashboard} />
       <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
         <div className="search-header-print">
@@ -822,10 +703,7 @@ const CheckIn = ({ setopendashboard }) => {
                     style={{ width: '4rem' }}
                     className="cuolms_search"
                     type="date"
-                    onChange={(e) => {
-                      onSearchByOther(e, 'date');
-                      console.log(e.target.value);
-                    }}
+                    onChange={(e) => onSearchByOther(e, 'date')}
                   />
                 </TableCell>
                 <TableCell>
@@ -1103,13 +981,6 @@ const CheckIn = ({ setopendashboard }) => {
                             </Tooltip>
                           </>
                         )}
-
-                        <img
-                          onClick={() => handleOepn9(isData, row?.booking_id)}
-                          style={{ width: '25px', marginRight: '0.3rem' }}
-                          src={multiple1}
-                          alt="All"
-                        />
                       </TableCell>
                     </TableRow>
                   ))}
@@ -1185,4 +1056,4 @@ const CheckIn = ({ setopendashboard }) => {
   );
 };
 
-export default CheckIn;
+export default Onlychecking;

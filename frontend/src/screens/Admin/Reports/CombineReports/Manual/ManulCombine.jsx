@@ -340,7 +340,7 @@ const ManulCombine = ({ setopendashboard }) => {
       } else {
         if (typeofdonation === 0) {
           serverInstance(
-            `user/manual-search-donation?fromDate=${datefrom}&toDate=${dateto}&fromReceipt=${voucherfrom}&toReceipt=${voucherto}`,
+            `user/manual-search-donation?name=&date=&fromDate=${datefrom}&toDate=${dateto}&fromRecp=${voucherfrom}&toRecp=${voucherto}`,
             'post',
             { user: passuser, type: passhead },
           ).then((res) => {
@@ -1163,11 +1163,13 @@ const ManulCombine = ({ setopendashboard }) => {
               {isData ? (
                 <>
                   {(rowsPerPage > 0
-                    ? isData.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage,
-                      )
-                    : isData
+                    ? isData
+                        ?.reverse()
+                        ?.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage,
+                        )
+                    : isData?.reverse()
                   ).map((row, index) => (
                     <TableRow
                       key={row.id}

@@ -28,6 +28,17 @@ const DonationReportTap = ({ setopendashboard }) => {
                   />
                   Electronic Report
                 </NavLink>
+                <NavLink
+                  to="/admin-panel/electronic/report/cheque"
+                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                >
+                  <img
+                    style={{ marginRight: '4%', width: '20px' }}
+                    src={f1}
+                    alt="fast"
+                  />
+                  Cheque Report
+                </NavLink>
               </>
             ) : (
               <>

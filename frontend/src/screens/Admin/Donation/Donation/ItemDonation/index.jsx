@@ -740,6 +740,9 @@ const ItemDonation = ({
                     </TableCell>
                     <TableCell align="center">
                       <CustomTableInput
+                        disabled={
+                          showUpdateBtn && userrole === 3 ? true : false
+                        }
                         type="text"
                         value={item.approxValue}
                         onChange={(e) =>

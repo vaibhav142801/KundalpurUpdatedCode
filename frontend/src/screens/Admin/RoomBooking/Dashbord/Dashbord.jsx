@@ -12,9 +12,11 @@ function Dashbord({ setopendashboard }) {
   const getdata = () => {
     serverInstance('room/dharmashala-data', 'get').then((res) => {
       setloader(true);
-      if (res?.data) {
+
+      console.log(res);
+      if (res?.data?.dharmsalas) {
         setloader(false);
-        setisData(res?.data);
+        setisData(res?.data?.dharmsalas);
       }
     });
   };
@@ -80,49 +82,16 @@ function Dashbord({ setopendashboard }) {
         </h1>
 
         {isData &&
-          Object.keys(isData).forEach((category) => {
-            // holdRoomsCatWise[category] = roomsCatWise[category].filter((id) => {
-            //   return holdinsArr.includes(id);
-            // });
-
-            // occRoomsOnCategory[category] = roomsCatWise[category].filter((id) => {
-            //   return unavailableRooms.includes(id);
-            // });
-
-            // roomsCatWise[category] = roomsCatWise[category].filter((id) => {
-            //   return !unavailableRooms.includes(id);
-            // });
-
-            console.log('object', category);
-          })}
-        {isData &&
-          isData.map((item, index) => {
+          isData?.map((item, index) => {
             return (
               <>
-                {/* <div
-                  className="print_all_align"
-                  style={{ marginBottom: '1rem', marginTop: '1rem' }}
-                >
-                  <div className="only_flex">
-                    <p style={{ marginTop: '0px', marginBottom: '0px' }}>
-                      Print
-                    </p>
-                    <Tooltip title="Print">
-                      <img
-                        src={Print}
-                        alt="dd"
-                        style={{ width: '25px', marginLeft: '1rem' }}
-                      />
-                    </Tooltip>
-                  </div>
-                </div> */}
                 <div className="table_main_div" key={index}>
                   <table>
                     <tr
                       className="margintop_add"
                       style={{
                         borderBottom: '1px solid gray',
-                        fontSize: '14px',
+                        fontSize: '16px',
                         borderRight: '1px solid gray',
                       }}
                     >
@@ -139,7 +108,7 @@ function Dashbord({ setopendashboard }) {
                                   borderRight: '1px solid gray',
                                 }}
                               >
-                                <td>Facility & Category</td>
+                                <td>FacilityCategory</td>
                                 <td>Available Rooms ({item?.value.length})</td>
                               </tr>
                               <tr
@@ -172,8 +141,8 @@ function Dashbord({ setopendashboard }) {
                             borderRight: '1px solid gray',
                           }}
                         >
-                          <td>Facility & Category</td>
-                          <td>Available Rooms (8)</td>
+                          <td>FacilityCategory</td>
+                          <td>Available Rooms (0)</td>
                         </tr>
                         <tr
                           style={{
@@ -187,7 +156,7 @@ function Dashbord({ setopendashboard }) {
                       </>
                     )}
                   </table>
-                  <table>
+                  <table style={{ width: '60%' }}>
                     <tr
                       className="margintop_add"
                       style={{
@@ -205,17 +174,6 @@ function Dashbord({ setopendashboard }) {
                             <>
                               <tr style={{ borderBottom: '1px solid gray' }}>
                                 <td>Hold Room ({item?.value.length})</td>
-                                {isData &&
-                                  isData.map((item) => {
-                                    getoccupidedobject(
-                                      item?.occupiedRooms,
-                                    )?.map((item) => {
-                                      if (item[index]?.value != null) {
-                                        console.log('dd', item[index]?.value);
-                                      }
-                                    });
-                                  })}
-                                <td>Occupied Room (0)</td>
                               </tr>
                               <tr
                                 style={{
@@ -229,7 +187,6 @@ function Dashbord({ setopendashboard }) {
                                       })
                                     : '0'}
                                 </td>
-                                <td>0</td>
                               </tr>
                             </>
                           );
@@ -239,7 +196,6 @@ function Dashbord({ setopendashboard }) {
                       <>
                         <tr style={{ borderBottom: '1px solid gray' }}>
                           <td>Hold Room (0)</td>
-                          <td>Occupied Room (0)</td>
                         </tr>
                         <tr
                           style={{
@@ -247,6 +203,56 @@ function Dashbord({ setopendashboard }) {
                           }}
                         >
                           <td>0</td>
+                        </tr>
+                      </>
+                    )}
+                  </table>
+                  <table style={{ width: '30%' }}>
+                    <tr
+                      className="margintop_add"
+                      style={{
+                        borderBottom: '1px solid gray',
+                      }}
+                    >
+                      <th colSpan={2}>&nbsp;</th>
+                    </tr>
+                    {getholdobject(item?.occupiedRooms)?.length > 0 ? (
+                      <>
+                        {getholdobject(item?.occupiedRooms)?.map(
+                          (item, index) => {
+                            return (
+                              <>
+                                <tr style={{ borderBottom: '1px solid gray' }}>
+                                  <td>Occupied Room ({item?.value.length})</td>
+                                </tr>
+                                <tr
+                                  style={{
+                                    borderBottom: '1px solid gray',
+                                  }}
+                                >
+                                  <td>
+                                    {item?.value?.length > 0
+                                      ? item?.value.map((x) => {
+                                          return <span>{x},</span>;
+                                        })
+                                      : '0'}
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          },
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <tr style={{ borderBottom: '1px solid gray' }}>
+                          <td>Occupied Room (0)</td>
+                        </tr>
+                        <tr
+                          style={{
+                            borderBottom: '1px solid gray',
+                          }}
+                        >
                           <td>0</td>
                         </tr>
                       </>

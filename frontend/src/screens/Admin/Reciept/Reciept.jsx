@@ -224,7 +224,8 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                                 {item?.remark}
                                 {item?.itemType && (
                                   <>
-                                    ( {item?.itemType}-{item?.quantity}-
+                                    ( {item?.itemType}-{item?.quantity}{' '}
+                                    &nbsp;नग&nbsp;
                                     {item?.size} {item?.unit})
                                   </>
                                 )}
@@ -256,8 +257,9 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
                                 {item?.remark}
                                 {item?.itemType && (
                                   <>
-                                    ( {item?.itemType}-{item?.quantity}-
-                                    {item?.size} {item?.unit})
+                                    ( {item?.itemType}-{item?.quantity} &nbsp;नग
+                                    &nbsp;
+                                    {item?.size} {item?.unit} )
                                   </>
                                 )}
                               </>

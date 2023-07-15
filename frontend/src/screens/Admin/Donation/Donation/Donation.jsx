@@ -418,19 +418,34 @@ const Donation = ({ setopendashboard }) => {
   {
     roleid === 3 && emproleid === 7 ? (
       <>
-        {tabs.push({
-          label: 'Electronic Donation',
-          component: (
-            <ElectronicDonation
-              handleClose={handleClose}
-              themeColor={donationColorTheme.electronic}
-              handleOpen4={handleOpen4}
-              setopendashboard={setopendashboard}
-              receiptNo={receiptNo}
-              donationTypes={donationTypes}
-            />
-          ),
-        })}
+        {tabs.push(
+          {
+            label: 'Electronic Donation',
+            component: (
+              <ElectronicDonation
+                handleClose={handleClose}
+                themeColor={donationColorTheme.electronic}
+                handleOpen4={handleOpen4}
+                setopendashboard={setopendashboard}
+                receiptNo={receiptNo}
+                donationTypes={donationTypes}
+              />
+            ),
+          },
+          {
+            label: 'Cheque Donation',
+            component: (
+              <ChequeDonation
+                handleClose={handleClose}
+                themeColor={donationColorTheme.cheque}
+                handleOpen4={handleOpen4}
+                setopendashboard={setopendashboard}
+                receiptNo={receiptNo}
+                donationTypes={donationTypes}
+              />
+            ),
+          },
+        )}
       </>
     ) : (
       <>
@@ -449,6 +464,7 @@ const Donation = ({ setopendashboard }) => {
               />
             ),
           },
+
           {
             label: 'Electronic Donation',
             component: (

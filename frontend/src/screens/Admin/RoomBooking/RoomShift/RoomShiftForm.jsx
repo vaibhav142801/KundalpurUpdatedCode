@@ -11,7 +11,7 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
-
+import moment from 'moment';
 const style = {
   position: 'absolute',
   top: '47%',
@@ -132,16 +132,13 @@ function RoomShiftForm({ setOpen, changedata }) {
   var today = new Date();
 
   var datee = today.toISOString().substring(0, 10);
-  const [date, setdate] = useState(datee);
 
-  const [time, settime] = useState(
-    today.toLocaleTimeString('it-IT', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    }),
-  );
+  var checkindate = moment(changedata?.date).format('DD');
+  var checkoutdate = moment(changedata?.coutDate).format('DD');
+  var days = checkoutdate - checkindate;
+  // if (days > 1) {
+  //   room.roomAmount = room.roomAmount * days;
+  // }
 
   const handlesubmit = async () => {
     try {
@@ -164,7 +161,7 @@ function RoomShiftForm({ setOpen, changedata }) {
         child: Children ? Number(Children) : 0,
         dharmasala: dharamshalid,
         modeOfBooking: changedata?.modeOfBooking,
-        RoomNo: roomnumber,
+        RoomNo: Number(roomnumber) * Number(days),
         roomAmount: rate,
         advanceAmount: advancerate,
       };

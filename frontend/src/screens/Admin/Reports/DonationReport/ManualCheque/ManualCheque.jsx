@@ -1294,7 +1294,16 @@ const ManualCheque = ({ setopendashboard }) => {
                         ) : (
                           ''
                         )}
-
+                        {emproleid === 7 && (
+                          <Tooltip title="Edit Donation">
+                            <img
+                              onClick={() => upadteOpen(row)}
+                              src={Edit}
+                              alt="print"
+                              style={{ width: '20px', marginRight: '2px' }}
+                            />
+                          </Tooltip>
+                        )}
                         <img
                           onClick={() =>
                             navigation('/admin-panel/reports/printcontent', {

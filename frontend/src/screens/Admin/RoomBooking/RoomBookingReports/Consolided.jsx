@@ -103,7 +103,8 @@ const Consolided = ({ setopendashboard }) => {
     const tableColumn = [
       'Date',
       'Employee',
-      'CheckinAmount',
+      'CheckinAmountCash',
+      'CheckinAmountOnline',
       'RentAmount',
       'CheckoutAmount',
       'TotalAmount',
@@ -115,7 +116,8 @@ const Consolided = ({ setopendashboard }) => {
       const ticketData = [
         Moment(item?.date).format('DD-MM-YYYY'),
         item?.Username,
-        item?.totalCheckinAmount,
+        item?.totalCashCheckinAmount,
+        item?.totalOnlineCheckinAmount,
         item?.totalRateAmount,
         item?.totalCheckoutAmount,
         item?.finalAmount,
@@ -152,7 +154,8 @@ const Consolided = ({ setopendashboard }) => {
       data.push({
         Date: Moment(item?.date).format('DD-MM-YYYY'),
         Employee: item?.Username,
-        CheckinAmount: item?.totalCheckinAmount,
+        CheckinAmountCash: item?.totalCashCheckinAmount,
+        CheckinAmountOnline: item?.totalOnlineCheckinAmount,
         RentAmount: item?.totalRateAmount,
         CheckoutAmount: item?.totalCheckoutAmount,
         TotalAmount: item?.finalAmount,
@@ -233,10 +236,13 @@ const Consolided = ({ setopendashboard }) => {
   const [customername, setcustomername] = useState('');
   const [date, setdate] = useState('');
   const [checkinamount, setcheckinamount] = useState('');
+  const [checkinamountonline, setcheckinamountonline] = useState('');
   const [checkoutamount, setcheckoutamount] = useState('');
   const [rentamount, setrentamount] = useState('');
   const [finalamount, setfinalamount] = useState('');
+  const [cancledAmount, setcancledAmount] = useState('');
 
+  console.log(checkinamount);
   const onSearchByOther = (e, type) => {
     if (type === 'date') {
       setdate(e.target.value.toLowerCase());
@@ -244,8 +250,12 @@ const Consolided = ({ setopendashboard }) => {
     if (type === 'Username') {
       setcustomername(e.target.value.toLowerCase());
     }
-    if (type === 'totalCheckinAmount') {
+    if (type === 'totalCashCheckinAmount') {
       setcheckinamount(e.target.value);
+    }
+
+    if (type === 'totalOnlineCheckinAmount') {
+      setcheckinamountonline(e.target.value);
     }
     if (type === 'totalRateAmount') {
       setrentamount(e.target.value);
@@ -257,6 +267,10 @@ const Consolided = ({ setopendashboard }) => {
     if (type === 'finalAmount') {
       setfinalamount(e.target.value);
     }
+
+    if (type === 'totalCancelledAmount') {
+      setcancledAmount(e.target.value);
+    }
   };
 
   useEffect(() => {
@@ -266,9 +280,33 @@ const Consolided = ({ setopendashboard }) => {
         dt?.Username?.toLowerCase().indexOf(customername) > -1,
     );
 
+    if (cancledAmount) {
+      filtered = filtered?.map((item) => {
+        if (item?.totalCancelledAmount == Number(cancledAmount)) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+
     if (checkinamount) {
       filtered = filtered?.map((item) => {
-        if (item.totalCheckinAmount == Number(checkinamount)) {
+        if (Number(item.totalCashCheckinAmount) == Number(checkinamount)) {
+          return item;
+        } else {
+          return;
+        }
+      });
+      filtered = filtered?.filter((x) => x !== undefined);
+    }
+
+    if (checkinamountonline) {
+      filtered = filtered?.map((item) => {
+        if (
+          Number(item.totalOnlineCheckinAmount) == Number(checkinamountonline)
+        ) {
           return item;
         } else {
           return;
@@ -317,6 +355,8 @@ const Consolided = ({ setopendashboard }) => {
     checkinamount,
     rentamount,
     checkoutamount,
+    cancledAmount,
+    checkinamountonline,
   ]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
@@ -496,15 +536,24 @@ const Consolided = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Check In Amount (Advance)
+                  CheckIn (Bank)
                   <i
                     style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('totalCheckinAmount')}
+                    onClick={() => sortData('totalOnlineCheckinAmount')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
                 <TableCell>
-                  Rent Amount (Room)
+                  CheckIn (Cash)
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('totalCashCheckinAmount')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+
+                <TableCell>
+                  Rent (Room)
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('totalRateAmount')}
@@ -512,7 +561,7 @@ const Consolided = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Check Out Amount (Return)
+                  CheckOut (Return)
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('totalCheckoutAmount')}
@@ -563,10 +612,26 @@ const Consolided = ({ setopendashboard }) => {
                     style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
-                    onChange={(e) => onSearchByOther(e, 'totalCheckinAmount')}
+                    onChange={(e) =>
+                      onSearchByOther(e, 'totalOnlineCheckinAmount')
+                    }
                     placeholder="Search  Checkin"
                   />
                 </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '7rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => {
+                      onSearchByOther(e, 'totalCashCheckinAmount');
+
+                      console.log(e.target.value);
+                    }}
+                    placeholder="Search  Checkin"
+                  />
+                </TableCell>
+
                 <TableCell>
                   <input
                     style={{ width: '7rem' }}
@@ -624,7 +689,9 @@ const Consolided = ({ setopendashboard }) => {
                         {Moment(row?.date).format('DD-MM-YYYY')}
                       </TableCell>
                       <TableCell>{row?.Username}</TableCell>
-                      <TableCell>{row?.totalCheckinAmount}</TableCell>
+                      <TableCell>{row?.totalOnlineCheckinAmount}</TableCell>
+                      <TableCell>{row?.totalCashCheckinAmount}</TableCell>
+
                       <TableCell>{row?.totalRateAmount}</TableCell>
                       <TableCell>{row?.totalCheckoutAmount}</TableCell>
                       <TableCell>{row?.totalCancelledAmount}</TableCell>
@@ -642,11 +709,20 @@ const Consolided = ({ setopendashboard }) => {
                 <TableCell style={{ fontWeight: 800 }}>
                   {isData &&
                     isData?.reduce(
-                      (n, { totalCheckinAmount }) =>
-                        parseFloat(n) + parseFloat(totalCheckinAmount),
+                      (n, { totalOnlineCheckinAmount }) =>
+                        parseFloat(n) + parseFloat(totalOnlineCheckinAmount),
                       0,
                     )}
                 </TableCell>
+                <TableCell style={{ fontWeight: 800 }}>
+                  {isData &&
+                    isData?.reduce(
+                      (n, { totalCashCheckinAmount }) =>
+                        parseFloat(n) + parseFloat(totalCashCheckinAmount),
+                      0,
+                    )}
+                </TableCell>
+
                 <TableCell style={{ fontWeight: 800 }}>
                   {isData &&
                     isData?.reduce(

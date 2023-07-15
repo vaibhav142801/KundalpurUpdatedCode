@@ -67,11 +67,19 @@ const Onlyprint = ({ setopendashboard }) => {
   let particularData;
   useEffect(() => {
     if (location.state) {
-      particularData = location?.state?.roomdata?.filter((item) => {
-        return item?.booking_id === location?.state?.data?.booking_id;
-      });
-      setisData(particularData);
-      console.log('particulat data is', particularData);
+      if (location?.state?.roomdata) {
+        particularData = location?.state?.roomdata?.filter((item) => {
+          return item?.booking_id === location?.state?.data?.booking_id;
+        });
+        setisData(particularData);
+      }
+      if (location?.state?.checkoutdata) {
+        setisData(location?.state?.checkoutdata);
+
+        console.log('data', location?.state?.checkoutdata);
+      }
+
+      console.log('sdd', location);
     }
 
     setopendashboard(true);

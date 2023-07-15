@@ -37,7 +37,7 @@ const Dashboard = ({ setopendashboard }) => {
       setloader(true);
       if (res.data.data) {
         setloader(false);
-        setisData1(res.data.data);
+        setisData1(res?.data?.data);
       }
     });
   };
@@ -47,7 +47,7 @@ const Dashboard = ({ setopendashboard }) => {
       setloader(true);
       if (res.data.data) {
         setloader(false);
-        setisData2(res.data.data);
+        setisData2(res?.data?.data);
       }
     });
   };
@@ -57,7 +57,7 @@ const Dashboard = ({ setopendashboard }) => {
       setloader(true);
       if (res.data.data) {
         setloader(false);
-        setisData3(res.data.data);
+        setisData3(res?.data?.data);
       }
     });
   };
@@ -67,7 +67,7 @@ const Dashboard = ({ setopendashboard }) => {
       setloader(true);
       if (res.data.data) {
         setloader(false);
-        setisData4(res.data.data);
+        setisData4(res?.data?.data);
       }
     });
   };
@@ -78,30 +78,30 @@ const Dashboard = ({ setopendashboard }) => {
       console.log('manua dele', res.data.data);
       if (res.data.data) {
         setloader(false);
-        setisData5(res.data.data);
+        setisData5(res?.data?.data);
       }
     });
   };
   const getAllguestadmin = () => {
     serverInstance('room/get-guests', 'GET').then((res) => {
-      setisDataadmin(res.data);
+      setisDataadmin(res?.data);
     });
   };
 
   const getAllempguest = () => {
     serverInstance('room/employee-get-guests', 'GET').then((res) => {
-      setisDataemp(res.data);
+      setisDataemp(res?.data);
     });
   };
 
   const getempbooking = () => {
     serverInstance('room/employee-booking-stats-1', 'GET').then((res) => {
-      setbookemp(res.data);
+      setbookemp(res?.data);
     });
   };
   const getadminbooking = () => {
     serverInstance('room/room-booking-stats-1', 'GET').then((res) => {
-      setbookingadmin(res.data);
+      setbookingadmin(res?.data);
     });
   };
 

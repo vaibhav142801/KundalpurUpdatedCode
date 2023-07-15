@@ -157,6 +157,7 @@ function Holdprint({ setopendashboard }) {
                     <td className="table_tddd lineheight10">
                       रूम टाईप & रूम न.
                     </td>
+                    <td className="table_tddd lineheight10">रूम रेंट</td>
                     {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
                     {/* <td className="table_tddd lineheight10">
                                   रुम न.
@@ -180,6 +181,9 @@ function Holdprint({ setopendashboard }) {
                     <td className="table_tddd lineheight10">
                       {isData && isData?.tbl_rooms_category?.name} -({' '}
                       {isData?.roomNo})
+                    </td>
+                    <td className="table_tddd lineheight10">
+                      {isData?.roomrate}
                     </td>
                     {/* <td className="table_tddd">
                                 {checkinda &&

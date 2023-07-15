@@ -24,8 +24,8 @@ const CheckoutReceipt = ({ setopendashboard }) => {
 
       const res = await axios.post(`${backendApiUrl}room/checkOut`, {
         id: isData?.id,
-        checkoutDate: new Date(),
-        advanceAmount: isData?.advanceAmount,
+        // checkoutDate: new Date(),
+        // advanceAmount: isData?.advanceAmount,
       });
 
       if (res.data.data.message) {

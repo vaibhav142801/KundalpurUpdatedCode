@@ -2,29 +2,43 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Converter, hiIN } from 'any-number-to-words';
 import { backendApiUrl } from '../../../../config/config';
+import { serverInstance } from '../../../../API/ServerInstance';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import moment from 'moment';
 import '../../../Admin/Reciept/cashrecipt.css';
 const converter = new Converter(hiIN);
-
-const HoldCertificate = ({ setopendashboard }) => {
+const AllCheckoutPrint = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const location = useLocation();
-  const adminName = sessionStorage.getItem('adminName');
-  const empName = sessionStorage.getItem('empName');
   const componentRef = useRef();
   const [isData, setisData] = React.useState('');
 
   const handlesubmit = async () => {
-    navigation('/admin-panel/Holdprint', {
-      state: {
-        data: isData,
-      },
-    });
-  };
+    try {
+      axios.defaults.headers.post[
+        'Authorization'
+      ] = `Bearer ${sessionStorage.getItem('token')}`;
 
+      const res = await axios.post(`${backendApiUrl}room/checkOutAll`, {
+        id: isData[0]?.booking_id,
+        checkoutDate: new Date(),
+        // advanceAmount: data?.advanceAmount,
+      });
+
+      if (res?.data?.data?.status) {
+        navigation('/admin-panel/AllCheckoutPrint', {
+          state: {
+            checkoutdata: isData,
+          },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   function down() {
     console.log('cliii');
     const input = document.getElementById('receipt');
@@ -37,7 +51,7 @@ const HoldCertificate = ({ setopendashboard }) => {
   }
 
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
-  var today = new Date(isData && isData?.remain);
+  var today = new Date(isData && isData[0]?.date);
   const currDate = today
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -47,7 +61,7 @@ const HoldCertificate = ({ setopendashboard }) => {
     hour12: true,
   });
 
-  var today1 = new Date(isData && isData?.since);
+  var today1 = new Date();
   const currDatecheckout = today1
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -57,14 +71,33 @@ const HoldCertificate = ({ setopendashboard }) => {
     hour12: true,
   });
 
-  let difference = today.getTime() - today1.getTime();
+  let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
 
+  var checkindate = moment(isData[0]?.date).format('DD');
+  var checkoutdate = moment(isData[0]?.coutDate).format('DD');
+  var days = checkoutdate - checkindate;
+  if (days > 1) {
+    room.roomAmount = room.roomAmount * days;
+  }
+
+  let particularData;
   useEffect(() => {
     if (location.state) {
-      setisData(location?.state?.data);
+      if (location?.state?.roomdata) {
+        particularData = location?.state?.roomdata?.filter((item) => {
+          return item?.booking_id === location?.state?.data?.booking_id;
+        });
+        setisData(particularData);
+      }
+      if (location?.state?.checkoutdata) {
+        setisData(location?.state?.checkoutdata);
+
+        console.log('data', location?.state?.checkoutdata);
+      }
+
+      console.log('sdd', location);
     }
-    console.log('data from hold receipt', location?.state?.data);
 
     setopendashboard(true);
   }, []);
@@ -83,7 +116,7 @@ const HoldCertificate = ({ setopendashboard }) => {
         >
           <button onClick={() => navigation(-1)}>Back</button>
           <button onClick={() => down()}>Download</button>
-          <button onClick={() => handlesubmit()}>Print</button>
+          <button onClick={() => handlesubmit()}>Checkout</button>
         </div>
         <div style={{ height: '10rem' }} />
         <div style={{ padding: '1rem' }} ref={componentRef}>
@@ -118,21 +151,21 @@ const HoldCertificate = ({ setopendashboard }) => {
                       style={{ width: '100%' }}
                     >
                       <div className="maxxin_room_receipt_innear">
-                        <div style={{ backgroundColor: '#FE0002' }}>
+                        <div style={{ backgroundColor: 'red' }}>
                           <p className="yadda_text lineheight">
-                            यात्री आगमन रसीद(होल्ड)
+                            यात्री प्रस्थान रसीद
                           </p>
                         </div>
 
                         <div className="innear_div_texx">
                           <div className="innear_div_texx_ddd">
                             <div>
-                              {/* <p
+                              <p
                                 className="lineheight"
                                 style={{ color: 'gray' }}
                               >
                                 आवास क्र :
-                              </p> */}
+                              </p>
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
@@ -145,26 +178,26 @@ const HoldCertificate = ({ setopendashboard }) => {
                               >
                                 यात्री का नाम :
                               </p>
-                              {/* <p
+                              <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
                                 पिता/पति श्री :
-                              </p> */}
+                              </p>
                             </div>
                             <div className="main_left">
-                              {/* <p className="lineheight">
-                                {isData && isData?.booking_id}
-                              </p> */}
                               <p className="lineheight">
-                                {isData && isData?.mobile}
+                                {isData && isData[0]?.booking_id}
                               </p>
                               <p className="lineheight">
-                                {isData && isData?.name}
+                                {isData && isData[0]?.contactNo}
                               </p>
-                              {/* <p className="lineheight">
-                                {isData && isData?.Fname}
-                              </p> */}
+                              <p className="lineheight">
+                                {isData && isData[0]?.name}
+                              </p>
+                              <p className="lineheight">
+                                {isData && isData[0]?.Fname}
+                              </p>
                             </div>
                           </div>
                           <div className="innear_div_texx_ddd">
@@ -173,13 +206,13 @@ const HoldCertificate = ({ setopendashboard }) => {
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                होल्ड प्रस्थान दिनाँक :
+                                प्रस्थान दिनाँक :
                               </p>
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                होल्ड आगमन दिनांक :
+                                आगमन दिनांक :
                               </p>
 
                               <p
@@ -188,12 +221,12 @@ const HoldCertificate = ({ setopendashboard }) => {
                               >
                                 स्टे :
                               </p>
-                              {/* <p
+                              <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
                                 पता :
-                              </p> */}
+                              </p>
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
@@ -203,34 +236,32 @@ const HoldCertificate = ({ setopendashboard }) => {
                                 {currDate} / {currTime}
                               </p>
 
+                              <p className="lineheight">{days} Days</p>
                               <p className="lineheight">
-                                {TotalDays && TotalDays} Days
-                              </p>
-                              {/* <p className="lineheight">
                                 {isData && isData?.address}
-                              </p> */}
+                              </p>
                             </div>
                           </div>
                         </div>
 
-                        {/* <div className="yyy_text_div">
+                        <div className="yyy_text_div">
                           <p className="lineheight">यात्री संख्या</p>
                           <p className="lineheight">
-                            Male: {isData && isData?.male}
+                            Male: {isData && isData[0]?.male}
                           </p>
                           <p className="lineheight">
-                            Female: {isData && isData?.female}
+                            Female: {isData && isData[0]?.female}
                           </p>
                           <p className="lineheight">
-                            Child: {isData && isData?.child}
+                            Child: {isData && isData[0]?.child}
                           </p>
                           <p className="lineheight">
                             Total:
-                            {Number(isData && isData?.male) +
-                              Number(isData && isData?.female) +
-                              Number(isData && isData?.child)}
+                            {Number(isData && isData[0]?.male) +
+                              Number(isData && isData[0]?.female) +
+                              Number(isData && isData[0]?.child)}
                           </p>
-                        </div> */}
+                        </div>
 
                         <div>
                           <table className="table_ddd">
@@ -240,58 +271,107 @@ const HoldCertificate = ({ setopendashboard }) => {
                                   धर्मशाला नाम
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  रूम टाईप & रूम न
+                                  रूम टाईप & फेसिलिटी
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  रूम रेंट
+                                  रूम न
                                 </td>
-                                {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
-                                {/* <td className="table_tddd lineheight10">
-                                  रुम न.
-                                </td> */}
-                                {/* <td className="table_tddd">रूम की संख्या</td> */}
 
-                                {/* <td className="table_tddd">
-                            अमानत राशि
-                            <p>
-                              {isData && isData[0]?.nRoom && isData[0]?.nRoom} X
-                              {isData &&
-                                isData[0]?.roomAmount &&
-                                isData[0]?.roomAmount}
-                            </p>
-                          </td> */}
+                                <td className="table_tddd lineheight10">
+                                  सहयोग राशि
+                                </td>
+                                <td className="table_tddd lineheight10">
+                                  अमानत राशि
+                                </td>
+                                <td className="table_tddd lineheight10">
+                                  शेष राशि वापिसी
+                                </td>
                               </tr>
-                              <tr>
-                                <td className="table_tddd lineheight10">
-                                  {isData && isData?.tbl_dharmasala?.name}
-                                </td>
-                                <td className="table_tddd lineheight10">
-                                  {isData && isData?.tbl_rooms_category?.name} (
-                                  {isData?.roomNo})
-                                </td>
-                                <td className="table_tddd lineheight10">
-                                  {isData?.roomrate}
-                                </td>
-                                {/* <td className="table_tddd">
-                                {checkinda &&
-                                  checkinda?.category[0]?.facilities &&
-                                  checkinda?.category[0]?.facilities.map(
-                                    (element, index) => (
-                                      <span key={index}> {element},</span>
-                                    ),
-                                  )}
-                              </td> */}
-                                {/* <td className="table_tddd lineheight10">
-                                  ({isData && isData?.RoomNo})
-                                </td> */}
-                                {/* <td className="table_tddd">
-                                {isData && isData[0]?.nRoom}
-                              </td> */}
+                              {isData &&
+                                isData?.map((item, index) => {
+                                  return (
+                                    <tr>
+                                      <td className="table_tddd lineheight10">
+                                        {item?.dharmasala?.name}
+                                      </td>
+                                      <td className="table_tddd lineheight10">
+                                        {item?.categoryName}
+                                        {item?.facility_name &&
+                                          item?.facility_name.map(
+                                            (element, index) => (
+                                              <span key={index}>{element}</span>
+                                            ),
+                                          )}
+                                        -{item?.category_name}
+                                        {item?.facilityName}
+                                      </td>
+                                      <td className="table_tddd lineheight10">
+                                        {item?.RoomNo}
+                                      </td>
 
-                                {/* <td className="table_tddd">
-                            {Number(isData && isData[0]?.roomAmount) *
-                              Number(isData && isData[0]?.nRoom)}
-                          </td> */}
+                                      <td className="table_tddd lineheight10">
+                                        {Number(item?.roomAmount) *
+                                          Number(days)}
+                                        .00
+                                      </td>
+                                      <td className="table_tddd lineheight10">
+                                        {Number(item?.advanceAmount) +
+                                          Number(item?.roomAmount) *
+                                            Number(days)}
+                                        .00
+                                      </td>
+
+                                      <td className="table_tddd lineheight10">
+                                        {Number(item?.advanceAmount)}
+                                        .00
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td className="table_tddd lineheight10">
+                                  Total
+                                </td>
+                                <td
+                                  style={{ fontWeight: 800 }}
+                                  className="table_tddd lineheight10"
+                                >
+                                  {isData &&
+                                    isData?.reduce((acc, item) => {
+                                      return acc + parseInt(item?.roomAmount);
+                                    }, 0) * Number(days)}
+                                </td>
+                                <td
+                                  style={{ fontWeight: 800 }}
+                                  className="table_tddd lineheight10"
+                                >
+                                  {isData &&
+                                    isData?.reduce((acc, item) => {
+                                      return acc + parseInt(item?.roomAmount);
+                                    }, 0) *
+                                      Number(days) +
+                                      isData?.reduce((acc, item) => {
+                                        return (
+                                          acc + parseInt(item?.advanceAmount)
+                                        );
+                                      }, 0)}
+                                  .00
+                                </td>
+
+                                <td
+                                  style={{ fontWeight: 800 }}
+                                  className="table_tddd lineheight10"
+                                >
+                                  {isData &&
+                                    isData?.reduce((acc, item) => {
+                                      return (
+                                        acc + parseInt(item?.advanceAmount)
+                                      );
+                                    }, 0)}
+                                  .00
+                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -303,7 +383,7 @@ const HoldCertificate = ({ setopendashboard }) => {
                               marginBottom: '0.5rem',
                             }}
                           >
-                            {isData && isData?.approvedBy}
+                            {isData[0]?.bookedByName}
                           </p>
                         </div>
                       </div>
@@ -319,9 +399,7 @@ const HoldCertificate = ({ setopendashboard }) => {
               </p>
             </div>
             <div className="main-certificatenote">
-              <h2 className="h2text">
-                होल्ड आवास व्यवस्था हेतु नियम/सावधानियां
-              </h2>
+              <h2 className="h2text">आवास व्यवस्था हेतु नियम/सावधानियां</h2>
               <p>
                 1. कमरें खुले ना छोड़े, स्वयं के ताले का उपयोग करें, सामान की
                 सुरक्षा स्वयं करें ।
@@ -405,4 +483,4 @@ const HoldCertificate = ({ setopendashboard }) => {
   );
 };
 
-export default HoldCertificate;
+export default AllCheckoutPrint;

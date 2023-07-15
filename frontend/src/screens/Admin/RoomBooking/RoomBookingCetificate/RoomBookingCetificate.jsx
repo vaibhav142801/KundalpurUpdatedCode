@@ -8,7 +8,9 @@ import jsPDF from 'jspdf';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../../../Admin/Reciept/cashrecipt.css';
+import moment from 'moment';
 const converter = new Converter(hiIN);
+
 const RoomBookingCetificate = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const location = useLocation();
@@ -65,6 +67,9 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
   let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
 
+  var checkindate = moment(isData[0]?.date).format('DD');
+  var checkoutdate = moment(isData[0]?.coutDate).format('DD');
+  var days = checkoutdate - checkindate;
   useEffect(() => {
     if (location.state) {
       setisData(location.state?.data?.data);
@@ -73,8 +78,8 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
 
     console.log(
       'data from certifucate',
-      location?.state?.data?.data,
-      location?.state?.checkindata,
+
+      isData,
     );
 
     setopendashboard(true);
@@ -316,54 +321,64 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                             </p>
                           </td> */}
                               </tr>
+                              {isData &&
+                                isData?.map((item, index) => {
+                                  return (
+                                    <tr>
+                                      <td className="table_tddd lineheight10">
+                                        {
+                                          checkindata?.dharamshala[0]
+                                            ?.dharmasala?.name
+                                        }
+                                      </td>
+                                      <td className="table_tddd lineheight10">
+                                        {
+                                          checkindata?.dharamshala[0]
+                                            ?.facility_name[0]
+                                        }
+                                      </td>
+                                      <td className="table_tddd lineheight10">
+                                        {item?.RoomNo}
+                                      </td>
+
+                                      <td className="table_tddd lineheight10">
+                                        {Number(item?.roomAmount)}
+                                        .00
+                                      </td>
+                                      <td className="table_tddd lineheight10">
+                                        {Number(item?.advanceAmount)}
+                                        .00
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+
                               <tr>
+                                <td></td>
+                                <td></td>
                                 <td className="table_tddd lineheight10">
-                                  {checkindata &&
-                                    checkindata?.dharamshala[0]?.dharmasala
-                                      ?.name}
+                                  Total
                                 </td>
-                                <td className="table_tddd lineheight10">
-                                  {checkindata &&
-                                    checkindata?.dharamshala[0]?.facility_name.map(
-                                      (element, index) => (
-                                        <span key={index}> {element}</span>
-                                      ),
-                                    )}
-                                  -
-                                  {checkindata &&
-                                    checkindata?.dharamshala[0]?.category_name}
+                                <td
+                                  style={{ fontWeight: 800 }}
+                                  className="table_tddd lineheight10"
+                                >
+                                  {isData &&
+                                    isData?.reduce((acc, item) => {
+                                      return acc + parseInt(item?.roomAmount);
+                                    }, 0)}
                                 </td>
-
-                                <td className="table_tddd lineheight10">
-                                  {isData && isData[0]?.nRoom === 1 ? (
-                                    <>
-                                      {isData &&
-                                        isData.map((item) => {
-                                          return <span>{item?.RoomNo}</span>;
-                                        })}
-                                    </>
-                                  ) : (
-                                    <>
-                                      {isData &&
-                                        isData.map((item) => {
-                                          return <span>{item?.RoomNo}, </span>;
-                                        })}
-                                    </>
-                                  )}
-                                </td>
-
-                                <td className="table_tddd lineheight10">
-                                  {isData[0]?.nRoom *
-                                    Number(isData[0]?.roomAmount) *
-                                    Number(checkindata?.days)}
-                                  {console.log(checkindata?.days)}
-                                </td>
-                                <td className="table_tddd lineheight10">
-                                  {isData[0]?.nRoom *
-                                    Number(isData[0]?.roomAmount) *
-                                    Number(checkindata?.days) +
-                                    Number(isData && isData[0]?.advanceAmount) *
-                                      Number(isData[0]?.nRoom)}
+                                <td
+                                  style={{ fontWeight: 800 }}
+                                  className="table_tddd lineheight10"
+                                >
+                                  {isData &&
+                                    isData?.reduce((acc, item) => {
+                                      return (
+                                        acc + parseInt(item?.advanceAmount)
+                                      );
+                                    }, 0)}
+                                  .00
                                 </td>
                               </tr>
                             </tbody>
