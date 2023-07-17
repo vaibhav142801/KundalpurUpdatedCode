@@ -75,6 +75,10 @@ const CheckoutReceipt = ({ setopendashboard }) => {
   let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
   let days = TotalDays === 1 ? 1 : TotalDays - 1;
+
+  if (days === 0) {
+    days = 1;
+  }
   useEffect(() => {
     if (location.state) {
       setisData(location?.state?.data);

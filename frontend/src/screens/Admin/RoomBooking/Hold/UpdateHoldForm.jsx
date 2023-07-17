@@ -82,9 +82,11 @@ function UpdateHoldForm({ setOpen, data }) {
         sinceTime: sinceTime,
         remainTime: remainTime,
         remain: holdremain,
-        dharmasala: dharamshalaname,
-        category: categoryname,
-        roomNo: roomnumber,
+        dharmasala: dharamshalaname
+          ? dharamshalaname
+          : data?.tbl_dharmasala?.name,
+        category: categoryname ? categoryname : data?.tbl_rooms_category?.name,
+        roomNo: roomnumber ? roomnumber : data?.roomNo,
         approvedBy: holdaprodeBy,
         remarks: remarks,
       };
@@ -95,6 +97,7 @@ function UpdateHoldForm({ setOpen, data }) {
         setshowloader(false);
         Swal.fire('Great!', res.data.data.message, 'success');
       }
+      console.log(res);
     } catch (error) {
       setOpen(false);
       setshowloader(false);
@@ -143,8 +146,9 @@ function UpdateHoldForm({ setOpen, data }) {
       setholdermobile(data?.mobile);
       setholdername(data?.name);
       setholdaprodeBy(data?.approvedBy);
-      setholdremain(data?.remain);
-      setholdsince(data?.since);
+      setholdremain(new Date(data?.remain).toISOString().slice(0, 16));
+
+      setholdsince(new Date(data?.since).toISOString().slice(0, 16));
       setremarks(data?.remarks);
     }
   }, []);
@@ -284,7 +288,10 @@ function UpdateHoldForm({ setOpen, data }) {
                   type="datetime-local"
                   placeholder="Hold Remain"
                   value={holdremain}
-                  onChange={(e) => setholdremain(e.target.value)}
+                  onChange={(e) => {
+                    setholdremain(e.target.value);
+                    console.log(e.target.value);
+                  }}
                 />
               </div>
 

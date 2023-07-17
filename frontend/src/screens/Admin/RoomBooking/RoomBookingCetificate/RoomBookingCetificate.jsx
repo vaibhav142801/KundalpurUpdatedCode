@@ -233,6 +233,12 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                               >
                                 पता :
                               </p>
+                              <p
+                                style={{ color: 'gray' }}
+                                className="lineheight"
+                              >
+                                स्टे :
+                              </p>
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
@@ -250,6 +256,8 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                               <p className="lineheight">
                                 {isData && isData[0]?.address}
                               </p>
+
+                              <p className="lineheight">{days}</p>
                             </div>
                           </div>
                         </div>
@@ -346,7 +354,8 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                                         .00
                                       </td>
                                       <td className="table_tddd lineheight10">
-                                        {Number(item?.advanceAmount)}
+                                        {Number(item?.advanceAmount) +
+                                          Number(item?.roomAmount)}
                                         .00
                                       </td>
                                     </tr>
@@ -374,10 +383,13 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                                 >
                                   {isData &&
                                     isData?.reduce((acc, item) => {
-                                      return (
-                                        acc + parseInt(item?.advanceAmount)
-                                      );
-                                    }, 0)}
+                                      return acc + parseInt(item?.roomAmount);
+                                    }, 0) +
+                                      isData?.reduce((acc, item) => {
+                                        return (
+                                          acc + parseInt(item?.advanceAmount)
+                                        );
+                                      }, 0)}
                                   .00
                                 </td>
                               </tr>

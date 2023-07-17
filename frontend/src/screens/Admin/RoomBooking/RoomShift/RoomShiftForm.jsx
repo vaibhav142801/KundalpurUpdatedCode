@@ -161,8 +161,8 @@ function RoomShiftForm({ setOpen, changedata }) {
         child: Children ? Number(Children) : 0,
         dharmasala: dharamshalid,
         modeOfBooking: changedata?.modeOfBooking,
-        RoomNo: Number(roomnumber) * Number(days),
-        roomAmount: rate,
+        RoomNo: roomnumber,
+        roomAmount: Number(rate) * Number(days),
         advanceAmount: advancerate,
       };
       axios.defaults.headers.put[

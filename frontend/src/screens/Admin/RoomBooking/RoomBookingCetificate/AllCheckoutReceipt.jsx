@@ -75,10 +75,10 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
 
   var checkindate = moment(isData[0]?.date).format('DD');
-  var checkoutdate = moment(isData[0]?.coutDate).format('DD');
+  var checkoutdate = moment(new Date()).format('DD');
   var days = checkoutdate - checkindate;
-  if (days > 1) {
-    room.roomAmount = room.roomAmount * days;
+  if (days === 0) {
+    days = 1;
   }
 
   let particularData;

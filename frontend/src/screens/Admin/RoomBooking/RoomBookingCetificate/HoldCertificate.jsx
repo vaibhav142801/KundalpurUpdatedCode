@@ -173,13 +173,13 @@ const HoldCertificate = ({ setopendashboard }) => {
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                होल्ड प्रस्थान दिनाँक :
+                                होल्ड आगमन दिनांक :
                               </p>
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                होल्ड आगमन दिनांक :
+                                होल्ड प्रस्थान दिनाँक :
                               </p>
 
                               <p
@@ -197,12 +197,11 @@ const HoldCertificate = ({ setopendashboard }) => {
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
-                                {currDatecheckout} / {currTimecheckout}
-                              </p>
-                              <p className="lineheight">
                                 {currDate} / {currTime}
                               </p>
-
+                              <p className="lineheight">
+                                {currDatecheckout} / {currTimecheckout}
+                              </p>
                               <p className="lineheight">
                                 {TotalDays && TotalDays} Days
                               </p>
