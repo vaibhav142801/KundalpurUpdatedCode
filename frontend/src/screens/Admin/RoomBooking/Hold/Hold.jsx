@@ -272,8 +272,8 @@ const Hold = ({ setopendashboard }) => {
         Moment(dt?.since).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
         Moment(dt?.remain).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
         dt?.name?.toLowerCase().indexOf(customername) > -1 &&
-        dt?.tbl_dharmasala?.name?.toLowerCase().indexOf(dharamshalaname) > -1 &&
-        dt?.tbl_rooms_category?.name?.toLowerCase().indexOf(categoryname) > -1,
+        dt?.dharmasala?.name?.toLowerCase().indexOf(dharamshalaname) > -1 &&
+        dt?.category_name[0]?.toLowerCase().indexOf(categoryname) > -1,
     );
 
     if (remark) {
@@ -684,8 +684,8 @@ const Hold = ({ setopendashboard }) => {
                       <TableCell>{index + 1}</TableCell>
                       <TableCell>{row?.mobile}</TableCell>
                       <TableCell>{row?.name}</TableCell>
-                      <TableCell>{row?.tbl_dharmasala?.name}</TableCell>
-                      <TableCell>{row?.tbl_rooms_category?.name}</TableCell>
+                      <TableCell>{row?.dharmasala?.name}</TableCell>
+                      <TableCell>{row?.category_name[0]}</TableCell>
                       <TableCell>{row?.roomNo}</TableCell>
                       <TableCell>
                         {Moment(row?.since).format('DD-MM-YYYY')}{' '}

@@ -528,15 +528,14 @@ const Holdhistory = ({ setopendashboard }) => {
               {isData ? (
                 <>
                   {(rowsPerPage > 0
-                    ? isData.length != 0 &&
-                      isData
+                    ? isData
                         ?.reverse()
                         ?.slice(
                           page * rowsPerPage,
                           page * rowsPerPage + rowsPerPage,
                         )
-                    : isData.length != 0 && isData?.reverse()
-                  )?.map((row, index) => (
+                    : isData?.reverse()
+                  ).map((row, index) => (
                     <TableRow
                       key={row.id}
                       sx={{

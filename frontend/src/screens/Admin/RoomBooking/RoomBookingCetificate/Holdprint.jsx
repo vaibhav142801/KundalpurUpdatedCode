@@ -75,7 +75,7 @@ function Holdprint({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginLeft: '0rem', marginTop: '9rem' }}
+            style={{ marginLeft: '0rem', marginTop: '5.2rem' }}
           >
             <div style={{ backgroundColor: '#FE0002' }}>
               <p className="yadda_text lineheight">यात्री आगमन रसीद(होल्ड)</p>
@@ -157,7 +157,7 @@ function Holdprint({ setopendashboard }) {
                     <td className="table_tddd lineheight10">
                       रूम टाईप & रूम न.
                     </td>
-                    <td className="table_tddd lineheight10">रूम रेंट</td>
+                    {/* <td className="table_tddd lineheight10">रूम रेंट</td> */}
                     {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
                     {/* <td className="table_tddd lineheight10">
                                   रुम न.
@@ -176,15 +176,14 @@ function Holdprint({ setopendashboard }) {
                   </tr>
                   <tr>
                     <td className="table_tddd lineheight10">
-                      {isData && isData?.tbl_dharmasala?.name}
+                      {isData && isData?.dharmasala?.name}
                     </td>
                     <td className="table_tddd lineheight10">
-                      {isData && isData?.tbl_rooms_category?.name} -({' '}
-                      {isData?.roomNo})
+                      {isData && isData?.category_name[0]} ({isData?.roomNo})
                     </td>
-                    <td className="table_tddd lineheight10">
+                    {/* <td className="table_tddd lineheight10">
                       {isData?.roomrate}
-                    </td>
+                    </td> */}
                     {/* <td className="table_tddd">
                                 {checkinda &&
                                   checkinda?.category[0]?.facilities &&

@@ -76,7 +76,7 @@ function HistoryCheckoutPrint({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginTop: '9rem' }}
+            style={{ marginLeft: '0rem', marginTop: '5.2rem' }}
           >
             <div>
               <p className="yadda_text lineheight">यात्री प्रस्थान रसीद</p>

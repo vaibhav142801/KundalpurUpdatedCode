@@ -79,7 +79,7 @@ function RoomBookingPrint({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginTop: '6rem' }}
+            style={{ marginLeft: '0rem', marginTop: '5.2rem' }}
           >
             <div style={{ backgroundColor: '#01B0F1' }}>
               <p className="yadda_text lineheight">
