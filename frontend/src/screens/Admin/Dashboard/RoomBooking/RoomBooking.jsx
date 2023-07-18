@@ -160,8 +160,9 @@ const RoomBooking = ({ setopendashboard }) => {
                   }}
                 >
                   <TableCell>{row?.Username}</TableCell>
-                  <TableCell>{row?.cash}</TableCell>
                   <TableCell>{row?.online}</TableCell>
+                  <TableCell>{row?.cash}</TableCell>
+
                   <TableCell>
                     {Number(row?.cash) + Number(row?.online)}
                   </TableCell>
@@ -188,6 +189,19 @@ const RoomBooking = ({ setopendashboard }) => {
                 >
                   {isData &&
                     isData?.reduce(
+                      (n, { online }) => parseFloat(n) + parseFloat(online),
+                      0,
+                    )}
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontSize: '15px',
+                    color: '#05313C',
+                    fontWeight: 700,
+                  }}
+                >
+                  {isData &&
+                    isData?.reduce(
                       (n, { cash }) => parseFloat(n) + parseFloat(cash),
                       0,
                     )}
@@ -203,16 +217,11 @@ const RoomBooking = ({ setopendashboard }) => {
                     isData?.reduce(
                       (n, { online }) => parseFloat(n) + parseFloat(online),
                       0,
-                    )}
-                </TableCell>
-                <TableCell
-                  style={{
-                    fontSize: '15px',
-                    color: '#05313C',
-                    fontWeight: 700,
-                  }}
-                >
-                  0
+                    ) +
+                      isData?.reduce(
+                        (n, { cash }) => parseFloat(n) + parseFloat(cash),
+                        0,
+                      )}
                 </TableCell>
               </TableRow>
               <TableRow>

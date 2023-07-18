@@ -485,7 +485,7 @@ function UpdateRoom({ setOpen, updatedata }) {
                       Check Out Time
                     </label>
                     <CustomInput
-                      type="Number"
+                      type="Text"
                       id="donation-time"
                       name="checkout"
                       placeholder="Enter Check Out Time "

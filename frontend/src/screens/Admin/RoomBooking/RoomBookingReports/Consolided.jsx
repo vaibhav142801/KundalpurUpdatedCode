@@ -83,10 +83,13 @@ const Consolided = ({ setopendashboard }) => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+  // "fromDate" : "2023-07-15",
+  // "toDate" : "2023-07-16"
+
   const getall_donation = () => {
     setloader(true);
     serverInstance(
-      `room/consolidated?date=&name=&advanceAmount=&roomAmount=&cancelAmount=`,
+      `room/consolidated?employeeName=${empidsearch}&fromDate=${fromdate}&toDate=${toDate}`,
       'get',
     ).then((res) => {
       console.log(res);
@@ -208,6 +211,7 @@ const Consolided = ({ setopendashboard }) => {
   };
 
   const reset = () => {
+    settoDate('');
     setfromdate('');
     setempidsearch('');
     getall_donation();
@@ -223,7 +227,7 @@ const Consolided = ({ setopendashboard }) => {
     setloader(true);
     e.preventDefault();
     serverInstance(
-      `/room/consolidated?date=${fromdate}&employeeName=${empidsearch}`,
+      `room/consolidated?employeeName=${empidsearch}&fromDate=${fromdate}&toDate=${toDate}`,
       'get',
     ).then((res) => {
       if (res?.data) {
@@ -234,6 +238,7 @@ const Consolided = ({ setopendashboard }) => {
   };
 
   const [customername, setcustomername] = useState('');
+  const [todate, settodate] = useState('');
   const [date, setdate] = useState('');
   const [checkinamount, setcheckinamount] = useState('');
   const [checkinamountonline, setcheckinamountonline] = useState('');
@@ -425,6 +430,21 @@ const Consolided = ({ setopendashboard }) => {
                   name="fromdate"
                   onChange={(e) => {
                     setfromdate(e.target.value);
+                  }}
+                />
+              </div>
+
+              <div className="Center_main_dic_filetr">
+                <label htmlFor="donation-date">To Date</label>
+                <input
+                  id="donation-date"
+                  style={{ width: '17rem' }}
+                  type="date"
+                  placeholder="From"
+                  value={toDate}
+                  name="fromdate"
+                  onChange={(e) => {
+                    settoDate(e.target.value);
                   }}
                 />
               </div>

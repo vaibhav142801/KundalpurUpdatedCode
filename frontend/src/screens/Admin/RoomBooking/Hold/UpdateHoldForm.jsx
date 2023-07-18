@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { serverInstance } from '../../../../API/ServerInstance';
 import InputBase from '@mui/material/InputBase';
-import InputLabel from '@mui/material/InputLabel';
 import { backendApiUrl } from '../../../../config/config';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { ReactTransliterate } from 'react-transliterate';
@@ -10,7 +9,7 @@ import Swal from 'sweetalert2';
 import Moment from 'moment-js';
 import moment from 'moment';
 import { Box, Button, MenuItem, Select, Typography } from '@mui/material';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import './Holdform.css';
 const custominput = {
   width: '280px',
@@ -62,6 +61,7 @@ function UpdateHoldForm({ setOpen, data }) {
   const [remarks, setremarks] = useState('');
   const [categoryname, setcategoryname] = useState('');
   const [showloader, setshowloader] = useState(false);
+  const [upid, setupid] = useState('');
   const [showloader1, setshowloader1] = useState(false);
   var today = new Date(holdremain);
   const remainDate = Moment(today).format('YYYY/DD/MM');
@@ -76,17 +76,13 @@ function UpdateHoldForm({ setOpen, data }) {
         'Authorization'
       ] = `Bearer ${sessionStorage.getItem('token')}`;
       const data = {
+        id: upid,
         name: holdername,
         mobile: holdermobile,
         since: holdsince,
         sinceTime: sinceTime,
         remainTime: remainTime,
         remain: holdremain,
-        dharmasala: dharamshalaname
-          ? dharamshalaname
-          : data?.tbl_dharmasala?.name,
-        category: categoryname ? categoryname : data?.tbl_rooms_category?.name,
-        roomNo: roomnumber ? roomnumber : data?.roomNo,
         approvedBy: holdaprodeBy,
         remarks: remarks,
       };
@@ -97,11 +93,19 @@ function UpdateHoldForm({ setOpen, data }) {
         setshowloader(false);
         Swal.fire('Great!', res.data.data.message, 'success');
       }
+
+      if (res.data.data.status === false) {
+        setOpen(false);
+        setshowloader(false);
+        Swal.fire('Error!', res.data.data.message, 'success');
+      }
       console.log(res);
     } catch (error) {
       setOpen(false);
       setshowloader(false);
       Swal.fire('Error!', error, 'error');
+
+      console.log(error);
     }
   };
   const getalldharamshala = () => {
@@ -150,6 +154,8 @@ function UpdateHoldForm({ setOpen, data }) {
 
       setholdsince(new Date(data?.since).toISOString().slice(0, 16));
       setremarks(data?.remarks);
+      setupid(data?.id);
+      console.log('ss', data);
     }
   }, []);
 
@@ -381,123 +387,7 @@ function UpdateHoldForm({ setOpen, data }) {
               )}
             </div>
           </div>
-          <div className="form-div" style={{ marginBottom: '1rem' }}>
-            <div className="form-input-div_add_user">
-              <div className="inner-input-div2">
-                <label style={{ marginBottom: '0.3rem' }} htmlFor="rate">
-                  Dharamshala
-                </label>
-                <Select
-                  id="donation-type"
-                  required
-                  sx={{
-                    width: '280px',
-                    fontSize: 14,
-                    '& .MuiSelect-select': {
-                      // borderColor: !!formerror.donationtype ? 'red' : '',
-                      padding: '10px 0px 10px 10px',
-                      background: '#fff',
-                    },
-                  }}
-                  value={dharamshalaname}
-                  name="dharamshalaname"
-                  onChange={(e) => {
-                    setdharamshalaname(e.target.value);
-                    getallcategory(e.target.value);
-                  }}
-                  displayEmpty
-                >
-                  <MenuItem
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={''}
-                  >
-                    Please select
-                  </MenuItem>
-                  {Dharamshala
-                    ? Dharamshala.map((item, index) => {
-                        return (
-                          <MenuItem
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            key={item?.dharmasala_id}
-                            value={item?.dharmasala_id}
-                          >
-                            {item?.name}
-                          </MenuItem>
-                        );
-                      })
-                    : ''}
-                </Select>
-              </div>
 
-              <div className="inner-input-div2">
-                <label style={{ marginBottom: '0.3rem' }} htmlFor="advncerate">
-                  Category
-                </label>
-                <Select
-                  id="donation-type"
-                  required
-                  sx={{
-                    width: '280px',
-                    fontSize: 14,
-                    '& .MuiSelect-select': {
-                      // borderColor: !!formerror.donationtype ? 'red' : '',
-                      padding: '10px 0px 10px 10px',
-                      background: '#fff',
-                    },
-                  }}
-                  value={categoryname}
-                  name="categoryname"
-                  onChange={(e) => setcategoryname(e.target.value)}
-                  displayEmpty
-                >
-                  <MenuItem
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={''}
-                  >
-                    Please select
-                  </MenuItem>
-                  {category &&
-                    category.map((item) => {
-                      return (
-                        <MenuItem
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          key={item?.category_id}
-                          value={item?.category_id}
-                        >
-                          {item?.name}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
-              </div>
-
-              <div className="inner-input-div2">
-                <label style={{ marginBottom: '0.3rem' }} htmlFor="toNo">
-                  &nbsp;
-                </label>
-                <button
-                  onClick={() => checkavailability()}
-                  className="check_babbs_btn"
-                >
-                  {showloader1 ? (
-                    <CircularProgress
-                      style={{ width: '21px', height: '21px' }}
-                    />
-                  ) : (
-                    ' Check Availability'
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
           {roomlist ? (
             <>
               <div className="tablescrollbarss">

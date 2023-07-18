@@ -35,6 +35,7 @@ export const CustomInput = styled(InputBase)(({ theme }) => ({
 function AddRoomForm({ setOpen }) {
   const [showprocess, setshowprocess] = useState(false);
   const [showsaveimg, setshowsaveimg] = useState(false);
+  const [extrahour, setextrahour] = useState('');
   const [facility, setfacility] = useState('');
   const [Dharamshala, setDharamshala] = useState('');
   const [category, setcategory] = useState('');

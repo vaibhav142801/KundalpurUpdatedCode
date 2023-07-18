@@ -114,6 +114,7 @@ import Onlychecking from '../screens/Admin/RoomBooking/RoomBookingReports/Onlych
 
 import AllCheckoutPrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/AllCheckoutPrint';
 import AllChoutRecript from '../screens/Admin/RoomBooking/RoomBookingCetificate/AllCheckoutReceipt';
+import ForceCheckoutHistory from '../screens/Admin/RoomBooking/RoomBookingReports/ForceCheckoutHistory';
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -905,6 +906,15 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <AllChoutRecript setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+
+        <Route
+          path="/admin-panel/ForceCheckoutHistory"
+          element={
+            <Adminprivateroute>
+              <ForceCheckoutHistory setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />

@@ -48,6 +48,18 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
               />
               Online Checkout History
             </NavLink>
+            <NavLink
+              style={{ width: '15rem' }}
+              to="/admin-panel/ForceCheckoutHistory"
+              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+            >
+              <img
+                style={{ marginRight: '4%', width: '20px' }}
+                src={f1}
+                alt="fast"
+              />
+              Force Checkout History
+            </NavLink>
             {/* 
             <NavLink
               style={{ width: '15rem' }}

@@ -159,7 +159,7 @@ function RoomShiftForm({ setOpen, changedata }) {
         male: maleno ? Number(maleno) : 0,
         female: femaleno ? Number(femaleno) : 0,
         child: Children ? Number(Children) : 0,
-        dharmasala: dharamshalid,
+        dharmasala: dharamshalid ? dharamshalid : dharamshalanameroom,
         modeOfBooking: changedata?.modeOfBooking,
         RoomNo: roomnumber,
         roomAmount: Number(rate) * Number(days),
@@ -257,7 +257,7 @@ function RoomShiftForm({ setOpen, changedata }) {
       setstate(changedata?.state);
       setcity(changedata?.city);
       setroomnumber(changedata?.RoomNo);
-      setdharamshalanameroom(changedata?.dharmasala?.name);
+      setdharamshalanameroom(changedata?.dharmasala?.id);
       setcategoryroom(changedata?.category_name);
       setfacilityname(changedata?.facility_name);
       setrate(changedata?.roomAmount);
@@ -593,6 +593,7 @@ function RoomShiftForm({ setOpen, changedata }) {
                       Booking Id
                     </label>
                     <CustomInput
+                      disabled={true}
                       id="bookingid"
                       name="bookingid"
                       value={bookingid}

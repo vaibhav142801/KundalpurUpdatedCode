@@ -164,8 +164,9 @@ const EmployeeRoombooking = ({ setopendashboard }) => {
                   }}
                 >
                   <TableCell>{row?.Username}</TableCell>
-                  <TableCell>{row?.cash}</TableCell>
+
                   <TableCell>{row?.online}</TableCell>
+                  <TableCell>{row?.cash}</TableCell>
                   <TableCell>
                     {Number(row?.cash) + Number(row?.online)}
                   </TableCell>
