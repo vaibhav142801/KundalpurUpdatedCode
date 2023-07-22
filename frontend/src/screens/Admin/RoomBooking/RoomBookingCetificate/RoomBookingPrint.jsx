@@ -215,8 +215,7 @@ function RoomBookingPrint({ setopendashboard }) {
                             .00
                           </td>
                           <td className="table_tddd lineheight10">
-                            {Number(item?.advanceAmount) +
-                              Number(item?.roomAmount)}
+                            {Number(item?.advanceAmount)}
                             .00
                           </td>
                         </tr>
@@ -242,11 +241,8 @@ function RoomBookingPrint({ setopendashboard }) {
                     >
                       {isData &&
                         isData?.reduce((acc, item) => {
-                          return acc + parseInt(item?.roomAmount);
-                        }, 0) +
-                          isData?.reduce((acc, item) => {
-                            return acc + parseInt(item?.advanceAmount);
-                          }, 0)}
+                          return acc + parseInt(item?.advanceAmount);
+                        }, 0)}
                       .00
                     </td>
                   </tr>

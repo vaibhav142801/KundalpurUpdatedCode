@@ -226,7 +226,7 @@ const CheckIn = ({ setopendashboard }) => {
         Dharamshala: item?.dharmasala?.name,
         RoomNo: item?.RoomNo,
         Rent: item?.roomAmount,
-        Advance: Number(item?.advanceAmount) + Number(item?.roomAmount),
+        Advance: Number(item?.advanceAmount),
         Employee: item?.bookedByName,
         PayMode: item?.paymentMode === 2 ? 'Cash' : 'Online',
       });
@@ -411,10 +411,7 @@ const CheckIn = ({ setopendashboard }) => {
     //row?.dharmasala?.name
     if (advanceRate) {
       filtered = filtered?.map((item) => {
-        if (
-          item.advanceAmount + item.roomAmount ==
-          Number(advanceRate) + Number(rate)
-        ) {
+        if (item.advanceAmount + item.roomAmount == Number(advanceRate)) {
           return item;
         } else {
           return;
@@ -972,9 +969,7 @@ const CheckIn = ({ setopendashboard }) => {
                       <TableCell> {row?.dharmasala?.name}</TableCell>
                       <TableCell> {row?.RoomNo}</TableCell>
                       <TableCell> {row?.roomAmount}</TableCell>
-                      <TableCell>
-                        {Number(row?.roomAmount) + Number(row?.advanceAmount)}
-                      </TableCell>
+                      <TableCell>{Number(row?.advanceAmount)}</TableCell>
                       <TableCell>{row?.bookedByName}</TableCell>
                       <TableCell>
                         {row?.paymentMode === 2 ? 'Cash' : 'Online'}
@@ -1137,15 +1132,10 @@ const CheckIn = ({ setopendashboard }) => {
                 <TableCell style={{ fontWeight: 800 }}>
                   {isData &&
                     isData?.reduce(
-                      (n, { roomAmount }) =>
-                        parseFloat(n) + parseFloat(roomAmount),
+                      (n, { advanceAmount }) =>
+                        parseFloat(n) + parseFloat(advanceAmount),
                       0,
-                    ) +
-                      isData?.reduce(
-                        (n, { advanceAmount }) =>
-                          parseFloat(n) + parseFloat(advanceAmount),
-                        0,
-                      )}
+                    )}
                 </TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>

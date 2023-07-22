@@ -60,7 +60,7 @@ const HistoryCheckout = ({ setopendashboard }) => {
     hour12: true,
   });
 
-  var today1 = new Date();
+  var today1 = new Date(isData && isData?.coutDate);
   const currDatecheckout = today1
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -358,17 +358,12 @@ const HistoryCheckout = ({ setopendashboard }) => {
                                   .00
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.advanceAmount) +
-                                    Number(isData && isData?.roomAmount) *
-                                      Number(days)}
+                                  {Number(isData && isData?.advanceAmount)}
                                   .00
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.advanceAmount) +
-                                    Number(isData && isData?.roomAmount) *
-                                      days -
-                                    Number(isData && isData?.roomAmount) *
-                                      Number(days)}
+                                  {Number(isData && isData?.advanceAmount) -
+                                    Number(isData && isData?.roomAmount)}
                                   .00
                                 </td>
                                 {/* <td className="table_tddd">

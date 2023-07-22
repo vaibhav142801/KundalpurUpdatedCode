@@ -205,7 +205,9 @@ function CheckinForm({ setOpen }) {
         email: email,
         address: address,
         city: city,
-        advanceAmount: mainAvanceRate,
+        advanceAmount: Number(mainAvanceRate)
+          ? Number(mainAvanceRate) * Number(staydays)
+          : 0,
         state: state,
         proof: idproffname,
         idNumber: idproffno,
@@ -534,7 +536,7 @@ function CheckinForm({ setOpen }) {
                         <input
                           style={{ width: '4rem' }}
                           type="text"
-                          value={mainAvanceRate}
+                          value={mainAvanceRate * Number(staydays)}
                           name="mainAvanceRate"
                           onChange={(e) => setmainAvanceRate(e.target.value)}
                         />
@@ -550,9 +552,12 @@ function CheckinForm({ setOpen }) {
 
                       <div className="main_div_test22222">
                         <p>
-                          {roomno.length} Room x {mainAvanceRate} Advance rate
+                          {roomno.length} Room x{' '}
+                          {mainAvanceRate * Number(staydays)}
                         </p>
-                        <p>₹{roomno.length * Number(mainAvanceRate)}</p>
+                        <p>
+                          ₹{roomno.length * mainAvanceRate * Number(staydays)}
+                        </p>
                       </div>
 
                       {/* <div className="main_div_test22222">
@@ -563,14 +568,14 @@ function CheckinForm({ setOpen }) {
                         <p>Mattress {extraMattress} x ₹150</p>
                         <p>₹ {extraMattress * 150}</p>
                       </div> */}
-                      <div className="main_div_test22222">
+                      {/* <div className="main_div_test22222">
                         <p>Payable Amount </p>
                         <p>
                           ₹
                           {roomno.length * Number(mainRate) * Number(staydays) +
                             roomno.length * Number(mainAvanceRate)}
                         </p>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
 

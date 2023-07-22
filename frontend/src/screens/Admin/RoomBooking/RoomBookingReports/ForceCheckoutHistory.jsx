@@ -713,9 +713,7 @@ const ForceCheckoutHistory = ({ setopendashboard }) => {
                       <TableCell> {row?.dharmasala?.name}</TableCell>
                       <TableCell> {row?.RoomNo}</TableCell>
                       <TableCell> {row?.roomAmount}</TableCell>
-                      <TableCell>
-                        {row?.advanceAmount + row?.roomAmount}
-                      </TableCell>
+                      <TableCell>{row?.advanceAmount}</TableCell>
                       {/* <TableCell>{row?.checkoutByName}</TableCell> */}
                       <TableCell>
                         {row?.paymentMode === 2 ? 'Cash' : 'Online'}
@@ -760,15 +758,10 @@ const ForceCheckoutHistory = ({ setopendashboard }) => {
                 <TableCell style={{ fontWeight: 800 }}>
                   {isData &&
                     isData?.reduce(
-                      (n, { roomAmount }) =>
-                        parseFloat(n) + parseFloat(roomAmount),
+                      (n, { advanceAmount }) =>
+                        parseFloat(n) + parseFloat(advanceAmount),
                       0,
-                    ) +
-                      isData?.reduce(
-                        (n, { advanceAmount }) =>
-                          parseFloat(n) + parseFloat(advanceAmount),
-                        0,
-                      )}
+                    )}
                 </TableCell>
 
                 <TableCell></TableCell>

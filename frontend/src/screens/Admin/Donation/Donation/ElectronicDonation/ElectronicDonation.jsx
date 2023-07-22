@@ -526,6 +526,7 @@ const ElectronicDonation = ({
                   </TableCell>
                 </TableRow>
               </TableHead>
+
               <TableBody>
                 {donationItems.map((item, idx) => (
                   <TableRow key={idx}>

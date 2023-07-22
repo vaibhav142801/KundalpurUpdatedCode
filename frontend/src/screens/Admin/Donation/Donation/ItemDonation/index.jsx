@@ -67,6 +67,7 @@ const ItemDonation = ({
   const navigation = useNavigate();
   const [role, setrole] = useState('');
   const [hindiremark, sethindiremark] = useState('');
+  const [userrole, setuserrole] = useState('');
   // const [donationTypes, setDonationTypes] = useState([]);
   // const [receiptNo, setReceiptNo] = useState('');
   const [fullName, setFullName] = useState('');
@@ -347,6 +348,7 @@ const ItemDonation = ({
       setDonationDate(date);
     }
     setopendashboard(true);
+    setuserrole(Number(sessionStorage.getItem('userrole')));
     setrole(Number(sessionStorage.getItem('userrole')));
   }, []);
 

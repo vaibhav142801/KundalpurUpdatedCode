@@ -342,17 +342,12 @@ const CheckoutReceipt = ({ setopendashboard }) => {
                                   .00
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.advanceAmount) +
-                                    Number(isData && isData?.roomAmount) *
-                                      Number(days)}
+                                  {Number(isData && isData?.advanceAmount)}
                                   .00
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.advanceAmount) +
-                                    Number(isData && isData?.roomAmount) *
-                                      days -
-                                    Number(isData && isData?.roomAmount) *
-                                      Number(days)}
+                                  {Number(isData && isData?.advanceAmount) -
+                                    Number(isData && isData?.roomAmount)}
                                   .00
                                 </td>
                                 {/* <td className="table_tddd">

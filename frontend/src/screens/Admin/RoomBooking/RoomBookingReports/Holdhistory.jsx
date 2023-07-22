@@ -17,6 +17,8 @@ import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
 import moment from 'moment';
 import Print from '../../../../assets/Print.png';
+import Edit from '../../../../assets/Edit.png';
+import forcheckout from '../../../../assets/Checkout2.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../assets/ExportExcel.png';
 import Tooltip from '@mui/material/Tooltip';
@@ -555,7 +557,21 @@ const Holdhistory = ({ setopendashboard }) => {
 
                       <TableCell>{row?.approvedBy}</TableCell>
                       <TableCell> {row?.remarks}</TableCell>
-                      {/* <TableCell>
+
+                      <TableCell>
+                        <img
+                          onClick={() =>
+                            navigation('/admin-panel/HoldCertificate', {
+                              state: {
+                                data: row,
+                              },
+                            })
+                          }
+                          src={Print}
+                          alt="print"
+                          style={{ width: '25px', marginRight: '0.3rem' }}
+                        />
+
                         <Tooltip title="Room Release">
                           <img
                             onClick={() => handleClickOpen3(row?.id)}
@@ -564,8 +580,7 @@ const Holdhistory = ({ setopendashboard }) => {
                             style={{ width: '25px', marginRight: '0.3rem' }}
                           />
                         </Tooltip>
-                      </TableCell> */}
-                      <TableCell>&nbsp;</TableCell>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </>

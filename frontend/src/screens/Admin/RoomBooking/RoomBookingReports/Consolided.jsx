@@ -88,10 +88,10 @@ const Consolided = ({ setopendashboard }) => {
 
   const getall_donation = () => {
     setloader(true);
-    serverInstance(
-      `room/consolidated?employeeName=${empidsearch}&fromDate=${fromdate}&toDate=${toDate}`,
-      'get',
-    ).then((res) => {
+    serverInstance(`room/consolidated`, 'POST', {
+      fromDate: fromdate,
+      toDate: toDate,
+    }).then((res) => {
       console.log(res);
       if (res.data) {
         setloader(false);
@@ -226,10 +226,10 @@ const Consolided = ({ setopendashboard }) => {
   const filterdata = (e) => {
     setloader(true);
     e.preventDefault();
-    serverInstance(
-      `room/consolidated?employeeName=${empidsearch}&fromDate=${fromdate}&toDate=${toDate}`,
-      'get',
-    ).then((res) => {
+    serverInstance(`room/consolidated?employeeName=${empidsearch}`, 'POST', {
+      fromDate: fromdate,
+      toDate: toDate,
+    }).then((res) => {
       if (res?.data) {
         setisData(res?.data);
         setloader(false);

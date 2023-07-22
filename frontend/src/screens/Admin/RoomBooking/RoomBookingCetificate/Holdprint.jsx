@@ -176,10 +176,15 @@ function Holdprint({ setopendashboard }) {
                   </tr>
                   <tr>
                     <td className="table_tddd lineheight10">
-                      {isData && isData?.dharmasala?.name}
+                      {isData?.dharmasala?.name
+                        ? isData?.dharmasala?.name
+                        : isData?.dharmashalaName}
                     </td>
                     <td className="table_tddd lineheight10">
-                      {isData && isData?.category_name[0]} ({isData?.roomNo})
+                      {/* {isData?.category_name[0] &&
+                                    isData?.category_name[0]} */}
+                      {isData?.categoryName && isData?.categoryName}(
+                      {isData?.roomNo})
                     </td>
                     {/* <td className="table_tddd lineheight10">
                       {isData?.roomrate}
@@ -215,7 +220,7 @@ function Holdprint({ setopendashboard }) {
                   marginBottom: '0.5rem',
                 }}
               >
-                {isData && isData?.approvedBy}
+                {isData && isData?.holdByName}
               </p>
             </div>
           </div>

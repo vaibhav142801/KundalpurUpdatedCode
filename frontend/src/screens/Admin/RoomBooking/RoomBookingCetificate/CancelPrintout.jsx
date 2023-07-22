@@ -223,8 +223,7 @@ function CancelPrintout({ setopendashboard }) {
                       {Number(isData && isData?.roomAmount)}.00
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.advanceAmount) +
-                        Number(isData && isData?.roomAmount)}
+                      {Number(isData && isData?.advanceAmount)}
                       .00
                     </td>
 
