@@ -196,49 +196,36 @@ function RoomBookingPrint({ setopendashboard }) {
                             </p>
                           </td> */}
                   </tr>
-                  {isData &&
-                    isData?.map((item, index) => {
-                      return (
-                        <tr>
-                          <td className="table_tddd lineheight10">
-                            {checkindata?.dharamshala[0]?.dharmasala?.name}
-                          </td>
-                          <td className="table_tddd lineheight10">
-                            {checkindata?.dharamshala[0]?.facility_name[0]}
-                          </td>
-                          <td className="table_tddd lineheight10">
-                            {item?.RoomNo}
-                          </td>
-
-                          <td className="table_tddd lineheight10">
-                            {Number(item?.roomAmount)}
-                            .00
-                          </td>
-                          <td className="table_tddd lineheight10">
-                            {Number(item?.advanceAmount)}
-                            .00
-                          </td>
-                        </tr>
-                      );
-                    })}
-
                   <tr>
-                    <td></td>
-                    <td></td>
-                    <td className="table_tddd lineheight10">Total</td>
-                    <td
-                      style={{ fontWeight: 800 }}
-                      className="table_tddd lineheight10"
-                    >
+                    <td className="table_tddd lineheight10">
+                      {checkindata &&
+                        checkindata?.dharamshala[0]?.dharmasala?.name}
+                    </td>
+                    <td className="table_tddd lineheight10">
+                      {checkindata &&
+                        checkindata?.dharamshala[0]?.facility_name[0]}
+                    </td>
+                    <td className="table_tddd lineheight10">
+                      {isData.length === 1 ? (
+                        <>{isData && isData[0]?.RoomNo}</>
+                      ) : (
+                        <>
+                          {isData &&
+                            isData.map((item) => {
+                              return <span>{item?.RoomNo},</span>;
+                            })}
+                        </>
+                      )}
+                    </td>
+
+                    <td className="table_tddd lineheight10">
                       {isData &&
                         isData?.reduce((acc, item) => {
                           return acc + parseInt(item?.roomAmount);
                         }, 0)}
+                      .00
                     </td>
-                    <td
-                      style={{ fontWeight: 800 }}
-                      className="table_tddd lineheight10"
-                    >
+                    <td className="table_tddd lineheight10">
                       {isData &&
                         isData?.reduce((acc, item) => {
                           return acc + parseInt(item?.advanceAmount);

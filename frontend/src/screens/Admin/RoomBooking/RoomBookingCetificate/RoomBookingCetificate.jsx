@@ -42,6 +42,7 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
       pdf.save('download.pdf');
     });
   }
+  console.log(isData);
 
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
   var today = new Date(isData && isData[0]?.date);
@@ -79,7 +80,7 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
     console.log(
       'data from certifucate',
 
-      isData,
+      location?.state?.checkindata,
     );
 
     setopendashboard(true);
@@ -214,19 +215,7 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                               >
                                 मोबाईल न :
                               </p>
-                              {/* <p
-                                style={{ color: 'gray' }}
-                                className="lineheight"
-                              >
-                                प्रस्थान दिनाँक :
-                              </p>
 
-                              <p
-                                style={{ color: 'gray' }}
-                                className="lineheight"
-                              >
-                                स्टे :
-                              </p> */}
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
@@ -247,12 +236,7 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                               <p className="lineheight">
                                 {isData && isData[0]?.contactNo}
                               </p>
-                              {/* <p className="lineheight">
-                                {currDatecheckout} / {currTimecheckout}
-                              </p>
-                              <p className="lineheight">
-                                {TotalDays && TotalDays} Days
-                              </p> */}
+
                               <p className="lineheight">
                                 {isData && isData[0]?.address}
                               </p>
@@ -294,92 +278,46 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
                                 <td className="table_tddd lineheight10">
                                   रूम न
                                 </td>
-                                {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
-                                {/* <td className="table_tddd lineheight10">
-                                  रुम न.
-                                </td> */}
-                                {/* <td className="table_tddd">रूम की संख्या</td> */}
+
                                 <td className="table_tddd lineheight10">
                                   सहयोग राशि
-                                  {/* <p className="lineheight10">
-                                    {isData && isData?.nRoom && isData?.nRoom}X
-                                    {isData &&
-                                      isData?.roomAmount &&
-                                      isData?.roomAmount}
-                                  </p> */}
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   अमानत राशि
-                                  {/* <p className="lineheight10">
-                                    {isData && isData?.nRoom && isData?.nRoom}+
-                                    {isData && isData?.nRoom && isData?.nRoom}X
-                                    {isData &&
-                                      isData?.roomAmount &&
-                                      isData?.roomAmount}
-                                  </p> */}
                                 </td>
-
-                                {/* <td className="table_tddd">
-                            अमानत राशि
-                            <p>
-                              {isData && isData[0]?.nRoom && isData[0]?.nRoom} X
-                              {isData &&
-                                isData[0]?.roomAmount &&
-                                isData[0]?.roomAmount}
-                            </p>
-                          </td> */}
                               </tr>
-                              {isData &&
-                                isData?.map((item, index) => {
-                                  return (
-                                    <tr>
-                                      <td className="table_tddd lineheight10">
-                                        {
-                                          checkindata?.dharamshala[0]
-                                            ?.dharmasala?.name
-                                        }
-                                      </td>
-                                      <td className="table_tddd lineheight10">
-                                        {
-                                          checkindata?.dharamshala[0]
-                                            ?.facility_name[0]
-                                        }
-                                      </td>
-                                      <td className="table_tddd lineheight10">
-                                        {item?.RoomNo}
-                                      </td>
-
-                                      <td className="table_tddd lineheight10">
-                                        {Number(item?.roomAmount)}
-                                        .00
-                                      </td>
-                                      <td className="table_tddd lineheight10">
-                                        {Number(item?.advanceAmount)}
-                                        .00
-                                      </td>
-                                    </tr>
-                                  );
-                                })}
-
                               <tr>
-                                <td></td>
-                                <td></td>
                                 <td className="table_tddd lineheight10">
-                                  Total
+                                  {checkindata &&
+                                    checkindata?.dharamshala[0]?.dharmasala
+                                      ?.name}
                                 </td>
-                                <td
-                                  style={{ fontWeight: 800 }}
-                                  className="table_tddd lineheight10"
-                                >
+                                <td className="table_tddd lineheight10">
+                                  {checkindata &&
+                                    checkindata?.dharamshala[0]
+                                      ?.facility_name[0]}
+                                </td>
+                                <td className="table_tddd lineheight10">
+                                  {isData.length === 1 ? (
+                                    <>{isData && isData[0]?.RoomNo}</>
+                                  ) : (
+                                    <>
+                                      {isData &&
+                                        isData.map((item) => {
+                                          return <span>{item?.RoomNo},</span>;
+                                        })}
+                                    </>
+                                  )}
+                                </td>
+
+                                <td className="table_tddd lineheight10">
                                   {isData &&
                                     isData?.reduce((acc, item) => {
                                       return acc + parseInt(item?.roomAmount);
                                     }, 0)}
+                                  .00
                                 </td>
-                                <td
-                                  style={{ fontWeight: 800 }}
-                                  className="table_tddd lineheight10"
-                                >
+                                <td className="table_tddd lineheight10">
                                   {isData &&
                                     isData?.reduce((acc, item) => {
                                       return (
