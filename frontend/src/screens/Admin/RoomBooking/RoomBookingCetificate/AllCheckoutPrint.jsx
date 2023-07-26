@@ -149,7 +149,7 @@ function AllCheckoutPrint({ setopendashboard }) {
                     {currDate} / {currTime}
                   </p>
 
-                  <p className="lineheight">{days} Days</p>
+                  <p className="lineheight">{TotalDays} Days</p>
                   <p className="lineheight">{isData && isData?.address}</p>
                 </div>
               </div>
@@ -189,7 +189,7 @@ function AllCheckoutPrint({ setopendashboard }) {
                           </td>
 
                           <td className="table_tddd lineheight10">
-                            {Number(item?.roomAmount) * Number(days)}
+                            {Number(item?.roomAmount) * Number(TotalDays)}
                             .00
                           </td>
                           <td className="table_tddd lineheight10">
@@ -199,7 +199,7 @@ function AllCheckoutPrint({ setopendashboard }) {
 
                           <td className="table_tddd lineheight10">
                             {Number(item?.advanceAmount) -
-                              Number(item?.roomAmount)}
+                              Number(item?.roomAmount) * Number(TotalDays)}
                             .00
                           </td>
                         </tr>

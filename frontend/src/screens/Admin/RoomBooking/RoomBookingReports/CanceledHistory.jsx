@@ -740,7 +740,7 @@ const CanceledHistory = ({ setopendashboard }) => {
                 <TableCell></TableCell>
                 <TableCell>TotalAmount</TableCell>
                 <TableCell style={{ fontWeight: 800 }}>
-                  {isData &&
+                  {(isData != isData.length) === 0 &&
                     isData?.reduce(
                       (n, { roomAmount }) =>
                         parseFloat(n) + parseFloat(roomAmount),
@@ -748,7 +748,7 @@ const CanceledHistory = ({ setopendashboard }) => {
                     )}
                 </TableCell>
                 <TableCell style={{ fontWeight: 800 }}>
-                  {isData &&
+                  {(isData != isData.length) === 0 &&
                     isData?.reduce(
                       (n, { advanceAmount }) =>
                         parseFloat(n) + parseFloat(advanceAmount),

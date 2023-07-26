@@ -225,7 +225,7 @@ const ForceCheckoutHistory = ({ setopendashboard }) => {
   }, [open, open1, open3, open4, open8, optionss]);
 
   const downloadrecept = (row) => {
-    navigation('/admin-panel/Room/OnlinePrintReceipt', {
+    navigation('/admin-panel/Room/ForceRoomChequeOut', {
       state: {
         data: row,
       },

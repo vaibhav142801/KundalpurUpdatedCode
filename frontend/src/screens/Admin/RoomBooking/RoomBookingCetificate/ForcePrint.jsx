@@ -132,24 +132,11 @@ function ForcePrint({ setopendashboard }) {
                     {currDate} / {currTime}
                   </p>
 
-                  <p className="lineheight">{days}&nbsp; Days</p>
+                  <p className="lineheight">{TotalDays}&nbsp; Days</p>
                   <p className="lineheight">{isData && isData?.address}</p>
                 </div>
               </div>
             </div>
-
-            {/* <div className="yyy_text_div">
-              <p className="lineheight">यात्री संख्या </p>
-              <p className="lineheight">Male: {isData?.male}</p>
-              <p className="lineheight">Female: {isData?.female}</p>
-              <p className="lineheight">Child: {isData?.child}</p>
-              <p className="lineheight">
-                Total:
-                {Number(isData?.male) +
-                  Number(isData?.female) +
-                  Number(isData?.child)}
-              </p>
-            </div> */}
 
             <div>
               <table className="table_ddd">
@@ -159,51 +146,11 @@ function ForcePrint({ setopendashboard }) {
                     <td className="table_tddd lineheight10">
                       रूम टाईप & रूम न.
                     </td>
-                    {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
-                    {/* <td className="table_tddd lineheight10">
-                                  रुम न.
-                                </td> */}
-                    {/* <td className="table_tddd">रूम की संख्या</td> */}
-                    <td className="table_tddd lineheight10">
-                      सहयोग राशि
-                      {/* <p className="lineheight10">
-                                    {isData && isData?.nRoom && isData?.nRoom}X
-                                    {isData &&
-                                      isData?.roomAmount &&
-                                      isData?.roomAmount}
-                                  </p> */}
-                    </td>
-                    <td className="table_tddd lineheight10">
-                      अमानत राशि
-                      {/* <p className="lineheight10">
-                                    {isData && isData?.nRoom && isData?.nRoom}+
-                                    {isData && isData?.nRoom && isData?.nRoom}X
-                                    {isData &&
-                                      isData?.roomAmount &&
-                                      isData?.roomAmount}
-                                  </p> */}
-                    </td>
 
-                    <td className="table_tddd lineheight10">
-                      शेष राशि वापिसी
-                      {/* <p className="lineheight10">
-                                    {Number(isData && isData?.roomAmount) *
-                                      (Number(isData && isData?.nRoom) +
-                                        Number(isData && isData?.nRoom))}
-                                    -
-                                    {Number(isData && isData?.roomAmount) *
-                                      Number(isData && isData?.nRoom)}
-                                  </p> */}
-                    </td>
-                    {/* <td className="table_tddd">
-                            अमानत राशि
-                            <p>
-                              {isData && isData[0]?.nRoom && isData[0]?.nRoom} X
-                              {isData &&
-                                isData[0]?.roomAmount &&
-                                isData[0]?.roomAmount}
-                            </p>
-                          </td> */}
+                    <td className="table_tddd lineheight10">सहयोग राशि</td>
+                    <td className="table_tddd lineheight10">अमानत राशि</td>
+
+                    <td className="table_tddd lineheight10">शेष राशि वापिसी</td>
                   </tr>
                   <tr>
                     <td className="table_tddd lineheight10">
@@ -219,41 +166,20 @@ function ForcePrint({ setopendashboard }) {
                       ,{isData && isData?.category_name})-
                       {isData && isData?.RoomNo}
                     </td>
-                    {/* <td className="table_tddd">
-                                {checkinda &&
-                                  checkinda?.category[0]?.facilities &&
-                                  checkinda?.category[0]?.facilities.map(
-                                    (element, index) => (
-                                      <span key={index}> {element},</span>
-                                    ),
-                                  )}
-                              </td> */}
-                    {/* <td className="table_tddd lineheight10">
-                                  ({isData && isData?.RoomNo})
-                                </td> */}
-                    {/* <td className="table_tddd">
-                                {isData && isData[0]?.nRoom}
-                              </td> */}
+
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) * days}
+                      {Number(isData && isData?.roomAmount) * TotalDays}
                       .00
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.advanceAmount) +
-                        Number(isData && isData?.roomAmount) * days}
+                      {Number(isData && isData?.roomAmount) * TotalDays}
                       .00
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.advanceAmount) +
-                        Number(isData && isData?.roomAmount) * days -
-                        (Number(isData && isData?.advanceAmount) +
-                          Number(isData && isData?.roomAmount) * days)}
+                      {Number(isData && isData?.roomAmount) * TotalDays -
+                        Number(isData && isData?.roomAmount) * TotalDays}
                       .00
                     </td>
-                    {/* <td className="table_tddd">
-                            {Number(isData && isData[0]?.roomAmount) *
-                              Number(isData && isData[0]?.nRoom)}
-                          </td> */}
                   </tr>
                 </tbody>
               </table>

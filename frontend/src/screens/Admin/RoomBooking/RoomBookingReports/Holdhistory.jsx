@@ -44,7 +44,7 @@ const style = {
 
 const Holdhistory = ({ setopendashboard }) => {
   const navigation = useNavigate();
-  const [loader, setloader] = useState(false);
+  const [loader, setloader] = useState([]);
   const [isData, setisData] = React.useState('');
   const [isDataDummy, setisDataDummy] = React.useState([]);
   const [page, setPage] = useState(0);
@@ -81,9 +81,10 @@ const Holdhistory = ({ setopendashboard }) => {
 
     serverInstance('room/holdin-history', 'get').then((res) => {
       console.log(res);
-      if (res.data) {
+      if (res.data?.status === false) {
         setloader(false);
-        // let filterData = res.data.filter((item) => item.modeOfBooking === 1);
+      } else {
+        setloader(false);
         setisData(res.data);
         setisDataDummy(res.data);
       }
@@ -530,13 +531,14 @@ const Holdhistory = ({ setopendashboard }) => {
               {isData ? (
                 <>
                   {(rowsPerPage > 0
-                    ? isData
+                    ? isData &&
+                      isData
                         ?.reverse()
                         ?.slice(
                           page * rowsPerPage,
                           page * rowsPerPage + rowsPerPage,
                         )
-                    : isData?.reverse()
+                    : isData && isData?.reverse()
                   ).map((row, index) => (
                     <TableRow
                       key={row.id}

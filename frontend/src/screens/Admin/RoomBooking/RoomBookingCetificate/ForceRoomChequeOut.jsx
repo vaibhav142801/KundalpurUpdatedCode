@@ -27,15 +27,6 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
               data: isData,
             },
           });
-          Swal.fire('Great!', res?.data?.message, 'success');
-        }
-
-        if (res?.data?.status === false) {
-          Swal.fire(
-            'Great!',
-            'Room failed to checkout (Time Limit Elapsed)',
-            'success',
-          );
         }
       });
     } catch (error) {
@@ -222,32 +213,15 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
                                 {currDate} / {currTime}
                               </p>
 
-                              <p className="lineheight">{days}&nbsp; Days</p>
+                              <p className="lineheight">
+                                {TotalDays}&nbsp; Days
+                              </p>
                               <p className="lineheight">
                                 {isData && isData?.address}
                               </p>
                             </div>
                           </div>
                         </div>
-
-                        {/* <div className="yyy_text_div">
-                          <p className="lineheight">यात्री संख्या</p>
-                          <p className="lineheight">
-                            Male: {isData && isData?.male}
-                          </p>
-                          <p className="lineheight">
-                            Female: {isData && isData?.female}
-                          </p>
-                          <p className="lineheight">
-                            Child: {isData && isData?.child}
-                          </p>
-                          <p className="lineheight">
-                            Total:
-                            {Number(isData && isData?.male) +
-                              Number(isData && isData?.female) +
-                              Number(isData && isData?.child)}
-                          </p>
-                        </div> */}
 
                         <div>
                           <table className="table_ddd">
@@ -259,51 +233,15 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
                                 <td className="table_tddd lineheight10">
                                   रूम टाईप & रूम न.
                                 </td>
-                                {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
-                                {/* <td className="table_tddd lineheight10">
-                                  रुम न.
-                                </td> */}
-                                {/* <td className="table_tddd">रूम की संख्या</td> */}
+
                                 <td className="table_tddd lineheight10">
                                   सहयोग राशि
-                                  {/* <p className="lineheight10">
-                                    {isData && isData?.nRoom && isData?.nRoom}X
-                                    {isData &&
-                                      isData?.roomAmount &&
-                                      isData?.roomAmount}
-                                  </p> */}
                                 </td>
                                 <td className="table_tddd lineheight10">
                                   अमानत राशि
-                                  {/* <p className="lineheight10">
-                                    {isData && isData?.nRoom && isData?.nRoom}+
-                                    {isData && isData?.nRoom && isData?.nRoom}X
-                                    {isData &&
-                                      isData?.roomAmount &&
-                                      isData?.roomAmount}
-                                  </p> */}
                                 </td>
 
-                                <td className="table_tddd lineheight10">
-                                  शेष राशि वापिसी
-                                  {/* <p className="lineheight10">
-                                    {Number(isData && isData?.roomAmount) *
-                                      (Number(isData && isData?.nRoom) +
-                                        Number(isData && isData?.nRoom))}
-                                    -
-                                    {Number(isData && isData?.roomAmount) *
-                                      Number(isData && isData?.nRoom)}
-                                  </p> */}
-                                </td>
-                                {/* <td className="table_tddd">
-                            अमानत राशि
-                            <p>
-                              {isData && isData[0]?.nRoom && isData[0]?.nRoom} X
-                              {isData &&
-                                isData[0]?.roomAmount &&
-                                isData[0]?.roomAmount}
-                            </p>
-                          </td> */}
+                                <td className="table_tddd lineheight10"></td>
                               </tr>
                               <tr>
                                 <td className="table_tddd lineheight10">
@@ -321,43 +259,24 @@ const ForceRoomChequeOut = ({ setopendashboard }) => {
                                   ,{isData && isData?.category_name})-
                                   {isData && isData?.RoomNo}
                                 </td>
-                                {/* <td className="table_tddd">
-                                {checkinda &&
-                                  checkinda?.category[0]?.facilities &&
-                                  checkinda?.category[0]?.facilities.map(
-                                    (element, index) => (
-                                      <span key={index}> {element},</span>
-                                    ),
-                                  )}
-                              </td> */}
-                                {/* <td className="table_tddd lineheight10">
-                                  ({isData && isData?.RoomNo})
-                                </td> */}
-                                {/* <td className="table_tddd">
-                                {isData && isData[0]?.nRoom}
-                              </td> */}
+
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmount) * days}
+                                  {Number(isData && isData?.roomAmount) *
+                                    TotalDays}
                                   .00
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.advanceAmount) +
-                                    Number(isData && isData?.roomAmount) * days}
+                                  {Number(isData && isData?.roomAmount) *
+                                    TotalDays}
                                   .00
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.advanceAmount) +
+                                  {Number(isData && isData?.roomAmount) *
+                                    TotalDays -
                                     Number(isData && isData?.roomAmount) *
-                                      days -
-                                    (Number(isData && isData?.advanceAmount) +
-                                      Number(isData && isData?.roomAmount) *
-                                        days)}
+                                      TotalDays}
                                   .00
                                 </td>
-                                {/* <td className="table_tddd">
-                            {Number(isData && isData[0]?.roomAmount) *
-                              Number(isData && isData[0]?.nRoom)}
-                          </td> */}
                               </tr>
                             </tbody>
                           </table>

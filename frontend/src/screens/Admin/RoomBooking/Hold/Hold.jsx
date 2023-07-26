@@ -37,6 +37,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
 import PrintHold from './PrintHold';
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -67,6 +68,7 @@ const Hold = ({ setopendashboard }) => {
     setOpen1(true);
   };
 
+  console.log('data is', isData);
   const [deleteId, setdeleteId] = useState('');
   const [open3, setOpen3] = React.useState(false);
 
@@ -273,7 +275,7 @@ const Hold = ({ setopendashboard }) => {
         Moment(dt?.remain).format('YYYY-MM-DD').indexOf(checkoutdate) > -1 &&
         dt?.name?.toLowerCase().indexOf(customername) > -1 &&
         dt?.dharmasala?.name?.toLowerCase().indexOf(dharamshalaname) > -1 &&
-        dt?.category_name[0]?.toLowerCase().indexOf(categoryname) > -1,
+        dt?.category_name?.toLowerCase().indexOf(categoryname) > -1,
     );
 
     if (remark) {
@@ -664,7 +666,7 @@ const Hold = ({ setopendashboard }) => {
                   </button>
                 </TableCell>
               </TableRow>
-              {isData ? (
+              {isData && isData ? (
                 <>
                   {(rowsPerPage > 0
                     ? isData
@@ -685,7 +687,7 @@ const Hold = ({ setopendashboard }) => {
                       <TableCell>{row?.mobile}</TableCell>
                       <TableCell>{row?.name}</TableCell>
                       <TableCell>{row?.dharmasala?.name}</TableCell>
-                      <TableCell>{row?.category_name[0]}</TableCell>
+                      <TableCell>{row?.facility_name}</TableCell>
                       <TableCell>{row?.roomNo}</TableCell>
                       <TableCell>
                         {Moment(row?.since).format('DD-MM-YYYY')}{' '}
