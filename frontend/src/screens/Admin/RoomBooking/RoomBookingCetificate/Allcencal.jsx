@@ -2,15 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Converter, hiIN } from 'any-number-to-words';
 import { backendApiUrl } from '../../../../config/config';
-import { serverInstance } from '../../../../API/ServerInstance';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import moment from 'moment';
 import '../../../Admin/Reciept/cashrecipt.css';
-const converter = new Converter(hiIN);
-const AllCheckoutPrint = ({ setopendashboard }) => {
+const Allcencal = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
@@ -18,18 +15,16 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
 
   const handlesubmit = async () => {
     try {
-      axios.defaults.headers.post[
+      axios.defaults.headers.delete[
         'Authorization'
       ] = `Bearer ${sessionStorage.getItem('token')}`;
 
-      const res = await axios.post(`${backendApiUrl}room/checkOutAll`, {
-        id: isData[0]?.booking_id,
-        checkoutDate: new Date(),
-        // advanceAmount: data?.advanceAmount,
+      const res = await axios.delete(`${backendApiUrl}room/cancel-checkin`, {
+        bookingId: isData[0]?.booking_id,
       });
 
       if (res?.data?.data?.status) {
-        navigation('/admin-panel/AllCheckoutPrint', {
+        navigation('/admin-panel/AllcancalPrint', {
           state: {
             checkoutdata: isData,
           },
@@ -451,4 +446,4 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
   );
 };
 
-export default AllCheckoutPrint;
+export default Allcencal;

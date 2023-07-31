@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Allcheckout.css';
-function Allcheckout({ data, bookingid }) {
+function Allcancel({ data, bookingid }) {
   const navigation = useNavigate();
   const [isdata, setisData] = useState('');
   useEffect(() => {
@@ -14,12 +14,13 @@ function Allcheckout({ data, bookingid }) {
   }, []);
 
   const handlesubmit = async () => {
-    navigation('/admin-panel/AllChoutRecript', {
+    navigation('/admin-panel/Allcencal', {
       state: {
         checkoutdata: isdata,
       },
     });
   };
+
   return (
     <>
       <div>
@@ -45,4 +46,4 @@ function Allcheckout({ data, bookingid }) {
   );
 }
 
-export default Allcheckout;
+export default Allcancel;

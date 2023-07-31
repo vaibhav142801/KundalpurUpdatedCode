@@ -37,8 +37,12 @@ import ForceCheckoutOptions from './ForceCheckoutOptions';
 import Print from '../../../../assets/Print.png';
 import Edit from '../../../../assets/Edit.png';
 import Checkout21 from '../../../../assets/Checkout21.png';
+import allforceCheckout from '../../../../assets/allforcecheckout.jpeg';
+import allcancel from '../../../../assets/allcancel.png';
 import fordd from '../../../../assets/for.jpeg';
 import Allcheckout from './Allcheckout';
+import Allforcecheckout from './Allforcecheckout';
+import Allcancel from './Allcancel';
 import multiple1 from '../../../../assets/multiple1.png';
 import './Checkin.css';
 
@@ -121,6 +125,25 @@ const CheckIn = ({ setopendashboard }) => {
     setchangedata9(data);
     setbookingid(id);
   };
+
+  const [open10, setOpen10] = React.useState(false);
+  const [changedata10, setchangedata10] = useState('');
+  const handleClose10 = () => setOpen10(false);
+  const handleOepn10 = async (data, id) => {
+    setOpen10(true);
+    setchangedata10(data);
+    setbookingid(id);
+  };
+
+  const [open11, setOpen11] = React.useState(false);
+  const [changedata11, setchangedata11] = useState('');
+  const handleClose11 = () => setOpen11(false);
+  const handleOepn11 = async (data, id) => {
+    setOpen11(true);
+    setchangedata11(data);
+    setbookingid(id);
+  };
+
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
   var today = new Date();
   const currDate = today
@@ -532,6 +555,72 @@ const CheckIn = ({ setopendashboard }) => {
         </Fade>
       </Modal>
 
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open10}
+        onClose={handleClose10}
+        closeAfterTransition
+      >
+        <Fade in={open10}>
+          <Box sx={style2}>
+            <div>
+              <div className="add-div-close-div">
+                <div>
+                  <h2 style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
+                    All Force Checkout
+                  </h2>
+                  <Typography
+                    style={{ marginLeft: '1rem' }}
+                    variant="body2"
+                    color="primary"
+                  >
+                    {currDate} / {currTime}
+                  </Typography>
+                </div>
+                <IconButton>
+                  <CloseIcon onClick={() => handleClose10()} />
+                </IconButton>
+              </div>
+              <Allforcecheckout data={changedata10} bookingid={bookingid} />
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
+
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open11}
+        onClose={handleClose11}
+        closeAfterTransition
+      >
+        <Fade in={open11}>
+          <Box sx={style2}>
+            <div>
+              <div className="add-div-close-div">
+                <div>
+                  <h2 style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
+                    All Cancel
+                  </h2>
+                  <Typography
+                    style={{ marginLeft: '1rem' }}
+                    variant="body2"
+                    color="primary"
+                  >
+                    {currDate} / {currTime}
+                  </Typography>
+                </div>
+                <IconButton>
+                  <CloseIcon onClick={() => handleClose11()} />
+                </IconButton>
+              </div>
+              <Allcancel data={changedata11} bookingid={bookingid} />
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
+
       <Dialog
         open={open3}
         onClose={handleClose5}
@@ -759,6 +848,14 @@ const CheckIn = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
+                  Total Guest
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('dharmasala?.name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
                   Dharamshala
                   <i
                     style={{ marginLeft: '0rem' }}
@@ -869,9 +966,21 @@ const CheckIn = ({ setopendashboard }) => {
                     onChange={(e) => {
                       onSearchByOther(e, 'dharmasala');
                     }}
+                    placeholder="Total"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '6rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => {
+                      onSearchByOther(e, 'dharmasala');
+                    }}
                     placeholder="Dharamshala"
                   />
                 </TableCell>
+
                 <TableCell>
                   <input
                     style={{ width: '5rem' }}
@@ -966,6 +1075,11 @@ const CheckIn = ({ setopendashboard }) => {
                       <TableCell>{row?.contactNo}</TableCell>
                       <TableCell>{row?.name}</TableCell>
                       <TableCell>{row?.address}</TableCell>
+                      <TableCell>
+                        {Number(row?.female) +
+                          Number(row?.child) +
+                          Number(row?.male)}
+                      </TableCell>
                       <TableCell> {row?.dharmasala?.name}</TableCell>
                       <TableCell> {row?.RoomNo}</TableCell>
                       <TableCell> {row?.roomAmount}</TableCell>
@@ -1004,6 +1118,19 @@ const CheckIn = ({ setopendashboard }) => {
                                     onClick={() => handleClickOpen3(row?.id)}
                                   />
                                 </Tooltip>
+                                <Tooltip title="All Cancel">
+                                  <img
+                                    onClick={() =>
+                                      handleOepn11(isData, row?.booking_id)
+                                    }
+                                    src={allcancel}
+                                    alt="print"
+                                    style={{
+                                      width: '25px',
+                                      marginRight: '0.3rem',
+                                    }}
+                                  />
+                                </Tooltip>
 
                                 <Tooltip title="Force Checkout">
                                   <img
@@ -1018,6 +1145,19 @@ const CheckIn = ({ setopendashboard }) => {
                                       )
                                     }
                                     src={fordd}
+                                    alt="print"
+                                    style={{
+                                      width: '25px',
+                                      marginRight: '0.3rem',
+                                    }}
+                                  />
+                                </Tooltip>
+                                <Tooltip title="All Force Checkout">
+                                  <img
+                                    onClick={() =>
+                                      handleOepn10(isData, row?.booking_id)
+                                    }
+                                    src={allforceCheckout}
                                     alt="print"
                                     style={{
                                       width: '25px',
@@ -1113,6 +1253,7 @@ const CheckIn = ({ setopendashboard }) => {
                 <></>
               )}
               <TableRow>
+                <TableCell></TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>

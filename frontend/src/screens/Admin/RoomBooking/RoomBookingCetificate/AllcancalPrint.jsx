@@ -6,7 +6,7 @@ import { useReactToPrint } from 'react-to-print';
 import './RoomBookingCetificate.css';
 
 import moment from 'moment';
-function AllCheckoutPrint({ setopendashboard }) {
+function AllcancalPrint({ setopendashboard }) {
   const navigate = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
@@ -239,4 +239,4 @@ function AllCheckoutPrint({ setopendashboard }) {
   );
 }
 
-export default AllCheckoutPrint;
+export default AllcancalPrint;

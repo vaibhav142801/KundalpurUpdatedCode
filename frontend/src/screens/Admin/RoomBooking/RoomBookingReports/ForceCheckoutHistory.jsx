@@ -27,6 +27,7 @@ import RoomBookingReportsTab from './RoomBookingReportsTab';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
+import fordd from '../../../../assets/for.jpeg';
 import Printcheckin from '../CheckIn/Printcheckin';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 const style = {
@@ -651,26 +652,7 @@ const ForceCheckoutHistory = ({ setopendashboard }) => {
                     placeholder="Advance"
                   />
                 </TableCell>
-                {/* <TableCell>
-                  <select
-                    name="cars"
-                    id="cars"
-                    style={{ width: '5rem' }}
-                    className="cuolms_search"
-                    onChange={(e) => {
-                      onSearchByOther(e, 'checkoutByName');
-                      console.log(e.target.value);
-                    }}
-                  >
-                    <option value="">All user</option>
-                    {emplist &&
-                      emplist.map((item, idx) => {
-                        return (
-                          <option value={item.Username}>{item.Username}</option>
-                        );
-                      })}
-                  </select>
-                </TableCell> */}
+
                 <TableCell>&nbsp;</TableCell>
                 <TableCell>
                   <button
@@ -720,15 +702,14 @@ const ForceCheckoutHistory = ({ setopendashboard }) => {
                       </TableCell>
                       <TableCell style={{ display: 'flex' }}>
                         <img
-                          src={Checkout21}
-                          style={{ width: '25px', marginRight: '0.5rem' }}
-                          onClick={() => downloadcheckout(row)}
-                        />
-
-                        <img
                           src={Print}
-                          style={{ width: '25px' }}
+                          style={{ width: '25px', marginRight: '0.5rem' }}
                           onClick={() => downloadrecept(row)}
+                        />
+                        <img
+                          src={fordd}
+                          style={{ width: '25px' }}
+                          onClick={() => downloadcheckout(row)}
                         />
                       </TableCell>
                     </TableRow>

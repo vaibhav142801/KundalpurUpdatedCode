@@ -1,16 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Converter, hiIN } from 'any-number-to-words';
 import { backendApiUrl } from '../../../../config/config';
-import { serverInstance } from '../../../../API/ServerInstance';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import moment from 'moment';
 import '../../../Admin/Reciept/cashrecipt.css';
-const converter = new Converter(hiIN);
-const AllCheckoutPrint = ({ setopendashboard }) => {
+const Allforcecheckout = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
@@ -22,14 +18,16 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
         'Authorization'
       ] = `Bearer ${sessionStorage.getItem('token')}`;
 
-      const res = await axios.post(`${backendApiUrl}room/checkOutAll`, {
-        id: isData[0]?.booking_id,
-        checkoutDate: new Date(),
+      const res = await axios.post(`${backendApiUrl}room/force-checkoutAll`, {
+        bookingId: isData[0]?.booking_id,
+
         // advanceAmount: data?.advanceAmount,
       });
 
+      console.log(res);
+
       if (res?.data?.data?.status) {
-        navigation('/admin-panel/AllCheckoutPrint', {
+        navigation('/admin-panel/Allforcecheckoutprint', {
           state: {
             checkoutdata: isData,
           },
@@ -287,6 +285,7 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
                                   शेष राशि वापिसी
                                 </td>
                               </tr>
+
                               <tr>
                                 <td className="table_tddd lineheight10">
                                   {isData && isData[0]?.dharmasala?.name}
@@ -451,4 +450,4 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
   );
 };
 
-export default AllCheckoutPrint;
+export default Allforcecheckout;

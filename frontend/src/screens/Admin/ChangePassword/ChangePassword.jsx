@@ -10,23 +10,22 @@ function ChangePassword({ setOpen5 }) {
   const [ConfirmPasswod, setConfirmPasswod] = useState('');
 
   const submitHandler = async () => {
-    console.log('forgot password');
     try {
       if (userrole === 1) {
         axios.defaults.headers.put[
           'Authorization'
         ] = `Bearer ${sessionStorage.getItem('token')}`;
 
-        const res = await axios.put(`${backendApiUrl}admin/change-pass`, {
+        const res = await axios.put(`${backendApiUrl}admin/change-admin-pass`, {
           oldPass: oldpassword,
           newPass: newpassword,
         });
 
         console.log(res);
-        // if (res.data.data.status) {
-        //   Swal.fire('Great!', res.data.data.message, 'success');
-        //   setOpen5(false);
-        // }
+        if (res?.data?.status) {
+          Swal.fire('Great!', res.data?.msg, 'success');
+          setOpen5(false);
+        }
       }
 
       if (userrole === 3) {

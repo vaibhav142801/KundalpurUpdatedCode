@@ -115,6 +115,10 @@ import Onlychecking from '../screens/Admin/RoomBooking/RoomBookingReports/Onlych
 import AllCheckoutPrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/AllCheckoutPrint';
 import AllChoutRecript from '../screens/Admin/RoomBooking/RoomBookingCetificate/AllCheckoutReceipt';
 import ForceCheckoutHistory from '../screens/Admin/RoomBooking/RoomBookingReports/ForceCheckoutHistory';
+import Allforcecheckout from '../screens/Admin/RoomBooking/RoomBookingCetificate/Allforcecheckout';
+import Allforcecheckoutprint from '../screens/Admin/RoomBooking/RoomBookingCetificate/Allforcecheckoutprint';
+import AllcancalPrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/AllcancalPrint';
+import Allcencal from '../screens/Admin/RoomBooking/RoomBookingCetificate/Allcencal';
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -915,6 +919,38 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <ForceCheckoutHistory setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Allforcecheckout"
+          element={
+            <Adminprivateroute>
+              <Allforcecheckout setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Allforcecheckoutprint"
+          element={
+            <Adminprivateroute>
+              <Allforcecheckoutprint setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/AllcancalPrint"
+          element={
+            <Adminprivateroute>
+              <AllcancalPrint setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Allcencal"
+          element={
+            <Adminprivateroute>
+              <Allcencal setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />
