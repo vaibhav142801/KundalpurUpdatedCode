@@ -5,15 +5,13 @@ import jsPDF from 'jspdf';
 import { useReactToPrint } from 'react-to-print';
 import './RoomBookingCetificate.css';
 
-import moment from 'moment';
-function AllcancalPrint({ setopendashboard }) {
+function Forcecheckoutprint({ setopendashboard }) {
   const navigate = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
   const [isData, setisData] = useState('');
   const [checkindata, setcheckindata] = useState('');
-  const adminName = sessionStorage.getItem('adminName');
-  const empName = sessionStorage.getItem('empName');
+  console.log('data from certifucate', isData);
 
   function down() {
     console.log('cliii');
@@ -31,21 +29,16 @@ function AllcancalPrint({ setopendashboard }) {
   useEffect(() => {
     if (location.state) {
       setisData(location.state?.data);
-      console.log('ddddddddddddddd', location?.state?.data);
     }
-    if (location?.state?.checkoutdata) {
-      setisData(location?.state?.checkoutdata);
-
-      console.log('data', location?.state?.checkoutdata);
-    }
-    setopendashboard(true);
     setTimeout(() => {
       handlePrint();
     }, 10);
+    setopendashboard(true);
   }, []);
+  console.log('certificate', isData);
 
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
-  var today = new Date(isData && isData[0]?.date);
+  var today = new Date(isData && isData?.date);
   const currDate = today
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -55,7 +48,7 @@ function AllcancalPrint({ setopendashboard }) {
     hour12: true,
   });
 
-  var today1 = new Date();
+  var today1 = new Date(isData && isData?.coutDate);
   const currDatecheckout = today1
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -67,14 +60,11 @@ function AllcancalPrint({ setopendashboard }) {
 
   let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
-
-  var checkindate = moment(isData[0]?.date).format('DD');
-  var checkoutdate = moment(new Date()).format('DD');
   var days = Math.floor(
-    (new Date().getTime() - new Date(isData && isData?.date).getTime()) /
+    (new Date(isData && isData?.coutDate).getTime() -
+      new Date(isData && isData?.date).getTime()) /
       (1000 * 3600 * 24),
   );
-
   return (
     <>
       <div
@@ -94,15 +84,11 @@ function AllcancalPrint({ setopendashboard }) {
           >
             <div>
               <p className="yadda_text lineheight">
-                आल कैंसिल रसीद
-                {/* <span style={{ fontSize: '13px' }}>
-                  ({isData[0]?.paymentMode === 2 ? 'Cash' : 'Online'})
-                </span> */}
+                यात्री प्रस्थान रसीद (फोर्स चेकआउट)
               </p>
             </div>
-
             <div className="innear_div_texx">
-              <div className="innear_div_texx_ddd">
+              <div className="innear_div_texx_dd">
                 <div>
                   <p className="lineheight" style={{ color: 'gray' }}>
                     आवास क्र :
@@ -118,21 +104,25 @@ function AllcancalPrint({ setopendashboard }) {
                   </p>
                 </div>
                 <div className="main_left">
-                  <p className="lineheight">
-                    {isData && isData[0]?.booking_id}
-                  </p>
-                  <p className="lineheight">{isData && isData[0]?.contactNo}</p>
-                  <p className="lineheight">{isData && isData[0]?.name}</p>
-                  <p className="lineheight">{isData && isData[0]?.Fname}</p>
+                  <p className="lineheight">{isData && isData?.booking_id}</p>
+                  <p className="lineheight">{isData && isData?.contactNo}</p>
+                  <p className="lineheight">{isData && isData?.name}</p>
+                  <p className="lineheight">{isData && isData?.Fname}</p>
                 </div>
               </div>
-              <div className="innear_div_texx_ddd">
+              <div className="innear_div_texx_dd" style={{ marginLeft: '0px' }}>
                 <div>
+                  {isData?.cancelByName ? (
+                    ''
+                  ) : (
+                    <>
+                      <p style={{ color: 'gray' }} className="lineheight">
+                        प्रस्थान दिनाँक :
+                      </p>
+                    </>
+                  )}
                   <p style={{ color: 'gray' }} className="lineheight">
-                    प्रस्थान दिनाँक :
-                  </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    आगमन दिनांक :
+                    आगमन दिनांक:
                   </p>
 
                   <p style={{ color: 'gray' }} className="lineheight">
@@ -143,77 +133,70 @@ function AllcancalPrint({ setopendashboard }) {
                   </p>
                 </div>
                 <div className="main_left">
-                  <p className="lineheight">
-                    {currDatecheckout} / {currTimecheckout}
-                  </p>
+                  {isData?.cancelByName ? (
+                    <></>
+                  ) : (
+                    <>
+                      <p style={{ color: 'gray' }} className="lineheight">
+                        <p className="lineheight">
+                          {currDatecheckout} / {currTimecheckout}
+                        </p>
+                      </p>
+                    </>
+                  )}
                   <p className="lineheight">
                     {currDate} / {currTime}
                   </p>
 
-                  <p className="lineheight">{days} Days</p>
-                  <p className="lineheight">{isData && isData?.address}</p>
+                  <p className="lineheight">{days}&nbsp; Days</p>
+                  <p className="lineheight">{isData && isData?.city}</p>
                 </div>
               </div>
             </div>
+
             <div>
               <table className="table_ddd">
                 <tbody>
                   <tr>
                     <td className="table_tddd lineheight10">धर्मशाला नाम</td>
                     <td className="table_tddd lineheight10">
-                      रूम टाईप & फेसिलिटी
+                      रूम टाईप & रूम न.
                     </td>
-                    <td className="table_tddd lineheight10">रूम न</td>
 
                     <td className="table_tddd lineheight10">सहयोग राशि</td>
                     <td className="table_tddd lineheight10">अमानत राशि</td>
+
                     <td className="table_tddd lineheight10">शेष राशि वापिसी</td>
                   </tr>
                   <tr>
                     <td className="table_tddd lineheight10">
-                      {isData && isData[0]?.dharmasala?.name}
+                      {isData && isData?.dharmasala?.name}
+                      {isData && isData?.dharmasalaName}
                     </td>
                     <td className="table_tddd lineheight10">
-                      {isData && isData[0]?.categoryName}
+                      (
                       {isData &&
-                        isData[0].facility_name &&
-                        isData &&
-                        isData[0]?.facility_name.map((element, index) => (
-                          <span key={index}>{element}</span>
+                        isData?.facility_name &&
+                        isData?.facility_name.map((element, index) => (
+                          <span key={index}> {element}</span>
                         ))}
-                      -{isData && isData[0]?.category_name}
-                      {isData && isData[0]?.facilityName}
-                    </td>
-                    <td className="table_tddd lineheight10">
-                      {isData &&
-                        isData.map((item) => {
-                          return <span>{item?.RoomNo},</span>;
-                        })}
+                      {isData && isData?.categoryName},
+                      {isData && isData?.facilityName}
+                      {isData && isData?.category_name})-
+                      {isData && isData?.RoomNo}
                     </td>
 
                     <td className="table_tddd lineheight10">
-                      {isData &&
-                        isData?.reduce((acc, item) => {
-                          return acc + parseInt(item?.roomAmount);
-                        }, 0) * Number(days)}
+                      {Number(isData && isData?.roomAmount)}
                       .00
                     </td>
                     <td className="table_tddd lineheight10">
-                      {isData &&
-                        isData?.reduce((acc, item) => {
-                          return acc + parseInt(item?.advanceAmount);
-                        }, 0)}
+                      {Number(isData && isData?.advanceAmount)}
                       .00
                     </td>
-
                     <td className="table_tddd lineheight10">
-                      {isData &&
-                        isData?.reduce((acc, item) => {
-                          return acc + parseInt(item?.advanceAmount);
-                        }, 0) -
-                          isData?.reduce((acc, item) => {
-                            return acc + parseInt(item?.roomAmount);
-                          }, 0)}
+                      {Number(isData && isData?.advanceAmount) -
+                        Number(isData && isData?.roomAmount)}
                       .00
                     </td>
                   </tr>
@@ -227,7 +210,8 @@ function AllcancalPrint({ setopendashboard }) {
                   marginBottom: '0.5rem',
                 }}
               >
-                {empName ? empName : adminName}
+                {isData && isData?.checkoutByName}
+                {isData && isData?.cancelByName}
               </p>
             </div>
           </div>
@@ -240,4 +224,4 @@ function AllcancalPrint({ setopendashboard }) {
   );
 }
 
-export default AllcancalPrint;
+export default Forcecheckoutprint;

@@ -12,6 +12,8 @@ const Allcencal = ({ setopendashboard }) => {
   const location = useLocation();
   const componentRef = useRef();
   const [isData, setisData] = React.useState('');
+  const adminName = sessionStorage.getItem('adminName');
+  const empName = sessionStorage.getItem('empName');
 
   const handlesubmit = async () => {
     try {
@@ -71,10 +73,10 @@ const Allcencal = ({ setopendashboard }) => {
 
   var checkindate = moment(isData[0]?.date).format('DD');
   var checkoutdate = moment(new Date()).format('DD');
-  var days = checkoutdate - checkindate;
-  if (days === 0) {
-    days = 1;
-  }
+  var days = Math.floor(
+    (new Date().getTime() - new Date(isData && isData?.date).getTime()) /
+      (1000 * 3600 * 24),
+  );
 
   let particularData;
   useEffect(() => {
@@ -111,7 +113,7 @@ const Allcencal = ({ setopendashboard }) => {
         >
           <button onClick={() => navigation(-1)}>Back</button>
           <button onClick={() => down()}>Download</button>
-          <button onClick={() => handlesubmit()}>Checkout</button>
+          <button onClick={() => handlesubmit()}>All Cancel</button>
         </div>
         <div style={{ height: '10rem' }} />
         <div style={{ padding: '1rem' }} ref={componentRef}>
@@ -148,7 +150,7 @@ const Allcencal = ({ setopendashboard }) => {
                       <div className="maxxin_room_receipt_innear">
                         <div style={{ backgroundColor: 'red' }}>
                           <p className="yadda_text lineheight">
-                            यात्री प्रस्थान रसीद
+                            आल कैंसिल रसीद
                           </p>
                         </div>
 
@@ -329,10 +331,7 @@ const Allcencal = ({ setopendashboard }) => {
                                       return (
                                         acc + parseInt(item?.advanceAmount)
                                       );
-                                    }, 0) -
-                                      isData?.reduce((acc, item) => {
-                                        return acc + parseInt(item?.roomAmount);
-                                      }, 0)}
+                                    }, 0)}
                                   .00
                                 </td>
                               </tr>
@@ -346,7 +345,7 @@ const Allcencal = ({ setopendashboard }) => {
                               marginBottom: '0.5rem',
                             }}
                           >
-                            {isData[0]?.bookedByName}
+                            {empName ? empName : adminName}
                           </p>
                         </div>
                       </div>

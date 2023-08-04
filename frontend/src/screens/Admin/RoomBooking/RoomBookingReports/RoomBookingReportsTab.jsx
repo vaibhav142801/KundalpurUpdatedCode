@@ -3,8 +3,10 @@ import f1 from '../../../../assets/f1.png';
 
 import { NavLink, useNavigate } from 'react-router-dom';
 const RoomBookingReportsTab = ({ setopendashboard }) => {
+  const [userrole, setuserrole] = useState('');
   useEffect(() => {
     setopendashboard(true);
+    setuserrole(Number(sessionStorage.getItem('userrole')));
   }, []);
 
   return (
@@ -60,30 +62,23 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
               />
               Force Checkout History
             </NavLink>
-            {/* 
-            <NavLink
-              style={{ width: '15rem' }}
-              to="/admin-panel/Room/Consolided"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
-            >
-              <img
-                style={{ marginRight: '4%', width: '20px' }}
-                src={f1}
-                alt="fast"
-              />
-              Consolidated
-            </NavLink> */}
-            <NavLink
-              to="/admin-panel/Room/Holdhistory"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
-            >
-              <img
-                style={{ marginRight: '4%', width: '20px' }}
-                src={f1}
-                alt="fast"
-              />
-              Hold History
-            </NavLink>
+            {userrole === 1 ? (
+              <>
+                <NavLink
+                  to="/admin-panel/Room/Holdhistory"
+                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                >
+                  <img
+                    style={{ marginRight: '4%', width: '20px' }}
+                    src={f1}
+                    alt="fast"
+                  />
+                  Hold History
+                </NavLink>
+              </>
+            ) : (
+              <></>
+            )}
 
             <NavLink
               to="/admin-panel/Room/CanceledHistory"

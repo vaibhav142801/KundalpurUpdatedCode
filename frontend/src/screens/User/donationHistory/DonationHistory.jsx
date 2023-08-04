@@ -164,7 +164,7 @@ function DonationHistory({
                 {isrow && (
                   <>
                     {isrow &&
-                      isrow.reverse().map((row, index) => (
+                      isrow?.reverse()?.map((row, index) => (
                         <tr key={index}>
                           <div style={{ display: 'none' }}>
                             {(status = row.active)}

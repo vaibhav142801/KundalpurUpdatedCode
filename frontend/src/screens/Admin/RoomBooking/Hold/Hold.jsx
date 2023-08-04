@@ -701,32 +701,51 @@ const Hold = ({ setopendashboard }) => {
                       <TableCell>{row?.approvedBy}</TableCell>
                       <TableCell> {row?.remarks}</TableCell>
                       <TableCell>
-                        <img
-                          onClick={() =>
-                            navigate('/admin-panel/HoldCertificate', {
-                              state: {
-                                data: row,
-                              },
-                            })
-                          }
-                          src={Print}
-                          alt="print"
-                          style={{ width: '25px', marginRight: '0.3rem' }}
-                        />
-                        <img
-                          onClick={() => handleClickOpen2(row)}
-                          src={Edit}
-                          alt="print"
-                          style={{ width: '25px', marginRight: '0.3rem' }}
-                        />
-                        <Tooltip title="Room Release">
-                          <img
-                            onClick={() => handleClickOpen3(row?.id)}
-                            src={forcheckout}
-                            alt="print"
-                            style={{ width: '25px', marginRight: '0.3rem' }}
-                          />
-                        </Tooltip>
+                        {userrole === 1 ? (
+                          <>
+                            <img
+                              onClick={() =>
+                                navigate('/admin-panel/HoldCertificate', {
+                                  state: {
+                                    data: row,
+                                  },
+                                })
+                              }
+                              src={Print}
+                              alt="print"
+                              style={{ width: '25px', marginRight: '0.3rem' }}
+                            />
+                            <img
+                              onClick={() => handleClickOpen2(row)}
+                              src={Edit}
+                              alt="print"
+                              style={{ width: '25px', marginRight: '0.3rem' }}
+                            />
+                            <Tooltip title="Room Release">
+                              <img
+                                onClick={() => handleClickOpen3(row?.id)}
+                                src={forcheckout}
+                                alt="print"
+                                style={{ width: '25px', marginRight: '0.3rem' }}
+                              />
+                            </Tooltip>
+                          </>
+                        ) : (
+                          <>
+                            <img
+                              onClick={() =>
+                                navigate('/admin-panel/HoldCertificate', {
+                                  state: {
+                                    data: row,
+                                  },
+                                })
+                              }
+                              src={Print}
+                              alt="print"
+                              style={{ width: '25px', marginRight: '0.3rem' }}
+                            />
+                          </>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}

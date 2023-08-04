@@ -103,7 +103,7 @@ function PrintRoomBooking({ setopendashboard }) {
                   </p>
                 </div>
                 <div className="main_left">
-                  <p className="lineheight">{isData && isData?.RoomNo}</p>
+                  <p className="lineheight">{isData && isData?.booking_id}</p>
                   <p className="lineheight">{isData && isData?.contactNo}</p>
                   <p className="lineheight">{isData && isData?.name}</p>
                   <p className="lineheight">{isData && isData?.Fname}</p>
@@ -164,7 +164,7 @@ function PrintRoomBooking({ setopendashboard }) {
                           <span key={index}> {element}</span>
                         ))}
                       ,{isData && isData?.category_name})-
-                      {isData && isData?.booking_id}
+                      {isData && isData?.roonNo}
                     </td>
 
                     <td className="table_tddd lineheight10">

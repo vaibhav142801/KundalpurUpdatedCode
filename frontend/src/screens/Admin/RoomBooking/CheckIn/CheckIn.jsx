@@ -245,6 +245,13 @@ const CheckIn = ({ setopendashboard }) => {
         Booking_Id: item?.booking_id,
         Mobile: item?.contactNo,
         Customer: item?.name,
+        Staydays: Math.floor(
+          (new Date(item?.coutDate).getTime() -
+            new Date(item?.date).getTime()) /
+            (1000 * 3600 * 24),
+        ),
+        TotalGuest:
+          Number(item?.female) + Number(item?.child) + Number(item?.male),
         Address: item?.address,
         Dharamshala: item?.dharmasala?.name,
         RoomNo: item?.RoomNo,
@@ -259,9 +266,12 @@ const CheckIn = ({ setopendashboard }) => {
   const [cancelid, setcancelid] = useState('');
   const [open3, setOpen3] = React.useState(false);
 
-  const handleClickOpen3 = (id) => {
-    setOpen3(true);
-    setcancelid(id);
+  const handleClickOpen3 = (data) => {
+    navigation('/admin-panel/ACancel', {
+      state: {
+        data: data,
+      },
+    });
   };
   const handleClose5 = () => setOpen3(false);
 
@@ -840,10 +850,10 @@ const CheckIn = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Address
+                  Stay Days
                   <i
                     style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('address')}
+                    onClick={() => sortData('name')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -855,6 +865,15 @@ const CheckIn = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
+                <TableCell>
+                  Address
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('address')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+
                 <TableCell>
                   Dharamshala
                   <i
@@ -950,13 +969,7 @@ const CheckIn = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  <input
-                    style={{ width: '6rem' }}
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => onSearchByOther(e, 'address')}
-                    placeholder="Address"
-                  />
+                  <div style={{ width: '6rem' }} />
                 </TableCell>
                 <TableCell>
                   <input
@@ -969,6 +982,16 @@ const CheckIn = ({ setopendashboard }) => {
                     placeholder="Total"
                   />
                 </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '6rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'address')}
+                    placeholder="Address"
+                  />
+                </TableCell>
+
                 <TableCell>
                   <input
                     style={{ width: '6rem' }}
@@ -1065,7 +1088,6 @@ const CheckIn = ({ setopendashboard }) => {
                       }}
                     >
                       <TableCell>{index + 1}</TableCell>
-
                       <TableCell>
                         {Moment(row?.date)?.format('DD-MM-YYYY')}&nbsp;&nbsp;
                         {moment(row?.time, 'HH:mm:ss').format('hh:mm:ss')}
@@ -1074,12 +1096,19 @@ const CheckIn = ({ setopendashboard }) => {
                       <TableCell>{row?.booking_id}</TableCell>
                       <TableCell>{row?.contactNo}</TableCell>
                       <TableCell>{row?.name}</TableCell>
-                      <TableCell>{row?.address}</TableCell>
+                      <TableCell>
+                        {Math.floor(
+                          (new Date(row?.coutDate).getTime() -
+                            new Date(row?.date).getTime()) /
+                            (1000 * 3600 * 24),
+                        )}
+                      </TableCell>
                       <TableCell>
                         {Number(row?.female) +
                           Number(row?.child) +
                           Number(row?.male)}
                       </TableCell>
+                      <TableCell>{row?.address}</TableCell>
                       <TableCell> {row?.dharmasala?.name}</TableCell>
                       <TableCell> {row?.RoomNo}</TableCell>
                       <TableCell> {row?.roomAmount}</TableCell>
@@ -1093,7 +1122,7 @@ const CheckIn = ({ setopendashboard }) => {
                           <>
                             <Tooltip title="Print">
                               <img
-                                onClick={() => downloadrecept(row)}
+                                onClick={() => downloadrecept(isData, row)}
                                 src={Print}
                                 alt="print"
                                 style={{ width: '25px', marginRight: '0.3rem' }}
@@ -1115,7 +1144,7 @@ const CheckIn = ({ setopendashboard }) => {
                               <>
                                 <Tooltip title="Cancel">
                                   <CloseIcon
-                                    onClick={() => handleClickOpen3(row?.id)}
+                                    onClick={() => handleClickOpen3(row)}
                                   />
                                 </Tooltip>
                                 <Tooltip title="All Cancel">
@@ -1123,7 +1152,7 @@ const CheckIn = ({ setopendashboard }) => {
                                     onClick={() =>
                                       handleOepn11(isData, row?.booking_id)
                                     }
-                                    src={allcancel}
+                                    src={allforceCheckout}
                                     alt="print"
                                     style={{
                                       width: '25px',
@@ -1157,7 +1186,7 @@ const CheckIn = ({ setopendashboard }) => {
                                     onClick={() =>
                                       handleOepn10(isData, row?.booking_id)
                                     }
-                                    src={allforceCheckout}
+                                    src={allcancel}
                                     alt="print"
                                     style={{
                                       width: '25px',
@@ -1184,6 +1213,19 @@ const CheckIn = ({ setopendashboard }) => {
                                         }}
                                       />
                                     </Tooltip>
+                                    <Tooltip title="All Cancel">
+                                      <img
+                                        onClick={() =>
+                                          handleOepn11(isData, row?.booking_id)
+                                        }
+                                        src={allforceCheckout}
+                                        alt="print"
+                                        style={{
+                                          width: '25px',
+                                          marginRight: '0.3rem',
+                                        }}
+                                      />
+                                    </Tooltip>
                                   </>
                                 ) : (
                                   <></>
@@ -1196,9 +1238,7 @@ const CheckIn = ({ setopendashboard }) => {
                                   <>
                                     <Tooltip title="Cancel">
                                       <CloseIcon
-                                        onClick={() =>
-                                          handleClickOpen3(row?.id)
-                                        }
+                                        onClick={() => handleClickOpen3(row)}
                                       />
                                     </Tooltip>
                                     <Tooltip title="Room Shift">
@@ -1245,6 +1285,20 @@ const CheckIn = ({ setopendashboard }) => {
                           src={multiple1}
                           alt="All"
                         />
+
+                        <Tooltip title="All Cancel">
+                          <img
+                            onClick={() =>
+                              handleOepn11(isData, row?.booking_id)
+                            }
+                            src={allforceCheckout}
+                            alt="print"
+                            style={{
+                              width: '25px',
+                              marginRight: '0.3rem',
+                            }}
+                          />
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   ))}

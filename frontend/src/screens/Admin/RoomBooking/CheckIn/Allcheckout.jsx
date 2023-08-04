@@ -32,13 +32,7 @@ function Allcheckout({ data, bookingid }) {
             return <p>{item?.RoomNo},</p>;
           })}
       </div>
-      <button
-        style={{
-          width: '5rem',
-        }}
-        className="chaneRoom"
-        onClick={() => handlesubmit()}
-      >
+      <button className="chaneRoom" onClick={() => handlesubmit()}>
         Checkout
       </button>
     </>

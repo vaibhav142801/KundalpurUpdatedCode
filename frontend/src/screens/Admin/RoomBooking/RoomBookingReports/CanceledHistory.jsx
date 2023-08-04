@@ -155,7 +155,15 @@ const CanceledHistory = ({ setopendashboard }) => {
         Booking_Id: item?.booking_id,
         Mobile: item?.contactNo,
         Customer: item?.name,
+        Staydays: Math.floor(
+          (new Date(item?.coutDate).getTime() -
+            new Date(item?.date).getTime()) /
+            (1000 * 3600 * 24),
+        ),
+        TotalGuest:
+          Number(item?.female) + Number(item?.child) + Number(item?.male),
         Address: item?.address,
+
         Dharamshala: item?.dharmasalaName,
         RoomNo: item?.RoomNo,
         Rent: item?.roomAmount,
@@ -490,6 +498,22 @@ const CanceledHistory = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
+                  Stay Days
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Total Guest
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('dharmasala?.name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
                   Address
                   <i
                     style={{ marginLeft: '0rem' }}
@@ -497,6 +521,7 @@ const CanceledHistory = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
+
                 <TableCell>
                   Dharamshala
                   <i
@@ -588,6 +613,20 @@ const CanceledHistory = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
+                  <div style={{ width: '6rem' }} />
+                </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '6rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => {
+                      onSearchByOther(e, 'dharmasala');
+                    }}
+                    placeholder="Total"
+                  />
+                </TableCell>
+                <TableCell>
                   <input
                     style={{ width: '6rem' }}
                     className="cuolms_search"
@@ -596,6 +635,7 @@ const CanceledHistory = ({ setopendashboard }) => {
                     placeholder="Address"
                   />
                 </TableCell>
+
                 <TableCell>
                   <input
                     style={{ width: '9rem' }}
@@ -701,7 +741,20 @@ const CanceledHistory = ({ setopendashboard }) => {
                           <TableCell>{row?.booking_id}</TableCell>
                           <TableCell>{row?.contactNo}</TableCell>
                           <TableCell>{row?.name}</TableCell>
+                          <TableCell>
+                            {Math.floor(
+                              (new Date(row?.coutDate).getTime() -
+                                new Date(row?.date).getTime()) /
+                                (1000 * 3600 * 24),
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {Number(row?.female) +
+                              Number(row?.child) +
+                              Number(row?.male)}
+                          </TableCell>
                           <TableCell>{row?.address}</TableCell>
+
                           <TableCell> {row?.dharmasalaName}</TableCell>
                           <TableCell> {row?.RoomNo}</TableCell>
                           <TableCell> {row?.roomAmount}</TableCell>

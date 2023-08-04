@@ -12,7 +12,8 @@ function Allforcecheckoutprint({ setopendashboard }) {
   const componentRef = useRef();
   const [isData, setisData] = useState('');
   const [checkindata, setcheckindata] = useState('');
-  console.log('data from certifucate', isData);
+  const adminName = sessionStorage.getItem('adminName');
+  const empName = sessionStorage.getItem('empName');
 
   function down() {
     console.log('cliii');
@@ -93,7 +94,7 @@ function Allforcecheckoutprint({ setopendashboard }) {
           >
             <div>
               <p className="yadda_text lineheight">
-                यात्री प्रस्थान रसीद
+                आल फाॅर्स चेकआउट रसीद
                 {/* <span style={{ fontSize: '13px' }}>
                   ({isData[0]?.paymentMode === 2 ? 'Cash' : 'Online'})
                 </span> */}
@@ -193,8 +194,8 @@ function Allforcecheckoutprint({ setopendashboard }) {
                     <td className="table_tddd lineheight10">
                       {isData &&
                         isData?.reduce((acc, item) => {
-                          return acc + parseInt(item?.roomAmount);
-                        }, 0) * Number(TotalDays)}
+                          return acc + parseInt(item?.advanceAmount);
+                        }, 0)}
                       .00
                     </td>
                     <td className="table_tddd lineheight10">
@@ -211,7 +212,7 @@ function Allforcecheckoutprint({ setopendashboard }) {
                           return acc + parseInt(item?.advanceAmount);
                         }, 0) -
                           isData?.reduce((acc, item) => {
-                            return acc + parseInt(item?.roomAmount);
+                            return acc + parseInt(item?.advanceAmount);
                           }, 0)}
                       .00
                     </td>
@@ -226,7 +227,7 @@ function Allforcecheckoutprint({ setopendashboard }) {
                   marginBottom: '0.5rem',
                 }}
               >
-                {isData && isData[0]?.bookedByName}
+                {empName ? empName : adminName}
               </p>
             </div>
           </div>

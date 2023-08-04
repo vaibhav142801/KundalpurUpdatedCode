@@ -206,7 +206,12 @@ function CheckinForm({ setOpen }) {
         address: address,
         city: city,
         advanceAmount: Number(mainAvanceRate)
-          ? Number(mainAvanceRate) * Number(staydays)
+          ? Number(staydays) > 1
+            ? (Number(staydays) > 1
+                ? roomno.length * mainAvanceRate +
+                  roomno.length * Number(mainRate) * Number(staydays - 1)
+                : roomno.length * mainAvanceRate) / roomno.length
+            : (roomno.length * mainAvanceRate) / roomno.length
           : 0,
         state: state,
         proof: idproffname,
@@ -531,51 +536,41 @@ function CheckinForm({ setOpen }) {
                         <p>₹ {mainRate}</p>
                       </div>
                       <div className="main_div_test22222">
-                        <p>Advance rate</p>
-
-                        <input
-                          style={{ width: '4rem' }}
-                          type="text"
-                          value={mainAvanceRate * Number(staydays)}
-                          name="mainAvanceRate"
-                          onChange={(e) => setmainAvanceRate(e.target.value)}
-                        />
+                        <p>Advance</p>
+                        <p>₹{roomno.length * mainAvanceRate}</p>
                       </div>
                       <div className="main_div_test22222">
                         <p>
                           {roomno.length} Room x {staydays} Days
                         </p>
                         <p>
-                          ₹{roomno.length * Number(mainRate) * Number(staydays)}
+                          ₹
+                          {Number(staydays) > 1
+                            ? roomno.length *
+                              Number(mainRate) *
+                              Number(staydays - 1)
+                            : '0'}
                         </p>
                       </div>
 
                       <div className="main_div_test22222">
-                        <p>
-                          {roomno.length} Room x{' '}
-                          {mainAvanceRate * Number(staydays)}
-                        </p>
-                        <p>
-                          ₹{roomno.length * mainAvanceRate * Number(staydays)}
-                        </p>
-                      </div>
+                        <p>Total Advance</p>
 
-                      {/* <div className="main_div_test22222">
-                        <p>GST</p>
-                        <p>₹ 0.00</p>
-                      </div> */}
-                      {/* <div className="main_div_test22222">
-                        <p>Mattress {extraMattress} x ₹150</p>
-                        <p>₹ {extraMattress * 150}</p>
-                      </div> */}
-                      {/* <div className="main_div_test22222">
-                        <p>Payable Amount </p>
-                        <p>
-                          ₹
-                          {roomno.length * Number(mainRate) * Number(staydays) +
-                            roomno.length * Number(mainAvanceRate)}
-                        </p>
-                      </div> */}
+                        <input
+                          style={{ width: '4rem' }}
+                          type="text"
+                          value={
+                            Number(staydays) > 1
+                              ? roomno.length * mainAvanceRate +
+                                roomno.length *
+                                  Number(mainRate) *
+                                  Number(staydays - 1)
+                              : roomno.length * mainAvanceRate
+                          }
+                          name="mainAvanceRate"
+                          onChange={(e) => setmainAvanceRate(e.target.value)}
+                        />
+                      </div>
                     </div>
                   </div>
 

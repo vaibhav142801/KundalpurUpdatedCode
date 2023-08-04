@@ -15,7 +15,8 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
   const location = useLocation();
   const componentRef = useRef();
   const [isData, setisData] = React.useState('');
-
+  const adminName = sessionStorage.getItem('adminName');
+  const empName = sessionStorage.getItem('empName');
   const handlesubmit = async () => {
     try {
       axios.defaults.headers.post[
@@ -331,12 +332,13 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
                                 <td className="table_tddd lineheight10">
                                   {isData &&
                                     isData?.reduce((acc, item) => {
-                                      return (
-                                        acc + parseInt(item?.advanceAmount)
-                                      );
-                                    }, 0) -
+                                      return acc + parseInt(item?.roomAmount);
+                                    }, 0) *
+                                      Number(TotalDays) -
                                       isData?.reduce((acc, item) => {
-                                        return acc + parseInt(item?.roomAmount);
+                                        return (
+                                          acc + parseInt(item?.advanceAmount)
+                                        );
                                       }, 0)}
                                   .00
                                 </td>
@@ -351,7 +353,7 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
                               marginBottom: '0.5rem',
                             }}
                           >
-                            {isData[0]?.bookedByName}
+                            {empName ? empName : adminName}
                           </p>
                         </div>
                       </div>

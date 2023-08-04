@@ -59,6 +59,12 @@ function PrintOnlysetup({ setopendashboard }) {
   });
 
   let difference = today1.getTime() - today.getTime();
+
+  var days = Math.floor(
+    (new Date(isData && isData[0]?.coutDate).getTime() -
+      new Date(isData && isData[0]?.date).getTime()) /
+      (1000 * 3600 * 24),
+  );
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
   return (
     <>
@@ -116,6 +122,9 @@ function PrintOnlysetup({ setopendashboard }) {
                     मोबाईल न :
                   </p>
                   <p style={{ color: 'gray' }} className="lineheight">
+                    स्टे :
+                  </p>
+                  <p style={{ color: 'gray' }} className="lineheight">
                     पता :
                   </p>
                 </div>
@@ -124,6 +133,7 @@ function PrintOnlysetup({ setopendashboard }) {
                     {currDate} / {currTime}
                   </p>
                   <p className="lineheight">{isData && isData[0]?.contactNo}</p>
+                  <p className="lineheight">{days} Days</p>
                   <p className="lineheight">{isData && isData[0]?.address}</p>
                 </div>
               </div>
@@ -155,58 +165,32 @@ function PrintOnlysetup({ setopendashboard }) {
                     <td className="table_tddd lineheight10">सहयोग राशि</td>
                     <td className="table_tddd lineheight10">अमानत राशि</td>
                   </tr>
-                  {isData &&
-                    isData?.map((item, index) => {
-                      return (
-                        <tr>
-                          <td className="table_tddd lineheight10">
-                            {item?.dharmasala?.name}
-                          </td>
-                          <td className="table_tddd lineheight10">
-                            {item?.categoryName}
-                            {item?.facility_name &&
-                              item?.facility_name.map((element, index) => (
-                                <span key={index}>{element}</span>
-                              ))}
-                            -{item?.category_name}
-                            {item?.facilityName}
-                          </td>
-                          <td className="table_tddd lineheight10">
-                            {item?.RoomNo}
-                          </td>
-
-                          <td className="table_tddd lineheight10">
-                            {Number(item?.roomAmount)}
-                            .00
-                          </td>
-                          <td className="table_tddd lineheight10">
-                            {Number(item?.advanceAmount)}
-                            .00
-                          </td>
-                        </tr>
-                      );
-                    })}
                   <tr>
-                    <td></td>
-                    <td></td>
-                    <td className="table_tddd lineheight10">Total</td>
-                    <td
-                      style={{ fontWeight: 800 }}
-                      className="table_tddd lineheight10"
-                    >
-                      {isData &&
-                        isData?.reduce((acc, item) => {
-                          return acc + parseInt(item?.roomAmount);
-                        }, 0)}
+                    <td className="table_tddd lineheight10">
+                      {isData && isData[0]?.dharmasala?.name}
                     </td>
-                    <td
-                      style={{ fontWeight: 800 }}
-                      className="table_tddd lineheight10"
-                    >
+                    <td className="table_tddd lineheight10">
+                      {isData && isData[0]?.categoryName}
                       {isData &&
-                        isData?.reduce((acc, item) => {
-                          return acc + parseInt(item?.advanceAmount);
-                        }, 0)}
+                        isData[0]?.facility_name &&
+                        isData &&
+                        isData[0]?.facility_name.map((element, index) => (
+                          <span key={index}>{element}</span>
+                        ))}
+                      -{isData && isData[0]?.category_name}
+                      {isData && isData[0]?.facilityName}
+                    </td>
+
+                    <td className="table_tddd lineheight10">
+                      {isData && isData[0]?.RoomNo}
+                    </td>
+
+                    <td className="table_tddd lineheight10">
+                      {Number(isData && isData[0]?.roomAmount)}
+                      .00
+                    </td>
+                    <td className="table_tddd lineheight10">
+                      {Number(isData && isData[0]?.advanceAmount)}
                       .00
                     </td>
                   </tr>

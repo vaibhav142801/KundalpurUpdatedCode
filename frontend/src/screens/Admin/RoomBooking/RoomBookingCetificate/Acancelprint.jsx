@@ -6,7 +6,7 @@ import { useReactToPrint } from 'react-to-print';
 import './RoomBookingCetificate.css';
 
 import moment from 'moment';
-function AllcancalPrint({ setopendashboard }) {
+function Acancelprint({ setopendashboard }) {
   const navigate = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
@@ -30,13 +30,9 @@ function AllcancalPrint({ setopendashboard }) {
   });
   useEffect(() => {
     if (location.state) {
-      setisData(location.state?.data);
-      console.log('ddddddddddddddd', location?.state?.data);
-    }
-    if (location?.state?.checkoutdata) {
-      setisData(location?.state?.checkoutdata);
-
-      console.log('data', location?.state?.checkoutdata);
+      if (location?.state?.data) {
+        setisData(location?.state?.data);
+      }
     }
     setopendashboard(true);
     setTimeout(() => {
@@ -171,49 +167,32 @@ function AllcancalPrint({ setopendashboard }) {
                   </tr>
                   <tr>
                     <td className="table_tddd lineheight10">
-                      {isData && isData[0]?.dharmasala?.name}
+                      {isData && isData?.dharmasala?.name}
                     </td>
                     <td className="table_tddd lineheight10">
-                      {isData && isData[0]?.categoryName}
+                      {isData && isData?.categoryName}
                       {isData &&
-                        isData[0].facility_name &&
+                        isData.facility_name &&
                         isData &&
-                        isData[0]?.facility_name.map((element, index) => (
-                          <span key={index}>{element}</span>
-                        ))}
+                        isData?.facility_name}
                       -{isData && isData[0]?.category_name}
                       {isData && isData[0]?.facilityName}
                     </td>
                     <td className="table_tddd lineheight10">
-                      {isData &&
-                        isData.map((item) => {
-                          return <span>{item?.RoomNo},</span>;
-                        })}
+                      {isData && isData.RoomNo}
                     </td>
 
                     <td className="table_tddd lineheight10">
-                      {isData &&
-                        isData?.reduce((acc, item) => {
-                          return acc + parseInt(item?.roomAmount);
-                        }, 0) * Number(days)}
+                      {isData && isData?.roomAmount}
                       .00
                     </td>
                     <td className="table_tddd lineheight10">
-                      {isData &&
-                        isData?.reduce((acc, item) => {
-                          return acc + parseInt(item?.advanceAmount);
-                        }, 0)}
+                      {isData && isData?.advanceAmount}
                       .00
                     </td>
 
                     <td className="table_tddd lineheight10">
-                      {isData &&
-                        isData?.reduce((acc, item) => {
-                          return acc + parseInt(item?.advanceAmount);
-                        }, 0) -
-                          isData?.reduce((acc, item) => {
-                            return acc + parseInt(item?.roomAmount);
-                          }, 0)}
+                      {isData && isData?.advanceAmount}
                       .00
                     </td>
                   </tr>
@@ -240,4 +219,4 @@ function AllcancalPrint({ setopendashboard }) {
   );
 }
 
-export default AllcancalPrint;
+export default Acancelprint;

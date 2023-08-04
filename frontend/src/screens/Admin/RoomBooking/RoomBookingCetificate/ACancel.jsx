@@ -1,34 +1,32 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Converter, hiIN } from 'any-number-to-words';
 import { backendApiUrl } from '../../../../config/config';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import axios from 'axios';
 import moment from 'moment';
 import '../../../Admin/Reciept/cashrecipt.css';
-const Allforcecheckout = ({ setopendashboard }) => {
+const ACancel = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
   const [isData, setisData] = React.useState('');
   const adminName = sessionStorage.getItem('adminName');
   const empName = sessionStorage.getItem('empName');
+
   const handlesubmit = async () => {
     try {
-      axios.defaults.headers.post[
+      axios.defaults.headers.delete[
         'Authorization'
       ] = `Bearer ${sessionStorage.getItem('token')}`;
 
-      const res = await axios.post(`${backendApiUrl}room/force-checkoutAll`, {
-        bookingId: isData[0]?.booking_id,
-
-        // advanceAmount: data?.advanceAmount,
+      const res = await axios.delete(`${backendApiUrl}room/cancel-checkin`, {
+        id: isData?.id,
       });
 
-      console.log(res);
-
       if (res?.data?.data?.status) {
-        navigation('/admin-panel/Allforcecheckoutprint', {
+        navigation('/admin-panel/Acancelprint', {
           state: {
             checkoutdata: isData,
           },
@@ -50,7 +48,7 @@ const Allforcecheckout = ({ setopendashboard }) => {
   }
 
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
-  var today = new Date(isData && isData[0]?.date);
+  var today = new Date(isData && isData?.date);
   const currDate = today
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -73,34 +71,24 @@ const Allforcecheckout = ({ setopendashboard }) => {
   let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
 
-  var checkindate = moment(isData[0]?.date).format('DD');
+  var checkindate = moment(isData?.date).format('DD');
   var checkoutdate = moment(new Date()).format('DD');
-  var days = checkoutdate - checkindate;
-  if (days === 0) {
-    days = 1;
-  }
+  var days = Math.floor(
+    (new Date().getTime() - new Date(isData && isData?.date).getTime()) /
+      (1000 * 3600 * 24),
+  );
 
-  let particularData;
   useEffect(() => {
     if (location.state) {
-      if (location?.state?.roomdata) {
-        particularData = location?.state?.roomdata?.filter((item) => {
-          return item?.booking_id === location?.state?.data?.booking_id;
-        });
-        setisData(particularData);
+      if (location?.state?.data) {
+        setisData(location?.state?.data);
       }
-      if (location?.state?.checkoutdata) {
-        setisData(location?.state?.checkoutdata);
-
-        console.log('data', location?.state?.checkoutdata);
-      }
-
-      console.log('sdd', location);
     }
 
     setopendashboard(true);
   }, []);
 
+  console.log('data from cancel is', isData);
   return (
     <>
       <div>
@@ -115,7 +103,7 @@ const Allforcecheckout = ({ setopendashboard }) => {
         >
           <button onClick={() => navigation(-1)}>Back</button>
           <button onClick={() => down()}>Download</button>
-          <button onClick={() => handlesubmit()}>Checkout</button>
+          <button onClick={() => handlesubmit()}>All Cancel</button>
         </div>
         <div style={{ height: '10rem' }} />
         <div style={{ padding: '1rem' }} ref={componentRef}>
@@ -151,9 +139,7 @@ const Allforcecheckout = ({ setopendashboard }) => {
                     >
                       <div className="maxxin_room_receipt_innear">
                         <div style={{ backgroundColor: 'red' }}>
-                          <p className="yadda_text lineheight">
-                            आल फाॅर्स चेकआउट रसीद
-                          </p>
+                          <p className="yadda_text lineheight">कैंसिल रसीद</p>
                         </div>
 
                         <div className="innear_div_texx">
@@ -186,16 +172,16 @@ const Allforcecheckout = ({ setopendashboard }) => {
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
-                                {isData && isData[0]?.booking_id}
+                                {isData && isData?.booking_id}
                               </p>
                               <p className="lineheight">
-                                {isData && isData[0]?.contactNo}
+                                {isData && isData?.contactNo}
                               </p>
                               <p className="lineheight">
-                                {isData && isData[0]?.name}
+                                {isData && isData?.name}
                               </p>
                               <p className="lineheight">
-                                {isData && isData[0]?.Fname}
+                                {isData && isData?.Fname}
                               </p>
                             </div>
                           </div>
@@ -246,19 +232,19 @@ const Allforcecheckout = ({ setopendashboard }) => {
                         <div className="yyy_text_div">
                           <p className="lineheight">यात्री संख्या</p>
                           <p className="lineheight">
-                            Male: {isData && isData[0]?.male}
+                            Male: {isData && isData?.male}
                           </p>
                           <p className="lineheight">
-                            Female: {isData && isData[0]?.female}
+                            Female: {isData && isData?.female}
                           </p>
                           <p className="lineheight">
-                            Child: {isData && isData[0]?.child}
+                            Child: {isData && isData?.child}
                           </p>
                           <p className="lineheight">
                             Total:
-                            {Number(isData && isData[0]?.male) +
-                              Number(isData && isData[0]?.female) +
-                              Number(isData && isData[0]?.child)}
+                            {Number(isData && isData?.male) +
+                              Number(isData && isData?.female) +
+                              Number(isData && isData?.child)}
                           </p>
                         </div>
 
@@ -286,62 +272,34 @@ const Allforcecheckout = ({ setopendashboard }) => {
                                   शेष राशि वापिसी
                                 </td>
                               </tr>
-
                               <tr>
                                 <td className="table_tddd lineheight10">
-                                  {isData && isData[0]?.dharmasala?.name}
+                                  {isData && isData?.dharmasala?.name}
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {isData && isData[0]?.categoryName}
+                                  {isData && isData?.categoryName}
                                   {isData &&
-                                    isData[0].facility_name &&
+                                    isData.facility_name &&
                                     isData &&
-                                    isData[0]?.facility_name.map(
-                                      (element, index) => (
-                                        <span key={index}>{element}</span>
-                                      ),
-                                    )}
+                                    isData?.facility_name}
                                   -{isData && isData[0]?.category_name}
                                   {isData && isData[0]?.facilityName}
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {isData &&
-                                    isData.map((item) => {
-                                      return <span>{item?.RoomNo},</span>;
-                                    })}
+                                  {isData && isData.RoomNo}
                                 </td>
 
                                 <td className="table_tddd lineheight10">
-                                  {isData &&
-                                    isData?.reduce((acc, item) => {
-                                      return (
-                                        acc + parseInt(item?.advanceAmount)
-                                      );
-                                    }, 0)}
+                                  {isData && isData?.roomAmount}
                                   .00
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {isData &&
-                                    isData?.reduce((acc, item) => {
-                                      return (
-                                        acc + parseInt(item?.advanceAmount)
-                                      );
-                                    }, 0)}
+                                  {isData && isData?.advanceAmount}
                                   .00
                                 </td>
 
                                 <td className="table_tddd lineheight10">
-                                  {isData &&
-                                    isData?.reduce((acc, item) => {
-                                      return (
-                                        acc + parseInt(item?.advanceAmount)
-                                      );
-                                    }, 0) -
-                                      isData?.reduce((acc, item) => {
-                                        return (
-                                          acc + parseInt(item?.advanceAmount)
-                                        );
-                                      }, 0)}
+                                  {isData && isData?.advanceAmount}
                                   .00
                                 </td>
                               </tr>
@@ -455,4 +413,4 @@ const Allforcecheckout = ({ setopendashboard }) => {
   );
 };
 
-export default Allforcecheckout;
+export default ACancel;

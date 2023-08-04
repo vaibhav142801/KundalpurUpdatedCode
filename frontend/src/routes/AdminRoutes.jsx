@@ -119,6 +119,13 @@ import Allforcecheckout from '../screens/Admin/RoomBooking/RoomBookingCetificate
 import Allforcecheckoutprint from '../screens/Admin/RoomBooking/RoomBookingCetificate/Allforcecheckoutprint';
 import AllcancalPrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/AllcancalPrint';
 import Allcencal from '../screens/Admin/RoomBooking/RoomBookingCetificate/Allcencal';
+
+import Forcheckouthistory from '../screens/Admin/RoomBooking/RoomBookingCetificate/Forcheckouthistory';
+import Forcecheckoutprint from '../screens/Admin/RoomBooking/RoomBookingCetificate/Forcecheckoutprint';
+
+import Acancelprint from '../screens/Admin/RoomBooking/RoomBookingCetificate/Acancelprint';
+import ACancel from '../screens/Admin/RoomBooking/RoomBookingCetificate/ACancel';
+
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -951,6 +958,38 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <Allcencal setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Forcheckouthistory"
+          element={
+            <Adminprivateroute>
+              <Forcheckouthistory setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Forcecheckoutprint"
+          element={
+            <Adminprivateroute>
+              <Forcecheckoutprint setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/Acancelprint"
+          element={
+            <Adminprivateroute>
+              <Acancelprint setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/ACancel"
+          element={
+            <Adminprivateroute>
+              <ACancel setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />

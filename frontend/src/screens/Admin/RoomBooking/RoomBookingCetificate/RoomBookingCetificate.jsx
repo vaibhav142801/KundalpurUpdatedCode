@@ -81,6 +81,7 @@ const RoomBookingCetificate = ({ setopendashboard }) => {
       'data from certifucate',
 
       location?.state?.checkindata,
+      location.state?.data?.data,
     );
 
     setopendashboard(true);

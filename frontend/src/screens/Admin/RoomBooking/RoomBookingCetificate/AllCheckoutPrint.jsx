@@ -12,7 +12,8 @@ function AllCheckoutPrint({ setopendashboard }) {
   const componentRef = useRef();
   const [isData, setisData] = useState('');
   const [checkindata, setcheckindata] = useState('');
-  console.log('data from certifucate', isData);
+  const adminName = sessionStorage.getItem('adminName');
+  const empName = sessionStorage.getItem('empName');
 
   function down() {
     console.log('cliii');
@@ -189,7 +190,6 @@ function AllCheckoutPrint({ setopendashboard }) {
                           return <span>{item?.RoomNo},</span>;
                         })}
                     </td>
-
                     <td className="table_tddd lineheight10">
                       {isData &&
                         isData?.reduce((acc, item) => {
@@ -209,10 +209,7 @@ function AllCheckoutPrint({ setopendashboard }) {
                       {isData &&
                         isData?.reduce((acc, item) => {
                           return acc + parseInt(item?.advanceAmount);
-                        }, 0) -
-                          isData?.reduce((acc, item) => {
-                            return acc + parseInt(item?.roomAmount);
-                          }, 0)}
+                        }, 0)}
                       .00
                     </td>
                   </tr>
@@ -226,7 +223,7 @@ function AllCheckoutPrint({ setopendashboard }) {
                   marginBottom: '0.5rem',
                 }}
               >
-                {isData && isData[0]?.bookedByName}
+                {empName ? empName : adminName}
               </p>
             </div>
           </div>
