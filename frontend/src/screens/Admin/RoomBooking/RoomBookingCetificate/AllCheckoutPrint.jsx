@@ -170,49 +170,60 @@ function AllCheckoutPrint({ setopendashboard }) {
                     <td className="table_tddd lineheight10">शेष राशि वापिसी</td>
                   </tr>
                   <tr>
-                    <td className="table_tddd lineheight10">
-                      {isData && isData[0]?.dharmasala?.name}
-                    </td>
-                    <td className="table_tddd lineheight10">
-                      {isData && isData[0]?.categoryName}
-                      {isData &&
-                        isData[0].facility_name &&
-                        isData &&
-                        isData[0]?.facility_name.map((element, index) => (
-                          <span key={index}>{element}</span>
-                        ))}
-                      -{isData && isData[0]?.category_name}
-                      {isData && isData[0]?.facilityName}
-                    </td>
-                    <td className="table_tddd lineheight10">
-                      {isData &&
-                        isData.map((item) => {
-                          return <span>{item?.RoomNo},</span>;
-                        })}
-                    </td>
-                    <td className="table_tddd lineheight10">
-                      {isData &&
-                        isData?.reduce((acc, item) => {
-                          return acc + parseInt(item?.roomAmount);
-                        }, 0) * Number(TotalDays)}
-                      .00
-                    </td>
-                    <td className="table_tddd lineheight10">
-                      {isData &&
-                        isData?.reduce((acc, item) => {
-                          return acc + parseInt(item?.advanceAmount);
-                        }, 0)}
-                      .00
-                    </td>
+                                <td className="table_tddd lineheight10">
+                                  {isData && isData[0]?.dharmasala?.name}
+                                </td>
+                                <td className="table_tddd lineheight10">
+                                  {isData && isData[0]?.categoryName}
+                                  {isData &&
+                                    isData[0].facility_name &&
+                                    isData &&
+                                    isData[0]?.facility_name.map(
+                                      (element, index) => (
+                                        <span key={index}>{element}</span>
+                                      ),
+                                    )}
+                                  -{isData && isData[0]?.category_name}
+                                  {isData && isData[0]?.facilityName}
+                                </td>
+                                <td className="table_tddd lineheight10">
+                                  {isData &&
+                                    isData.map((item) => {
+                                      return <span>{item?.RoomNo},</span>;
+                                    })}
+                                </td>
 
-                    <td className="table_tddd lineheight10">
-                      {isData &&
-                        isData?.reduce((acc, item) => {
-                          return acc + parseInt(item?.advanceAmount);
-                        }, 0)}
-                      .00
-                    </td>
-                  </tr>
+                                <td className="table_tddd lineheight10">
+                                  {isData &&
+                                    isData?.reduce((acc, item) => {
+                                      return acc + parseInt(item?.roomAmount);
+                                    }, 0) * Number(TotalDays)}
+                                  .00
+                                </td>
+                                <td className="table_tddd lineheight10">
+                                  {isData &&
+                                    isData?.reduce((acc, item) => {
+                                      return (
+                                        acc + parseInt(item?.advanceAmount)
+                                      );
+                                    }, 0)}
+                                  .00
+                                </td>
+
+                                <td className="table_tddd lineheight10">
+                                  {isData &&
+                                    isData?.reduce((acc, item) => {
+                                      return acc + parseInt(item?.roomAmount);
+                                    }, 0) *
+                                      Number(TotalDays) -
+                                      isData?.reduce((acc, item) => {
+                                        return (
+                                          acc + parseInt(item?.advanceAmount)
+                                        );
+                                      }, 0)}
+                                  .00
+                                </td>
+                              </tr>
                 </tbody>
               </table>
               <p

@@ -50,7 +50,10 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
               />
               Online Checkout History
             </NavLink>
-            <NavLink
+           
+            {userrole === 1 ? (
+              <>
+               <NavLink
               style={{ width: '15rem' }}
               to="/admin-panel/ForceCheckoutHistory"
               className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
@@ -62,8 +65,6 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
               />
               Force Checkout History
             </NavLink>
-            {userrole === 1 ? (
-              <>
                 <NavLink
                   to="/admin-panel/Room/Holdhistory"
                   className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}

@@ -183,10 +183,17 @@ const Onlyprint = ({ setopendashboard }) => {
                               >
                                 पिता/पति श्री :
                               </p>
+
+                              <p
+                                style={{ color: 'gray' }}
+                                className="lineheight"
+                              >
+                               &nbsp;
+                              </p>
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
-                                {isData && isData[0]?.booking_id}
+                                {isData && isData[0]?.booking_id?isData && isData[0]?.booking_id:""}
                               </p>
 
                               <p className="lineheight">
@@ -194,6 +201,12 @@ const Onlyprint = ({ setopendashboard }) => {
                               </p>
                               <p className="lineheight">
                                 {isData && isData[0]?.Fname}
+                              </p>
+                              <p
+                                style={{ color: 'gray' }}
+                                className="lineheight"
+                              >
+                             &nbsp;
                               </p>
                             </div>
                           </div>

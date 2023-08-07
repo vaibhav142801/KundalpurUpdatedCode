@@ -74,6 +74,11 @@ const CashRecipt = ({ setopendashboard, setshowreciept }) => {
     }
   }, []);
 
+  const shareReceipt = () => {
+    serverInstance(`user/donation-receipt?id=${isData?.id}`, 'get').then(
+      (res) => {},
+    );
+  };
   return (
     <>
       <div>
@@ -733,6 +738,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept }) => {
       </div>
       <div className="button_div_print_download">
         <button onClick={() => down()}>Download</button>
+        <button style={{width:"17rem"}} onClick={() => shareReceipt()}>Share on whatsaap</button>
         <button onClick={() => printDiv()}>Print</button>
       </div>
     </>

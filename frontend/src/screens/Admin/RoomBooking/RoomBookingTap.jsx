@@ -3,9 +3,12 @@ import f1 from '../../../assets/f1.png';
 
 import { NavLink, useNavigate } from 'react-router-dom';
 const RoomBookingTap = ({ setopendashboard }) => {
+  const [userrole, setuserrole] = useState('');
   useEffect(() => {
     setopendashboard(true);
+    setuserrole(Number(sessionStorage.getItem('userrole')));
   }, []);
+
 
   return (
     <>
@@ -34,7 +37,8 @@ const RoomBookingTap = ({ setopendashboard }) => {
               />
               Checkin
             </NavLink>
-            <NavLink
+            {userrole===1&&<>
+              <NavLink
               to="/admin-panel/room/hold"
               className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
             >
@@ -45,6 +49,9 @@ const RoomBookingTap = ({ setopendashboard }) => {
               />
               Hold
             </NavLink>
+            
+            </>}
+           
             <NavLink
               to="/admin-panel/room/roomshift"
               className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}

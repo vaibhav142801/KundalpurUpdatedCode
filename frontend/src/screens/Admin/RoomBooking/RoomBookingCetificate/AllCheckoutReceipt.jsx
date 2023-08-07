@@ -344,6 +344,9 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
                                 </td>
                               </tr>
                             </tbody>
+
+
+                            
                           </table>
                           <p
                             style={{

@@ -105,12 +105,18 @@ function PrintOnlysetup({ setopendashboard }) {
                   <p style={{ color: 'gray' }} className="lineheight">
                     पिता/पति श्री :
                   </p>
+                  <p style={{ color: 'gray' }} className="lineheight">
+                    &nbsp;
+                  </p>
                 </div>
                 <div className="main_left">
                   <p className="lineheight">{isData && isData[0]?.RoomNo}</p>
 
                   <p className="lineheight">{isData && isData[0]?.name}</p>
                   <p className="lineheight">{isData && isData[0]?.Fname}</p>
+                  <p style={{ color: 'gray' }} className="lineheight">
+                    &nbsp;
+                  </p>
                 </div>
               </div>
               <div className="innear_div_texx_dd" style={{ marginLeft: '0px' }}>

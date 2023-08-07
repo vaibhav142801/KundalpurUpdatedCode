@@ -1147,7 +1147,7 @@ const CheckIn = ({ setopendashboard }) => {
                                     onClick={() => handleClickOpen3(row)}
                                   />
                                 </Tooltip>
-                                <Tooltip title="All Cancel">
+                                {/* <Tooltip title="All Cancel">
                                   <img
                                     onClick={() =>
                                       handleOepn11(isData, row?.booking_id)
@@ -1159,7 +1159,7 @@ const CheckIn = ({ setopendashboard }) => {
                                       marginRight: '0.3rem',
                                     }}
                                   />
-                                </Tooltip>
+                                </Tooltip> */}
 
                                 <Tooltip title="Force Checkout">
                                   <img
@@ -1213,7 +1213,7 @@ const CheckIn = ({ setopendashboard }) => {
                                         }}
                                       />
                                     </Tooltip>
-                                    <Tooltip title="All Cancel">
+                                    {/* <Tooltip title="All Cancel">
                                       <img
                                         onClick={() =>
                                           handleOepn11(isData, row?.booking_id)
@@ -1225,7 +1225,7 @@ const CheckIn = ({ setopendashboard }) => {
                                           marginRight: '0.3rem',
                                         }}
                                       />
-                                    </Tooltip>
+                                    </Tooltip> */}
                                   </>
                                 ) : (
                                   <></>

@@ -904,7 +904,7 @@ const Onlychecking = ({ setopendashboard }) => {
                       <TableCell> {row?.RoomNo}</TableCell>
                       <TableCell> {row?.roomAmount}</TableCell>
                       <TableCell>
-                        {Number(row?.roomAmount) + Number(row?.advanceAmount)}
+                        { Number(row?.advanceAmount)}
                       </TableCell>
                       <TableCell>{row?.bookedByName}</TableCell>
                       <TableCell>
