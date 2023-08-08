@@ -111,16 +111,8 @@ function RoomShiftForm({ setOpen, changedata }) {
   const [address, setaddress] = useState('');
   const [city, setcity] = useState('');
   const [state, setstate] = useState('');
-  const [pincode, setpincode] = useState('');
   const [idproffname, setidproffname] = useState('');
   const [idproffnumber, setidproffnumber] = useState('');
-  const [idproffno, setidproffno] = useState('');
-  const [staydays, setstaydays] = useState('');
-  const [maleno, setmaleno] = useState('');
-  const [femaleno, setfemaleno] = useState('');
-  const [Children, setChildren] = useState('');
-  const [TotalMember, setTotalMember] = useState();
-  const [facility, setfacility] = useState('');
   const [Dharamshala, setDharamshala] = useState('');
   const [open1, setOpen1] = React.useState(false);
   const handleClose1 = () => setOpen1(false);
@@ -156,15 +148,16 @@ function RoomShiftForm({ setOpen, changedata }) {
         state: state,
         proof: idproffname,
         idNumber: idproffnumber,
-        male: maleno ? Number(maleno) : 0,
-        female: femaleno ? Number(femaleno) : 0,
-        child: Children ? Number(Children) : 0,
+        male: changedata?.male,
+        female: changedata?.female,
+        child: changedata?.child,
         dharmasala: dharamshalid ? dharamshalid : dharamshalanameroom,
         modeOfBooking: changedata?.modeOfBooking,
         RoomNo: roomnumber,
         roomAmount: Number(rate) * Number(days),
         advanceAmount: advancerate,
       };
+
       axios.defaults.headers.put[
         'Authorization'
       ] = `Bearer ${sessionStorage.getItem('token')}`;

@@ -51,7 +51,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '80%',
+  width: 'auto',
   bgcolor: 'background.paper',
   p: 2,
   boxShadow: 24,
@@ -63,7 +63,7 @@ const style1 = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '60%',
+  width: 'auto',
   bgcolor: 'background.paper',
   p: 2,
   boxShadow: 24,
@@ -1098,10 +1098,16 @@ const CheckIn = ({ setopendashboard }) => {
                       <TableCell>{row?.name}</TableCell>
                       <TableCell>
                         {Math.floor(
-                          (new Date(row?.coutDate).getTime() -
-                            new Date(row?.date).getTime()) /
-                            (1000 * 3600 * 24),
-                        )}
+                          (new Date(isData[0]?.coutDate).getTime() -
+                            new Date(isData[0]?.date).getTime()) /
+                            (1000 * 3600 * 27),
+                        ) != 0
+                          ? Math.floor(
+                              (new Date(isData[0]?.coutDate).getTime() -
+                                new Date(isData[0]?.date).getTime()) /
+                                (1000 * 3600 * 27),
+                            )
+                          : 1}
                       </TableCell>
                       <TableCell>
                         {Number(row?.female) +

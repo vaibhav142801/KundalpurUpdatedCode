@@ -21,7 +21,7 @@ function DharamshalaCard({ data, data1 }) {
           </div>
           <p>{data?.name}</p>
           <div className="rating_div">
-            <p>₹850 Per Night</p>
+            {/* <p>₹850 Per Night</p> */}
             <Rating
               name="simple-controlled"
               value={value}

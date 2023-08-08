@@ -458,7 +458,7 @@ function RoomBooking({ setroomfilterdata }) {
                 value={checkouttime}
               />
             </div>
-            <div className="main_div_select_div" style={{ width: '25%' }}>
+            <div className="main_div_select_div" >
               <span className="labbelddd">
                 <img
                   style={{ width: '8%', marginRight: '1%' }}

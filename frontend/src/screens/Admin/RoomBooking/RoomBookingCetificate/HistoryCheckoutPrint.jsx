@@ -58,9 +58,20 @@ function HistoryCheckoutPrint({ setopendashboard }) {
     hour12: true,
   });
 
+  
   let difference = today1.getTime() - today.getTime();
-  let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
-  let days = TotalDays === 1 ? 1 : TotalDays - 1;
+
+  let days =  Math.floor(
+    (new Date(isData?.coutDate).getTime() -
+      new Date(isData?.date).getTime()) /
+      (1000 * 3600 * 27),
+  ) != 0
+    ? Math.floor(
+        (new Date(isData?.coutDate).getTime() -
+          new Date(isData?.date).getTime()) /
+          (1000 * 3600 * 27),
+      ) +1
+    : 1
   return (
     <>
       <div
@@ -84,21 +95,13 @@ function HistoryCheckoutPrint({ setopendashboard }) {
             <div className="innear_div_texx">
               <div className="innear_div_texx_dd">
                 <div>
-                  <p className="lineheight" >
-                    आवास क्र :
-                  </p>
-                  <p  className="lineheight">
-                    मोबाईल न :
-                  </p>
-                  <p className="lineheight">
-                    यात्री का नाम :
-                  </p>
-                  <p  className="lineheight">
-                    पिता/पति श्री :
-                  </p>
+                  <p className="lineheight">आवास क्र :</p>
+                  <p className="lineheight">मोबाईल न :</p>
+                  <p className="lineheight">यात्री का नाम :</p>
+                  <p className="lineheight">पिता/पति श्री :</p>
                 </div>
                 <div className="main_left">
-                  <p className="lineheight">{isData && isData?.booking_id}</p>
+                  <p className="lineheight"> {isData && isData?.booking_id}</p>
                   <p className="lineheight">{isData && isData?.contactNo}</p>
                   <p className="lineheight">{isData && isData?.name}</p>
                   <p className="lineheight">{isData && isData?.Fname}</p>
@@ -110,21 +113,13 @@ function HistoryCheckoutPrint({ setopendashboard }) {
                     ''
                   ) : (
                     <>
-                      <p  className="lineheight">
-                        प्रस्थान दिनाँक :
-                      </p>
+                      <p className="lineheight">प्रस्थान दिनाँक :</p>
                     </>
                   )}
-                  <p  className="lineheight">
-                    आगमन दिनांक:
-                  </p>
+                  <p className="lineheight">आगमन दिनांक:</p>
 
-                  <p className="lineheight">
-                    स्टे :
-                  </p>
-                  <p className="lineheight">
-                    पता :
-                  </p>
+                  <p className="lineheight">स्टे :</p>
+                  <p className="lineheight">पता :</p>
                 </div>
                 <div className="main_left">
                   {isData?.cancelByName ? (
@@ -142,7 +137,11 @@ function HistoryCheckoutPrint({ setopendashboard }) {
                     {currDate} / {currTime}
                   </p>
 
-                  <p className="lineheight">{TotalDays}&nbsp; Days</p>
+                  <p className="lineheight">
+                
+                    {days}
+                    &nbsp; Days
+                  </p>
                   <p className="lineheight">{isData && isData?.city}</p>
                 </div>
               </div>
@@ -189,8 +188,8 @@ function HistoryCheckoutPrint({ setopendashboard }) {
                       .00
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.advanceAmount) -
-                        Number(isData && isData?.roomAmount)}
+                      {Number(isData && isData?.roomAmount) -
+                        Number(isData && isData?.advanceAmount)}
                       .00
                     </td>
                   </tr>

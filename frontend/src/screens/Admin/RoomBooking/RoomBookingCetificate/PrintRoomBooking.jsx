@@ -62,7 +62,18 @@ function PrintRoomBooking({ setopendashboard }) {
 
   let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
-
+  let days =
+  Math.floor(
+    (new Date(isData?.coutDate).getTime() -
+      new Date(isData?.date).getTime()) /
+      (1000 * 3600 * 27),
+  ) != 0
+    ? Math.floor(
+        (new Date(isData?.coutDate).getTime() -
+          new Date(isData?.date).getTime()) /
+          (1000 * 3600 * 27),
+      )
+    : 1;
   return (
     <>
       <div
@@ -117,7 +128,7 @@ function PrintRoomBooking({ setopendashboard }) {
                     {currDate} / {currTime}
                   </p>
 
-                  <p className="lineheight">{TotalDays} Days</p>
+                  <p className="lineheight">{days} Days</p>
                   <p className="lineheight">{isData && isData?.address}</p>
                 </div>
               </div>
@@ -152,7 +163,7 @@ function PrintRoomBooking({ setopendashboard }) {
                     </td>
 
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount) * Number(TotalDays)}
+                      {Number(isData && isData?.roomAmount) * Number(days)}
                       .00
                     </td>
                     <td className="table_tddd lineheight10">
@@ -161,7 +172,7 @@ function PrintRoomBooking({ setopendashboard }) {
                     </td>
                     <td className="table_tddd lineheight10">
                       {Number(isData && isData?.roomAmount) *
-                        Number(TotalDays) -
+                        Number(days) -
                         Number(isData && isData?.advanceAmount)}
                       .00
                     </td>

@@ -20,6 +20,7 @@ function Allcheckout({ data, bookingid }) {
       },
     });
   };
+  
   return (
     <>
       <div>

@@ -70,15 +70,18 @@ const Allforcecheckout = ({ setopendashboard }) => {
     hour12: true,
   });
 
-  let difference = today1.getTime() - today.getTime();
-  let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
-
-  var checkindate = moment(isData[0]?.date).format('DD');
-  var checkoutdate = moment(new Date()).format('DD');
-  var days = checkoutdate - checkindate;
-  if (days === 0) {
-    days = 1;
-  }
+  let days =
+    Math.floor(
+      (new Date(isData[0]?.coutDate).getTime() -
+        new Date(isData[0]?.date).getTime()) /
+        (1000 * 3600 * 27),
+    ) != 0
+      ? Math.floor(
+          (new Date(isData[0]?.coutDate).getTime() -
+            new Date(isData[0]?.date).getTime()) /
+            (1000 * 3600 * 27),
+        )
+      : 1;
 
   let particularData;
   useEffect(() => {
@@ -235,7 +238,7 @@ const Allforcecheckout = ({ setopendashboard }) => {
                                 {currDate} / {currTime}
                               </p>
 
-                              <p className="lineheight">{TotalDays} Days</p>
+                              <p className="lineheight">{days} Days</p>
                               <p className="lineheight">
                                 {isData && isData?.address}
                               </p>

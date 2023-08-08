@@ -45,6 +45,7 @@ const HistoryCheckout = ({ setopendashboard }) => {
   });
 
   var today1 = new Date(isData && isData?.coutDate);
+
   const currDatecheckout = today1
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -55,8 +56,18 @@ const HistoryCheckout = ({ setopendashboard }) => {
   });
 
   let difference = today1.getTime() - today.getTime();
-  let TotalDays = Math.ceil(difference / (1000 * 3600 * 21));
-  let days = TotalDays === 1 ? 1 : TotalDays - 1;
+  let days =  Math.floor(
+    (new Date(isData?.coutDate).getTime() -
+      new Date(isData?.date).getTime()) /
+      (1000 * 3600 * 27),
+  ) != 0
+    ? Math.floor(
+        (new Date(isData?.coutDate).getTime() -
+          new Date(isData?.date).getTime()) /
+          (1000 * 3600 * 27),
+      ) +1
+    : 1
+
   useEffect(() => {
     if (location.state) {
       setisData(location?.state?.data);
@@ -66,6 +77,7 @@ const HistoryCheckout = ({ setopendashboard }) => {
     setopendashboard(true);
   }, []);
 
+ 
   return (
     <>
       <div>
@@ -219,7 +231,10 @@ const HistoryCheckout = ({ setopendashboard }) => {
                                 {currDate} / {currTime}
                               </p>
 
-                              <p className="lineheight">{TotalDays} Days</p>
+                              <p className="lineheight">
+                                {days}
+                                &nbsp; Days
+                              </p>
                               <p className="lineheight">
                                 {isData && isData?.city}
                               </p>

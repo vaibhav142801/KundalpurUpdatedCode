@@ -413,8 +413,8 @@
   justify-content: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding-left: 5%;
-  padding-right: 5%;
+  padding-left: 1%;
+  padding-right: 1%;
 }
 
 .apply_btnn{
@@ -513,6 +513,9 @@
   line-height: 27px;
 }
 @media screen and (max-width: 780px) {
+  .checkouttype {
+    width: 100%;
+  }
   .form_btn_divbutton {
     width: 100%;
     height: 95px;
@@ -541,13 +544,27 @@
   }
   .form_div_absolute {
     width: 93%;
-    height: 87%;
+    height: 100%;
     top: 50%;
     left: 0.6rem;
     padding-left: 0%;
     border-radius: 12px !important;
   }
+  .sjilder_main_div {
+    /* margin: 0.5rem; */
+    margin-top: 69%;
+}
 
+
+.view_all_main_div {
+  display: block;
+  /* align-items: center; */
+  justify-content: space-between;
+  /* padding-left: 5%; */
+  /* padding-right: 5%; */
+  margin-top: -6%;
+  margin-bottom: -1%;
+}
   .input_div_room_main {
     width: 100%;
   }

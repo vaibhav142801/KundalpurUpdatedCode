@@ -74,7 +74,18 @@ const CheckoutReceipt = ({ setopendashboard }) => {
 
   let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
-
+  let days =
+  Math.floor(
+    (new Date(isData?.coutDate).getTime() -
+      new Date(isData?.date).getTime()) /
+      (1000 * 3600 * 27),
+  ) != 0
+    ? Math.floor(
+        (new Date(isData?.coutDate).getTime() -
+          new Date(isData?.date).getTime()) /
+          (1000 * 3600 * 27),
+      )
+    : 1;
   useEffect(() => {
     if (location.state) {
       setisData(location?.state?.data);
@@ -218,7 +229,7 @@ const CheckoutReceipt = ({ setopendashboard }) => {
                                 {currDate} / {currTime}
                               </p>
 
-                              <p className="lineheight">{TotalDays} Days</p>
+                              <p className="lineheight">{days} Days</p>
                               <p className="lineheight">
                                 {isData && isData?.address}
                               </p>
@@ -267,7 +278,7 @@ const CheckoutReceipt = ({ setopendashboard }) => {
 
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmount) *
-                                    Number(TotalDays)}
+                                    Number(days)}
                                   .00
                                 </td>
                                 <td className="table_tddd lineheight10">
@@ -277,7 +288,7 @@ const CheckoutReceipt = ({ setopendashboard }) => {
                                 <td className="table_tddd lineheight10">
                                   {
                                     Number(isData && isData?.roomAmount) *
-                                      Number(TotalDays)-Number(isData && isData?.advanceAmount) }
+                                      Number(days)-Number(isData && isData?.advanceAmount) }
                                   .00
                                 </td>
                               </tr>

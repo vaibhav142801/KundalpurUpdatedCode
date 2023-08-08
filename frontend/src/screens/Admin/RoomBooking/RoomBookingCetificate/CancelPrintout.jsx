@@ -88,16 +88,10 @@ function CancelPrintout({ setopendashboard }) {
             <div className="innear_div_texx">
               <div className="innear_div_texx_dd">
                 <div>
-                  <p className="lineheight" >
-                    आवास क्र :
-                  </p>
+                  <p className="lineheight">आवास क्र :</p>
 
-                  <p className="lineheight">
-                    यात्री का नाम :
-                  </p>
-                  <p  className="lineheight">
-                    पिता/पति श्री :
-                  </p>
+                  <p className="lineheight">यात्री का नाम :</p>
+                  <p className="lineheight">पिता/पति श्री :</p>
                 </div>
                 <div className="main_left">
                   <p className="lineheight">{isData && isData?.RoomNo}</p>
@@ -108,15 +102,9 @@ function CancelPrintout({ setopendashboard }) {
               </div>
               <div className="innear_div_texx_dd" style={{ marginLeft: '0px' }}>
                 <div>
-                  <p  className="lineheight">
-                    आगमन दिनांक:
-                  </p>
-                  <p  className="lineheight">
-                    मोबाईल न :
-                  </p>
-                  <p className="lineheight">
-                    पता :
-                  </p>
+                  <p className="lineheight">आगमन दिनांक:</p>
+                  <p className="lineheight">मोबाईल न :</p>
+                  <p className="lineheight">पता :</p>
                 </div>
                 <div className="main_left">
                   <p className="lineheight">

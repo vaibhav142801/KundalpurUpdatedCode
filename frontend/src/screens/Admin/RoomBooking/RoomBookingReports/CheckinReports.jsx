@@ -768,8 +768,14 @@ const CheckinReports = ({ setopendashboard }) => {
                         {Math.floor(
                           (new Date(row?.coutDate).getTime() -
                             new Date(row?.date).getTime()) /
-                            (1000 * 3600 * 24),
-                        )}
+                            (1000 * 3600 * 27),
+                        ) != 0
+                          ? Math.floor(
+                              (new Date(row?.coutDate).getTime() -
+                                new Date(row?.date).getTime()) /
+                                (1000 * 3600 * 27),
+                            ) + 1
+                          : 1}
                       </TableCell>
                       <TableCell>
                         {Number(row?.female) +

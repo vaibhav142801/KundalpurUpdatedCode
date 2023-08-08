@@ -70,10 +70,18 @@ function AllCheckoutPrint({ setopendashboard }) {
 
   var checkindate = moment(isData[0]?.date).format('DD');
   var checkoutdate = moment(new Date()).format('DD');
-  var days = checkoutdate - checkindate;
-  if (days === 0) {
-    days = 1;
-  }
+  let days =
+    Math.floor(
+      (new Date(isData[0]?.coutDate).getTime() -
+        new Date(isData[0]?.date).getTime()) /
+        (1000 * 3600 * 27),
+    ) != 0
+      ? Math.floor(
+          (new Date(isData[0]?.coutDate).getTime() -
+            new Date(isData[0]?.date).getTime()) /
+            (1000 * 3600 * 27),
+        )
+      : 1;
 
   return (
     <>
@@ -104,18 +112,10 @@ function AllCheckoutPrint({ setopendashboard }) {
             <div className="innear_div_texx">
               <div className="innear_div_texx_ddd">
                 <div>
-                  <p className="lineheight" >
-                    आवास क्र :
-                  </p>
-                  <p  className="lineheight">
-                    मोबाईल न :
-                  </p>
-                  <p  className="lineheight">
-                    यात्री का नाम :
-                  </p>
-                  <p  className="lineheight">
-                    पिता/पति श्री :
-                  </p>
+                  <p className="lineheight">आवास क्र :</p>
+                  <p className="lineheight">मोबाईल न :</p>
+                  <p className="lineheight">यात्री का नाम :</p>
+                  <p className="lineheight">पिता/पति श्री :</p>
                 </div>
                 <div className="main_left">
                   <p className="lineheight">
@@ -128,19 +128,11 @@ function AllCheckoutPrint({ setopendashboard }) {
               </div>
               <div className="innear_div_texx_ddd">
                 <div>
-                  <p  className="lineheight">
-                    प्रस्थान दिनाँक :
-                  </p>
-                  <p  className="lineheight">
-                    आगमन दिनांक :
-                  </p>
+                  <p className="lineheight">प्रस्थान दिनाँक :</p>
+                  <p className="lineheight">आगमन दिनांक :</p>
 
-                  <p className="lineheight">
-                    स्टे :
-                  </p>
-                  <p className="lineheight">
-                    पता :
-                  </p>
+                  <p className="lineheight">स्टे :</p>
+                  <p className="lineheight">पता :</p>
                 </div>
                 <div className="main_left">
                   <p className="lineheight">
@@ -150,7 +142,7 @@ function AllCheckoutPrint({ setopendashboard }) {
                     {currDate} / {currTime}
                   </p>
 
-                  <p className="lineheight">{TotalDays} Days</p>
+                  <p className="lineheight">{days} Days</p>
                   <p className="lineheight">{isData && isData?.address}</p>
                 </div>
               </div>
@@ -170,60 +162,54 @@ function AllCheckoutPrint({ setopendashboard }) {
                     <td className="table_tddd lineheight10">शेष राशि वापिसी</td>
                   </tr>
                   <tr>
-                                <td className="table_tddd lineheight10">
-                                  {isData && isData[0]?.dharmasala?.name}
-                                </td>
-                                <td className="table_tddd lineheight10">
-                                  {isData && isData[0]?.categoryName}
-                                  {isData &&
-                                    isData[0].facility_name &&
-                                    isData &&
-                                    isData[0]?.facility_name.map(
-                                      (element, index) => (
-                                        <span key={index}>{element}</span>
-                                      ),
-                                    )}
-                                  -{isData && isData[0]?.category_name}
-                                  {isData && isData[0]?.facilityName}
-                                </td>
-                                <td className="table_tddd lineheight10">
-                                  {isData &&
-                                    isData.map((item) => {
-                                      return <span>{item?.RoomNo},</span>;
-                                    })}
-                                </td>
+                    <td className="table_tddd lineheight10">
+                      {isData && isData[0]?.dharmasala?.name}
+                    </td>
+                    <td className="table_tddd lineheight10">
+                      {isData && isData[0]?.categoryName}
+                      {isData &&
+                        isData[0].facility_name &&
+                        isData &&
+                        isData[0]?.facility_name.map((element, index) => (
+                          <span key={index}>{element}</span>
+                        ))}
+                      -{isData && isData[0]?.category_name}
+                      {isData && isData[0]?.facilityName}
+                    </td>
+                    <td className="table_tddd lineheight10">
+                      {isData &&
+                        isData.map((item) => {
+                          return <span>{item?.RoomNo},</span>;
+                        })}
+                    </td>
 
-                                <td className="table_tddd lineheight10">
-                                  {isData &&
-                                    isData?.reduce((acc, item) => {
-                                      return acc + parseInt(item?.roomAmount);
-                                    }, 0) * Number(TotalDays)}
-                                  .00
-                                </td>
-                                <td className="table_tddd lineheight10">
-                                  {isData &&
-                                    isData?.reduce((acc, item) => {
-                                      return (
-                                        acc + parseInt(item?.advanceAmount)
-                                      );
-                                    }, 0)}
-                                  .00
-                                </td>
+                    <td className="table_tddd lineheight10">
+                      {isData &&
+                        isData?.reduce((acc, item) => {
+                          return acc + parseInt(item?.roomAmount);
+                        }, 0) * Number(days)}
+                      .00
+                    </td>
+                    <td className="table_tddd lineheight10">
+                      {isData &&
+                        isData?.reduce((acc, item) => {
+                          return acc + parseInt(item?.advanceAmount);
+                        }, 0)}
+                      .00
+                    </td>
 
-                                <td className="table_tddd lineheight10">
-                                  {isData &&
-                                    isData?.reduce((acc, item) => {
-                                      return acc + parseInt(item?.roomAmount);
-                                    }, 0) *
-                                      Number(TotalDays) -
-                                      isData?.reduce((acc, item) => {
-                                        return (
-                                          acc + parseInt(item?.advanceAmount)
-                                        );
-                                      }, 0)}
-                                  .00
-                                </td>
-                              </tr>
+                    <td className="table_tddd lineheight10">
+                      {isData &&
+                        isData?.reduce((acc, item) => {
+                          return acc + parseInt(item?.roomAmount);
+                        }, 0) *
+                          Number(days) -
+                          isData?.reduce((acc, item) => {
+                            return acc + parseInt(item?.advanceAmount);
+                          }, 0)}
+                      .00
+                    </td>
+                  </tr>
                 </tbody>
               </table>
               <p

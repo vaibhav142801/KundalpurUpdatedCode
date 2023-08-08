@@ -72,15 +72,18 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
     hour12: true,
   });
 
-  let difference = today1.getTime() - today.getTime();
-  let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
-
-  var checkindate = moment(isData[0]?.date).format('DD');
-  var checkoutdate = moment(new Date()).format('DD');
-  var days = checkoutdate - checkindate;
-  if (days === 0) {
-    days = 1;
-  }
+  let days =
+    Math.floor(
+      (new Date(isData[0]?.coutDate).getTime() -
+        new Date(isData[0]?.date).getTime()) /
+        (1000 * 3600 * 27),
+    ) != 0
+      ? Math.floor(
+          (new Date(isData[0]?.coutDate).getTime() -
+            new Date(isData[0]?.date).getTime()) /
+            (1000 * 3600 * 27),
+        )
+      : 1;
 
   let particularData;
   useEffect(() => {
@@ -237,7 +240,7 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
                                 {currDate} / {currTime}
                               </p>
 
-                              <p className="lineheight">{TotalDays} Days</p>
+                              <p className="lineheight">{days} Days</p>
                               <p className="lineheight">
                                 {isData && isData?.address}
                               </p>
@@ -316,7 +319,7 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
                                   {isData &&
                                     isData?.reduce((acc, item) => {
                                       return acc + parseInt(item?.roomAmount);
-                                    }, 0) * Number(TotalDays)}
+                                    }, 0) * Number(days)}
                                   .00
                                 </td>
                                 <td className="table_tddd lineheight10">
@@ -334,7 +337,7 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
                                     isData?.reduce((acc, item) => {
                                       return acc + parseInt(item?.roomAmount);
                                     }, 0) *
-                                      Number(TotalDays) -
+                                      Number(days) -
                                       isData?.reduce((acc, item) => {
                                         return (
                                           acc + parseInt(item?.advanceAmount)
@@ -344,9 +347,6 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
                                 </td>
                               </tr>
                             </tbody>
-
-
-                            
                           </table>
                           <p
                             style={{

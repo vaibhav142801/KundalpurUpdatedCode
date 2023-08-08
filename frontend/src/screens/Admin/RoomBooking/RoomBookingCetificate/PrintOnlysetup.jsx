@@ -60,11 +60,18 @@ function PrintOnlysetup({ setopendashboard }) {
 
   let difference = today1.getTime() - today.getTime();
 
-  var days = Math.floor(
-    (new Date(isData && isData[0]?.coutDate).getTime() -
-      new Date(isData && isData[0]?.date).getTime()) /
-      (1000 * 3600 * 24),
-  );
+
+  let days =  Math.floor(
+    (new Date(isData[0]?.coutDate).getTime() -
+      new Date(isData[0]?.date).getTime()) /
+      (1000 * 3600 * 27),
+  ) != 0
+    ? Math.floor(
+        (new Date(isData[0]?.coutDate).getTime() -
+          new Date(isData[0]?.date).getTime()) /
+          (1000 * 3600 * 27),
+      ) 
+    : 1
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
   return (
     <>

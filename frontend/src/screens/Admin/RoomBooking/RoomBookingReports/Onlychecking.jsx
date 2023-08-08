@@ -888,10 +888,16 @@ const Onlychecking = ({ setopendashboard }) => {
                       <TableCell>{row?.name}</TableCell>
                       <TableCell>
                         {Math.floor(
-                          (new Date(row?.coutDate).getTime() -
-                            new Date(row?.date).getTime()) /
-                            (1000 * 3600 * 24),
-                        )}
+                          (new Date(isData[0]?.coutDate).getTime() -
+                            new Date(isData[0]?.date).getTime()) /
+                            (1000 * 3600 * 27),
+                        ) != 0
+                          ? Math.floor(
+                              (new Date(isData[0]?.coutDate).getTime() -
+                                new Date(isData[0]?.date).getTime()) /
+                                (1000 * 3600 * 27),
+                            )
+                          : 1}
                       </TableCell>
                       <TableCell>
                         {Number(row?.female) +
@@ -903,9 +909,7 @@ const Onlychecking = ({ setopendashboard }) => {
                       <TableCell> {row?.dharmasala?.name}</TableCell>
                       <TableCell> {row?.RoomNo}</TableCell>
                       <TableCell> {row?.roomAmount}</TableCell>
-                      <TableCell>
-                        { Number(row?.advanceAmount)}
-                      </TableCell>
+                      <TableCell>{Number(row?.advanceAmount)}</TableCell>
                       <TableCell>{row?.bookedByName}</TableCell>
                       <TableCell>
                         {row?.paymentMode === 2 ? 'Cash' : 'Online'}

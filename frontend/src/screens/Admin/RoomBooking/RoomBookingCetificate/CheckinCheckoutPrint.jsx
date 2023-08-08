@@ -100,7 +100,7 @@ function CheckinCheckoutPrint({ setopendashboard }) {
                   </p>
                 </div>
                 <div className="main_left">
-                  <p className="lineheight">{isData && isData?.RoomNo}</p>
+                <p className="lineheight"> {isData && isData?.booking_id}</p>
 
                   <p className="lineheight">{isData && isData?.name}</p>
                   <p className="lineheight">{isData && isData?.Fname}</p>
