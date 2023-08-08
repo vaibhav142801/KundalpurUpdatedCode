@@ -41,7 +41,7 @@ function Acancelprint({ setopendashboard }) {
   }, []);
 
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
-  var today = new Date(isData && isData[0]?.date);
+  var today = new Date(isData && isData?.date);
   const currDate = today
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -90,7 +90,7 @@ function Acancelprint({ setopendashboard }) {
           >
             <div>
               <p className="yadda_text lineheight">
-                आल कैंसिल रसीद
+              कैंसिल रसीद
                 {/* <span style={{ fontSize: '13px' }}>
                   ({isData[0]?.paymentMode === 2 ? 'Cash' : 'Online'})
                 </span> */}
@@ -100,16 +100,16 @@ function Acancelprint({ setopendashboard }) {
             <div className="innear_div_texx">
               <div className="innear_div_texx_ddd">
                 <div>
-                  <p className="lineheight" style={{ color: 'gray' }}>
+                  <p className="lineheight" >
                     आवास क्र :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     मोबाईल न :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p className="lineheight">
                     यात्री का नाम :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p className="lineheight">
                     पिता/पति श्री :
                   </p>
                 </div>
@@ -117,24 +117,24 @@ function Acancelprint({ setopendashboard }) {
                   <p className="lineheight">
                     {isData && isData[0]?.booking_id}
                   </p>
-                  <p className="lineheight">{isData && isData[0]?.contactNo}</p>
-                  <p className="lineheight">{isData && isData[0]?.name}</p>
-                  <p className="lineheight">{isData && isData[0]?.Fname}</p>
+                  <p className="lineheight">{isData && isData?.contactNo}</p>
+                  <p className="lineheight">{isData && isData?.name}</p>
+                  <p className="lineheight">{isData && isData?.Fname}</p>
                 </div>
               </div>
               <div className="innear_div_texx_ddd">
                 <div>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     प्रस्थान दिनाँक :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     आगमन दिनांक :
                   </p>
 
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p className="lineheight">
                     स्टे :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     पता :
                   </p>
                 </div>

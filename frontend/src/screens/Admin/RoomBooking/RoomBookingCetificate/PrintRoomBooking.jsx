@@ -80,7 +80,7 @@ function PrintRoomBooking({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginLeft: '0rem', marginTop: '5.2rem' }}
+            style={{ marginLeft: '0rem', marginTop: '5.5rem' }}
           >
             {' '}
             <div>
@@ -89,18 +89,10 @@ function PrintRoomBooking({ setopendashboard }) {
             <div className="innear_div_texx">
               <div className="innear_div_texx_dd">
                 <div>
-                  <p className="lineheight" style={{ color: 'gray' }}>
-                    आवास क्र :
-                  </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    मोबाईल न :
-                  </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    यात्री का नाम :
-                  </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    पिता/पति श्री :
-                  </p>
+                  <p className="lineheight">आवास क्र :</p>
+                  <p className="lineheight">मोबाईल न :</p>
+                  <p className="lineheight">यात्री का नाम :</p>
+                  <p className="lineheight">पिता/पति श्री :</p>
                 </div>
                 <div className="main_left">
                   <p className="lineheight">{isData && isData?.booking_id}</p>
@@ -111,19 +103,11 @@ function PrintRoomBooking({ setopendashboard }) {
               </div>
               <div className="innear_div_texx_dd" style={{ marginLeft: '0px' }}>
                 <div>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    प्रस्थान दिनाँक :
-                  </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    आगमन दिनांक:
-                  </p>
+                  <p className="lineheight">प्रस्थान दिनाँक :</p>
+                  <p className="lineheight">आगमन दिनांक:</p>
 
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    स्टे :
-                  </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    पता :
-                  </p>
+                  <p className="lineheight">स्टे :</p>
+                  <p className="lineheight">पता :</p>
                 </div>
                 <div className="main_left">
                   <p className="lineheight">
@@ -176,9 +160,9 @@ function PrintRoomBooking({ setopendashboard }) {
                       .00
                     </td>
                     <td className="table_tddd lineheight10">
-                      {
-                        Number(isData && isData?.roomAmount) *
-                          Number(TotalDays)-Number(isData && isData?.advanceAmount) }
+                      {Number(isData && isData?.roomAmount) *
+                        Number(TotalDays) -
+                        Number(isData && isData?.advanceAmount)}
                       .00
                     </td>
                   </tr>

@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Converter, hiIN } from 'any-number-to-words';
-import { backendApiUrl } from '../../../../config/config';
+import { serverInstance } from '../../../../API/ServerInstance';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import axios from 'axios';
+import Swal from 'sweetalert2';
 import moment from 'moment';
 import '../../../Admin/Reciept/cashrecipt.css';
 const ACancel = ({ setopendashboard }) => {
@@ -17,21 +16,22 @@ const ACancel = ({ setopendashboard }) => {
 
   const handlesubmit = async () => {
     try {
-      axios.defaults.headers.delete[
-        'Authorization'
-      ] = `Bearer ${sessionStorage.getItem('token')}`;
-
-      const res = await axios.delete(`${backendApiUrl}room/cancel-checkin`, {
+      serverInstance('/room/cancel-checkin', 'DELETE', {
         id: isData?.id,
-      });
+      }).then((res) => {
+        console.log('DELETE RES', res);
 
-      if (res?.data?.data?.status) {
-        navigation('/admin-panel/Acancelprint', {
-          state: {
-            checkoutdata: isData,
-          },
-        });
-      }
+        if (res.data?.status === true) {
+          navigation('/admin-panel/Acancelprint', {
+            state: {
+              data: isData,
+            },
+          });
+        }
+        if (res.data?.status === false) {
+          Swal.fire('Error', res?.data?.data, 'error');
+        }
+      });
     } catch (error) {
       console.log(error);
     }
@@ -103,7 +103,7 @@ const ACancel = ({ setopendashboard }) => {
         >
           <button onClick={() => navigation(-1)}>Back</button>
           <button onClick={() => down()}>Download</button>
-          <button onClick={() => handlesubmit()}>All Cancel</button>
+          <button onClick={() => handlesubmit()}>Cancel</button>
         </div>
         <div style={{ height: '10rem' }} />
         <div style={{ padding: '1rem' }} ref={componentRef}>

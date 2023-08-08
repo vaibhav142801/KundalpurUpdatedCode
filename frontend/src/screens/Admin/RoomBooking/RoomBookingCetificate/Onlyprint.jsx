@@ -162,7 +162,7 @@ const Onlyprint = ({ setopendashboard }) => {
                         </div>
 
                         <div className="innear_div_texx">
-                          <div className="innear_div_texx_ddd">
+                          <div className="innear_div_texx_ddd" >
                             <div>
                               <p
                                 className="lineheight"
@@ -188,25 +188,43 @@ const Onlyprint = ({ setopendashboard }) => {
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                               &nbsp;
+                                &nbsp;
                               </p>
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
-                                {isData && isData[0]?.booking_id?isData && isData[0]?.booking_id:""}
+                                {isData && isData[0]?.booking_id ? (
+                                  isData && isData[0]?.booking_id
+                                ) : (
+                                  <>
+                                    <p>&nbsp;</p>
+                                  </>
+                                )}
                               </p>
 
                               <p className="lineheight">
-                                {isData && isData[0]?.name}
+                                {isData && isData[0]?.name ? (
+                                  isData && isData[0]?.name
+                                ) : (
+                                  <>
+                                    <p>&nbsp;</p>
+                                  </>
+                                )}
                               </p>
                               <p className="lineheight">
-                                {isData && isData[0]?.Fname}
+                                {isData && isData[0]?.Fname ? (
+                                  isData && isData[0]?.Fname
+                                ) : (
+                                  <>
+                                    <p>&nbsp;</p>
+                                  </>
+                                )}
                               </p>
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                             &nbsp;
+                                &nbsp;
                               </p>
                             </div>
                           </div>
@@ -243,11 +261,23 @@ const Onlyprint = ({ setopendashboard }) => {
                                 {currDate} / {currTime}
                               </p>
                               <p className="lineheight">
-                                {isData && isData[0]?.contactNo}
+                                {isData && isData[0]?.contactNo ? (
+                                  isData && isData[0]?.contactNo
+                                ) : (
+                                  <>
+                                    <p>&nbsp;</p>
+                                  </>
+                                )}
                               </p>
                               <p className="lineheight">{days} Days</p>
                               <p className="lineheight">
-                                {isData && isData[0]?.address}
+                                {isData && isData[0]?.address ? (
+                                  isData && isData[0]?.address
+                                ) : (
+                                  <>
+                                    <p>&nbsp;</p>
+                                  </>
+                                )}
                               </p>
                             </div>
                           </div>

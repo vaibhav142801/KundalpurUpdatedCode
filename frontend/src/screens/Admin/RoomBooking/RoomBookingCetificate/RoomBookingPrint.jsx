@@ -79,9 +79,9 @@ function RoomBookingPrint({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginLeft: '0rem', marginTop: '5.2rem' }}
+            style={{ marginLeft: '0rem', marginTop: '5.6rem' }}
           >
-            <div style={{ backgroundColor: '#01B0F1' }}>
+            <div >
               <p className="yadda_text lineheight">
                 यात्री आगमन रसीद
                 <span style={{ fontSize: '13px' }}>
@@ -93,14 +93,14 @@ function RoomBookingPrint({ setopendashboard }) {
             <div className="innear_div_texx">
               <div className="innear_div_texx_dd">
                 <div>
-                  <p className="lineheight" style={{ color: 'gray' }}>
+                  <p className="lineheight" >
                     आवास क्र :
                   </p>
 
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p className="lineheight">
                     यात्री का नाम :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p className="lineheight">
                     पिता/पति श्री :
                   </p>
                 </div>
@@ -115,16 +115,16 @@ function RoomBookingPrint({ setopendashboard }) {
               </div>
               <div className="innear_div_texx_dd" style={{ marginLeft: '0px' }}>
                 <div>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     आगमन दिनांक:
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     मोबाईल न :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     पता :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p className="lineheight">
                     स्टे :
                   </p>
                 </div>

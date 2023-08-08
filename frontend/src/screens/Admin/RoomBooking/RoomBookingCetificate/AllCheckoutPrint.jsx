@@ -90,7 +90,7 @@ function AllCheckoutPrint({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginLeft: '0rem', marginTop: '5.2rem' }}
+            style={{ marginLeft: '0rem', marginTop: '5.5rem' }}
           >
             <div>
               <p className="yadda_text lineheight">
@@ -104,16 +104,16 @@ function AllCheckoutPrint({ setopendashboard }) {
             <div className="innear_div_texx">
               <div className="innear_div_texx_ddd">
                 <div>
-                  <p className="lineheight" style={{ color: 'gray' }}>
+                  <p className="lineheight" >
                     आवास क्र :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     मोबाईल न :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     यात्री का नाम :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     पिता/पति श्री :
                   </p>
                 </div>
@@ -128,17 +128,17 @@ function AllCheckoutPrint({ setopendashboard }) {
               </div>
               <div className="innear_div_texx_ddd">
                 <div>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     प्रस्थान दिनाँक :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     आगमन दिनांक :
                   </p>
 
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p className="lineheight">
                     स्टे :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p className="lineheight">
                     पता :
                   </p>
                 </div>

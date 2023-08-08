@@ -95,25 +95,23 @@ function AllcancalPrint({ setopendashboard }) {
             <div>
               <p className="yadda_text lineheight">
                 आल कैंसिल रसीद
-                {/* <span style={{ fontSize: '13px' }}>
-                  ({isData[0]?.paymentMode === 2 ? 'Cash' : 'Online'})
-                </span> */}
+              
               </p>
             </div>
 
             <div className="innear_div_texx">
               <div className="innear_div_texx_ddd">
                 <div>
-                  <p className="lineheight" style={{ color: 'gray' }}>
+                  <p className="lineheight" >
                     आवास क्र :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p className="lineheight">
                     मोबाईल न :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     यात्री का नाम :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     पिता/पति श्री :
                   </p>
                 </div>
@@ -128,17 +126,17 @@ function AllcancalPrint({ setopendashboard }) {
               </div>
               <div className="innear_div_texx_ddd">
                 <div>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     प्रस्थान दिनाँक :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     आगमन दिनांक :
                   </p>
 
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     स्टे :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     पता :
                   </p>
                 </div>
@@ -195,7 +193,7 @@ function AllcancalPrint({ setopendashboard }) {
                       {isData &&
                         isData?.reduce((acc, item) => {
                           return acc + parseInt(item?.roomAmount);
-                        }, 0) * Number(days)}
+                        }, 0) * Number(TotalDays)}
                       .00
                     </td>
                     <td className="table_tddd lineheight10">
@@ -210,10 +208,7 @@ function AllcancalPrint({ setopendashboard }) {
                       {isData &&
                         isData?.reduce((acc, item) => {
                           return acc + parseInt(item?.advanceAmount);
-                        }, 0) -
-                          isData?.reduce((acc, item) => {
-                            return acc + parseInt(item?.roomAmount);
-                          }, 0)}
+                        }, 0)}
                       .00
                     </td>
                   </tr>

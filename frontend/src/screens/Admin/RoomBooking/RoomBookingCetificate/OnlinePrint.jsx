@@ -153,42 +153,19 @@ function OnlinePrint({ setopendashboard }) {
                     <td className="table_tddd lineheight10">
                       रूम टाईप & फेसिलिटी
                     </td>
-                    {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
+                    
                     <td className="table_tddd lineheight10">रुम न</td>
-                    {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
-                    {/* <td className="table_tddd lineheight10">
-                                  रुम न.
-                                </td> */}
-                    {/* <td className="table_tddd">रूम की संख्या</td> */}
+                 
                     <td className="table_tddd lineheight10">
                       सहयोग राशि
-                      {/* <p className="lineheight10">
-                                    {isData && isData?.nRoom && isData?.nRoom}X
-                                    {isData &&
-                                      isData?.roomAmount &&
-                                      isData?.roomAmount}
-                                  </p> */}
+                    
                     </td>
                     <td className="table_tddd lineheight10">
                       अमानत राशि
-                      {/* <p className="lineheight10">
-                                    {isData && isData?.nRoom && isData?.nRoom}+
-                                    {isData && isData?.nRoom && isData?.nRoom}X
-                                    {isData &&
-                                      isData?.roomAmount &&
-                                      isData?.roomAmount}
-                                  </p> */}
+                  
                     </td>
 
-                    {/* <td className="table_tddd">
-                            अमानत राशि
-                            <p>
-                              {isData && isData[0]?.nRoom && isData[0]?.nRoom} X
-                              {isData &&
-                                isData[0]?.roomAmount &&
-                                isData[0]?.roomAmount}
-                            </p>
-                          </td> */}
+                 
                   </tr>
                   <tr>
                     <td className="table_tddd lineheight10">
@@ -209,21 +186,7 @@ function OnlinePrint({ setopendashboard }) {
                     <td className="table_tddd lineheight10">
                       {isData && isData?.RoomNo}
                     </td>
-                    {/* <td className="table_tddd">
-                                {checkinda &&
-                                  checkinda?.category[0]?.facilities &&
-                                  checkinda?.category[0]?.facilities.map(
-                                    (element, index) => (
-                                      <span key={index}> {element},</span>
-                                    ),
-                                  )}
-                              </td> */}
-                    {/* <td className="table_tddd lineheight10">
-                                  ({isData && isData?.RoomNo})
-                                </td> */}
-                    {/* <td className="table_tddd">
-                                {isData && isData[0]?.nRoom}
-                              </td> */}
+                  
                     <td className="table_tddd lineheight10">
                       {Number(isData && isData?.roomAmount)}.00
                     </td>
@@ -233,10 +196,7 @@ function OnlinePrint({ setopendashboard }) {
                       .00
                     </td>
 
-                    {/* <td className="table_tddd">
-                            {Number(isData && isData[0]?.roomAmount) *
-                              Number(isData && isData[0]?.nRoom)}
-                          </td> */}
+                
                   </tr>
                 </tbody>
               </table>

@@ -84,54 +84,20 @@ function Holdprint({ setopendashboard }) {
             <div className="innear_div_texx">
               <div className="innear_div_texx_ddd">
                 <div>
-                  {/* <p
-                                className="lineheight"
-                                style={{ color: 'gray' }}
-                              >
-                                आवास क्र :
-                              </p> */}
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    मोबाईल न :
-                  </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    यात्री का नाम :
-                  </p>
-                  {/* <p
-                                style={{ color: 'gray' }}
-                                className="lineheight"
-                              >
-                                पिता/पति श्री :
-                              </p> */}
+                  <p className="lineheight">मोबाईल न :</p>
+                  <p className="lineheight">यात्री का नाम :</p>
                 </div>
                 <div className="main_left">
-                  {/* <p className="lineheight">
-                                {isData && isData?.booking_id}
-                              </p> */}
                   <p className="lineheight">{isData && isData?.mobile}</p>
                   <p className="lineheight">{isData && isData?.name}</p>
-                  {/* <p className="lineheight">
-                                {isData && isData?.Fname}
-                              </p> */}
                 </div>
               </div>
               <div className="innear_div_texx_ddd">
                 <div>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    होल्ड आगमन दिनांक :
-                  </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    होल्ड प्रस्थान दिनाँक :
-                  </p>
+                  <p className="lineheight">होल्ड आगमन दिनांक :</p>
+                  <p className="lineheight">होल्ड प्रस्थान दिनाँक :</p>
 
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    स्टे :
-                  </p>
-                  {/* <p
-                                style={{ color: 'gray' }}
-                                className="lineheight"
-                              >
-                                पता :
-                              </p> */}
+                  <p className="lineheight">स्टे :</p>
                 </div>
                 <div className="main_left">
                   <p className="lineheight">
@@ -142,9 +108,6 @@ function Holdprint({ setopendashboard }) {
                   </p>
 
                   <p className="lineheight">{TotalDays && TotalDays} Days</p>
-                  {/* <p className="lineheight">
-                                {isData && isData?.address}
-                              </p> */}
                 </div>
               </div>
             </div>
@@ -157,22 +120,6 @@ function Holdprint({ setopendashboard }) {
                     <td className="table_tddd lineheight10">
                       रूम टाईप & रूम न.
                     </td>
-                    {/* <td className="table_tddd lineheight10">रूम रेंट</td> */}
-                    {/* <td className="table_tddd">रूम सुंविधाएं</td> */}
-                    {/* <td className="table_tddd lineheight10">
-                                  रुम न.
-                                </td> */}
-                    {/* <td className="table_tddd">रूम की संख्या</td> */}
-
-                    {/* <td className="table_tddd">
-                            अमानत राशि
-                            <p>
-                              {isData && isData[0]?.nRoom && isData[0]?.nRoom} X
-                              {isData &&
-                                isData[0]?.roomAmount &&
-                                isData[0]?.roomAmount}
-                            </p>
-                          </td> */}
                   </tr>
                   <tr>
                     <td className="table_tddd lineheight10">
@@ -181,34 +128,9 @@ function Holdprint({ setopendashboard }) {
                         : isData?.dharmashalaName}
                     </td>
                     <td className="table_tddd lineheight10">
-                      {/* {isData?.category_name[0] &&
-                                    isData?.category_name[0]} */}
                       {isData?.categoryName && isData?.categoryName}(
                       {isData?.roomNo})
                     </td>
-                    {/* <td className="table_tddd lineheight10">
-                      {isData?.roomrate}
-                    </td> */}
-                    {/* <td className="table_tddd">
-                                {checkinda &&
-                                  checkinda?.category[0]?.facilities &&
-                                  checkinda?.category[0]?.facilities.map(
-                                    (element, index) => (
-                                      <span key={index}> {element},</span>
-                                    ),
-                                  )}
-                              </td> */}
-                    {/* <td className="table_tddd lineheight10">
-                                  ({isData && isData?.RoomNo})
-                                </td> */}
-                    {/* <td className="table_tddd">
-                                {isData && isData[0]?.nRoom}
-                              </td> */}
-
-                    {/* <td className="table_tddd">
-                            {Number(isData && isData[0]?.roomAmount) *
-                              Number(isData && isData[0]?.nRoom)}
-                          </td> */}
                   </tr>
                 </tbody>
               </table>

@@ -25,7 +25,7 @@ function Allcancel({ data, bookingid }) {
     <>
       <div>
         <p>
-          Dharamshala Name :- &nbsp;<spna>{data[0]?.dharmasala?.name}</spna>
+          Dharamshala Name :- &nbsp;<spna>{isdata[0]?.dharmasala?.name}</spna>
         </p>
         <p>Room List</p>
         {isdata &&

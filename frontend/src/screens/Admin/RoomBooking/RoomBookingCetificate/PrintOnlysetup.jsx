@@ -81,7 +81,7 @@ function PrintOnlysetup({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginLeft: '0rem', marginTop: '5.2rem' }}
+            style={{ marginLeft: '0rem', marginTop: '5.6rem' }}
           >
             <div>
               <p className="yadda_text lineheight">
@@ -95,25 +95,49 @@ function PrintOnlysetup({ setopendashboard }) {
             <div className="innear_div_texx">
               <div className="innear_div_texx_dd">
                 <div>
-                  <p className="lineheight" style={{ color: 'gray' }}>
+                  <p className="lineheight">
                     आवास क्र :
                   </p>
 
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p className="lineheight">
                     यात्री का नाम :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p className="lineheight">
                     पिता/पति श्री :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     &nbsp;
                   </p>
                 </div>
                 <div className="main_left">
-                  <p className="lineheight">{isData && isData[0]?.RoomNo}</p>
+                  <p className="lineheight">
+                    {isData && isData[0]?.booking_id ? (
+                      isData && isData[0]?.booking_id
+                    ) : (
+                      <>
+                        <p>&nbsp;</p>
+                      </>
+                    )}
+                  </p>
 
-                  <p className="lineheight">{isData && isData[0]?.name}</p>
-                  <p className="lineheight">{isData && isData[0]?.Fname}</p>
+                  <p className="lineheight">
+                    {isData && isData[0]?.name ? (
+                      isData && isData[0]?.name
+                    ) : (
+                      <>
+                        <p>&nbsp;</p>
+                      </>
+                    )}
+                  </p>
+                  <p className="lineheight">
+                    {isData && isData[0]?.Fname ? (
+                      isData && isData[0]?.Fname
+                    ) : (
+                      <>
+                        <p>&nbsp;</p>
+                      </>
+                    )}
+                  </p>
                   <p style={{ color: 'gray' }} className="lineheight">
                     &nbsp;
                   </p>
@@ -121,16 +145,16 @@ function PrintOnlysetup({ setopendashboard }) {
               </div>
               <div className="innear_div_texx_dd" style={{ marginLeft: '0px' }}>
                 <div>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     आगमन दिनांक:
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     मोबाईल न :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p className="lineheight">
                     स्टे :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     पता :
                   </p>
                 </div>
@@ -138,9 +162,25 @@ function PrintOnlysetup({ setopendashboard }) {
                   <p className="lineheight">
                     {currDate} / {currTime}
                   </p>
-                  <p className="lineheight">{isData && isData[0]?.contactNo}</p>
+                  <p className="lineheight">
+                    {isData && isData[0]?.contactNo ? (
+                      isData && isData[0]?.contactNo
+                    ) : (
+                      <>
+                        <p>&nbsp;</p>
+                      </>
+                    )}
+                  </p>
                   <p className="lineheight">{days} Days</p>
-                  <p className="lineheight">{isData && isData[0]?.address}</p>
+                  <p className="lineheight">
+                    {isData && isData[0]?.address ? (
+                      isData && isData[0]?.address
+                    ) : (
+                      <>
+                        <p>&nbsp;</p>
+                      </>
+                    )}
+                  </p>
                 </div>
               </div>
             </div>

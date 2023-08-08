@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Converter, hiIN } from 'any-number-to-words';
-import { backendApiUrl } from '../../../../config/config';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import axios from 'axios';
 import moment from 'moment';
+import { serverInstance } from '../../../../API/ServerInstance';
+import Swal from 'sweetalert2';
 import '../../../Admin/Reciept/cashrecipt.css';
 const Allcencal = ({ setopendashboard }) => {
   const navigation = useNavigate();
@@ -17,21 +16,20 @@ const Allcencal = ({ setopendashboard }) => {
 
   const handlesubmit = async () => {
     try {
-      axios.defaults.headers.delete[
-        'Authorization'
-      ] = `Bearer ${sessionStorage.getItem('token')}`;
-
-      const res = await axios.delete(`${backendApiUrl}room/cancel-checkin`, {
+      serverInstance('/room/cancel-checkin', 'DELETE', {
         bookingId: isData[0]?.booking_id,
+      }).then((res) => {
+        if (res.data?.status === true) {
+          navigation('/admin-panel/AllcancalPrint', {
+            state: {
+              data: isData,
+            },
+          });
+        }
+        if (res.data?.status === false) {
+          Swal.fire('Error', res?.data?.data, 'error');
+        }
       });
-
-      if (res?.data?.data?.status) {
-        navigation('/admin-panel/AllcancalPrint', {
-          state: {
-            checkoutdata: isData,
-          },
-        });
-      }
     } catch (error) {
       console.log(error);
     }

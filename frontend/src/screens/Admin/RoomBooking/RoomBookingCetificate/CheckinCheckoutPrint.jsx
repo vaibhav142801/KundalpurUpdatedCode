@@ -88,14 +88,14 @@ function CheckinCheckoutPrint({ setopendashboard }) {
             <div className="innear_div_texx">
               <div className="innear_div_texx_dd">
                 <div>
-                  <p className="lineheight" style={{ color: 'gray' }}>
+                  <p className="lineheight" >
                     आवास क्र :
                   </p>
 
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     यात्री का नाम :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     पिता/पति श्री :
                   </p>
                 </div>
@@ -108,13 +108,13 @@ function CheckinCheckoutPrint({ setopendashboard }) {
               </div>
               <div className="innear_div_texx_dd" style={{ marginLeft: '0px' }}>
                 <div>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     आगमन दिनांक:
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     मोबाईल न :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     पता :
                   </p>
                 </div>

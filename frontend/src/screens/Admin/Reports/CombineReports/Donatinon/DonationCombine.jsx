@@ -314,7 +314,7 @@ const DonationCombine = ({ setopendashboard }) => {
           ).then((res) => {
             if (res.status) {
               let filterData = res?.data.filter(
-                (item) => item.isActive === true,
+                (item) => item?.isActive === true,
               );
               setisData(filterData);
               setisDataDummy(filterData);
@@ -331,8 +331,8 @@ const DonationCombine = ({ setopendashboard }) => {
             { user: passuser, type: passhead },
           ).then((res) => {
             if (res.status) {
-              let filterData = res?.data.filter(
-                (item) => item.isActive === true,
+              let filterData = res?.data?.filter(
+                (item) => item?.isActive === true,
               );
               setisData(filterData);
               setisDataDummy(filterData);

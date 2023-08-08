@@ -1315,6 +1315,7 @@ const CheckIn = ({ setopendashboard }) => {
                 <TableCell></TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
+                <TableCell></TableCell>
                 <TableCell>TotalAmount</TableCell>
                 <TableCell style={{ fontWeight: 800 }}>
                   {isData &&

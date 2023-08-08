@@ -55,7 +55,7 @@ const HistoryCheckout = ({ setopendashboard }) => {
   });
 
   let difference = today1.getTime() - today.getTime();
-  let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+  let TotalDays = Math.ceil(difference / (1000 * 3600 * 21));
   let days = TotalDays === 1 ? 1 : TotalDays - 1;
   useEffect(() => {
     if (location.state) {
@@ -278,8 +278,8 @@ const HistoryCheckout = ({ setopendashboard }) => {
                                   .00
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.advanceAmount) -
-                                    Number(isData && isData?.roomAmount)}
+                                  {Number(isData && isData?.roomAmount) -
+                                    Number(isData && isData?.advanceAmount)}
                                   .00
                                 </td>
                               </tr>

@@ -24,8 +24,8 @@
 
 .innear_div_texx{
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    /* align-items: center;
+    justify-content: space-between; */
     flex-wrap: wrap;
     margin-top: 2%;
     margin-bottom: 2%;
@@ -35,7 +35,7 @@
     width: 50%;
     display: flex;
     justify-content: space-around;
-    align-items: center;
+    /* align-items: center; */
 }
 
 .yyy_text_div{
@@ -54,6 +54,7 @@
     border: 1px solid gray;
     text-align: center;
     padding: 8px;
+    font-weight: 600;
 }
 
 .tex_center{

@@ -104,18 +104,10 @@ function Allforcecheckoutprint({ setopendashboard }) {
             <div className="innear_div_texx">
               <div className="innear_div_texx_ddd">
                 <div>
-                  <p className="lineheight" style={{ color: 'gray' }}>
-                    आवास क्र :
-                  </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    मोबाईल न :
-                  </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    यात्री का नाम :
-                  </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    पिता/पति श्री :
-                  </p>
+                  <p className="lineheight">आवास क्र :</p>
+                  <p className="lineheight">मोबाईल न :</p>
+                  <p className="lineheight">यात्री का नाम :</p>
+                  <p className="lineheight">पिता/पति श्री :</p>
                 </div>
                 <div className="main_left">
                   <p className="lineheight">
@@ -128,19 +120,11 @@ function Allforcecheckoutprint({ setopendashboard }) {
               </div>
               <div className="innear_div_texx_ddd">
                 <div>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    प्रस्थान दिनाँक :
-                  </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    आगमन दिनांक :
-                  </p>
+                  <p className="lineheight">प्रस्थान दिनाँक :</p>
+                  <p className="lineheight">आगमन दिनांक :</p>
 
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    स्टे :
-                  </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
-                    पता :
-                  </p>
+                  <p className="lineheight">स्टे :</p>
+                  <p className="lineheight">पता :</p>
                 </div>
                 <div className="main_left">
                   <p className="lineheight">

@@ -84,16 +84,16 @@ function HistoryCheckoutPrint({ setopendashboard }) {
             <div className="innear_div_texx">
               <div className="innear_div_texx_dd">
                 <div>
-                  <p className="lineheight" style={{ color: 'gray' }}>
+                  <p className="lineheight" >
                     आवास क्र :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     मोबाईल न :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p className="lineheight">
                     यात्री का नाम :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     पिता/पति श्री :
                   </p>
                 </div>
@@ -110,19 +110,19 @@ function HistoryCheckoutPrint({ setopendashboard }) {
                     ''
                   ) : (
                     <>
-                      <p style={{ color: 'gray' }} className="lineheight">
+                      <p  className="lineheight">
                         प्रस्थान दिनाँक :
                       </p>
                     </>
                   )}
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p  className="lineheight">
                     आगमन दिनांक:
                   </p>
 
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p className="lineheight">
                     स्टे :
                   </p>
-                  <p style={{ color: 'gray' }} className="lineheight">
+                  <p className="lineheight">
                     पता :
                   </p>
                 </div>
@@ -131,7 +131,7 @@ function HistoryCheckoutPrint({ setopendashboard }) {
                     <></>
                   ) : (
                     <>
-                      <p style={{ color: 'gray' }} className="lineheight">
+                      <p className="lineheight">
                         <p className="lineheight">
                           {currDatecheckout} / {currTimecheckout}
                         </p>
