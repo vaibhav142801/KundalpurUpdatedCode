@@ -508,14 +508,7 @@ const ForceCheckoutHistory = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
-                  Stay Days
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('name')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
+
                 <TableCell>
                   Total Guest
                   <i
@@ -532,7 +525,14 @@ const ForceCheckoutHistory = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-
+                <TableCell>
+                  Stay Days
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
                 <TableCell>
                   Dharamshala
                   <i
@@ -627,17 +627,7 @@ const ForceCheckoutHistory = ({ setopendashboard }) => {
                 <TableCell>
                   <div style={{ width: '6rem' }} />
                 </TableCell>
-                <TableCell>
-                  <input
-                    style={{ width: '6rem' }}
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => {
-                      onSearchByOther(e, 'dharmasala');
-                    }}
-                    placeholder="Total"
-                  />
-                </TableCell>
+
                 <TableCell>
                   <input
                     style={{ width: '6rem' }}
@@ -647,7 +637,9 @@ const ForceCheckoutHistory = ({ setopendashboard }) => {
                     placeholder="Address"
                   />
                 </TableCell>
-
+                <TableCell>
+                  <div style={{ width: '6rem' }} />
+                </TableCell>
                 <TableCell>
                   <input
                     style={{ width: '6rem' }}
@@ -731,20 +723,26 @@ const ForceCheckoutHistory = ({ setopendashboard }) => {
                       <TableCell>{row?.booking_id}</TableCell>
                       <TableCell>{row?.contactNo}</TableCell>
                       <TableCell>{row?.name}</TableCell>
-                      <TableCell>
-                        {Math.floor(
-                          (new Date(row?.coutDate).getTime() -
-                            new Date(row?.date).getTime()) /
-                            (1000 * 3600 * 24),
-                        )}
-                      </TableCell>
+
                       <TableCell>
                         {Number(row?.female) +
                           Number(row?.child) +
                           Number(row?.male)}
                       </TableCell>
                       <TableCell>{row?.address}</TableCell>
-
+                      <TableCell>
+                      {Math.floor(
+                          (new Date(row?.coutDate).getTime() -
+                            new Date(row?.date).getTime()) /
+                            (1000 * 3600 * 27),
+                        ) != 0
+                          ? Math.floor(
+                              (new Date(row?.coutDate).getTime() -
+                                new Date(row?.date).getTime()) /
+                                (1000 * 3600 * 27),
+                            ) + 1
+                          : 1}
+                      </TableCell>
                       <TableCell> {row?.dharmasala?.name}</TableCell>
                       <TableCell> {row?.RoomNo}</TableCell>
                       <TableCell> {row?.roomAmount}</TableCell>

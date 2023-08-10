@@ -345,12 +345,10 @@ const ManulCombine = ({ setopendashboard }) => {
             { user: passuser, type: passhead },
           ).then((res) => {
             if (res.status) {
-              let filterData = res.data.filter(
-                (item) => item.modeOfDonation === '2',
-              );
+            
               setloader(false);
-              setisData(filterData);
-              setisDataDummy(filterData);
+              setisData(res.data);
+              setisDataDummy(res.data);
             }
           });
         } else {
@@ -362,12 +360,10 @@ const ManulCombine = ({ setopendashboard }) => {
             { user: passuser, type: passhead },
           ).then((res) => {
             if (res.status) {
-              let filterData = res.data.filter(
-                (item) => item.modeOfDonation === '2',
-              );
+             
               setloader(false);
-              setisData(filterData);
-              setisDataDummy(filterData);
+              setisData(res.data);
+              setisDataDummy(res.data);
             }
           });
         }

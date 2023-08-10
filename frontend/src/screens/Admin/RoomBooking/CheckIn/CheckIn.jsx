@@ -35,6 +35,7 @@ import Printcheckin from './Printcheckin';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import ForceCheckoutOptions from './ForceCheckoutOptions';
 import Print from '../../../../assets/Print.png';
+import Print1 from '../../../../assets/Print1.png';
 import Edit from '../../../../assets/Edit.png';
 import Checkout21 from '../../../../assets/Checkout21.png';
 import allforceCheckout from '../../../../assets/allforcecheckout.jpeg';
@@ -51,7 +52,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 'auto',
+  width: '80%',
   bgcolor: 'background.paper',
   p: 2,
   boxShadow: 24,
@@ -355,6 +356,14 @@ const CheckIn = ({ setopendashboard }) => {
     });
   };
 
+  const downloadallrecept = (row) => {
+    navigation('/admin-panel/AllReceipt', {
+      state: {
+        data: row,
+        roomdata: isData,
+      },
+    });
+  };
   const [bookid, setbookid] = useState('');
   const [mobileno, setmobileno] = useState('');
   const [customername, setcustomername] = useState('');
@@ -849,14 +858,7 @@ const CheckIn = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
-                  Stay Days
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('name')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
+
                 <TableCell>
                   Total Guest
                   <i
@@ -873,7 +875,14 @@ const CheckIn = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-
+                <TableCell>
+                  Stay Days
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
                 <TableCell>
                   Dharamshala
                   <i
@@ -971,17 +980,7 @@ const CheckIn = ({ setopendashboard }) => {
                 <TableCell>
                   <div style={{ width: '6rem' }} />
                 </TableCell>
-                <TableCell>
-                  <input
-                    style={{ width: '6rem' }}
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => {
-                      onSearchByOther(e, 'dharmasala');
-                    }}
-                    placeholder="Total"
-                  />
-                </TableCell>
+
                 <TableCell>
                   <input
                     style={{ width: '6rem' }}
@@ -991,7 +990,9 @@ const CheckIn = ({ setopendashboard }) => {
                     placeholder="Address"
                   />
                 </TableCell>
-
+                <TableCell>
+                  <div style={{ width: '6rem' }} />
+                </TableCell>
                 <TableCell>
                   <input
                     style={{ width: '6rem' }}
@@ -1096,6 +1097,13 @@ const CheckIn = ({ setopendashboard }) => {
                       <TableCell>{row?.booking_id}</TableCell>
                       <TableCell>{row?.contactNo}</TableCell>
                       <TableCell>{row?.name}</TableCell>
+
+                      <TableCell>
+                        {Number(row?.female) +
+                          Number(row?.child) +
+                          Number(row?.male)}
+                      </TableCell>
+                      <TableCell>{row?.address}</TableCell>
                       <TableCell>
                         {Math.floor(
                           (new Date(isData[0]?.coutDate).getTime() -
@@ -1109,12 +1117,6 @@ const CheckIn = ({ setopendashboard }) => {
                             )
                           : 1}
                       </TableCell>
-                      <TableCell>
-                        {Number(row?.female) +
-                          Number(row?.child) +
-                          Number(row?.male)}
-                      </TableCell>
-                      <TableCell>{row?.address}</TableCell>
                       <TableCell> {row?.dharmasala?.name}</TableCell>
                       <TableCell> {row?.RoomNo}</TableCell>
                       <TableCell> {row?.roomAmount}</TableCell>
@@ -1141,6 +1143,15 @@ const CheckIn = ({ setopendashboard }) => {
                               <img
                                 onClick={() => downloadrecept(row)}
                                 src={Print}
+                                alt="print"
+                                style={{ width: '25px', marginRight: '0.3rem' }}
+                              />
+                            </Tooltip>
+
+                            <Tooltip title="Print">
+                              <img
+                                onClick={() => downloadallrecept(row, isData)}
+                                src={Print1}
                                 alt="print"
                                 style={{ width: '25px', marginRight: '0.3rem' }}
                               />

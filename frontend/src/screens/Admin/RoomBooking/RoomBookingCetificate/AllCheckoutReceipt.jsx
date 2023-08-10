@@ -85,6 +85,7 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
         )
       : 1;
 
+      
   let particularData;
   useEffect(() => {
     if (location.state) {

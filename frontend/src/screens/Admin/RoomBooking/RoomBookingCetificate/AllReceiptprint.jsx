@@ -5,13 +5,15 @@ import jsPDF from 'jspdf';
 import { useReactToPrint } from 'react-to-print';
 import './RoomBookingCetificate.css';
 
-function Forcecheckoutprint({ setopendashboard }) {
+import moment from 'moment';
+function AllReceiptprint({ setopendashboard }) {
   const navigate = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
   const [isData, setisData] = useState('');
   const [checkindata, setcheckindata] = useState('');
-  console.log('data from certifucate', isData);
+  const adminName = sessionStorage.getItem('adminName');
+  const empName = sessionStorage.getItem('empName');
 
   function down() {
     console.log('cliii');
@@ -29,16 +31,21 @@ function Forcecheckoutprint({ setopendashboard }) {
   useEffect(() => {
     if (location.state) {
       setisData(location.state?.data);
+      console.log('ddddddddddddddd', location?.state?.data);
     }
+    if (location?.state?.checkoutdata) {
+      setisData(location?.state?.checkoutdata);
+
+      console.log('data', location?.state?.checkoutdata);
+    }
+    setopendashboard(true);
     setTimeout(() => {
       handlePrint();
     }, 10);
-    setopendashboard(true);
   }, []);
-  console.log('certificate', isData);
 
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
-  var today = new Date(isData && isData?.date);
+  var today = new Date(isData && isData[0]?.date);
   const currDate = today
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -48,7 +55,7 @@ function Forcecheckoutprint({ setopendashboard }) {
     hour12: true,
   });
 
-  var today1 = new Date(isData && isData?.coutDate);
+  var today1 = new Date();
   const currDatecheckout = today1
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -60,17 +67,22 @@ function Forcecheckoutprint({ setopendashboard }) {
 
   let difference = today1.getTime() - today.getTime();
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
-  var days = Math.floor(
-    (new Date(isData?.coutDate).getTime() -
-      new Date(isData?.date).getTime()) /
-      (1000 * 3600 * 27),
-  ) != 0
-    ? Math.floor(
-        (new Date(isData?.coutDate).getTime() -
-          new Date(isData?.date).getTime()) /
-          (1000 * 3600 * 27),
-      ) + 1
-    : 1
+
+  var checkindate = moment(isData[0]?.date).format('DD');
+  var checkoutdate = moment(new Date()).format('DD');
+  let days =
+    Math.floor(
+      (new Date(isData[0]?.coutDate).getTime() -
+        new Date(isData[0]?.date).getTime()) /
+        (1000 * 3600 * 27),
+    ) != 0
+      ? Math.floor(
+          (new Date(isData[0]?.coutDate).getTime() -
+            new Date(isData[0]?.date).getTime()) /
+            (1000 * 3600 * 27),
+        )
+      : 1;
+
   return (
     <>
       <div
@@ -86,123 +98,115 @@ function Forcecheckoutprint({ setopendashboard }) {
           <div
             className="main_room_receipt_innear"
             ref={componentRef}
-            style={{ marginLeft: '0rem', marginTop: '5.2rem' }}
+            style={{ marginLeft: '0rem', marginTop: '5.5rem' }}
           >
             <div>
               <p className="yadda_text lineheight">
-                यात्री प्रस्थान रसीद (फोर्स चेकआउट)
+              यात्री आगमन  रसीद
+                {/* <span style={{ fontSize: '13px' }}>
+                  ({isData[0]?.paymentMode === 2 ? 'Cash' : 'Online'})
+                </span> */}
               </p>
             </div>
+
             <div className="innear_div_texx">
-              <div className="innear_div_texx_dd">
+              <div className="innear_div_texx_ddd">
                 <div>
-                  <p className="lineheight" >
-                    आवास क्र :
-                  </p>
-                  <p  className="lineheight">
-                    मोबाईल न :
-                  </p>
-                  <p className="lineheight">
-                    यात्री का नाम :
-                  </p>
-                  <p  className="lineheight">
-                    पिता/पति श्री :
-                  </p>
+                  <p className="lineheight">आवास क्र :</p>
+                  <p className="lineheight">मोबाईल न :</p>
+                  <p className="lineheight">यात्री का नाम :</p>
+                  <p className="lineheight">पिता/पति श्री :</p>
                 </div>
                 <div className="main_left">
-                  <p className="lineheight">{isData && isData?.booking_id}</p>
-                  <p className="lineheight">{isData && isData?.contactNo}</p>
-                  <p className="lineheight">{isData && isData?.name}</p>
-                  <p className="lineheight">{isData && isData?.Fname}</p>
+                  <p className="lineheight">
+                    {isData && isData[0]?.booking_id}
+                  </p>
+                  <p className="lineheight">{isData && isData[0]?.contactNo}</p>
+                  <p className="lineheight">{isData && isData[0]?.name}</p>
+                  <p className="lineheight">{isData && isData[0]?.Fname}</p>
                 </div>
               </div>
-              <div className="innear_div_texx_dd" style={{ marginLeft: '0px' }}>
+              <div className="innear_div_texx_ddd">
                 <div>
-                  {isData?.cancelByName ? (
-                    ''
-                  ) : (
-                    <>
-                      <p className="lineheight">
-                        प्रस्थान दिनाँक :
-                      </p>
-                    </>
-                  )}
-                  <p  className="lineheight">
-                    आगमन दिनांक:
-                  </p>
+                  <p className="lineheight">प्रस्थान दिनाँक :</p>
+                  <p className="lineheight">आगमन दिनांक :</p>
 
-                  <p  className="lineheight">
-                    स्टे :
-                  </p>
-                  <p  className="lineheight">
-                    पता :
-                  </p>
+                  <p className="lineheight">स्टे :</p>
+                  <p className="lineheight">पता :</p>
                 </div>
                 <div className="main_left">
-                  {isData?.cancelByName ? (
-                    <></>
-                  ) : (
-                    <>
-                      <p style={{ color: 'gray' }} className="lineheight">
-                        <p className="lineheight">
-                          {currDatecheckout} / {currTimecheckout}
-                        </p>
-                      </p>
-                    </>
-                  )}
+                  <p className="lineheight">
+                    {currDatecheckout} / {currTimecheckout}
+                  </p>
                   <p className="lineheight">
                     {currDate} / {currTime}
                   </p>
 
-                  <p className="lineheight">{days}&nbsp; Days</p>
-                  <p className="lineheight">{isData && isData?.city}</p>
+                  <p className="lineheight">{days} Days</p>
+                  <p className="lineheight">{isData && isData?.address}</p>
                 </div>
               </div>
             </div>
-
             <div>
               <table className="table_ddd">
                 <tbody>
                   <tr>
                     <td className="table_tddd lineheight10">धर्मशाला नाम</td>
                     <td className="table_tddd lineheight10">
-                      रूम टाईप & रूम न.
+                      रूम टाईप & फेसिलिटी
                     </td>
+                    <td className="table_tddd lineheight10">रूम न</td>
 
                     <td className="table_tddd lineheight10">सहयोग राशि</td>
                     <td className="table_tddd lineheight10">अमानत राशि</td>
-
                     <td className="table_tddd lineheight10">शेष राशि वापिसी</td>
                   </tr>
                   <tr>
                     <td className="table_tddd lineheight10">
-                      {isData && isData?.dharmasala?.name}
-                      {isData && isData?.dharmasalaName}
+                      {isData && isData[0]?.dharmasala?.name}
                     </td>
                     <td className="table_tddd lineheight10">
-                      (
+                      {isData && isData[0]?.categoryName}
                       {isData &&
-                        isData?.facility_name &&
-                        isData?.facility_name.map((element, index) => (
-                          <span key={index}> {element}</span>
+                        isData[0].facility_name &&
+                        isData &&
+                        isData[0]?.facility_name.map((element, index) => (
+                          <span key={index}>{element}</span>
                         ))}
-                      {isData && isData?.categoryName},
-                      {isData && isData?.facilityName}
-                      {isData && isData?.category_name})-
-                      {isData && isData?.RoomNo}
+                      -{isData && isData[0]?.category_name}
+                      {isData && isData[0]?.facilityName}
+                    </td>
+                    <td className="table_tddd lineheight10">
+                      {isData &&
+                        isData.map((item) => {
+                          return <span>{item?.RoomNo},</span>;
+                        })}
                     </td>
 
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.roomAmount)}
+                      {isData &&
+                        isData?.reduce((acc, item) => {
+                          return acc + parseInt(item?.roomAmount);
+                        }, 0) * Number(days)}
                       .00
                     </td>
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.advanceAmount)}
+                      {isData &&
+                        isData?.reduce((acc, item) => {
+                          return acc + parseInt(item?.advanceAmount);
+                        }, 0)}
                       .00
                     </td>
+
                     <td className="table_tddd lineheight10">
-                      {Number(isData && isData?.advanceAmount) -
-                        Number(isData && isData?.roomAmount)}
+                      {isData &&
+                        isData?.reduce((acc, item) => {
+                          return acc + parseInt(item?.roomAmount);
+                        }, 0) *
+                          Number(days) -
+                          isData?.reduce((acc, item) => {
+                            return acc + parseInt(item?.advanceAmount);
+                          }, 0)}
                       .00
                     </td>
                   </tr>
@@ -216,8 +220,7 @@ function Forcecheckoutprint({ setopendashboard }) {
                   marginBottom: '0.5rem',
                 }}
               >
-                {isData && isData?.checkoutByName}
-                {isData && isData?.cancelByName}
+                {empName ? empName : adminName}
               </p>
             </div>
           </div>
@@ -230,4 +233,4 @@ function Forcecheckoutprint({ setopendashboard }) {
   );
 }
 
-export default Forcecheckoutprint;
+export default AllReceiptprint;

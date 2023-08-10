@@ -221,6 +221,7 @@ function CheckinForm({ setOpen }) {
         child: Children ? Number(Children) : 0,
         dharmasala: dharamshalaname,
         paymentMode: paymentmode,
+        paymentStatus: paymentmode === 1 ? 1 : 0,
         modeOfBooking: 1,
         coutDate: new Date(today.getTime() + staydays * 24 * 60 * 60 * 1000),
         coutTime: new Date(updatedTIme).toLocaleTimeString('it-IT', {
@@ -252,6 +253,7 @@ function CheckinForm({ setOpen }) {
       // Swal.fire('Error!', error, 'error');
     }
   };
+  const [checked, setChecked] = useState([]);
 
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
   var today = new Date();
@@ -348,8 +350,6 @@ function CheckinForm({ setOpen }) {
           setidproffname(res?.data[0]?.proof);
           setidproffno(res?.data[0]?.idNumber);
         }
-
-        console.log('getby num booking details', res?.data[0]);
       },
     );
   };
@@ -440,7 +440,23 @@ function CheckinForm({ setOpen }) {
             <div className="cash-donation-container-innser10">
               {showPayDetails ? (
                 <>
-                  <h2>Note:</h2>
+                  <Button
+                    onClick={() => {
+                      setshowPayDetails(false);
+                      setshowavailability(true);
+                      setroomno([]);
+                    }}
+                    variant={'contained'}
+                    sx={{
+                      borderColor: '#C8C8C8',
+                      fontSize: 12,
+                      minWidth: 100,
+                      padding: 0.5,
+                      color: '#fff',
+                    }}
+                  >
+                    back
+                  </Button>
                   <p>
                     Rate for (online) Room Booking and Advance rate for
                     (offline) room booking and amount not refundable
@@ -789,20 +805,25 @@ function CheckinForm({ setOpen }) {
                                     <td className="table_tddd">
                                       <input
                                         type="checkbox"
+                                        value={item?.RoomNo}
                                         onClick={() => {
-                                          setroomno((current) => [
-                                            ...current,
-                                            item?.RoomNo,
-                                          ]);
-
                                           setmainRate(item?.Rate);
                                           setmainAvanceRate(item?.advance);
-                                          // setdharamshalanameroom(item?.name);
-                                          // setcategoryroom(item?.category_name);
-                                          // setfacilityname(item?.facility_name);
-                                          // setrate(item?.Rate);
-                                          // setadvancerate(item?.advance);
-                                          // setdharamshalid(item?.dharmasala_id);
+                                        }}
+                                        onChange={(e) => {
+                                          let updatedList = [...roomno];
+                                          if (e.target.checked) {
+                                            updatedList = [
+                                              ...roomno,
+                                              e.target.value,
+                                            ];
+                                          } else {
+                                            updatedList.splice(
+                                              checked.indexOf(e.target.value),
+                                              1,
+                                            );
+                                          }
+                                          setroomno(updatedList);
                                         }}
                                       />
                                     </td>
@@ -844,8 +865,6 @@ function CheckinForm({ setOpen }) {
                     <button
                       onClick={() => {
                         setshowPayDetails(true);
-
-                        console.log('anil list', roomno);
                       }}
                       disabled={result.length === null ? true : false}
                       className="save-div-btn-btn"

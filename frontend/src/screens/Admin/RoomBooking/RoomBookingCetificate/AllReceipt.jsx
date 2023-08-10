@@ -2,28 +2,28 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Converter, hiIN } from 'any-number-to-words';
 import { backendApiUrl } from '../../../../config/config';
+import { serverInstance } from '../../../../API/ServerInstance';
 import html2canvas from 'html2canvas';
-import Moment from 'moment-js';
-import moment from 'moment';
 import jsPDF from 'jspdf';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import moment from 'moment';
 import '../../../Admin/Reciept/cashrecipt.css';
 const converter = new Converter(hiIN);
-const Forcheckouthistory = ({ setopendashboard }) => {
+const AllReceipt = ({ setopendashboard }) => {
   const navigation = useNavigate();
   const location = useLocation();
   const componentRef = useRef();
   const [isData, setisData] = React.useState('');
-
-  const handlesubmit = async () => {
-    navigation('/admin-panel/Forcecheckoutprint', {
+  const adminName = sessionStorage.getItem('adminName');
+  const empName = sessionStorage.getItem('empName');
+  const handlesubmit = () => {
+    navigation('/admin-panel/AllReceiptprint', {
       state: {
-        data: isData,
+        checkoutdata: isData,
       },
     });
   };
-
   function down() {
     console.log('cliii');
     const input = document.getElementById('receipt');
@@ -36,7 +36,7 @@ const Forcheckouthistory = ({ setopendashboard }) => {
   }
 
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
-  var today = new Date(isData && isData?.date);
+  var today = new Date(isData && isData[0]?.date);
   const currDate = today
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -46,7 +46,7 @@ const Forcheckouthistory = ({ setopendashboard }) => {
     hour12: true,
   });
 
-  var today1 = new Date(isData && isData?.coutDate);
+  var today1 = new Date();
   const currDatecheckout = today1
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -56,24 +56,36 @@ const Forcheckouthistory = ({ setopendashboard }) => {
     hour12: true,
   });
 
-  let difference = today1.getTime() - today.getTime();
+  let days =
+    Math.floor(
+      (new Date(isData[0]?.coutDate).getTime() -
+        new Date(isData[0]?.date).getTime()) /
+        (1000 * 3600 * 27),
+    ) != 0
+      ? Math.floor(
+          (new Date(isData[0]?.coutDate).getTime() -
+            new Date(isData[0]?.date).getTime()) /
+            (1000 * 3600 * 27),
+        )
+      : 1;
 
-  var days = Math.floor(
-    (new Date(isData?.coutDate).getTime() -
-      new Date(isData?.date).getTime()) /
-      (1000 * 3600 * 27),
-  ) != 0
-    ? Math.floor(
-        (new Date(isData?.coutDate).getTime() -
-          new Date(isData?.date).getTime()) /
-          (1000 * 3600 * 27),
-      ) + 1
-    : 1
+  let particularData;
   useEffect(() => {
     if (location.state) {
-      setisData(location?.state?.data);
+      if (location?.state?.roomdata) {
+        particularData = location?.state?.roomdata?.filter((item) => {
+          return item?.booking_id === location?.state?.data?.booking_id;
+        });
+        setisData(particularData);
+      }
+      if (location?.state?.checkoutdata) {
+        setisData(location?.state?.checkoutdata);
+
+        console.log('data', location?.state?.checkoutdata);
+      }
+
+      console.log('sdd', location);
     }
-    console.log('data from certifucate', location?.state?.data);
 
     setopendashboard(true);
   }, []);
@@ -92,7 +104,7 @@ const Forcheckouthistory = ({ setopendashboard }) => {
         >
           <button onClick={() => navigation(-1)}>Back</button>
           <button onClick={() => down()}>Download</button>
-          <button onClick={() => handlesubmit()}>Receipt</button>
+          <button onClick={() => handlesubmit()}>Print</button>
         </div>
         <div style={{ height: '10rem' }} />
         <div style={{ padding: '1rem' }} ref={componentRef}>
@@ -127,9 +139,9 @@ const Forcheckouthistory = ({ setopendashboard }) => {
                       style={{ width: '100%' }}
                     >
                       <div className="maxxin_room_receipt_innear">
-                        <div style={{ backgroundColor: '#FE0002' }}>
+                        <div style={{ backgroundColor: 'red' }}>
                           <p className="yadda_text lineheight">
-                            यात्री प्रस्थान रसीद (फोर्स चेकआउट)
+                            यात्री आगमन  रसीद
                           </p>
                         </div>
 
@@ -163,34 +175,21 @@ const Forcheckouthistory = ({ setopendashboard }) => {
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
-                                {isData && isData?.booking_id}
+                                {isData && isData[0]?.booking_id}
                               </p>
                               <p className="lineheight">
-                                {isData && isData?.contactNo}
+                                {isData && isData[0]?.contactNo}
                               </p>
                               <p className="lineheight">
-                                {isData && isData?.name}
+                                {isData && isData[0]?.name}
                               </p>
                               <p className="lineheight">
-                                {isData && isData?.Fname}
+                                {isData && isData[0]?.Fname}
                               </p>
                             </div>
                           </div>
                           <div className="innear_div_texx_ddd">
                             <div>
-                              {isData?.cancelByName ? (
-                                ''
-                              ) : (
-                                <>
-                                  <p
-                                    style={{ color: 'gray' }}
-                                    className="lineheight"
-                                  >
-                                    प्रस्थान दिनाँक :
-                                  </p>
-                                </>
-                              )}
-
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
@@ -212,31 +211,35 @@ const Forcheckouthistory = ({ setopendashboard }) => {
                               </p>
                             </div>
                             <div className="main_left">
-                              {isData?.cancelByName ? (
-                                <></>
-                              ) : (
-                                <>
-                                  <p
-                                    style={{ color: 'gray' }}
-                                    className="lineheight"
-                                  >
-                                    <p className="lineheight">
-                                      {currDatecheckout} / {currTimecheckout}
-                                    </p>
-                                  </p>
-                                </>
-                              )}
-
                               <p className="lineheight">
                                 {currDate} / {currTime}
                               </p>
 
                               <p className="lineheight">{days} Days</p>
                               <p className="lineheight">
-                                {isData && isData?.city}
+                                {isData && isData?.address}
                               </p>
                             </div>
                           </div>
+                        </div>
+
+                        <div className="yyy_text_div">
+                          <p className="lineheight">यात्री संख्या</p>
+                          <p className="lineheight">
+                            Male: {isData && isData[0]?.male}
+                          </p>
+                          <p className="lineheight">
+                            Female: {isData && isData[0]?.female}
+                          </p>
+                          <p className="lineheight">
+                            Child: {isData && isData[0]?.child}
+                          </p>
+                          <p className="lineheight">
+                            Total:
+                            {Number(isData && isData[0]?.male) +
+                              Number(isData && isData[0]?.female) +
+                              Number(isData && isData[0]?.child)}
+                          </p>
                         </div>
 
                         <div>
@@ -247,7 +250,10 @@ const Forcheckouthistory = ({ setopendashboard }) => {
                                   धर्मशाला नाम
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  रूम टाईप & रूम न.
+                                  रूम टाईप & फेसिलिटी
+                                </td>
+                                <td className="table_tddd lineheight10">
+                                  रूम न
                                 </td>
 
                                 <td className="table_tddd lineheight10">
@@ -256,42 +262,45 @@ const Forcheckouthistory = ({ setopendashboard }) => {
                                 <td className="table_tddd lineheight10">
                                   अमानत राशि
                                 </td>
-
-                                <td className="table_tddd lineheight10">
-                                  शेष राशि वापिसी
-                                </td>
                               </tr>
                               <tr>
                                 <td className="table_tddd lineheight10">
-                                  {isData && isData?.dharmasala?.name}
-                                  {isData && isData?.dharmasalaName}
+                                  {isData && isData[0]?.dharmasala?.name}
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  (
+                                  {isData && isData[0]?.categoryName}
                                   {isData &&
-                                    isData?.facility_name &&
-                                    isData?.facility_name.map(
+                                    isData[0].facility_name &&
+                                    isData &&
+                                    isData[0]?.facility_name.map(
                                       (element, index) => (
-                                        <span key={index}> {element}</span>
+                                        <span key={index}>{element}</span>
                                       ),
                                     )}
-                                  {isData && isData?.categoryName},
-                                  {isData && isData?.facilityName}
-                                  {isData && isData?.category_name})-
-                                  {isData && isData?.RoomNo}
+                                  -{isData && isData[0]?.category_name}
+                                  {isData && isData[0]?.facilityName}
+                                </td>
+                                <td className="table_tddd lineheight10">
+                                  {isData &&
+                                    isData.map((item) => {
+                                      return <span>{item?.RoomNo},</span>;
+                                    })}
                                 </td>
 
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmount)}
+                                  {isData &&
+                                    isData?.reduce((acc, item) => {
+                                      return acc + parseInt(item?.roomAmount);
+                                    }, 0) * Number(days)}
                                   .00
                                 </td>
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.advanceAmount)}
-                                  .00
-                                </td>
-                                <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.advanceAmount) -
-                                    Number(isData && isData?.roomAmount)}
+                                  {isData &&
+                                    isData?.reduce((acc, item) => {
+                                      return (
+                                        acc + parseInt(item?.advanceAmount)
+                                      );
+                                    }, 0)}
                                   .00
                                 </td>
                               </tr>
@@ -305,8 +314,7 @@ const Forcheckouthistory = ({ setopendashboard }) => {
                               marginBottom: '0.5rem',
                             }}
                           >
-                            {isData && isData?.checkoutByName}
-                            {isData && isData?.cancelByName}
+                            {empName ? empName : adminName}
                           </p>
                         </div>
                       </div>
@@ -406,4 +414,4 @@ const Forcheckouthistory = ({ setopendashboard }) => {
   );
 };
 
-export default Forcheckouthistory;
+export default AllReceipt;

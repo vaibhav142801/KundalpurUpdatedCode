@@ -508,14 +508,7 @@ const CheckinReports = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
-                  Stay Days
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('name')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
+
                 <TableCell>
                   Total Guest
                   <i
@@ -532,7 +525,14 @@ const CheckinReports = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-
+                <TableCell>
+                  Stay Days
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
                 <TableCell>
                   Dharamshala
                   <i
@@ -637,17 +637,7 @@ const CheckinReports = ({ setopendashboard }) => {
                 <TableCell>
                   <div style={{ width: '6rem' }} />
                 </TableCell>
-                <TableCell>
-                  <input
-                    style={{ width: '6rem' }}
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => {
-                      onSearchByOther(e, 'dharmasala');
-                    }}
-                    placeholder="Total"
-                  />
-                </TableCell>
+
                 <TableCell>
                   <input
                     style={{ width: '6rem' }}
@@ -657,7 +647,9 @@ const CheckinReports = ({ setopendashboard }) => {
                     placeholder="Address"
                   />
                 </TableCell>
-
+                <TableCell>
+                  <div style={{ width: '6rem' }} />
+                </TableCell>
                 <TableCell>
                   <input
                     style={{ width: '6rem' }}
@@ -764,6 +756,13 @@ const CheckinReports = ({ setopendashboard }) => {
                       <TableCell>{row?.booking_id}</TableCell>
                       <TableCell>{row?.contactNo}</TableCell>
                       <TableCell>{row?.name}</TableCell>
+
+                      <TableCell>
+                        {Number(row?.female) +
+                          Number(row?.child) +
+                          Number(row?.male)}
+                      </TableCell>
+                      <TableCell>{row?.address}</TableCell>
                       <TableCell>
                         {Math.floor(
                           (new Date(row?.coutDate).getTime() -
@@ -777,13 +776,6 @@ const CheckinReports = ({ setopendashboard }) => {
                             ) + 1
                           : 1}
                       </TableCell>
-                      <TableCell>
-                        {Number(row?.female) +
-                          Number(row?.child) +
-                          Number(row?.male)}
-                      </TableCell>
-                      <TableCell>{row?.address}</TableCell>
-
                       <TableCell> {row?.dharmasalaName}</TableCell>
                       <TableCell> {row?.RoomNo}</TableCell>
                       <TableCell> {row?.roomAmount}</TableCell>

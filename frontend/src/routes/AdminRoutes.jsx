@@ -126,6 +126,8 @@ import Forcecheckoutprint from '../screens/Admin/RoomBooking/RoomBookingCetifica
 import Acancelprint from '../screens/Admin/RoomBooking/RoomBookingCetificate/Acancelprint';
 import ACancel from '../screens/Admin/RoomBooking/RoomBookingCetificate/ACancel';
 
+import AllReceipt from '../screens/Admin/RoomBooking/RoomBookingCetificate/AllReceipt';
+import AllReceiptprint from '../screens/Admin/RoomBooking/RoomBookingCetificate/AllReceiptprint';
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -612,6 +614,7 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
             </Adminprivateroute>
           }
         />
+        
 
         <Route
           path="/admin-panel/Room/CheckoutReceipt"
@@ -990,6 +993,22 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <ACancel setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/AllReceipt"
+          element={
+            <Adminprivateroute>
+              <AllReceipt setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/AllReceiptprint"
+          element={
+            <Adminprivateroute>
+              <AllReceiptprint setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />
