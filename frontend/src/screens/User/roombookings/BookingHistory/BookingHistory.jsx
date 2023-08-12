@@ -51,7 +51,7 @@ function BookingHistory({ setopendashboard, setshowreciept, setHeaderFooter }) {
   const gettable = () => {
     serverInstance('room/checkin-history-user', 'get').then((res) => {
       if (res.data) {
-        setisrow(res.data);
+        setisrow(res?.data?.userCheckinData);
 
         console.log('room history', res.data);
       }
@@ -59,17 +59,13 @@ function BookingHistory({ setopendashboard, setshowreciept, setHeaderFooter }) {
   };
 
   const downloadrecept = (row) => {
-    if (row.paymentStatus === 0) {
-      handleOpen1();
-      setshowpaymentfailed(true);
-      status = 0;
-    } else {
-      navigate('/room/booking/receipt', {
-        state: {
-          data: row,
-        },
-      });
-    }
+    console.log("Print")
+    navigation('/admin-panel/Room/OnlinePrintReceipt', {
+      state: {
+        data: row,
+      },
+    });
+    
   };
 
   const handleChangePage = (event, newPage) => {
@@ -185,10 +181,10 @@ function BookingHistory({ setopendashboard, setshowreciept, setHeaderFooter }) {
                               downloadrecept(row);
                             }}
                             align="left"
-                            style={{
-                              cursor: 'pointer',
-                              color: row.paymentStatus === '1' ? '' : 'red',
-                            }}
+                            // style={{
+                            //   cursor: 'pointer',
+                            //   color: row.paymentStatus === '1' ? '' : 'red',
+                            // }}
                           >
                             download
                           </td>

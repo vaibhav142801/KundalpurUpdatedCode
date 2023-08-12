@@ -64,7 +64,7 @@ const AddDharamshala = ({ setopendashboard }) => {
   const [loader, setloader] = useState(false);
   const [isData, setisData] = React.useState('');
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(50);
   const [userrole, setuserrole] = useState('');
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
@@ -402,6 +402,14 @@ const AddDharamshala = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
+                <TableCell>
+                  Status
+                  <i
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => sortData('desc')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
@@ -422,9 +430,11 @@ const AddDharamshala = ({ setopendashboard }) => {
                       }}
                     >
                       <TableCell>{index + 1}</TableCell>
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell>{row.desc.slice(0, 40)}</TableCell>
-
+                      <TableCell>{row?.name}</TableCell>
+                      <TableCell>{row?.desc?.slice(0, 40)}</TableCell>
+                      <TableCell>
+                        {row?.paymentStatus === 0 ? 'Deactivate' : 'Active'}
+                      </TableCell>
                       <TableCell>
                         <Tooltip title="View">
                           <img
@@ -443,15 +453,6 @@ const AddDharamshala = ({ setopendashboard }) => {
                             style={{ width: '20px', marginRight: '0.5rem' }}
                           />
                         </Tooltip>
-
-                        {/* <Tooltip title="Delete">
-                          <img
-                            onClick={() => handleClickOpen3(row.dharmasala_id)}
-                            src={Delete}
-                            alt="eye"
-                            style={{ width: '20px' }}
-                          />
-                        </Tooltip> */}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -468,7 +469,7 @@ const AddDharamshala = ({ setopendashboard }) => {
                   page={page}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
-                  rowsPerPageOptions={[5, 10, 25]}
+                  rowsPerPageOptions={[50, 100, 250]}
                   labelRowsPerPage={<span>Rows:</span>}
                   labelDisplayedRows={({ page }) => {
                     return `Page: ${page}`;

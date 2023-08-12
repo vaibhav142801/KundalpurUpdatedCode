@@ -643,6 +643,7 @@ const ManualCash = ({ setopendashboard }) => {
             </MenuItem>
           ))}
       </Menu>
+
       <Dialog
         open={open3}
         onClose={handleClose6}
@@ -664,6 +665,7 @@ const ManualCash = ({ setopendashboard }) => {
           </Button>
         </DialogActions>
       </Dialog>
+      
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

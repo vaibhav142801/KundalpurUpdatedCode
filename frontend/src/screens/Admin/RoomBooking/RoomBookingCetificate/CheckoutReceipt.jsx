@@ -74,15 +74,15 @@ const CheckoutReceipt = ({ setopendashboard }) => {
 
   let difference = today1.getTime() - today.getTime();
   let TotalDays =  Math.floor(
-    (new Date(isData?.coutDate).getTime() -
+    (new Date().getTime() -
       new Date(isData?.date).getTime()) /
       (1000 * 3600 * 27),
   ) != 0
     ? Math.floor(
-        (new Date(isData?.coutDate).getTime() -
+        (new Date().getTime() -
           new Date(isData?.date).getTime()) /
           (1000 * 3600 * 27),
-      ) 
+      ) +1
     : 1
   useEffect(() => {
     if (location.state) {

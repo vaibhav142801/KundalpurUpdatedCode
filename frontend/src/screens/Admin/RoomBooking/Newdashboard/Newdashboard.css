@@ -1,0 +1,18 @@
+.borderisbodediv {
+  background: #f1f0f0;
+  
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 2px;
+}
+
+.borderisbodediv10 {
+
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 2px;
+}
+
+.borderisbodediv10 p {
+  /* color: white; */
+}

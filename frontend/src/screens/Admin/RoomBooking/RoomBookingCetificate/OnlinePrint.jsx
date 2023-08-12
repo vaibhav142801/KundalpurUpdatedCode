@@ -30,7 +30,7 @@ function OnlinePrint({ setopendashboard }) {
     if (location.state) {
       setisData(location.state?.data);
     }
-    setopendashboard(true);
+
     setTimeout(() => {
       handlePrint();
     }, 10);
@@ -153,25 +153,15 @@ function OnlinePrint({ setopendashboard }) {
                     <td className="table_tddd lineheight10">
                       रूम टाईप & फेसिलिटी
                     </td>
-                    
-                    <td className="table_tddd lineheight10">रुम न</td>
-                 
-                    <td className="table_tddd lineheight10">
-                      सहयोग राशि
-                    
-                    </td>
-                    <td className="table_tddd lineheight10">
-                      अमानत राशि
-                  
-                    </td>
 
-                 
+                    <td className="table_tddd lineheight10">रुम न</td>
+
+                    <td className="table_tddd lineheight10">सहयोग राशि</td>
+                    <td className="table_tddd lineheight10">अमानत राशि</td>
                   </tr>
                   <tr>
                     <td className="table_tddd lineheight10">
-                      {isData && isData?.dharmasala?.name
-                        ? isData && isData?.dharmasala?.name
-                        : isData?.dharmasalaName}
+                      {isData && isData?.dharamshalaName}
                     </td>
                     <td className="table_tddd lineheight10">
                       {isData && isData?.categoryName}
@@ -186,7 +176,7 @@ function OnlinePrint({ setopendashboard }) {
                     <td className="table_tddd lineheight10">
                       {isData && isData?.RoomNo}
                     </td>
-                  
+
                     <td className="table_tddd lineheight10">
                       {Number(isData && isData?.roomAmount)}.00
                     </td>
@@ -195,8 +185,6 @@ function OnlinePrint({ setopendashboard }) {
                         Number(isData && isData?.roomAmount)}
                       .00
                     </td>
-
-                
                   </tr>
                 </tbody>
               </table>

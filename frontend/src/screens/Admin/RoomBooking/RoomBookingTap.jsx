@@ -27,6 +27,17 @@ const RoomBookingTap = ({ setopendashboard }) => {
               Dashbord
             </NavLink>
             <NavLink
+              to="/admin-panel/room/Newdashboard"
+              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+            >
+              <img
+                style={{ marginRight: '4%', width: '20px' }}
+                src={f1}
+                alt="fast"
+              />
+             New Dashbord
+            </NavLink>
+            <NavLink
               to="/admin-panel/room/checkin"
               className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
             >

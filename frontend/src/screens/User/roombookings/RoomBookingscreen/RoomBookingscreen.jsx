@@ -291,9 +291,12 @@ function RoomBookingscreen() {
   });
 
   let difference = today.getTime() - today1.getTime();
-  let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+  let TotalDays =
+    Math.floor((today.getTime() - today1.getTime()) / (1000 * 3600 * 27)) != 0
+      ? Math.floor((today.getTime() - today1.getTime()) / (1000 * 3600 * 27)) +
+        1
+      : 1;
 
-  let days = TotalDays === 1 ? 1 : TotalDays - 1;
   return (
     <>
       <div className="main_div_head_tyopeeeebook">
@@ -395,10 +398,7 @@ function RoomBookingscreen() {
                     <p>rate</p>
                     <p> ₹ {isData?.roomDetails?.Rate} </p>
                   </div>
-                  <div className="main_div_test22222">
-                    <p>Advance rate</p>
-                    <p>₹{isData?.roomDetails?.advance}</p>
-                  </div>
+
                   <div className="main_div_test22222">
                     <p>
                       {roomno} Room x {TotalDays} days
@@ -406,31 +406,12 @@ function RoomBookingscreen() {
 
                     <p> ₹ {roomno * isData?.roomDetails?.Rate * TotalDays} </p>
                   </div>
-
                   <div className="main_div_test22222">
-                    <p>
-                      {roomno} Room x {isData && isData?.roomDetails?.advance}{' '}
-                      Advance rate
-                    </p>
-                    <p> ₹ {roomno * isData?.roomDetails?.advance} </p>
+                    <p>Payable Amount</p>
+
+                    <p> ₹ {roomno * isData?.roomDetails?.Rate * TotalDays} </p>
                   </div>
 
-                  {/* <div className="main_div_test22222">
-                    <p>GST</p>
-                    <p>₹ 0.00</p>
-                  </div> */}
-                  {/* <div className="main_div_test22222">
-                    <p>Mattress {extraMattress} x ₹150</p>
-                    <p>₹ {extraMattress * 150}</p>
-                  </div> */}
-                  <div className="main_div_test22222">
-                    <p>Total Amount </p>
-                    <p>
-                      ₹
-                      {roomno * isData?.roomDetails?.Rate * TotalDays +
-                        roomno * isData?.roomDetails?.advance}
-                    </p>
-                  </div>
                   <div className="now_payment_gateway_div">
                     <button onClick={() => savedataIntodb()}>
                       Proceed To Payment Options

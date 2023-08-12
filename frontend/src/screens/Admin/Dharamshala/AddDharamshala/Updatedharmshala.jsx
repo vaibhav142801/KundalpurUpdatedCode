@@ -19,6 +19,7 @@ const custumstyle = {
 function Updatedharmshala({ setOpen, updatedata }) {
   const [lan, setlan] = useState(false);
   const [dharamshalaname, setdharamshalaname] = useState('');
+  const [status, setstatus] = useState(1);
   const [description, setdescription] = useState('');
   const [img1, setimg1] = useState('');
   const [previewprofile1, setpreviewprofile1] = useState('');
@@ -33,6 +34,7 @@ function Updatedharmshala({ setOpen, updatedata }) {
       formData.set('name', dharamshalaname);
       formData.set('image1', img1);
       formData.set('desc', description);
+      formData.set('status', status);
       formData.set('id', updatedata?.dharmasala_id);
       axios.defaults.headers.put[
         'Authorization'
@@ -60,8 +62,7 @@ function Updatedharmshala({ setOpen, updatedata }) {
       setimg1(updatedata?.image1);
       setdescription(updatedata?.desc);
       setdharamshalaname(updatedata?.name);
-
-      console.log(updatedata);
+      setstatus(updatedata?.status);
     }
   }, []);
 
@@ -206,7 +207,23 @@ function Updatedharmshala({ setOpen, updatedata }) {
                 />
               </div>
             </div>
-
+            <div  style={{
+                display: 'flex',
+                justifyContent: 'space-around',
+             
+                width: '100%',
+                flexDirection: 'column',
+              }}>
+              <label htmlFor="dharamshalaname">Select Status</label>
+              <select
+              style={{height:"35px",borderRadius:'4px'}}
+               value={status}
+               onChange={(e)=>setstatus(e.target.value)}
+              >
+                <option value={0}>Deactivate</option>
+                <option value={1}>Active</option>
+              </select>
+            </div>
             <div className="save-div-btn">
               <button className="save-div-btn-btn">
                 {showloader ? (
