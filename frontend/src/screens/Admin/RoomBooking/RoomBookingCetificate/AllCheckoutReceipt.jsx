@@ -62,7 +62,7 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
     hour12: true,
   });
 
-  var today1 = new Date(isData[0]?.coutDate);
+  var today1 = new Date();
   const currDatecheckout = today1
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
