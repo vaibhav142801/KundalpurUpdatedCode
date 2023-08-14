@@ -12,6 +12,9 @@ import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
 import { backendApiUrl } from '../../../../config/config';
 import axios from 'axios';
+import { Box, } from '@mui/material';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
 import { ExportPdfmanul } from '../../compoments/ExportPdf';
 import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
@@ -27,6 +30,18 @@ import Tooltip from '@mui/material/Tooltip';
 import { Button } from '@mui/material';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import { MenuItem, Menu } from '@mui/material';
+import AllOnlinePrint from '../AllReport/AllPrint/AllOnlinePrint'
+const style = {
+  position: 'absolute',
+  top: '49%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '80%',
+  bgcolor: 'background.paper',
+  p: 2,
+  boxShadow: 24,
+  borderRadius: '5px',
+};
 const AllOnline = ({ setopendashboard }) => {
   let head = [];
   const [passhead, setpasshead] = useState('');
@@ -164,6 +179,11 @@ const AllOnline = ({ setopendashboard }) => {
     });
   };
 
+  const [open10, setOpen10] = React.useState(false);
+  const handleClose10 = () => setOpen10(false);
+  const handleOepn10 = () => {
+    setOpen10(true);
+  };
   useEffect(() => {
     filterdata();
     setopendashboard(true);
@@ -203,6 +223,19 @@ const AllOnline = ({ setopendashboard }) => {
   };
   return (
     <>
+     <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open10}
+        onClose={handleClose10}
+        closeAfterTransition
+      >
+        <Fade in={open10}>
+          <Box sx={style}>
+            <AllOnlinePrint isData={isData} handleClose={handleClose10} />
+          </Box>
+        </Fade>
+      </Modal>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -293,7 +326,7 @@ const AllOnline = ({ setopendashboard }) => {
               <button onClick={() => resetbutn()}>Reset</button>
               <Tooltip title="Print">
                 <img
-                  onClick={() => handlePrint2()}
+                  onClick={() => handleOepn10 ()}
                   src={Print}
                   alt="ss"
                   style={{ width: '30px' }}
@@ -328,7 +361,7 @@ const AllOnline = ({ setopendashboard }) => {
             <TableHead style={{ background: '#FFEEE0' }}>
               <TableRow>
                 <TableCell>
-                  Head Name
+                  Head Name 
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('TYPE')}

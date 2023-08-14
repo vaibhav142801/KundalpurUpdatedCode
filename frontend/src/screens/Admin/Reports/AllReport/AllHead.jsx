@@ -10,6 +10,10 @@ import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
 import { MenuItem, Menu, Select } from '@mui/material';
 import exportFromJSON from 'export-from-json';
+import { Box, } from '@mui/material';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import CloseIcon from '@mui/icons-material/Close';
 import Moment from 'moment-js';
 import { backendApiUrl } from '../../../../config/config';
 import axios from 'axios';
@@ -32,7 +36,19 @@ import AllTotal from '../AllReport/Totals/AllTotal';
 import Tooltip from '@mui/material/Tooltip';
 import { Button } from '@mui/material';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
+import AllHeadprint from './AllPrint/AllHeadprint';
 import './AllHead.css';
+const style = {
+  position: 'absolute',
+  top: '49%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '80%',
+  bgcolor: 'background.paper',
+  p: 2,
+  boxShadow: 24,
+  borderRadius: '5px',
+};
 const AllHead = ({ setopendashboard }) => {
   let users = [];
   let head = [];
@@ -69,6 +85,12 @@ const AllHead = ({ setopendashboard }) => {
   const handleClose = () => {
     setAnchorEl(null);
     setpassuser(users);
+  };
+
+  const [open10, setOpen10] = React.useState(false);
+  const handleClose10 = () => setOpen10(false);
+  const handleOepn10 = () => {
+    setOpen10(true);
   };
 
   const [anchorEl1, setAnchorEl1] = React.useState(null);
@@ -226,6 +248,19 @@ const AllHead = ({ setopendashboard }) => {
   };
   return (
     <>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open10}
+        onClose={handleClose10}
+        closeAfterTransition
+      >
+        <Fade in={open10}>
+          <Box sx={style}>
+            <AllHeadprint isData={isData} handleClose={handleClose10} />
+          </Box>
+        </Fade>
+      </Modal>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -381,7 +416,7 @@ const AllHead = ({ setopendashboard }) => {
               <button onClick={() => resetbutn()}>Reset</button>
               <Tooltip title="Print">
                 <img
-                  onClick={() => handlePrint2()}
+                  onClick={() => handleOepn10()}
                   src={Print}
                   alt="ss"
                   style={{ width: '30px' }}
@@ -416,7 +451,7 @@ const AllHead = ({ setopendashboard }) => {
             <TableHead style={{ background: '#FFEEE0' }}>
               <TableRow>
                 <TableCell>
-                  Head Name
+                  Head Name 
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('TYPE')}
@@ -433,6 +468,7 @@ const AllHead = ({ setopendashboard }) => {
                 </TableCell>
 
                 <TableCell>
+                  Amount Cheque
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('cheque_TOTAL_AMOUNT')}

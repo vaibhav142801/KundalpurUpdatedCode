@@ -22,19 +22,19 @@ import ExportExcel from '../../../../assets/ExportExcel.png';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import { Select, MenuItem } from '@mui/material';
-import RoomBookingReportsTab from '../../Reports/AllReport/AllReportTap';
+import RoomBookingReportsTab from './AllReportTap';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
-import Printcheckin from '../CheckIn/Printcheckin';
+import AlllPrintConsolatedRoom from './AllPrint/AlllPrintConsolatedRoom';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import { useReactToPrint } from 'react-to-print';
 const style = {
   position: 'absolute',
-  top: '47%',
+  top: '49%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 'auto',
+  width: '80%',
   bgcolor: 'background.paper',
   p: 2,
   boxShadow: 24,
@@ -406,7 +406,7 @@ const Consolided = ({ setopendashboard }) => {
                   <CloseIcon onClick={() => handleClose1()} />
                 </IconButton>
               </div>
-              <Printcheckin isData={isData} setOpen1={setOpen1} />;
+              < AlllPrintConsolatedRoom  isData={isData} handleClose={handleClose1} />;
             </div>
           </Box>
         </Fade>
@@ -519,7 +519,7 @@ const Consolided = ({ setopendashboard }) => {
               <IconButton>
                 <img
                   style={{ width: '30px' }}
-                  onClick={() => handlePrint()}
+                  onClick={() => handleOepn1()}
                   src={Print}
                   alt=" Print"
                 />

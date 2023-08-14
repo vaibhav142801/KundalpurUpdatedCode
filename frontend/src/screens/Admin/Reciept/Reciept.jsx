@@ -23,7 +23,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
       },
     });
   }
-  console.log(isData);
+
   function down() {
     console.log('cliii');
     const input = document.getElementById('receipt');
@@ -34,7 +34,7 @@ const CashRecipt = ({ setopendashboard, setshowreciept, onlineId }) => {
       pdf.save('download.pdf');
     });
   }
-  console.log(isData);
+
   useEffect(() => {
     setopendashboard(true);
 

@@ -133,42 +133,37 @@ function Newdashboard({ setopendashboard }) {
           </div>
 
           <div className="borderisbodediv10">
-          <p>अयोध्या (B.L.) धर्मशाला</p>
+            <p>अयोध्या (B.L.) धर्मशाला</p>
           </div>
 
-         
           <div className="borderisbodediv">
             <h5>धर्मशाला का विवरण</h5>
           </div>
           <div className="borderisbodediv10">
-          <p>FacilityCategory and Available Rooms (19)</p>
+            <p>FacilityCategory and Available Rooms (19)</p>
           </div>
 
           <div className="borderisbodediv10">
-          <p>4 BED</p>
-          </div>
-         
-          <div className="borderisbodediv10">
-          <p>1,2,3,4,5,6,7,8,9,10,11,12,13,14.15,16,17.18,19</p>
+            <p>4 BED</p>
           </div>
 
-        
+          <div className="borderisbodediv10">
+            <p>1,2,3,4,5,6,7,8,9,10,11,12,13,14.15,16,17.18,19</p>
+          </div>
 
           <div className="borderisbodediv">
             <h5>Hold Room (0)</h5>
           </div>
           <div className="borderisbodediv10">
-          <p>0</p>
+            <p>0</p>
           </div>
-
-      
 
           <div className="borderisbodediv">
             <h5>Occupied Room (1)</h5>
           </div>
-         
+
           <div className="borderisbodediv10">
-          <p>0</p>
+            <p>0</p>
           </div>
         </div>
       </div>

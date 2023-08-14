@@ -76,7 +76,7 @@ function Allforcecheckoutprint({ setopendashboard }) {
       (new Date(isData[0]?.coutDate).getTime() -
         new Date(isData[0]?.date).getTime()) /
         (1000 * 3600 * 27),
-    ) != 0
+    ) >0
       ? Math.floor(
           (new Date(isData[0]?.coutDate).getTime() -
             new Date(isData[0]?.date).getTime()) /

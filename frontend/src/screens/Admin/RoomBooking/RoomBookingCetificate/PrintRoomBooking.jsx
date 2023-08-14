@@ -65,7 +65,7 @@ function PrintRoomBooking({ setopendashboard }) {
     (new Date().getTime() -
       new Date(isData?.date).getTime()) /
       (1000 * 3600 * 27),
-  ) != 0
+  ) >0
     ? Math.floor(
         (new Date().getTime() -
           new Date(isData?.date).getTime()) /

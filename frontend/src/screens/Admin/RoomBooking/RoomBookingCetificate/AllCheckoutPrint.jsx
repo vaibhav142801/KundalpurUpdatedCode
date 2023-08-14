@@ -71,17 +71,17 @@ function AllCheckoutPrint({ setopendashboard }) {
   var checkindate = moment(isData[0]?.date).format('DD');
   var checkoutdate = moment(new Date()).format('DD');
   let days =
-    Math.floor(
-      (new Date().getTime() -
-        new Date(isData[0]?.date).getTime()) /
-        (1000 * 3600 * 27),
-    ) != 0
-      ? Math.floor(
-          (new Date().getTime() -
-            new Date(isData[0]?.date).getTime()) /
-            (1000 * 3600 * 27),
-        )+1
-      : 1;
+  Math.floor(
+    (new Date().getTime() -
+      new Date(isData[0]?.date).getTime()) /
+      (1000 * 3600 * 27),
+  ) >0
+    ? Math.floor(
+        (new Date().getTime() -
+          new Date(isData[0]?.date).getTime()) /
+          (1000 * 3600 * 27),
+      ) +1
+    : 1;
 
   return (
     <>

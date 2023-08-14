@@ -550,7 +550,7 @@ function AddRoomForm({ setOpen }) {
                         }}
                         value={0}
                       >
-                        Online
+                      
                       </MenuItem>
                       <MenuItem
                         sx={{

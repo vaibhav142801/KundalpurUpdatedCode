@@ -12,6 +12,9 @@ import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
 import { backendApiUrl } from '../../../../config/config';
 import axios from 'axios';
+import { Box, } from '@mui/material';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
 import { ExportPdfmanul } from '../../compoments/ExportPdf';
 import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
@@ -32,6 +35,18 @@ import Tooltip from '@mui/material/Tooltip';
 import { Button } from '@mui/material';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import { MenuItem, Menu } from '@mui/material';
+import AllConsolatePrint from './AllPrint/AllConsolatePrint';
+const style = {
+  position: 'absolute',
+  top: '49%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '80%',
+  bgcolor: 'background.paper',
+  p: 2,
+  boxShadow: 24,
+  borderRadius: '5px',
+};
 const AllConsolidated = ({ setopendashboard }) => {
   let users = [];
   let head = [];
@@ -193,6 +208,12 @@ const AllConsolidated = ({ setopendashboard }) => {
   //   }
   // };
 
+  const [open10, setOpen10] = React.useState(false);
+  const handleClose10 = () => setOpen10(false);
+  const handleOepn10 = () => {
+    setOpen10(true);
+  };
+
   useEffect(() => {
     filterdata();
     setopendashboard(true);
@@ -235,6 +256,19 @@ const AllConsolidated = ({ setopendashboard }) => {
   };
   return (
     <>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open10}
+        onClose={handleClose10}
+        closeAfterTransition
+      >
+        <Fade in={open10}>
+          <Box sx={style}>
+            <AllConsolatePrint isData={isData} handleClose={handleClose10} />
+          </Box>
+        </Fade>
+      </Modal>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -386,7 +420,7 @@ const AllConsolidated = ({ setopendashboard }) => {
               <button onClick={() => resetbutn()}>Reset</button>
               <Tooltip title="Print">
                 <img
-                  onClick={() => handlePrint2()}
+                  onClick={() => handleOepn10()}
                   src={Print}
                   alt="ss"
                   style={{ width: '30px' }}
@@ -422,7 +456,7 @@ const AllConsolidated = ({ setopendashboard }) => {
               <TableRow>
                 <TableCell>&nbsp; </TableCell>
                 <TableCell>
-                  Employee Name
+                  Employee Name    Type
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('employeeName')}
@@ -437,22 +471,7 @@ const AllConsolidated = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                {/* <TableCell>
-                  Online{' '}
-                  <i
-                    style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('ONLINE_TOTAL_AMOUNT')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  Cheque{' '}
-                  <i
-                    style={{ marginLeft: '0.5rem' }}
-                    onClick={() => sortData('CHEQUE_TOTAL_AMOUNT')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell> */}
+              
                 <TableCell>
                   Amount Cheque{' '}
                   <i

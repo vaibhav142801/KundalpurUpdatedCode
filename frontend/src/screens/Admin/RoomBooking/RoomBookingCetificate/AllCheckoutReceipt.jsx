@@ -62,7 +62,7 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
     hour12: true,
   });
 
-  var today1 = new Date();
+  var today1 = new Date(isData[0]?.coutDate);
   const currDatecheckout = today1
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -74,16 +74,19 @@ const AllCheckoutPrint = ({ setopendashboard }) => {
 
   let days =
     Math.floor(
-      (new Date().getTime() - new Date(isData[0]?.date).getTime()) /
+      (new Date().getTime() -
+        new Date(isData[0]?.date).getTime()) /
         (1000 * 3600 * 27),
-    ) != 0
+    ) >0
       ? Math.floor(
-          (new Date().getTime() - new Date(isData[0]?.date).getTime()) /
+          (new Date().getTime() -
+            new Date(isData[0]?.date).getTime()) /
             (1000 * 3600 * 27),
-        ) + 1
+        ) +1
       : 1;
 
   let particularData;
+
   useEffect(() => {
     if (location.state) {
       if (location?.state?.roomdata) {

@@ -87,7 +87,7 @@ import Holdhistory from '../screens/Admin/RoomBooking/RoomBookingReports/Holdhis
 import Combine from '../screens/Admin/Reports/DonationReport/Combile/Combine';
 import CombineManual from '../screens/Admin/Reports/ManualDonationReports/Combine/Combine';
 
-import Consolided from '../screens/Admin/RoomBooking/RoomBookingReports/Consolided';
+import Consolided from '../screens/Admin/Reports/AllReport/Consolided';
 import HistoryCheckout from '../screens/Admin/RoomBooking/RoomBookingCetificate/HistoryCheckout';
 import HistoryCheckoutPrint from '../screens/Admin/RoomBooking/RoomBookingCetificate/HistoryCheckoutPrint';
 
